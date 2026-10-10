@@ -34,5 +34,4 @@ Status: draft
 
 ## Sourcing
 
-- [F] Newark's figures on findchips are CAD, not USD (`findchips`).
-- [F] MYIR's sample price covers only the first 2 pieces per customer; above that is by quote (`myir-order`).
+- [F] MYIR's direct sample terms cover only the first 2 pieces per customer; above that is by quote (`myir-order`).

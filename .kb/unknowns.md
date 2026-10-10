@@ -54,8 +54,8 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 | K20 | PL fit and BRAM margin | b | `report_utilization` on the 7020 build; fit builds per DC-C candidate | DC-C |
 | K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin, J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
 | K22 | PS port, PHY ID, DDR3 at 1066 | a + c | A chip-down board picks its PHY; [F] DDR3 1066 is legal at every grade (`ds187` Table 18); MYIR only on the module path (7015 PHY, DDR3 rate, PUDC_B tie) | DC-C |
-| K23 | Module lifecycle, price, lanes | answered / c | `sections/sourcing.md`; ×2/×4 lane validation via MYIR | DC-C |
-| K24 | Chip supply: no authorized stock for any Zynq-7000 part in `sections/sourcing.md` | c | AMD and distributor quotes | DC-C |
+| K23 | Module lifecycle and lanes | a + c | AMD and MYIR life-cycle statements; ×2/×4 lane validation via MYIR | DC-C |
+| K24 | Chip supply for the Zynq-7000 parts in `sections/sourcing.md` | c | AMD and distributor quotes | DC-C |
 | K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **Gate for f1:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. If it fails, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
 | K26 | S_AXI_GP width and speed; no bus timeout | a | UG585 | design |
 | K27 | 7030 memory controller rate on HP banks | a | DS191 | DC-C |
