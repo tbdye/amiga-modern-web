@@ -79,7 +79,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | |
 | E18 unsupported mode, E19 off-EDID timing | — | Never live | Placeholder shown |
 
-- E20, E21: not browser actions and not named in DEC-013.
+- [D] E20 and E21 are neither ordinary browser actions nor exemptions named in DEC-013.
 - [F] A timing change powers TMDS down, so the monitor retrains (`fw@8778ef3:os/hdmi.c:L179-182`).
 - [F] An Amiga reset forces native capture mode (`fw@8778ef3:mntzorro.v:L2212`, `videocap_mode_in <= 1`).
 - [F] The default native profile is `filtered_60` (`fw@8778ef3:README.md:L129`), which outputs 800×600 for PAL or 720×480 for NTSC (`os/zz_config.c:L233-236`; `os/video.c:L491-520`), not 1080p60.

@@ -47,6 +47,6 @@ The rules are [G] design requirements that bind the implementation; each maps to
 - [G] With SR1 the SoC's outbound DMA is not needed, and a window into Zynq DDR would let a misbehaving SoC post traffic at link rate (0.4-1.6 GB/s) and starve capture: there is no DDR-window fallback.
 - [F] In native modes the source-sync tracker is enabled only under the `centered_1080p_match` profile; every other native profile free-runs (`fw@bdfd8b0:os/video.c:L527-534, L943-945`).
 - [R `ug585`] SPI1 can sit on MIO10-15.
-- [F] Those pins are taken: MIO10 drives the HDD LED (net `PS_MIO10_HDD_LED`, through R40 and U24; `replica@96bdef0`, netlist) and MIO12/13 are I2C1 (`fw@bdfd8b0:zz9000_project.tcl:L926, L1151`).
+- [F] Those pins are taken: MIO10 drives the HDD LED (net `PS_MIO10_HDD_LED`, through inverter U24, with R40 a 100 kΩ pull-down; `replica@96bdef0`, netlist) and MIO12/13 are I2C1 (`fw@bdfd8b0:zz9000_project.tcl:L926, L1151`).
 - [R] Every other MIO pin set for SPI falls on MIO the PS7 configuration gives to Ethernet (16-27), USB (28-39), SD (40-45), UART1 (48-49) or I2C0 (50-51) (`fw@bdfd8b0:zz9000_project.tcl:L1151`); the `ug585` MIO table would verify which sets SPI can use.
 - [R] GEM receive DMA writes frames into DDR before the A9 sees them, so SR16's real bound is line rate times the RX ring, not A9 rate limiting (`ug585` desk check pending, K8).

@@ -21,7 +21,7 @@ flowchart LR
 | Browser chip | Chromium with GPU raster and compositing | [G]; candidates in `sections/browser-chip.md` |
 | Control link | Input, commands and a heartbeat between the 68k client, the Zynq and the SoC | Open (K8) |
 | 68k client | The Workbench window, menus, ASL, clipboard, keymap, ARexx; tracks the window rectangle and occluders | [G] design |
-| Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] design (K50) |
+| Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] proposed (DEC-014 mechanism, K50) |
 | Audio | Browser audio joins the card's existing audio fabric | One line here; depth deferred |
 | Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | One line here; depth deferred |
 
