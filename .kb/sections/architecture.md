@@ -21,7 +21,7 @@ flowchart LR
 | Browser chip | Chromium with GPU raster and compositing | [G]; candidates in `sections/browser-chip.md` |
 | Control link | Input, commands and a heartbeat between the 68k client, the Zynq and the SoC | Open (K8) |
 | 68k client | The Workbench window, menus, ASL, clipboard, keymap, ARexx; tracks the window rectangle and occluders | [G] design |
-| Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] design (K50) |
+| Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] proposed (DEC-014 mechanism, K50) |
 | Audio | Browser audio joins the card's existing audio fabric | One line here; depth deferred |
 | Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | One line here; depth deferred |
 
@@ -61,7 +61,10 @@ flowchart LR
 - [F] PS USB0 is the Amiga-side USB host on MIO 28-39, and the console is UART1 on MIO 48-49 (`fw@8778ef3:zz9000_project.tcl:L1225, L1181`).
 - [R `ug585`] USB1 would need MIO 40-51, colliding with that console.
 - [F] The firmware terminates Ethernet on the A9 and bridges raw frames to the Amiga; it has no TCP/IP stack (`fw@8778ef3:os/ethernet.c`; no lwIP in `os/`).
+- [F] GEM0 (ENET0, MIO 16-27) is the only Ethernet controller the PS7 configuration enables, and it is the port the firmware bridges to the Amiga (`fw@bdfd8b0:zz9000_project.tcl:L855, L884-885`; `os/ethernet.c:L291`).
+- [F] The firmware runs it at 10/100 on either PHY type: `link_speed = 100` under a FIXME, 10 and 100 advertised, the 1000BASE-T advertisement cleared, then autonegotiation restarted (`fw@bdfd8b0:os/ethernet.c:L1085-1121, L1142-1148`).
 - Candidates [G]: UART0 on MIO plus a USB-serial bridge for a split SBC, or Ethernet through an on-card switch on GEM0.
+- [G] A control link through a GEM0 switch shares the Amiga's LAN segment unless the ports are isolated or VLANs are used.
 
 ## Safety summary
 

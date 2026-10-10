@@ -5,7 +5,7 @@ Status: draft
 
 **Classes:** **a** desk (datasheets, manuals, source, published data); **b** tool, no hardware (Vivado, SI/SPICE, SigmaStudio, emulation); **c** vendor or third-party inquiry; **d** needs a physical measurement; **v** acceptance of the built board, not a design input.
 "Gates" names the decision the item feeds (DC-A to DC-D below), or "design" or "freeze".
-IDs are stable; K6, K43 and K44 were retired as moot or answered.
+IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC-015.
 [D] DEC-011: only the d rows need hardware before the design freezes.
 
 ## Coupling and display
@@ -17,9 +17,9 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 | K3 | Line FIFO depth and phase bound | a | 0.54 lines per frame drift at 1080p, plus one line each of horizontal phase and quantisation: 4 lines [G]; outside the lock window the plane stays off (SR13, SR14) | DC-A |
 | K4 | Receiver interop | a, else d | ADV7611 desk facts in `sections/browser-chip.md`; TFP401-class is DVI only, no EDID, no audio [R]; residual: R-RX | DC-A |
 | K5 | The SoC emits each RTG mode at the Zynq's exact timing, within the ±1 cap (~0.09% at 1080p) | a | EDID DTDs carry the Zynq timings and stock KMS selects them; fixed EDID holds 7 DTDs + 3 DMT modes (`sections/display-coupling.md`); 720p preset moved near CEA (M/D/O 52/5/14 → 74.286 MHz [G]); readback on R-SoC | DC-A |
-| K7 | Audio route under V | a | With a DVI EDID there is no HDMI audio, so PCM goes over the control link (a UART at 1.5 Mb/s is marginal); an HDMI EDID allows receiver I2S through an ASRC | DC-A |
-| K8 | Control link | a | PS USB0 and the UART1 console occupy the obvious MIO (`sections/architecture.md`); candidates are UART0 plus USB-serial for a split SBC, or Ethernet through an on-card switch on GEM0; SR16's real bound under GEM RX DMA | design |
-| K45 | Window coherence during drags and popups | a | Policy: plane off during a drag, or rely on outline drag [R]; Chromium popup rectangles feed the occlusion list (SR2) | design |
+| K7 | Audio route under V | a | With a DVI EDID there is no HDMI audio, so PCM goes over the control link; 48 kHz 16-bit stereo is 1.536 Mb/s of payload, about 1.92 Mbaud with 8N1 framing, plus control traffic, so a UART route needs about 2 Mbaud or more on both ends, and 1.5 Mbaud is too slow [G]; each end's maximum UART rate (TRM or bridge datasheet) settles it; an HDMI EDID allows receiver I2S through an ASRC | DC-A |
+| K8 | Control link | a | PS USB0 and the UART1 console occupy the obvious MIO (`sections/architecture.md`); candidates are UART0 plus USB-serial for a split SBC, or Ethernet through an on-card switch on GEM0, which is the Amiga's Ethernet port and runs at 10/100 (`sections/architecture.md`, "Control link (K8)"), so it shares the Amiga's LAN unless ports are isolated or VLANs used [G]; SR16's real bound under GEM RX DMA | design |
+| K45 | Window coherence during drags and popups | a | Policy: plane off during a drag, or rely on outline drag [R]; under the proposed windowed CEF host (K50), CEF has no popup callback (`topics/cef-frame-path.md`), so popup rectangles come from the X11 side [G] and feed the occlusion list (SR2) | design |
 | K46 | EDID is a design input (format, range, bpc) | a | Driver behaviour in `sections/browser-chip.md`; default a DVI-only EDID with exact DTDs [G]; readback on R-SoC | DC-A |
 | K47 | SoC-side dither, gamma and colour matrix are neutral | a | Kernel source per SoC; readback on R-SoC | DC-B |
 | K48 | Tracker constants for every RTG mode (delay, nominal, maximum, engagement floor, lock window); Vtotal above 1152 needs a new ceiling | a | `video_source_sync.v:L122-128` against `os/zz_video_modes.c`; proposed lock window ±2 lines and shorter-direction acquisition [G] | design |
@@ -34,7 +34,7 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 | K11 | Read-latency tail under GPU load | a, else d | A documented SoC QoS bound, else R-PCIe | DC-A |
 | K12 | Bus Master Enable, IOMMU mapping, 64-bit outbound addressing, buffer contiguity, cache maintenance before a flip | a | Kernel PCIe/IOMMU drivers, TRMs | DC-A, DC-B |
 | K13 | 5 Gb/s signal integrity | b | IBIS-AMI to UG482 rules | freeze |
-| K14 | CEF OSR on the SoC (`cef-issue` 3687 and 4237; linear dmabufs on panthor) | b, else d | Mesa and Chromium source; R-SoC second pass | DC-A |
+| K14 | CEF shared-texture OSR on the SoC's GPU driver (panthor on RK3588): buffer layout and the copy before the callback returns (`topics/cef-frame-path.md`) | b, else d | Mesa and Chromium source; R-SoC second pass | DC-A |
 
 ## SoC and Chromium
 
@@ -45,7 +45,7 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 | K17 | Module or SBC form, HDMI exposure, lifecycle | a + c | Datasheets and vendors | DC-B, DC-D |
 | K18 | Thermals inside an Amiga case | a | Heatsink sized for no airflow at a stated ambient; moot for an external box | freeze |
 | K19 | Other SoCs (Jetson, i.MX95, Genio) | a | Desk, if DC-B widens | DC-B |
-| K50 | CEF windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest need | a | `cefclient` beside stock Chromium on R-SoC | design |
+| K50 | Mechanism for DEC-014: whether CEF windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest would use | a | `cefclient` beside stock Chromium on R-SoC | design |
 
 ## FPGA side
 
@@ -55,7 +55,6 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 | K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin, J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
 | K22 | PS port, PHY ID, DDR3 at 1066 | a + c | A chip-down board picks its PHY; [F] DDR3 1066 is legal at every grade (`ds187` Table 18); MYIR only on the module path (7015 PHY, DDR3 rate, PUDC_B tie) | DC-C |
 | K23 | Module lifecycle and lanes | a + c | AMD and MYIR lifecycle statements; ×2/×4 lane validation via MYIR | DC-C |
-| K24 | Chip supply for the Zynq-7000 parts in `sections/sourcing.md` | c | AMD and distributor quotes | DC-C |
 | K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **Gate for f1:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. If it fails, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
 | K26 | S_AXI_GP width and speed; no bus timeout | a | UG585 | design |
 | K27 | 7030 memory controller rate on HP banks | a | DS191 | DC-C |
@@ -89,9 +88,9 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered.
 |---|---|---|---|
 | DC-A | Coupling | K1-K5, K7, K46, K49 (R-TRIM; R-PLANE if R-TRIM fails or is unclear), K15; PCIe rows only if needed | V-tracked with the ±1 cap is under study [G]; accepted if R-SoC's display path meets the latency targets and K49 passes. If K49 fails with no trim fix: frame-buffered V (needs a 7020). If the display path misses its targets: PCIe fetch |
 | DC-B | Browser chip | K15 pass bar, then integration, price, power | Open (`sections/browser-chip.md`) |
-| DC-C | Zynq part and form | K20-K24, K51, pin plan | Open; budgets in `topics/zynq-pin-budget.md` |
+| DC-C | Zynq part and form | K20-K23, K51, pin plan | Open; budgets in `topics/zynq-pin-budget.md` |
 | DC-D | Packaging | DC-A; K17, K18, K35; for P4, a Replica PCB revision outside this project | Open [D] DEC-003 |
-| DC-E | May native video pass through the SoC? | DEC-013 | Closed [D] DEC-013: a SoC reboot or hang would blank the monitor |
+| DC-E | May native video pass through the SoC? | DEC-013 | Ruled out by DEC-013's rule [D] DEC-013: a SoC reboot or hang would blank the monitor |
 | DC-F | Remote tier | — | Closed: the LAN box is retired [D] DEC-003 |
 
 ## Freeze criteria
@@ -125,6 +124,6 @@ All use off-the-shelf hardware or an existing ZZ9000; none is a PCB of this proj
 | Receiver × SoC interop: InfoFrames, hot-plug timing, limited range, deep colour, exact clock | Vendor behaviour beyond datasheets | DVI-only EDID with exact DTDs; pass-through colour conversion; neutral SoC colour pipeline (K47); R-SoC readback; optional R-RX |
 | Thermals in real cases (P1) | Airflow varies | Design for no airflow (K18); P2 moves the SoC out |
 | SI on the new board (DDR3, HDMI in and out; PCIe if chosen) | Simulation is only as good as its models | Vendor layout rules plus IBIS; verified at acceptance |
-| Part supply | Market state | Supply of the 7020 CLG484, which has the most HR pins and whose pin budget fits PL-DDR P5 (`topics/zynq-pin-budget.md`), is settled only by a quote; DC-C depends on it (K24) |
+| Part supply | LCSC is not an AMD-authorized channel [R], so chips carry no documented chain of custody | Accepted [D] DEC-015; the 7020 CLG484, which has the most HR pins and which fits PL-DDR P5 if the slow controls move to MIO (`topics/zynq-pin-budget.md`), is listed with its LCSC C-number in `sections/sourcing.md` |
 | MNT's answer on `0x6d6e` | An external judgement | New-ID fallback (K41) |
 | PCIe read-latency tail (only if DC-A goes PCIe) | SoC DDR arbitration under GPU load | FIFO with 2× margin over R-PCIe's worst case; an underrun policy |

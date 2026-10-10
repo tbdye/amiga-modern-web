@@ -13,10 +13,9 @@ Status: draft
 - [F] `MAX_TOTAL_LINES` (1152) and the 256-line delay are native-1080p values derived from the capture prefetch guard (`fw@8778ef3:video_source_sync.v:L25-37`); they are not RTG limits, and 1600×1200 and 2560×1440 exceed 1152 lines.
 - [F] The pixel clock is `clk_wiz_0`, a PLLE2_ADV reprogrammed through DRP for every mode (`fw@8778ef3:xdc/runtime_pixel_timing.xdc:L6-11`); a PLLE2 has no dynamic phase shift [R `ug472`], so a phase-shift trim means an MMCM swap [G].
 - [F] The default native profile is `filtered_60` (`fw@8778ef3:README.md:L129`), an 800×600 or 720×480 output, not a 1080p profile (`os/zz_config.c:L233-236`; `os/video.c:L491-520`); only a centred-1080p native profile with RTG at 1080p60 avoids a monitor retrain on native↔RTG switches (`README.md:L385-391`), and the tracker still relocks [G] (`sections/display-coupling.md`).
-- [F] `ZZ9000.CFG` is read at power-on; a soft reset does not reload it (`fw@8778ef3:README.md:L118-120`), so test a profile change with a power cycle.
+- [F] `ZZ9000.CFG` is read at power-on; a soft reset does not reload it, except `fast_ram`, which every reset re-reads (`fw@bdfd8b0:README.md:L118-121`), so test a profile change with a power cycle.
 - [F] `docs/native-p96-pip.md` cites `c6341f8` for its scaling (`fw@8778ef3:docs/native-p96-pip.md:L3-7`), a commit that is not on `master` (`fw` `git cat-file -t c6341f8` fails after a fetch); the RTL on `master` is authoritative.
-- [F] PS DDR above the linker-managed region (which ends at 0x18000000) is not free: the firmware places its task queue at 0x18000000, the core-1 stack ending at 0x1C000000, the Amiga-owned Z3 fast-RAM window at 0x20000000-0x30000000 and codec scratch from 0x30000000 (`fw@8778ef3:os/memorymap.h:L304-320, L322-334, L399-409`; `mntzorro.v:L99-109`; `os/lscript.ld:L30`).
-- [G] A search at `8778ef3` found nothing defined in 0x1C000000-0x20000000; a search is not a reservation, so check again at HEAD before using it.
+- [F] PS DDR above the linker-managed region (which ends at 0x18000000) is not free: it holds the task queue, the core-1 stack and card-pool ranges A1, A2, B (the Z3 fast-RAM window while fast RAM is not advertised) and C (`fw@bdfd8b0:docs/memory-map.md:L12-17`); take large buffers from the pool, not a fixed range (`sections/firmware-and-rtl.md`, "PS DDR map and card pool").
 
 ## Modules and pins
 

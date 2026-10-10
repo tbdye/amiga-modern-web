@@ -25,6 +25,7 @@ Both inputs are public MYIR PDFs (`sources.md`, `myir-7015-pinmap` and `myir-702
 
 - The ten entries were added by hand when the file was made.
 - [F] Each was re-derived on 2026-10-08 from the PDF's page-1 glyph rows: the even pin number and the name to its right share a row (`myir-7015-pinmap` p1; pins 114/116 MGTPTXP1/N1, 120/122 MGTPRXP1/N1, 126/128 MGTPTXP3/N3, 132/134 MGTPRXP3/N3, 138/140 MGTREFCLKP1/N1).
+- [F] `z15.json` section 1 pin 136 reads `VBAT_KEY_BACK_1.` because the PDF prints the name cut short in its cell (`myir-7015-pinmap` p1, verified 2026-10-10 from the glyph row); the 7020 map names the same pin `VBAT_KEY_BACK_1.8V` (`z20.json`).
 - The JSON files are stored with LF line endings; `pm2.py` run on Windows writes CRLF.
   Compare parsed JSON, not bytes.
 

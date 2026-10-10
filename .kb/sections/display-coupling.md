@@ -63,22 +63,23 @@ Vtotal and refresh are [F] from `fw@8778ef3:os/zz_video_modes.c:L13-24`; times a
 
 [G] In steady use the tracker locks when the SoC's HDMI appears, before any window opens, so opening the window is a plane enable at the next vblank.
 Baseline design: ±1 cap, shorter direction, no f1.
-Waits are for RTG at 1080p60; other modes take their lock-table figure (1600×1200: 10.3 s).
+Waits are for RTG at 1080p60; other modes take their lock-table figure.
 
 | Event | Monitor resyncs today? | Wait, baseline design, 1080p60 | Note |
 |---|---|---|---|
 | E16 window open or move, E17 resize | No | 0 (E17 adds 1-3 frames of Chromium relayout [G]) | The common case |
 | E15 Amiga blanker | No: DPMS masks syncs only (`fw@8778ef3:video_formatter.v:L1700-1703`) [F] | 0 | Phase kept |
 | E22 monitor power-cycle or replug | Monitor side only | 0 [G] | No HPD handling in `os/hdmi.c`, `os/main.c` or `os/video.c` [F, negative grep at `8778ef3`] |
-| E5 colour depth, same resolution | No: unchanged output timing keeps the clock and TMDS (`fw@8778ef3:os/video.c:L1174-1192, L1232-1236`) [F] | ≈ 5 frames (≈ 80 ms) blink [G] | Every mode init drops source sync (`fw@8778ef3:os/video.c:L1207`) [F]; f5 removes it |
+| E5 colour depth, same resolution | No: unchanged output timing keeps the clock and TMDS (`fw@8778ef3:os/video.c:L1174-1192, L1232-1236`) [F] | ≈ 5 frames (≈ 80 ms) blink [G] | Mode init drops source sync (below); f5 removes it |
 | E4 RTG resolution change | Yes; each RTG resolution has its own output timing (`drivers@ad9606b:rtg/mode_timing.h:L23-37`) [F] | SoC modeset + relock, ~0.1-0.5 s [G], hidden by the monitor's resync | User-requested, so DEC-013-exempt; needs an EDID DTD per mode |
-| E2 cold boot, SoC up; E3 warm reboot; E6 native↔RTG; E20 watchdog | Yes | ≤ 9.4 s after RTG appears | See below |
-| E1 joint cold boot, E7 SoC reboot, E21 firmware update | E1, E21: yes; E7: no | SoC boot, ~15-30 s [G], with lock inside it | Boot-bound |
+| E2 cold boot, SoC up; E3 warm reboot; E6 native↔RTG; E20 watchdog | Yes | ≤ 9.4 s after RTG appears, plus the ~5-frame lock qualification | E2, E3, E6 DEC-013-exempt; see below |
+| E1 joint cold boot, E7 SoC reboot, E21 firmware update | E1, E21: yes; E7: no | SoC boot (~15-30 s) plus ≤ 9.4 s lock, less if the SoC sets its final mode early [G] | Boot-bound; E1 DEC-013-exempt |
 | E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | |
 | E9 Chromium modeset, E11 SoC mode/EDID, E12 cable replug, E13 SoC DPMS, E14 tracker watchdog | No | ≤ 9.4 s, not exempt | f4 removes E9, E11, E13 |
 | E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | |
 | E18 unsupported mode, E19 off-EDID timing | — | Never live | Placeholder shown |
 
+- [D] E20 and E21 are neither ordinary browser actions nor exemptions named in DEC-013.
 - [F] A timing change powers TMDS down, so the monitor retrains (`fw@8778ef3:os/hdmi.c:L179-182`).
 - [F] An Amiga reset forces native capture mode (`fw@8778ef3:mntzorro.v:L2212`, `videocap_mode_in <= 1`).
 - [F] The default native profile is `filtered_60` (`fw@8778ef3:README.md:L129`), which outputs 800×600 for PAL or 720×480 for NTSC (`os/zz_config.c:L233-236`; `os/video.c:L491-520`), not 1080p60.
@@ -88,7 +89,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure (1600×12
 - [G] So the exception avoids the monitor retrain but not the relock: the SoC lock is lost while the reset holds native capture mode (SR15) and is reacquired after RTG returns, up to 9.4 s at 1080p60.
 - [F] The PS watchdog resets the whole PS after about 12.9 s of firmware wedge and the card reboots (`fw@8778ef3:os/watchdog.c:L8-10`).
 - [G] The window shows its own RTG pixels while the plane is off; a placeholder ("Starting browser…", "Connecting…", "Not available in this mode") is better than black.
-- [G] Why E2, E3, E6 cannot use a cheap snap: SR15 bars SoC-derived timing during native↔RTG switches (`topics/plane-safety.md`).
+- [G] Raster alignment on entering RTG from native is open: it would cut the E2, E3, E6 waits to about a frame but needs an SR15 rewrite (SR15, a [G] rule, not a decision, bars SoC-derived timing during native↔RTG switches; `topics/plane-safety.md`).
 
 ## Mitigations
 
@@ -104,8 +105,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure (1600×12
 
 Dead ends [G]: MMCM phase-shift trim for acquisition (kept as a steady-state remedy for K49); a partial BRAM buffer; showing the plane unlocked (`sections/options-rejected.md`).
 
-[F] Above the linker-managed DDR, which ends at 0x18000000 (`fw@8778ef3:os/lscript.ld:L30`), the firmware places its task queue at 0x18000000, the core-1 stack ending at 0x1C000000, the Amiga-owned Z3 fast-RAM window at 0x20000000-0x30000000 and codec scratch from 0x30000000 (`fw@8778ef3:os/memorymap.h:L304-320, L322-334, L399-409`; `mntzorro.v:L99-109`).
-[G] Searching the OS sources, linker script and RTL at `8778ef3` found nothing in 0x1C000000-0x20000000 (64 MB), so an 18.7 MB ring would fit; re-check at HEAD before relying on it.
+[G] The f1 ring would be a card-pool allocation, not a fixed range (`sections/firmware-and-rtl.md`, "PS DDR map and card pool").
 [F] Capture writes are idle in RTG: the writeback state machine re-arms only when `videocap_mode_sync` is set (`fw@8778ef3:mntzorro.v:L2023, L2081`).
 
 ## EDID for every RTG mode

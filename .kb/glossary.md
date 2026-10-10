@@ -13,7 +13,7 @@ Status: current
 | `[D]` | Requirement that comes from a decision; carries the DEC ID |
 | `Status: current` | Every input to the file was a reviewed finding, and its synthesis was reviewed |
 | `Status: draft` | Every `[F]` was re-verified against its primary source at its pin, but the selection and synthesis have not had a separate design review |
-| `Status: stale` | A source moved and the file has not been re-verified |
+| `Status: stale` | A cited fact is known or suspected to differ at HEAD and has not been re-verified; a source moving is not by itself a reason |
 
 ## Hardware and design terms
 
@@ -37,7 +37,7 @@ Status: current
 | Φ | Phase between the SoC and Zynq frame starts, in lines |
 | DTD | EDID detailed timing descriptor |
 | HR, HP, MIO | 7-series high-range banks (1.2-3.3 V), high-performance banks (1.2-1.8 V), and Zynq PS multiplexed I/O |
-| MYIR module | MYC-C7Z010/20 (V1, the ZZ9000's), MYC-C7Z010/20-V2, or MYC-C7Z015: Zynq modules on two 140-pin board-to-board connectors |
+| MYIR module | MYC-C7Z010/20 (V1, the ZZ9000's), MYC-C7Z020-V2, or MYC-C7Z015: Zynq modules on two 140-pin board-to-board connectors |
 | J1/J2 | The 7020 module's connector numbering, used for every module in this KB (the 7015 map calls them J2/J3) |
 
 ## Packaging and option codes
@@ -46,7 +46,7 @@ Status: current
 |---|---|
 | P1 | One card: chip-down Zynq-7000, receiver and a SoC module, V-tracked |
 | P2 | Split: a Zynq card with a receiver, plus an unmodified SBC or mini PC joined by an HDMI cable and a control link |
-| P3 | One card, PCIe fetch, Zynq-7015 plus an RK3588 or x86 module |
+| P3 | One card, PCIe fetch, Zynq-7015 plus an RK3588 (not RK3588S) or x86 module |
 | P4 | A redesigned Replica with an on-board SoC module |
 | P5 | Frame-buffered V in P1 or P2 form, with its own PL DDR3 |
 | P6 | Zynq UltraScale+ (ZU2/ZU3) chip-down |
@@ -54,15 +54,14 @@ Status: current
 | P8 | Display owned by the SoC, with the FPGA reduced to a Zorro and capture bridge |
 | P9 | A non-AMD FPGA plus a firmware CPU |
 | R2 | A Replica plus a SoC card on a PCIe cable through a module interposer |
-| NC-30, NC-20V | New-card variants: a Zynq-7030 with PCIe and PL DDR; a chip-down Zynq-7020 fed by V |
 
 ## Decision, unknown and rule IDs
 
 | Prefix | Where defined |
 |---|---|
 | DEC-n | `decisions.md` |
-| K1-K53 | `unknowns.md`, unknowns register; K6, K43 and K44 are retired |
-| DC-A to DC-F | `unknowns.md`, design decisions still open |
+| K1-K53 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
+| DC-A to DC-F | `unknowns.md`, design decisions; DC-E and DC-F are closed |
 | R-TRIM, R-SoC, R-PLANE, R-PCIe, R-DDR, R-RX | `unknowns.md`, test methods |
 | SR1-SR16 | `topics/plane-safety.md` |
 | f1, f3, f4, f5, a′, b, c | `sections/display-coupling.md`, mitigations (f2, f6 and f7 are not used) |
