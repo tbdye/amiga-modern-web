@@ -68,7 +68,7 @@ Decided: 2026-10-05.
 Rule: the goal is a browser filling a 1080p screen at 60 frames per second.
 Rule: RK3588, x86 and Raspberry Pi CM5 class chips remain in the running, to be settled on integration and price.
 Why: maximising the browser on a 1080p Workbench is an expected use.
-Consequences: a chip must first meet the full-screen 1080p60 pass bar; integration and price then decide among those that do, with power after them (`sections/browser-chip.md`, "Pass criteria (DC-B)").
+Consequences: a per-chip pass bar at full-screen 1080p60, with power as a further tie-breaker, is proposed, not decided [G] (DC-B; `sections/browser-chip.md`, "Pass criteria (DC-B)"); a chip below that bar may still serve users below 1080p [D] DEC-012.
 Consequences: under PCIe the CM5's single Gen2 lane is too narrow for 1080p60 frames [G]; under V-tracked its limit is GPU headroom (K15).
 
 ## DEC-011: Design first

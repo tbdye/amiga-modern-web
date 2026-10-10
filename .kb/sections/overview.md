@@ -25,7 +25,7 @@ Chromium's rendered frames arrive at the Zynq without compression, and the Zynq 
 |---|---|---|
 | Coupling | V-tracked: the SoC's HDMI into a receiver chip; the Zynq trims its own frame length by ±1 line per frame to follow it | `sections/display-coupling.md` |
 | Zynq | Zynq-7000 family, so firmware, RTL and drivers carry over | `sections/zynq-and-board.md` |
-| Browser chip | RK3588, x86 or CM5; chosen by a full-screen 1080p60 pass bar, then integration, price, power | `sections/browser-chip.md` |
+| Browser chip | RK3588, x86 or CM5, settled on integration and price [D] DEC-010; a full-screen 1080p60 pass bar is proposed (DC-B), and a lower tier below 1080p is acceptable [D] DEC-012 | `sections/browser-chip.md` |
 | Packaging | Open: one card; a Zynq card plus an unmodified SBC or mini PC; or a redesigned Replica [D] DEC-003 | `sections/zynq-and-board.md` |
 | Safety | Nothing the SoC does can touch native capture, the doubler or scanout [D] DEC-005 | `topics/plane-safety.md` |
 

@@ -30,7 +30,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **A SoC module beside an unchanged Z-7020 over Ethernet** [G]: the same round trip on one PCB, with no gain in feel.
 - **The SoC doing capture itself, with a CPLD for Zorro** [R]: no app SoC exposes a low-latency slave bus for Zorro RTG, so the CPLD grows into an FPGA and native video runs through SoC Linux.
 - **Jetson Orin** [R]: Chromium GPU acceleration on L4T is unproven and the stack is proprietary; revisit if that changes.
-- **The existing Replica with V input** [F]: all 125 PL pins of the Replica's module have loads, 124 of them on the board, while `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
+- **The existing Replica with V input** [F]: the Replica connects all 125 PL pins of its module; 124 have on-board loads, and `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
 
 ## DPI into the video-capture path
 

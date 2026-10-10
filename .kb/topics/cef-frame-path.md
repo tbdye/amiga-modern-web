@@ -3,7 +3,7 @@
 Scope: how frames and audio leave Chromium Embedded Framework (CEF) off-screen rendering, and the native-convention hooks; relevant to the PCIe options, and to audio and dialogs under any coupling.
 Status: draft
 
-`cef` citations are at `2d4a38cec5a6` unless they name another commit; each fact cited at the older pin was re-checked at `a875f407e36b` and is unchanged there.
+`cef` citations are at `2d4a38cec5a6` unless they name another commit.
 Under V-tracked the SoC uses its own display path and these frame paths are not needed (`sections/browser-chip.md`).
 
 ## Frames
@@ -17,6 +17,7 @@ Under V-tracked the SoC uses its own display path and these frame paths are not 
 - [F] At `a875f407e36b`, cefclient on Linux drives `SendExternalBeginFrame` from a UI-thread timer at the windowless frame rate (`cef` commit `e79440b9fa43`, message).
 - [G] So a Linux reference embedder for the shared-texture path exists; only the hand-off to the FPGA is custom.
 - [F] At `a875f407e36b`, cefclient appends `use-angle=gl-egl` for shared-texture OSR on Linux and sets no `ozone-platform` (`cef@a875f407e36b:tests/shared/browser/client_app_browser.cc:L76-91`).
+- [F] At `2d4a38cec5a6`, cefclient also appended `ozone-platform=x11` in that case (`cef@2d4a38cec5a6:tests/shared/browser/client_app_browser.cc:L86-96`); `f922057255c8` removed that switch (`cef` commit `f922057255c8`, diff).
 - [R] Upstream reports cefclient's shared-texture OSR tested on Wayland and on X11 (`cef` commit `c7e1a9e5c697`, message), and `f922057255c8` removes X11 runtime dependencies from cefclient's OSR path; so a headless SoC need not run an X server [G], which R-SoC would confirm.
 - [F] `SendExternalBeginFrame` lets an external vblank drive frames (`cef@2d4a38cec5a6:include/cef_browser.h:L745`; enable flag `include/internal/cef_types_linux.h:L139`); without it the windowless frame rate defaults to 30 (`include/internal/cef_types.h:L601-608`).
 
@@ -28,11 +29,11 @@ Under V-tracked the SoC uses its own display path and these frame paths are not 
 ## Native-convention hooks
 
 - [F] `CefRenderHandler`, with `OnPopupShow`, `OnPaint`, `OnAcceleratedPaint` and `OnScrollOffsetChanged`, is called only when window rendering is disabled (`cef@2d4a38cec5a6:include/cef_render_handler.h:L49, L122, L144, L170, L229`).
-- [G] So the windowed host has no popup callback: `<select>`, autofill and date-picker popups arrive as X11 windows it must find itself.
+- [G] So a windowed CEF host, if adopted (K50), has no popup callback: `<select>`, autofill and date-picker popups arrive as X11 windows it must find itself.
 - [F] `SendKeyEvent`, `SendMouseClickEvent` and `SendMouseMoveEvent` carry no windowless restriction (`cef@2d4a38cec5a6:include/cef_browser.h:L748-770`), while the IME composition and drag-target calls are windowless-only (`include/cef_browser.h:L846, L862, L905`).
-- [G] So the windowed host injects keyboard and mouse through CEF, and handles IME and drag-in at the X11 level.
+- [G] So a windowed host would inject keyboard and mouse through CEF, and handle IME and drag-in at the X11 level.
 - [F] Dialog, JS-dialog, context-menu and download handlers live in `include/cef_dialog_handler.h`, `cef_jsdialog_handler.h`, `cef_context_menu_handler.h` and `cef_download_handler.h` (`cef@2d4a38cec5a6`).
-- [G] These map to ASL, EasyRequest, Intuition popups and Amiga volumes, which is why the host uses CEF rather than stock Chromium (K50).
+- [G] These map to ASL, EasyRequest, Intuition popups and Amiga volumes; that is why the proposed DEC-014 mechanism, open in K50, is a CEF host rather than stock Chromium.
 
 ## Audio
 

@@ -36,7 +36,7 @@ Source: `lcsc`.
 | MYIR MYC-C7Z015-4E1D-766-I | XC7Z015-2CLG485, industrial only | MYIR direct, first 2 pieces | `myir-order` |
 | Raspberry Pi CM5 Lite 4 / 8 / 16 GB (CM5004000 / CM5008000 / CM5016000) | Two HDMI 2.0 (`cm5-ds` p6) | Retail (PiShop.us) | `pishop` |
 | LattePanda Mu N100, 8 / 16 GB (x86) | 260-pin module | DFRobot | `dfrobot` |
-| Radxa CM5, 4 / 8 / 16 / 32 GB (RM120-D4E32R26 / -D8E64R26 / -D16E128R26 / -D32E256R26) | RK3588S2 [R], per Radxa's CM5 datasheet; the CM5 Lite is RK3582 [R]. An RK3588S has only two Gen2 ×1 PCIe controllers (`linux@6c377d19d4a5:rk3588s.dtsi:L7`, `rk3588-base.dtsi:L2188-2266`), so the module cannot serve P3 [G] | Radxa store (arace.tech) | `arace` |
+| Radxa CM5, 4 / 8 / 16 / 32 GB (RM120-D4E32R26 / -D8E64R26 / -D16E128R26 / -D32E256R26) | RK3588S2 [R], per Radxa's CM5 datasheet; the CM5 Lite is RK3582 [R]. [F] An RK3588S has only two Gen2 ×1 PCIe controllers: `rk3588s.dtsi` includes `rk3588-base.dtsi` but not `rk3588-extra.dtsi` (`linux@6c377d19d4a5:rk3588s.dtsi:L7-8`; `rk3588-base.dtsi:L2188-2266`); so the module cannot serve P3 [G] | Radxa store (arace.tech) | `arace` |
 | Radxa X4, 4 / 8 / 16 GB, no eMMC (x86) | Intel N100 board, not a module; P2 form | Radxa store (arace.tech) | `arace` |
 
 ## Receiver and connectors

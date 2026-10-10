@@ -48,7 +48,7 @@ Status: draft
 | P1 | One card: chip-down Zynq, receiver and SoC module | High: SoC site, power and thermals on one PCB |
 | P2 | Zynq card plus receiver; unmodified SBC or mini PC in an adjacent slot or external box; HDMI cable plus a USB-serial or Ethernet control link | Medium: no SoC on our PCB; the user picks the SoC; needs an HDMI back-feed check (K35) |
 | P4 | Redesigned Replica with an on-board SoC module | High; needs a Replica PCB revision, outside this project |
-| R2 | Replica plus a SoC card over PCIe | PCIe only; the Replica cannot take V: every PL pin of its 7020 module has a load, and a 7015 module adds only 12 unconnected pins plus `Free7` (header only) against the receiver's 28 (`topics/zynq-pin-budget.md`) |
+| R2 | Replica plus a SoC card over PCIe | PCIe only; the Replica cannot take V: it connects all 125 PL pins of its 7020 module, 124 have on-board loads and `Free7` reaches only header J10.3, and a 7015 module adds only 12 unconnected pins against the receiver's 28 (`topics/zynq-pin-budget.md`) |
 
 ## Reuse
 

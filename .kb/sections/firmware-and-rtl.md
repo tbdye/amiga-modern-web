@@ -3,7 +3,7 @@
 Scope: what the ZZ9000 firmware and RTL already provide, the anchors a browser plane builds on, the native-video regression, and the toolchain.
 Status: draft
 
-`fw` citations are at `8778ef3` unless they name another commit; each fact cited at `8778ef3` was re-checked at `bdfd8b0` and is unchanged there.
+`fw` citations are at `8778ef3` unless they name another commit.
 `os/`, `xdc/`, `rtl/` prefixes expand per `sources.md`.
 
 ## Why the Zynq cannot host the browser
@@ -68,7 +68,7 @@ Status: draft
 - [F] On an Amiga reset with range B lent, the firmware quiesces core 1 (or cold-restarts it), takes B back and flushes the caches, then releases every non-FIRMWARE owner and lends B again if the Amiga cannot use it (`fw@bdfd8b0:os/main.c:L447-463, L572-575`; `os/card_pool.h:L114-124`).
 - [F] The firmware's memory-map document sends large working memory to the pool, not to new fixed ranges or the general heap; a fixed range is for hardware or the Amiga needing a stable address (`fw@bdfd8b0:docs/memory-map.md:L22, L34`).
 - [F] The 0x30000000 codec scratch of earlier firmware is gone: `0a17831` removed the codecs that used it and freed it for the pool (`fw` `git show 0a17831`).
-- [G] An f1 acquisition ring (about 18.7 MB at 1080p, `sections/display-coupling.md`) is therefore a pool allocation; a FIRMWARE-class owner fits the 64 MB limit and stays out of range B.
+- [G] An f1 acquisition ring (about 18.7 MB at 1080p, `sections/display-coupling.md`), if built, would be a pool allocation; a FIRMWARE-class owner fits the 64 MB limit and stays out of range B.
 - [G] Whether a PL master may write pool memory coherently is unverified.
 
 ## Native-video regression [D] DEC-005
