@@ -12,7 +12,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 |---|---|---|---|---|---|
 | P1: one card, V-tracked | The SoC's own display path, no added frames | High | None (stays Zynq-7000; PS7, plane, tracker and control-link additions) | Yes / yes, if monitors accept the trim (K49) | Under study |
 | P2: Zynq card plus unmodified SBC, V-tracked | As P1 | Medium | None | Yes / yes (K49) | Under study |
-| P3: one card, PCIe fetch, Zynq-7015 | As P1, with a late latch | High: Gen2 signal integrity; a Linux OSR embedder written from scratch (`cef-issue` 3687) | None, plus PCIe endpoint, fetch and MSI | Yes / yes | Alternative if the SoC display path misses its targets |
+| P3: one card, PCIe fetch, Zynq-7015 | As P1, with a late latch | High: Gen2 signal integrity; the OSR frame hand-off to the FPGA (cefclient has a Linux `OnAcceleratedPaint` reference at CEF `a875f407e36b`, `topics/cef-frame-path.md`) | None, plus PCIe endpoint, fetch and MSI | Yes / yes | Alternative if the SoC display path misses its targets |
 | P4: redesigned Replica with on-board SoC | As P3 | High; needs a Replica PCB revision, outside this project | As P3 | Yes / yes | Open, PCIe only |
 | P5: frame-buffered V | Adds up to 1 frame | High: ×16 PL DDR3 layout | None, plus a memory controller | Yes / yes | Fallback if K49 fails with no trim fix |
 | P6: Zynq UltraScale+ chip-down | As P1 or P3 | Very high | **Full port** off the A9 | Yes / yes | Not under study: a full port for headroom that adds nothing felt [G] |
@@ -30,7 +30,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **A SoC module beside an unchanged Z-7020 over Ethernet** [G]: the same round trip on one PCB, with no gain in feel.
 - **The SoC doing capture itself, with a CPLD for Zorro** [R]: no app SoC exposes a low-latency slave bus for Zorro RTG, so the CPLD grows into an FPGA and native video runs through SoC Linux.
 - **Jetson Orin** [R]: Chromium GPU acceleration on L4T is unproven and the stack is proprietary; revisit if that changes.
-- **The existing Replica with V input** [F]: the Replica routes all 125 PL pins of its module (`replica@96bdef0`, netlist, not public); one, Free7 (J2.62, routed only to expansion header J10.3), is unused, and a 7015 module would add only 12 (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
+- **The existing Replica with V input** [F]: all 125 PL pins of the Replica's module have loads, 124 of them on the board, while `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
 
 ## DPI into the video-capture path
 

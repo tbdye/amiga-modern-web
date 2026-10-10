@@ -4,9 +4,8 @@ Scope: SR1-SR16, the safety rules for the browser plane that DEC-005 requires, w
 Status: current
 
 [D] DEC-005: nothing the browser chip does, or fails to do, can touch native capture, the scan doubler or scanout.
-Each rule is a binding requirement on the implementation and maps to one row of the native-video regression matrix (`sections/firmware-and-rtl.md`).
+The rules are [G] design requirements that bind the implementation; each maps to one row of the native-video regression matrix (`sections/firmware-and-rtl.md`), and the citations show the existing structure each one protects.
 "Applies" names the plane path: PCIe (fetch and copy), copy, fetch, V (receiver input), or all.
-The rules are [G] design requirements; the citations show the existing structure each one protects.
 
 | # | Applies | Requirement | Regression row |
 |---|---|---|---|
@@ -24,8 +23,8 @@ The rules are [G] design requirements; the citations show the existing structure
 | SR12 | Copy; V un-genlocked; the f1 bridge | The DDR writer issues only fully buffered bursts from a Zynq-clocked domain, so losing the link or input clock leaves no partial AXI transaction | Hot reset, refclk removal and link pull mid-copy, with audio recording |
 | SR13 | V | The input writer's address (line FIFO, or frame region) stays bounded by A9-set geometry, whatever the input timing | Garbage sync: random HSYNC, VSYNC and DE lengths |
 | SR14 | V | Loss of input clock or lock counts as link-down and disables the plane | Input clock pulled mid-frame |
-| SR15 | V | SoC-anchored tracking applies only in RTG; the native capture-anchored mode is unchanged; on loss of lock the output returns to its own nominal frames | SoC mode change mid-frame, and during a native↔RTG switch |
-| SR16 | All with a non-PCIe control link | The control link (Ethernet, USB or UART/SPI) is rate-limited, bounding its traffic into Zynq DDR | Control flood |
+| SR15 | V | SoC-anchored tracking applies only in RTG; native modes are unchanged (capture-anchored tracking in `centered_1080p_match`, free-running in every other profile); on loss of lock the output returns to its own nominal frames | SoC mode change mid-frame, and during a native↔RTG switch |
+| SR16 | All with a non-PCIe control link | The control link (Ethernet, USB, UART, or SPI over EMIO) is rate-limited, bounding its traffic into Zynq DDR | Control flood |
 
 ## Binding set by coupling
 
@@ -46,4 +45,7 @@ The rules are [G] design requirements; the citations show the existing structure
 - [R] AXI has no abort, and a PCIe read stalled by a completion timeout (50 µs-50 ms) back-pressures whatever it shares; hence SR4.
 - [R] Zynq general-purpose ports have no bus timeout; hence SR7.
 - [G] With SR1 the SoC's outbound DMA is not needed, and a window into Zynq DDR would let a misbehaving SoC post traffic at link rate (0.4-1.6 GB/s) and starve capture: there is no DDR-window fallback.
+- [F] In native modes the source-sync tracker is enabled only under the `centered_1080p_match` profile; every other native profile free-runs (`fw@bdfd8b0:os/video.c:L527-534, L943-945`).
+- [F] SPI on MIO collides with assigned pins: SPI1 on MIO10-15 would take the HDD LED (MIO10, `replica@96bdef0`, netlist) and I2C1 (MIO12/13, `fw@bdfd8b0:zz9000_project.tcl:L926, L1151`).
+- [R] Every other MIO pin set for SPI falls on MIO the PS7 configuration gives to Ethernet (16-27), USB (28-39), SD (40-45), UART1 (48-49) or I2C0 (50-51) (`fw@bdfd8b0:zz9000_project.tcl:L1151`); the `ug585` MIO table would verify which sets SPI can use.
 - [R] GEM receive DMA writes frames into DDR before the A9 sees them, so SR16's real bound is line rate times the RX ring, not A9 rate limiting (`ug585` desk check pending, K8).

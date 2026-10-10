@@ -31,14 +31,17 @@ Chromium's rendered frames arrive at the Zynq without compression, and the Zynq 
 
 [G] The browser plane is planned for RTG modes up to 1920 wide, so the 2560×1440 RTG mode (`fw@8778ef3:os/zz_video_modes.c:L24`) gets none.
 [F] The Linux ADV7611 driver caps input width at 1920 (`linux@6c377d19d4a5:adv7604.c:L798-803`).
-[G] Here the A9 programs the receiver without Linux, so that cap points to the chip's limit rather than proving it; the ADV7611 hardware manual would settle it.
+[F] The ADV7611's TMDS clock is 165 MHz maximum (`adv7611` p1), and its LLC range is 13.5-165 MHz, with the maximum limited to the 8-bit UXGA 60 Hz clock (`adv7611` Table 2 and note 1, p5).
+[R] VESA UXGA 60 Hz is 162 MHz; the VESA DMT standard would verify it.
+[F] The Zynq's 1080p60 runs at 148.57 MHz and its 1600×1200 at 161.54 MHz (`fw@8778ef3:os/zz_video_modes.c:L18, L23`), both under that clock; so the 1920 cap is the Linux driver's, not the chip's clock [G].
+[F] The Zynq's 2560×1440 runs at 30 Hz, 146.43 MHz (`fw@8778ef3:os/zz_video_modes.c:L24`), also under the clock, but a 2560-pixel line is outside the datasheet's documented formats [R]; the ADV7611 hardware manual would verify it.
 
 ## Non-goals
 
 - 3D acceleration and video decode as Amiga-side features [D] DEC-008.
 - Compatibility with stock MNT ZZ9000 or Replica boards as a requirement [D] DEC-005.
 - A compressed or remote-desktop video path [D] DEC-008.
-- Board spins as a way to learn: a PCB designed here is the product [D] DEC-011.
+- Board spins as a way to learn [D] DEC-011.
 
 ## What is open
 

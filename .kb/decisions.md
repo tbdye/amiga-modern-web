@@ -66,8 +66,9 @@ Consequences: any option that loses 1080p RTG or the centred-1080p native profil
 Status: active.
 Decided: 2026-10-05.
 Rule: the goal is a browser filling a 1080p screen at 60 frames per second.
-Rule: RK3588, x86 and Raspberry Pi CM5 class chips remain in the running, to be settled on integration and cost.
+Rule: RK3588, x86 and Raspberry Pi CM5 class chips remain in the running, to be settled on integration and price.
 Why: maximising the browser on a 1080p Workbench is an expected use.
+Consequences: a chip must first meet the full-screen 1080p60 pass bar; integration and price then decide among those that do, with power after them (`sections/browser-chip.md`, "Pass criteria (DC-B)").
 Consequences: under PCIe the CM5's single Gen2 lane is too narrow for 1080p60 frames [G]; under V-tracked its limit is GPU headroom (K15).
 
 ## DEC-011: Design first
@@ -89,8 +90,23 @@ Why: plenty of RTG users run below 1080p, so a CM5 limited there may still serve
 ## DEC-013: Everyday use never resyncs the monitor
 
 Status: active.
-Decided: 2026-10-05.
+Decided: 2026-10-05; exemptions confirmed 2026-10-10.
 Rule: no ordinary browser action (open, close, resize, full screen) may cause the monitor to lose sync or go blank, and neither may the browser chip restarting or freezing.
-Rule: a screen-mode change the user asks for (for example a new Workbench resolution) is exempt, and a resync then is acceptable.
+Rule: events that already resync the monitor are exempt, and a resync then is acceptable: a screen-mode change the user asks for (for example a new Workbench resolution), an Amiga reboot, and a switch between a native screen and RTG.
 Consequences: V-locked coupling is out, because the monitor's clock would depend on the browser chip.
 Consequences: under V-tracked the open items are the tracker variant (K2) and whether monitors accept the frame-length trim (K49).
+
+## DEC-014: Native Workbench look and feel
+
+Status: active.
+Decided: 2026-10-10.
+Rule: browsing has a native look and feel on Workbench: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
+Rule: the mechanisms that deliver it are not decided; any mechanism this KB describes is a proposal.
+Consequences: CEF's dialog, file, JS-dialog, context-menu and download handlers are candidate hooks (K50; `sections/browser-chip.md`, "The Chromium host").
+
+## DEC-015: LCSC-sourced Zynq chips are acceptable for production
+
+Status: active.
+Decided: 2026-10-10.
+Rule: Zynq-7000 chips bought through LCSC, which is not an AMD-authorized channel [R], are acceptable for production.
+Consequences: chip supply no longer waits on an authorized-channel quote, so K24 is retired; part numbers and LCSC C-numbers are in `sections/sourcing.md`.

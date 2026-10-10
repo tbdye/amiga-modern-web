@@ -21,6 +21,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md` |
+| PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
