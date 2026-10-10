@@ -30,11 +30,11 @@ files:
   sections/overview.md:
     status: current
     reviewed_on: 2026-10-10
-    cites: [fw, linux, adv7611]
+    cites: [fw, drivers, linux, cef, adv7611]
   sections/architecture.md:
-    status: current
+    status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, linux, ug585]
+    cites: [fw, linux, ug585, cm5-ds, zorro3]
   sections/display-coupling.md:
     status: current
     reviewed_on: 2026-10-10
@@ -44,21 +44,21 @@ files:
     reviewed_on: 2026-10-10
     cites: [fw, drivers, linux, replica, ds187, ds190, myir-7015, myir-7020v1, myir-7020v2]
   sections/browser-chip.md:
-    status: current
+    status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, linux, cef, cm5-ds, adv7611]
+    cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:
     status: draft
     reviewed_on: 2026-10-10
     cites: [fw, amd-vivado-editions]
   sections/options-rejected.md:
-    status: current
+    status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, replica, cef]
+    cites: [fw, replica, cef, cm5-ds, lvc8t245]
   sections/sourcing.md:
-    status: current
+    status: draft
     reviewed_on: 2026-10-10
-    cites: [lcsc, myir-order, pishop, dfrobot, arace, cm5-ds, linux, jlc-capabilities, ds190]
+    cites: [lcsc, myir-order, pishop, dfrobot, arace, cm5-ds, linux, jlc-capabilities, amd-zynq7000, myir-lifecycle, radxa-cm5]
   sections/gotchas.md:
     status: draft
     reviewed_on: 2026-10-10
@@ -71,6 +71,14 @@ files:
     status: current
     reviewed_on: 2026-10-10
     cites: [fw, replica, ug585]
+  topics/monitor-trim.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw, sii9022a]
+  topics/pcie-path.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw, ds187, ds190, myir-7015-pinmap]
   topics/cef-frame-path.md:
     status: draft
     reviewed_on: 2026-10-10

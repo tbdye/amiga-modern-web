@@ -55,12 +55,34 @@ Status: current
 | P9 | A non-AMD FPGA plus a firmware CPU |
 | R2 | A Replica plus a SoC card on a PCIe cable through a module interposer |
 
+## Option families and the quality ceiling
+
+| Term | Meaning |
+|---|---|
+| Family A | The browser engine runs on a separate machine, and the ZZ9000 shows its output (the retired remote tier) |
+| Family B | The engine runs on an application-class chip on the card, coupled to the FPGA that owns the display (P1-P5, R2) |
+| Family C | The application chip owns the display, and native video passes through it (P8) |
+| Family D | One chip does everything (P7; a ZU+ alone) |
+| Quality ceiling | A SoC with a GPU, coupled to the Zynq's FPGA by memory (PCIe) or by its video output (V), with the FPGA keeping Zorro, native capture, the scan doubler and final scanout under the safety rules; the GPU draws the page and Chromium's compositor scrolls it, and the 68k runs only native chrome [G] |
+
+## Other names for the same thing
+
+| Name | Means |
+|---|---|
+| Genlocked V | K1's route (the SoC locks to the Zynq's VSYNC) or V-locked (the Zynq runs on the SoC's clock) |
+| Line-locked V | V with the SoC's pixels at a fixed phase to the Zynq's scanout, keyed in through a few-line FIFO; V-tracked does this |
+| Families A-D; family C | The option families above; family C is P8 |
+| J9, video-slot input | `sections/options-rejected.md`, "DPI into the video-capture path" |
+| Downstream HDMI compositor card | A P8 variant (`sections/options-rejected.md`) |
+| Fetch FIFO | The plane line FIFO under PCIe fetch (`topics/pcie-path.md`) |
+| Frame-length trim, monitor trim | The ±1-line change of the Zynq's frame length under V-tracked (`topics/monitor-trim.md`) |
+
 ## Decision, unknown and rule IDs
 
 | Prefix | Where defined |
 |---|---|
 | DEC-n | `decisions.md` |
-| K1-K53 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
+| K1-K57 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
 | DC-A to DC-F | `unknowns.md`, design decisions; DC-E and DC-F are closed |
 | R-TRIM, R-SoC, R-PLANE, R-PCIe, R-DDR, R-RX | `unknowns.md`, test methods |
 | SR1-SR16 | `topics/plane-safety.md` |

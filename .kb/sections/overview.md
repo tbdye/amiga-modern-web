@@ -53,3 +53,25 @@ Chromium's rendered frames arrive at the Zynq without compression, and the Zynq 
 | One card or a split? | DC-D |
 | Does the DDR headroom allow the acquisition bridge (f1)? | K25 |
 | Zorro and capture timing on a new board | K29; the leading board-level risk |
+| Is there a path for owners of stock ZZ9000 boards? | K54 |
+| How would the feature ship in the firmware? | K56 |
+
+[G] The design's top risk is monitor acceptance of the trim (K49, `topics/monitor-trim.md`); K29 is the top risk among board-level items, which is a different class.
+
+## Faults found at acceptance
+
+[G] A firmware, PL or SoC-software fault is fixed in place; a board-level fault (pin plan, signal integrity, power, translator timing, back-feed) means a respin, so the board-level unknowns are settled before the design freezes (`unknowns.md`, "Freeze criteria").
+
+## Who decides
+
+| Change | Decided by [G] |
+|---|---|
+| This project's design (`decisions.md`) | The project maintainer, through issues and pull requests here (`CONTRIBUTING.md`) |
+| ZZ9000 firmware or drivers | Their upstream maintainers, through those repositories' reviews |
+| The Replica board | The Replica's maintainer |
+
+## Licences
+
+- [F] The ZZ9000 firmware and drivers are GPL-3.0-or-later (`fw@bdfd8b0:README.md:L677-681`; `drivers@ad9606b:README.md:L580-584`); a few firmware files carry GPL-2.0+, GPL-2.0 or MIT notices instead (`fw@bdfd8b0`, `SPDX-License-Identifier` lines).
+- [F] CEF is under a BSD-style licence (`cef@a875f407e36b:LICENSE.txt:L1-29`); Chromium is too [R], which its `LICENSE` file would verify.
+- Open: this repository's licence (`CONTRIBUTING.md`, "Licence"); Amiga fonts in Chromium (K40); whether the ADV7611 hardware manual, which receiver set-up needs, is freely available [R].

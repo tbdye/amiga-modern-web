@@ -5,7 +5,7 @@ Status: current
 
 The KB holds the project's facts, decisions, open questions and rejected options for native modern web browsing on Zorro Amigas, each statement labelled and cited.
 It describes the design under study; it does not argue for it.
-Audio-path and power-domain depth, the Replica interconnect, prior art and agent-tooling traps are deferred to a later KB version.
+Audio-path and power-domain depth, the Replica interconnect, prior-art depth and agent-tooling traps are deferred to a later KB version.
 
 ## Load by task
 
@@ -15,22 +15,28 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 |---|---|
 | Understand the project | `sections/overview.md`, then `sections/architecture.md` |
 | Which events resync the monitor (DEC-013 exemptions); lock times; when the window is black | `sections/display-coupling.md` |
-| Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM" |
+| Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
+| Latency definition and targets | `sections/architecture.md`, "Paths" |
 | Pick or evaluate a Zynq part, package or module | `sections/zynq-and-board.md`, then `topics/zynq-pin-budget.md` |
-| Pin or bank arithmetic | `topics/zynq-pin-budget.md`, `evidence/README.md` |
+| Pin or bank arithmetic; Replica board I/O and module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
-| Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md` |
+| PCIe fetch or copy: link load, FIFO, pass thresholds | `topics/pcie-path.md` |
+| Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
+| Power | `sections/architecture.md` ("Blocks"), `decisions.md` (DEC-003), `unknowns.md` (K35-K38) |
+| Audio | `unknowns.md` (K7, K32-K34), `topics/cef-frame-path.md` ("Audio") |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
-| Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
+| Why an alternative was rejected or is not under study; prior approaches | `sections/options-rejected.md` |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
 | Sourcing channels and assembly | `sections/sourcing.md` |
 | What is open, and what settles it | `unknowns.md` |
-| Why a rule exists | `decisions.md` |
+| Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
+| Who decides; licences; fault policy | `sections/overview.md` |
 | A code or term | `glossary.md` |
 | Build a link from a citation | `sources.md` |
 | Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
+| Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
 
 ## Files
 

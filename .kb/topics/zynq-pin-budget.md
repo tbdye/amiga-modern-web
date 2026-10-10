@@ -66,11 +66,19 @@ HR pins at 3.3 V; sums use 91 Zorro, capture and I2S pins.
 | Same, with MIO11 freed by a firmware change | 135-137 (135-136 if MIO8 is also usable) | +2 spare to 0; with I2S, 2-4 short |
 | Replica as host (125 PL + 12 on a 7015) | 28-pin receiver against 12 unconnected pins plus `Free7` (header only) | Does not fit |
 
+- [G] On a chip-down 7020 CLG484 with a PL DDR3 bank (P5), a 1.8 V parallel video input in place of the receiver bus would take another whole bank, leaving 100 HR against the 109-111 pins needed at 3.3 V (91 + 16-pin HDMI + 2-4 enables): short.
+- [G] An 8-pin TMDS input on the 12 free bank-13 pins also needs EDID, HPD and DDC pins, unless the SoC is forced to a mode without reading EDID; a TFP401-class receiver has no EDID [R] (K4).
+- [G] Under PCIe the budget is 110-112 pins (`topics/pcie-path.md`, "Pin budget under PCIe").
+
 ## PL DDR on a 7015 loses 1080p
 
 - [F] The 7015 CLG485 has 150 HR in three 50-pin banks (`ds190` p4); a DDR3 bank leaves 100.
 - [G] HDMI from HR pins as TMDS then caps the pixel clock near 125 MHz at −2/−3, from the OSERDES DDR LVDS limit of 1250 Mb/s (`ds187` Table 50, p33; −1: 950 Mb/s), so 1080p60 RTG and the centred-1080p profiles are lost [D] DEC-009.
 - [F] PL DDR3 runs at 800 Mb/s on −1 and −2 (`ds187` Table 51, p33), so a ×16 gives 1.6 GB/s against about 1 GB/s of un-genlocked 1080p60 V at 32 bpp [G].
+- [F] Presets near that cap: 1280×1024 at 50 Hz runs at 90 MHz, 1920×800 at 125 MHz, and 1280×1024 at 60 Hz at 108 MHz (`fw@bdfd8b0:os/zz_video_modes.c:L30-32`).
+- [G] So at −1 (about 95 MHz) the 50 Hz 1280×1024 mode survives and the 60 Hz one does not; at −2/−3, 1920×800 sits exactly at the 125 MHz cap and 1280×1024 at 60 Hz survives.
+- [G] A reduced-blanking 1080p50 (about 115.5 MHz) fits on sinks that accept it, but helps PAL only: NTSC maps to 1080p60 (`fw@8778ef3:os/video.c:L528-534`), and reduced-blanking 1080p60 (about 133-139 MHz) still exceeds the cap.
+- [G] HDMI from the GTPs instead frees the pins but leaves PCIe at ×1, which caps fetch at 720p (`topics/pcie-path.md`).
 
 ## Spare MIO on the module
 
