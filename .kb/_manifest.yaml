@@ -94,7 +94,7 @@ files:
   topics/network.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw]
+    cites: [fw, replica]
   topics/security.md:
     status: draft
     reviewed_on: 2026-10-10

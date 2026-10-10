@@ -64,7 +64,7 @@ Release policies [F]:
 | Chrome extended stable | Every fourth milestone is kept for six more weeks with backported security fixes; the channel itself ships to enterprises on Windows and Mac only, while security fixes relevant to any platform land on the branch for embedders (`chromium-release-cycle`) |
 | CEF stable branches | Broad security fixes for about two weeks after entering stable (`cef-branches`) |
 | CEF extended branches | Every fourth Chromium milestone branch; broad security fixes for about eight weeks in total (`cef-branches`) |
-| CEF long-term (LTC) branches | Every 12th Chromium milestone branch, starting with M160; only platform-agnostic security fixes, for about nine months in total (`cef-branches`) |
+| CEF long-term (LTC) branches | Every 12th Chromium milestone branch; only platform-agnostic security fixes, for about nine months in total (`cef-branches`) |
 | CEF updates | Branch updates are manual, so CEF builds can lag Chromium releases (`cef-branches`) |
 | Prebuilt CEF | Spotify's automated builder publishes CEF builds for supported branches (`cef-branches`), Linux x64 and ARM64 among its platforms (`cef-builds`) |
 | Debian 13 | Recommends Chromium for general browsing and keeps it current by rebuilding upstream releases (`debian-13-relnotes`, §5.2.3.1); once Debian 13 is oldstable, Chromium gets six months of security support there rather than the usual twelve (`debian-13-relnotes`, §5.2.3.1); `chromium` is in its security suite for amd64 and arm64 (`debian-chromium`); it packages no CEF (`debian-contents`) |

@@ -17,6 +17,8 @@ No decision records the browser chip's network attachment; everything here marke
 
 - [F] The firmware terminates Ethernet on the A9 and bridges raw frames to the Amiga; it has no TCP/IP stack (`sections/architecture.md`, "Control link (K8)").
 - [F] GEM0 is the only Ethernet controller the PS7 configuration enables, and it is the port bridged to the Amiga (`sections/architecture.md`, "Control link (K8)").
+- [F] On the Replica, the Ethernet jack J3 is a 0826-1G1T-23-F MagJack, and the PHY's four MDI pairs run straight to it from U12 pins 7, 9, 10, 12, 13, 15, 16 and 18 (`replica@96bdef0`, netlist).
+- [F] Each of J3's four centre taps goes to GND through its own 100 nF capacitor (C29-C32), and there is no bias rail (`replica@96bdef0`, netlist).
 - [F] Both supported PHYs, Micrel KSZ9031 and MotorComm, go through the same `micrel_auto_negotiate` routine (`fw@bdfd8b0:os/ethernet.c:L1007-1020`), which sets `link_speed = 100` under a FIXME, advertises 10 and 100 Mb/s and clears the 1000BASE-T advertisement (`:L1085-1121`).
 - [F] The firmware README describes the Ethernet as gigabit (`fw@bdfd8b0:README.md:L40, L658`), but the PHY set-up advertises only 10 and 100 Mb/s (`fw@bdfd8b0:os/ethernet.c:L1085-1121`).
 - [G] So the link runs at 10 or 100 Mb/s whatever the README says.
