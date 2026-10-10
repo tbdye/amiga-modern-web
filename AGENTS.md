@@ -18,7 +18,7 @@ The KB is self-standing: a statement stands on its primary-source citation.
 Where a KB statement and its cited source disagree, the source wins.
 If you find an error in the KB, verify it against the primary source as it stands now (HEAD, for a repository), then fix it in a pull request that carries the evidence.
 Open an issue instead only when the sources available to you cannot verify the error, or when the fix would change a decision rather than a fact.
-A `[G]` is an error only if its stated basis is wrong; a different estimate is not an error.
+A `[G]` is an error when its stated basis is wrong, its reasoning does not follow from the basis, or a primary source now settles the point; a different estimate alone is not an error.
 The KB is the canonical record of the project's settled technical knowledge: a pull request from anyone is reviewed like any other.
 Edit it here; there is no other copy to update first.
 

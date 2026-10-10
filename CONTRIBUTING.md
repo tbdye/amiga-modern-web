@@ -26,8 +26,8 @@ Later changes to a merged RFC come as new pull requests.
 `main` is protected, so nothing lands without a pull request.
 Pull requests are squash-merged, and the branch is deleted on merge.
 The squash commit uses the pull request title and description, so write both carefully, with the title in the style below.
-As repository owner I can bypass the protection: for repository housekeeping, and as follows.
-Until the repository has another reviewer with write access, I merge my own pull requests using the administrator bypass; the approval rule applies to everyone else.
+As repository owner I can bypass the protection for repository housekeeping.
+Until the repository has another reviewer with write access, I also use it to merge my own pull requests; the approval rule applies to everyone else.
 
 ## Writing documents
 
