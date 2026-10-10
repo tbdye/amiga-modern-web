@@ -111,7 +111,7 @@ Events that can leave the browser window black or not yet live; analysis in `sec
 | E15 | Amiga screen blanker or DPMS |
 | E16 | Window open, close or move; another same-mode screen in front |
 | E17 | Window resize or full-screen |
-| E18 | Browser on a native screen, on 2560×1440, or on a custom RTG mode |
+| E18 | Browser on a native screen (a buffered native path is proposed: `topics/native-screens.md`), on 2560×1440, or on a custom RTG mode |
 | E19 | SoC emits timing the EDID does not list (e.g. 59.94 Hz) |
 | E20 | ZZ9000 firmware watchdog reset |
 | E21 | ZZ9000 firmware or bitstream update |

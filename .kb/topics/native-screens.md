@@ -17,9 +17,9 @@ Status: draft
 
 | Native profile | Output | Timing owner |
 |---|---|---|
-| `filtered_60` (the default) | 720×480 for NTSC input, 800×600 for PAL | [F] The Zynq, free-running (`fw@bdfd8b0:README.md:L129, L320-321`) |
+| `filtered_60` (the default) | 720×480 for NTSC input, 800×600 for PAL (`fw@bdfd8b0:README.md:L129, L320-321`) | [F] The Zynq: the firmware enables source sync only under `centered_1080p_match` (`fw@bdfd8b0:os/video.c:L943-945`) |
 | `filtered_pal`, `filtered_pal_exact`, `filtered_ntsc_exact` | 720×576; the `_exact` variants select non-standard vertical timing presets (`fw@bdfd8b0:os/zz_config.c:L237-248`) | [F] The Zynq: the firmware enables source sync only under `centered_1080p_match` (`fw@bdfd8b0:os/video.c:L943-945`) |
-| `full_60`, `full_exact` | 1280×1024 | [F] The Zynq; `full_exact` uses fixed PAL/NTSC approximations (about 49.93/59.95 Hz) and does not phase-lock to the input (`fw@bdfd8b0:README.md:L321-322, L393-394`) |
+| `full_60`, `full_exact` | 1280×1024 | [F] The Zynq: source sync is enabled only under `centered_1080p_match` (`fw@bdfd8b0:os/video.c:L943-945`); `full_exact` uses fixed PAL/NTSC approximations (about 49.93/59.95 Hz) and does not phase-lock to the input (`fw@bdfd8b0:README.md:L321-322, L393-394`) |
 | `centered_1080p_60`, `centered_1080p_50` | 1920×1080, the native picture at (320,28) | [F] The Zynq, free-running, "not input-genlocked" (`fw@bdfd8b0:README.md:L341-349`) |
 | `centered_1080p_match` | 1920×1080 | [F] The Amiga: output frame length follows the captured source cadence (`fw@bdfd8b0:README.md:L395-397`; source sync enabled only under this profile, `os/video.c:L943-945`) |
 

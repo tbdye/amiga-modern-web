@@ -6,7 +6,7 @@ Status: draft
 ## Status
 
 No security decision exists.
-Every default, rule and placement below is a proposal (`[G]`, "Proposed"); the open questions are K71-K77 in `unknowns.md`.
+Every default, rule and placement below is a proposal (`[G]`, "Proposed"), and the threat model rests on an assumption (`[G]`, "Assumption"); the open questions are K71-K77 in `unknowns.md`.
 
 ## Threat model
 
@@ -64,10 +64,10 @@ Release policies [F]:
 | Chrome extended stable | Every fourth milestone is kept for six more weeks with backported security fixes; the channel itself ships to enterprises on Windows and Mac only, while security fixes relevant to any platform land on the branch for embedders (`chromium-release-cycle`) |
 | CEF stable branches | Broad security fixes for about two weeks after entering stable (`cef-branches`) |
 | CEF extended branches | Every fourth Chromium milestone branch; broad security fixes for about eight weeks in total (`cef-branches`) |
-| CEF long-term (LTC) branches | Every 12th Chromium milestone branch; only platform-agnostic security fixes, for about nine months in total (`cef-branches`) |
+| CEF long-term (LTC) branches | Every 12th Chromium milestone branch, starting with M160; only platform-agnostic security fixes, for about nine months in total (`cef-branches`) |
 | CEF updates | Branch updates are manual, so CEF builds can lag Chromium releases (`cef-branches`) |
 | Prebuilt CEF | Spotify's automated builder publishes CEF builds for supported branches (`cef-branches`), Linux x64 and ARM64 among its platforms (`cef-builds`) |
-| Debian 13 | Recommends Chromium for general browsing and keeps it current by rebuilding upstream releases (`debian-13-relnotes`, §5.2.3.1); `chromium` is in its security suite for amd64 and arm64 (`debian-chromium`); it packages no CEF (`debian-contents`) |
+| Debian 13 | Recommends Chromium for general browsing and keeps it current by rebuilding upstream releases (`debian-13-relnotes`, §5.2.3.1); once Debian 13 is oldstable, Chromium gets six months of security support there rather than the usual twelve (`debian-13-relnotes`, §5.2.3.1); `chromium` is in its security suite for amd64 and arm64 (`debian-chromium`); it packages no CEF (`debian-contents`) |
 
 - [G] A fix that lands upstream is public before it ships, so an image that is not updated is exposed to published, exploitable bugs soon after each release.
 - [G] Pinning the measured browser versions (`unknowns.md`, "Risks") and patching at Chrome's cadence pull in opposite directions; automated re-measurement in CI reconciles them.
@@ -77,6 +77,7 @@ Release policies [F]:
 | A. Distribution Chromium with unattended upgrades | The distribution | Free and automatic | No CEF, so no Amiga-native dialogs and menus (`topics/look-and-feel.md`); versions not measured |
 | B. A project image on a CEF long-term branch, with signed A/B updates from project CI | The project | Measured versions; in-branch updates can be automated | A rebase to each new long-term branch; platform-agnostic fixes only, so Linux-only bugs may stay open; builds lag Chrome; needs a maintainer and a signing key indefinitely; if the project stops, every chip stops receiving updates |
 | C. User build scripts | Each user | No infrastructure | Most users never rebuild |
+| B and C combined: published build scripts plus an optional prebuilt image | Users who build; the image's publisher for the rest | Anyone can rebuild, and the image spares most users the build | While the image is offered it carries B's costs; users who neither rebuild nor update stay exposed |
 
 - [G] Proposed default: B, with CI re-measuring each update, and the browser window warning when the image has gone a set period (proposed: four weeks) without one.
 - Which channel, and who builds the image, is open (K71).
@@ -89,7 +90,7 @@ Release policies [F]:
 | The same, with a firewall in the chip's image allowing only the internet, gateway and DNS | Small, but a root compromise can remove it |
 | The user's guest network or a VLAN | Small, and enforced outside the chip |
 | Through an on-card switch on the card's Ethernet port, untagged | The Amiga's segment: the chip reaches the Amiga's TCP/IP stack unless filtered |
-| Through the Amiga's TCP/IP stack | The Amiga becomes the chip's gateway (rejected, `topics/network.md`) |
+| Through the Amiga's TCP/IP stack | The Amiga becomes the chip's gateway (not under study, `topics/network.md`) |
 
 - [G] Proposed: the chip's own internet path, a LAN block in its image, and a guest network or VLAN recommended.
 - [G] Proposed: the control link kept physically separate from the internet path; over the card's Ethernet port only with port isolation or VLANs (`topics/network.md`).

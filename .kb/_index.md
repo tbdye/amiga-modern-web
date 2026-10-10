@@ -25,7 +25,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | Browsing on native (chipset) screens | `topics/native-screens.md` |
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
-| Security of the browser chip: threat model, patching, clipboard and download defaults | `topics/security.md` |
+| Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
 | Power | `sections/architecture.md` ("Blocks"), `decisions.md` (DEC-003), `unknowns.md` (K35-K38) |
 | Audio | `unknowns.md` (K7, K32-K34), `topics/cef-frame-path.md` ("Audio") |

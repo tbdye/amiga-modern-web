@@ -34,7 +34,7 @@ Proposed acceptance dimensions [G]:
 
 ## The proposed host
 
-- [G] Proposed: Chromium runs on the browser chip inside a Chromium Embedded Framework (CEF) host in windowed mode, because CEF exposes the dialog, file, download and context-menu handlers below; whether stock Chromium could serve instead is open (K50).
+- [G] Proposed (DEC-014 mechanism, open in K50): Chromium runs on the browser chip inside a Chromium Embedded Framework (CEF) host in windowed mode, because CEF exposes the dialog, file, download and context-menu handlers below and stock Chromium does not (`sections/browser-chip.md`, "The Chromium host"); whether CEF windowed mode keeps these handlers is open (K50).
 - [G] Proposed, if the CEF host is chosen: Alloy style, without Chromium's own UI, because Chrome style brings its own UI.
 - [F] Returning false from `OnBeforeDownload` cancels the download in Alloy style and starts Chromium's own download handling in Chrome style (`cef@a875f407e36b:include/cef_download_handler.h:L109-113`).
 - [F] With Alloy style, an unhandled permission prompt defaults to "ignore"; with Chrome style, Chromium shows its own prompt (`cef@a875f407e36b:include/cef_permission_handler.h:L118-121`).
@@ -51,7 +51,7 @@ Every row is a proposal [G], conditional on the CEF host where it names a CEF ca
 | Toolbar, URL bar, tabs, status bar | Drawn by the 68k client with native gadgets | — | Toolkit (K60) |
 | Menus | An Intuition menu strip | — | — |
 | Page scrollbars | Chromium draws them inside the page, so they look like Chromium's | — | Native-looking ones (K61) |
-| File open, save and upload | An ASL requester; accept filters become an ASL pattern; multi-select and drawers-only modes | `OnFileDialog` (`include/cef_dialog_handler.h:L97`) | — |
+| File open, save and upload | An ASL requester; accept filters become an ASL pattern; multi-select and drawers-only modes | `OnFileDialog` (`cef@a875f407e36b:include/cef_dialog_handler.h:L97`) | — |
 | Alert, confirm, prompt | An Amiga requester (EasyRequest); a prompt needs a string gadget | `OnJSDialog` (`include/cef_jsdialog_handler.h:L86`) | — |
 | Leave-page dialog | An Amiga requester | `OnBeforeUnloadDialog` (`include/cef_jsdialog_handler.h:L105`) | — |
 | Downloads | An ASL save requester picks an Amiga volume and drawer; the chip spools the file, which then crosses the control link to the Zynq, Zorro and 68k DOS ("Files over the control link") | `OnBeforeDownload` (`include/cef_download_handler.h:L120`) | Download default and drawer confinement (K73) |
@@ -87,7 +87,7 @@ Every row is a proposal [G], conditional on the CEF host where it names a CEF ca
 
 | Item | K |
 |---|---|
-| CEF host or stock Chromium | K50 |
+| Whether CEF windowed mode keeps the dialog, file, JS-dialog and context-menu handlers | K50 |
 | Toolbar toolkit | K60 |
 | Native-looking page scrollbars | K61 |
 | Local HTML files from Amiga volumes | K62 |

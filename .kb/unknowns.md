@@ -111,8 +111,8 @@ No security default is decided; every proposal behind these rows is in `topics/s
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K70 | Browser-chip network attachment and placement: own port (SBC) or one RJ45 through an on-card switch with VLAN tagging; guest network or VLAN; LAN block in the image | a | Packaging (DC-D) and the control link (K8); proposals in `topics/network.md` | DC-D |
-| K71 | Update channel for the browser-chip image and who builds it: distribution Chromium, a project image on a CEF long-term branch with signed A/B updates, or user build scripts; stale-image warning | a | A policy choice; the CEF and Chrome release policies (`topics/security.md`, "Patching") | design |
+| K70 | Browser-chip network attachment and placement: own port (SBC) or one RJ45 through an on-card switch with VLAN tagging; guest network or VLAN; LAN block in the image | a | Packaging (DC-D) and the control link (K8); proposals in `topics/network.md` | design |
+| K71 | Update channel for the browser-chip image and who builds it: distribution Chromium, a project image on a CEF long-term branch with signed A/B updates, user build scripts, or published build scripts plus an optional prebuilt image; stale-image warning | a | A policy choice; the CEF and Chrome release policies (`topics/security.md`, "Patching") | design |
 | K72 | Clipboard limits each way: formats, size caps, paste-only from the Amiga | a | A policy choice; proposed defaults in `topics/security.md` | design |
 | K73 | Downloads: on or off by default, per-download confirmation, confinement to one drawer, name sanitising and size cap, against DEC-014's native downloads | a | A policy choice | design |
 | K74 | Persistence on a compromised chip: read-only root, A/B images, wipeable profile | a | A design choice for the chip's image | design |

@@ -1,6 +1,6 @@
 # Network
 
-Scope: how the browser chip reaches the network, what the card's Ethernet does today, the options compared and rejected, and how the control link stays off the network.
+Scope: how the browser chip reaches the network, what the card's Ethernet does today, the options compared and which are not under study, and how the control link stays off the network.
 Status: draft
 
 ## Status
@@ -18,8 +18,8 @@ No decision records the browser chip's network attachment; everything here marke
 - [F] The firmware terminates Ethernet on the A9 and bridges raw frames to the Amiga; it has no TCP/IP stack (`sections/architecture.md`, "Control link (K8)").
 - [F] GEM0 is the only Ethernet controller the PS7 configuration enables, and it is the port bridged to the Amiga (`sections/architecture.md`, "Control link (K8)").
 - [F] Both supported PHYs, Micrel KSZ9031 and MotorComm, go through the same `micrel_auto_negotiate` routine (`fw@bdfd8b0:os/ethernet.c:L1007-1020`), which sets `link_speed = 100` under a FIXME, advertises 10 and 100 Mb/s and clears the 1000BASE-T advertisement (`:L1085-1121`).
-- [F] The firmware README describes the Ethernet as gigabit (`fw@bdfd8b0:README.md:L40, L658`); the link runs at 10/100 whatever the README says.
-- [F] On the Replica, the module's MDI pairs (U12 pins 7-18) run straight to RJ45 MagJack J3 (Bel 0826-1G1T-23-F), each of its four centre taps goes to GND through its own 100 nF capacitor (C29-C32), and no bias rail feeds them (`replica@96bdef0`, netlist; not public).
+- [F] The firmware README describes the Ethernet as gigabit (`fw@bdfd8b0:README.md:L40, L658`), but the PHY set-up advertises only 10 and 100 Mb/s (`fw@bdfd8b0:os/ethernet.c:L1085-1121`).
+- [G] So the link runs at 10 or 100 Mb/s whatever the README says.
 
 ## Options
 
@@ -29,10 +29,10 @@ Every assessment in this table is [G].
 |---|---|---|---|---|---|
 | A. The browser chip's own Ethernet or Wi-Fi | None | None | An internet-facing chip, like any PC; see `topics/security.md` | Two network ports; the chip uses DHCP | Proposed |
 | A′. As A, with one card and one RJ45 shared through an on-card switch chip | None | None | The Amiga and the chip share an upstream port, so a guest network needs VLAN tagging in the switch chip and a VLAN-capable router | One cable, two addresses | Proposed for one card |
-| B. Share the card's PHY with the A9 forwarding every frame | None if switched in hardware; otherwise every frame | None | Browser traffic passes through the Zynq | One cable | Rejected in software; switching in hardware is A′ |
-| C. Tunnel through the Amiga's TCP/IP stack (bsdsocket) | All web traffic | Very high on a 68k | The Amiga becomes the chip's gateway | One network configuration | Rejected |
+| B. Share the card's PHY with the A9 forwarding every frame | None if switched in hardware; otherwise every frame | None | Browser traffic passes through the Zynq | One cable | Not under study in software; switching in hardware is A′ |
+| C. Tunnel through the Amiga's TCP/IP stack (bsdsocket) | All web traffic | Very high on a 68k | The Amiga becomes the chip's gateway | One network configuration | Not under study |
 
-## Rejected
+## Not under study
 
 - [G] **Tunnelling through the Amiga's TCP/IP stack:** every byte of web traffic would cross the control link and the 68k, an Amiga stack moves a few MB/s at best [R: a throughput measurement of an Amiga stack would verify it], the Amiga becomes the chip's gateway, and browsing stops whenever the Amiga's stack is down.
 - [G] **The A9 forwarding the chip's traffic through the card's PHY:** the A9 would handle every frame, browser traffic would pass through the Zynq, and it works against SR16's rate limit on the control link (`topics/plane-safety.md`); a switch chip doing the same in hardware is option A′.
