@@ -50,8 +50,6 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 
 ## Web pages
 
-Prices and stock are as shown to an anonymous visitor on the access date.
-
 | ID | Page | Accessed |
 |---|---|---|
 | `myir-order` | `https://en.myir.cn/order.html` | 2026-10-08 |
@@ -60,11 +58,9 @@ Prices and stock are as shown to an anonymous visitor on the access date.
 | `myir-7020v1` | `https://www.myirtech.com/list.asp?id=525` | 2026-10-08 |
 | `amd-vivado-editions` | `https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado/vivado-buy.html` | 2026-10-08 |
 | `jlc-capabilities` | `https://jlcpcb.com/capabilities/pcb-assembly-capabilities` | 2026-10-08 |
-| `findchips` | `https://www.findchips.com/search/<MPN>` | 2026-10-08 |
 | `lcsc` | `https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=<C-number>` (JSON; the HTML search is client-rendered) | 2026-10-08 |
 | `pishop` | `https://www.pishop.us/product/raspberry-pi-compute-module-5-<n>gb-ram-lite-cm50<n>000/` | 2026-10-08 |
 | `dfrobot` | `https://www.dfrobot.com/product-2820.html`, `product-2901.html` | 2026-10-08 |
 | `arace` | `https://arace.tech/products/<handle>` (Radxa store; product JSON at `<handle>.js`): `radxa-cm5-radxa-cm5-lite`, `radxa-x4` | 2026-10-08 |
 
-Bot-blocked sources: Mouser, DigiKey, Octopart and Arrow refused automated access; their figures are not in this KB.
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.
