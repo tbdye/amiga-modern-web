@@ -83,6 +83,22 @@ files:
     status: draft
     reviewed_on: 2026-10-10
     cites: [cef]
+  topics/look-and-feel.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [cef]
+  topics/native-screens.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw]
+  topics/network.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw, replica]
+  topics/security.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [chromium-release-cycle, chromium-linux-sandbox, cef-branches, cef-builds, debian-13-relnotes, debian-chromium, debian-contents]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10

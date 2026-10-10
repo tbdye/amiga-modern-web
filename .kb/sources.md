@@ -65,5 +65,12 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `pishop` | `https://www.pishop.us/product/raspberry-pi-compute-module-5-<n>gb-ram-lite-<part>/`, `<part>` the lower-case CM5 part number (e.g. `cm5004000`) | 2026-10-10 |
 | `dfrobot` | `https://www.dfrobot.com/product-2820.html`, `product-2901.html` | 2026-10-10 |
 | `arace` | `https://arace.tech/products/<handle>` (Radxa store; product JSON at `<handle>.js`): `radxa-cm5-radxa-cm5-lite`, `radxa-x4` | 2026-10-08 |
+| `chromium-release-cycle` | `https://chromium.googlesource.com/chromium/src/+/HEAD/docs/process/release_cycle.md` (Chrome release cycle; "Extended Stable") | 2026-10-10 |
+| `chromium-linux-sandbox` | `https://chromium.googlesource.com/chromium/src/+/HEAD/sandbox/linux/README.md` ("Overall Design") | 2026-10-10 |
+| `cef-branches` | `https://chromiumembedded.github.io/cef/branches_and_building` (branch support channels and builds) | 2026-10-10 |
+| `cef-builds` | `https://cef-builds.spotifycdn.com/index.json` (platform keys) | 2026-10-10 |
+| `debian-13-relnotes` | `https://www.debian.org/releases/trixie/release-notes/issues.en.html` (§5.2.3.1, security status of web browsers) | 2026-10-10 |
+| `debian-chromium` | `https://qa.debian.org/madison.php?package=chromium&table=debian&text=on` (suites and architectures) | 2026-10-10 |
+| `debian-contents` | `https://packages.debian.org/search?searchon=contents&keywords=libcef.so&mode=filename&suite=trixie&arch=any` (only match: syslog-ng's unrelated `libcef.so`) | 2026-10-10 |
 
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.

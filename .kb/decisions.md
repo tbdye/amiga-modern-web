@@ -103,6 +103,7 @@ Decided: 2026-10-10.
 Rule: browsing has a native look and feel on Workbench: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
 Rule: the mechanisms that deliver it are not decided; any mechanism this KB describes is a proposal.
 Consequences: CEF's dialog, file, JS-dialog, context-menu and download handlers are candidate hooks (K50; `sections/browser-chip.md`, "The Chromium host").
+Consequences: the proposed mechanisms and the open items are listed in `topics/look-and-feel.md`.
 
 ## DEC-015: LCSC-sourced Zynq chips are acceptable for production
 

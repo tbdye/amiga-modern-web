@@ -44,6 +44,7 @@ flowchart LR
 - [F] Colour-key occlusion in the PIP "remains opportunistic" (`fw@8778ef3:docs/native-p96-pip.md:L139-140`).
 - [F] Primary scanout has AXI priority 15 over the overlay's 0 on the shared HP0 port (`fw@8778ef3:docs/native-p96-pip.md:L164`).
 - [G] The plane is RTG-only; over a scan-doubled native screen it would need composition after the doubler, deferred until RTG works.
+- [G] Showing the browser on native screens from the acquisition buffer is a proposed extension after that (`topics/native-screens.md`).
 
 ## AXI ports in use today
 
