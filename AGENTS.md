@@ -18,7 +18,9 @@ The KB is self-standing: a statement stands on its primary-source citation.
 Where a KB statement and its cited source disagree, the source wins.
 If you find an error in the KB, verify it against the primary source as it stands now (HEAD, for a repository), then fix it in a pull request that carries the evidence.
 Open an issue instead only when the sources available to you cannot verify the error, or when the fix would change a decision rather than a fact.
-The KB is the canonical record of the project's settled technical knowledge: a pull request from anyone is reviewed like any other, and no other copy is kept in step with it.
+A `[G]` is an error only if its stated basis is wrong; a different estimate is not an error.
+The KB is the canonical record of the project's settled technical knowledge: a pull request from anyone is reviewed like any other.
+Edit it here; there is no other copy to update first.
 
 ## Labels, status and citations
 
@@ -56,8 +58,8 @@ Re-pin a citation only when its fact changed at HEAD; a line shift alone is not 
 ## Rules for agents that write here
 
 - Never state a fact without a citation; an uncited claim is `[G]` or `[R]`, or it is left out.
-- Record durable facts: datasheet limits, pinouts, decisions and their status, architecture, which channels sell a part.
-- Record no prices, stock counts, availability snapshots or open/closed states of upstream issues; they change daily, and keeping them correct costs more than they are worth.
+- Record durable facts: datasheet limits, pinouts, decisions and their status, architecture, manufacturer lifecycle commitments, which channels sell a part.
+- Leave out any fact that changes faster than it is worth keeping correct, such as prices, stock counts, availability snapshots and open/closed states of upstream issues; they change often, and agents would spend their time correcting details that do not matter.
   When you find one, remove it rather than update it, and state the durable form instead, e.g. "MYIR sells the module direct" or "at CEF commit X, cefclient has Y".
 - One sentence per line; tables over prose (`CONTRIBUTING.md`).
 - IDs (DEC, K, DC, SR, E, f) are stable and never reused; retire, don't renumber.
@@ -67,8 +69,8 @@ Re-pin a citation only when its fact changed at HEAD; a line shift alone is not 
 - Don't paste datasheet or source-code text; cite the page or line range.
 - Don't characterise anyone's intent or plans; cite what they shipped.
 - No personal information about anyone: no names, handles or descriptions of individuals, except the maintainer's credit in `README.md` and owner segments of source URLs in `.kb/sources.md`.
-- Never publish who holds a tool licence or must be asked about something, to-dos, review rounds, revision numbers or approvals, calendar durations, build budgets or per-card cost estimates, local filesystem paths, IDs that resolve only outside this repository, or verbatim quotes from private sources.
-- Commits and pull requests follow `CONTRIBUTING.md`; a KB change goes on a `kb/<topic>` branch and opens as a draft pull request.
+- Never publish who holds a tool licence or must be asked about something, to-dos, review rounds, draft revision numbers or approvals, project schedules or estimates of how long work will take, build budgets or per-card cost estimates, local filesystem paths, project-tracking IDs that resolve only outside this repository, or verbatim quotes from private sources.
+- Commits and pull requests follow `CONTRIBUTING.md`; a KB change goes on a `kb/<topic>` branch (or a fork) and opens a pull request against `main`; open it as a draft only while it is incomplete.
 
 ## Size budgets
 

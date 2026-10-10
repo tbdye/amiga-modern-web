@@ -4,14 +4,14 @@ Scope: channels, ordering routes and part identifiers for the costliest parts, a
 Status: current
 
 This file records no prices, stock or availability (`AGENTS.md`, "Rules for agents that write here"); read them from the channel when you need them.
+[F] Part numbers, LCSC C-numbers and channels are as the source in each row lists them (`sources.md`, "Web pages").
 
 ## Channels
 
 | Channel | Meaning |
 |---|---|
-| Auth | An AMD-authorized distributor |
 | Broker | An unauthorized reseller |
-| LCSC | LCSC/JLCPCB parts; not an AMD-authorized channel [R] |
+| LCSC | LCSC/JLCPCB parts; not an AMD-authorized channel [R]; AMD's authorized-distributor list would verify it |
 
 [G] Broker and LCSC parts have no documented chain of custody to the manufacturer; prices far below the authorized list raise relabel or remark risk.
 

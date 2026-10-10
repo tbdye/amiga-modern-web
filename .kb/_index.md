@@ -35,7 +35,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 
 | File | Holds |
 |---|---|
-| `_manifest.yaml` | Per-file status, review date and cited sources; verified pins |
+| `_manifest.yaml` | Per-file status, `reviewed_on` (date of the last reviewed change to the file) and cited sources; verified pins |
 | `decisions.md` | DEC entries: rule, why, consequences, status |
 | `unknowns.md` | K register, open design decisions (DC), freeze criteria, test methods, risks |
 | `glossary.md` | Labels, terms, option codes, event codes E1-E22 |
