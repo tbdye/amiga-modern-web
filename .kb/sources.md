@@ -16,6 +16,7 @@ Re-verify against HEAD before relying on a pinned line (procedure in `_index.md`
 | `linux` | Linux kernel (`torvalds/linux`) | Public | `https://github.com/torvalds/linux/blob/<commit>/<path>#L<a>-L<b>` | `6c377d19d4a5` (master) |
 | `cef` | Chromium Embedded Framework (`chromiumembedded/cef`) | Public | `https://github.com/chromiumembedded/cef/blob/<commit>/<path>#L<a>-L<b>` | `a875f407e36b` (master) |
 | `replica` | ZZ9000 Replica board (KiCad schematic, netlist, datasheets) | **Not public** | None | `96bdef0` |
+| `addon` | ZZ9000 VGA-USB add-on (KiCad schematic, netlist) | **Not public** | None | `40bca90` |
 
 **`fw` path abbreviations** (expand before building a link):
 
@@ -46,7 +47,14 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `myir-7015-pinmap` | MYIR MYC-C7Z015 pin map V1.0 (2023-03-09) | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z015_PINMAP.pdf` | `1b6127569b0026f91b61d5fc0ed1e0f47435318ffbb25c962f554b3e869a31d4` | Matched live 2026-10-08 |
 | `myir-7020-pinout` | MYIR MYC-C7Z010/20 pin-out | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z010_20_PinOuts.pdf` | `4f859609c63c341d09b974fc1d214123671a4fc5e79fa160aeb442e21565b74a` | Matched live 2026-10-08; identical to the copy in `replica` |
 | `ug470`, `ug472`, `ug585` | AMD 7-series configuration, clocking, and Zynq-7000 TRM | `docs.amd.com` | Not fetched | Cited only by `[R]` claims |
-| `zorro3` | Zorro III bus specification | — | Not fetched | Cited only by `[R]` claims |
+| `zorro3` | Commodore, The Zorro III Bus Specification, revision 1.10 (1991-03-20) | No vendor URL; copies circulate | `ea68997c74a992c6e88e5e802f8162a2ca0b708e7ce57418299f5200a3a91c13` | §2.3.1 p24, §4.1 p44, §6.2 p63 (PDF pages) read; other citations to it are `[R]` |
+| `a4000-sm` | Commodore A4000 service manual, text-layer scan | No vendor URL; copies circulate | `009e3d5ab3fc9c277705cfb91e33ff9e9920d3c602fc3bd5d91ed622a861b86a` | Power-supply requirements p52 (functional specification 6-14); the text layer misreads "+5", read the rendered page |
+| `atx12v` | Intel ATX12V Power Supply Design Guide, version 2.2 (March 2005) | No stable vendor URL; copies circulate | `9e32967d69623ca72f9553c5d613f0260c1746d01e3687d87ffc34a2b32e8cb8` | §4.5.5 p39 |
+| `adau1701` | Analog Devices ADAU1701 SigmaDSP, Rev. C | `https://www.analog.com/media/en/technical-documentation/data-sheets/ADAU1701.pdf` | `417167d2fd3dd07771cf9de606b9017e81b2802bd57ed587dd0a09368a60dc33` | Copy read from `replica@96bdef0:Docs/datasheets/ADAU1701JSTZ-RL.pdf`; pin table p11, Table 64 p46 |
+| `lvc06a` | TI SN74LVC06A, SCAS596N | `https://www.ti.com/lit/ds/symlink/sn74lvc06a.pdf` | `70171e649d8706f0a1f6956767d366adb6643273a0015ce5d53fbde8abdd7713` | Copy read from `replica@96bdef0:Docs/datasheets/SN74LVC06APWR.pdf`; recommended operating conditions p3 |
+| `jk-nsmd350l` | JK-SMD1206 (L) series PPTC datasheet (JK-nSMD350L-12) | Vendor PDF | `4cb4a96dd0832e6c2cdcfd9dc67f6a72061c92e72f9ac4f44404f12b6e805292` | Copy read from `replica@96bdef0:Docs/datasheets/JK-nSMD350L-12.pdf`; thermal derating chart pp3-4 |
+| `lutefuse-1206l` | Lutefuse 1206L series PPTC datasheet (1206L250/16AR), revision 2020 | Vendor PDF | `9b5eae932a00b0947da930f441730842a8b315f1e7d76675c3e9453d2bd4e1c3` | Copy read from `replica@96bdef0:Docs/datasheets/1206L250_16AR.pdf`; ratings table p4 |
+| `te-171826` | TE Connectivity 171826-4 product data | TE website, by part number | `01115b5280220528241758b932d5814e0ffd79e55df8e4c85f0684290f68edec` | Copy read from `replica@96bdef0:Docs/datasheets/171826-4_product-data.pdf`; contact rating p2 |
 
 ## Web pages
 
@@ -74,3 +82,33 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `debian-contents` | `https://packages.debian.org/search?searchon=contents&keywords=libcef.so&mode=filename&suite=trixie&arch=any` (only match: syslog-ng's unrelated `libcef.so`) | 2026-10-10 |
 
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.
+
+## Prior-art sources
+
+Cited by `topics/prior-art.md`. GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `browservice` | Browservice | `github.com/ttalvitie/browservice` | `02601b0` |
+| `wrp` | Web Rendering Proxy | `github.com/tenox7/wrp` | `549d324` |
+| `carbonyl` | Carbonyl | `github.com/fathyb/carbonyl` (releases at `/releases`) | `ab80a27`; releases read 2026-10-10 |
+| `a314` | A314 | `github.com/niklasekstrom/a314` | `7e19215` |
+| `pistorm` | PiStorm | `github.com/captain-amygdala/pistorm` | `88937a6` |
+| `emu68` | Emu68 | `github.com/michalsc/Emu68` | `0ba3a89` |
+| `aweb3` | AWeb 3 | `github.com/amigazen/aweb3` | `116516f` |
+| `voyager` | Voyager | `github.com/amigazen/Voyager` | `dd15a86` |
+| `netsurf` | NetSurf source | `github.com/netsurf-browser/netsurf` | `39da3c3` |
+| `mistex` | MiSTeX hardware | `github.com/MiSTeX-devel/MiSTeX-hardware` | `ccf697c` |
+| `skia` | Skia | `github.com/google/skia` | `3136abe` |
+| `cdp` | Chrome DevTools Protocol | `github.com/ChromeDevTools/devtools-protocol` | `c3ed21b` |
+| `chromium-docs` | Chromium design docs `how_cc_works.md`, `ozone_overview.md` | `https://chromium.googlesource.com/chromium/src/+/main/docs/<file>` | `main`, accessed 2026-10-10; line numbers as of that date |
+| `netsurf-web` | NetSurf about, documentation/info and downloads/amiga pages | `https://www.netsurf-browser.org/<page>/` | 2026-10-10 |
+| `ibrowse` | IBrowse home page | `https://www.ibrowse-dev.net/` | 2026-10-10 |
+| `morphos-news` | MorphOS team news | `https://www.morphos-team.net/news` | 2026-10-10 |
+| `opera-mini-js` | Opera Mini and JavaScript | `https://dev.opera.com/articles/opera-mini-and-javascript/` | 2026-10-10 |
+| `spice` | SPICE for newbies | `https://www.spice-space.org/spice-for-newbies.html` | 2026-10-10 |
+| `ms-rdpegdi` | [MS-RDPEGDI] RDP GDI Acceleration Extensions, revision 34.0 | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
+| `ms-rdperp` | [MS-RDPERP] RDP Remote Programs Virtual Channel Extension | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
+| `citrix-bcr` | Citrix browser content redirection | `https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/multimedia/browser-content-redirection.html` | 2026-10-10 |
+| `mnt-modularity` | MNT Reform modularity | `https://mntre.com/modularity.html` | 2026-10-10 |
+| `rpi5-launch` | Raspberry Pi 5 launch post | `https://www.raspberrypi.com/news/introducing-raspberry-pi-5/` | 2026-10-10 |

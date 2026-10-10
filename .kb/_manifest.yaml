@@ -4,6 +4,7 @@ pins:                       # newest pin each source was verified against
   fw:      { commit: bdfd8b0, verified_on: 2026-10-10 }
   drivers: { commit: ad9606b, verified_on: 2026-10-10 }
   replica: { commit: 96bdef0, verified_on: 2026-10-10 }   # not public
+  addon:   { commit: 40bca90, verified_on: 2026-10-10 }   # not public
   linux:   { commit: 6c377d19d4a5, verified_on: 2026-10-08 }
   cef:     { commit: a875f407e36b, verified_on: 2026-10-10 }
 files:
@@ -99,6 +100,22 @@ files:
     status: draft
     reviewed_on: 2026-10-10
     cites: [chromium-release-cycle, chromium-linux-sandbox, cef-branches, cef-builds, debian-13-relnotes, debian-chromium, debian-contents]
+  topics/audio-path.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw, replica, adau1701, myir-7020-pinout]
+  topics/power-domains.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [replica, addon, zorro3, jk-nsmd350l, lutefuse-1206l, te-171826, atx12v, a4000-sm, cm5-ds, myir-7015]
+  topics/replica-interconnect.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [fw, replica, addon, sii9022a, lvc06a, lvc8t245, myir-7020-pinout, ug470, ug585]
+  topics/prior-art.md:
+    status: draft
+    reviewed_on: 2026-10-10
+    cites: [browservice, wrp, carbonyl, a314, pistorm, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10

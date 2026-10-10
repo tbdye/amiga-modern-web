@@ -22,8 +22,8 @@ flowchart LR
 | Control link | Input, commands, clipboard, window geometry, files and a heartbeat between the 68k client, the Zynq and the SoC; audio too, proposed (K7) | [G]; transport open (K8) |
 | 68k client | The Workbench window, menus, ASL, clipboard, keymap, ARexx; tracks the window rectangle and occluders | [G] design |
 | Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] proposed (DEC-014 mechanism, K50) |
-| Audio | Browser audio joins the card's existing audio fabric | One line here; depth deferred |
-| Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | One line here; depth deferred |
+| Audio | Browser audio joins the card's existing audio fabric | [G]; routes in `topics/audio-path.md` |
+| Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | Budgets in `topics/power-domains.md` |
 
 - [F] A CM5 alone may draw up to 5 A at 5 V (`cm5-ds` p6), against 2.0 A at +5 V per Zorro III slot [R `zorro3`]; so the slot cannot feed the SoC [G], and the SoC's own feed must not back-feed the receiver or the Zynq side (K35).
 

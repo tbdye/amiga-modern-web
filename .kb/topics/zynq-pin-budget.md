@@ -6,6 +6,7 @@ Status: draft
 Connector pins use the 7020 numbering (J1/J2; `sections/gotchas.md`).
 Pin-map data: `evidence/z15.json` (MYC-C7Z015), `evidence/z20.json` (MYC-C7Z010/20), reproducible per `evidence/README.md`.
 Replica facts come from its netlist at `replica@96bdef0` (not public; not reproducible outside the project).
+Where each Replica pin goes (translators, headers, PS MIO): `topics/replica-interconnect.md`.
 
 ## The modules on the Replica footprint
 
