@@ -80,7 +80,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | The plane shows whatever the SoC scans out: its desktop, or black [G] |
 | E9 Chromium modeset, E11 SoC mode/EDID, E12 cable replug, E13 SoC DPMS, E14 tracker watchdog | No | ≤ 9.4 s, not exempt | f4 removes E9, E11, E13 |
 | E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | Then the placeholder shows and the SoC is reset [G]; the timeout is open (K55) |
-| E18 unsupported mode, E19 off-EDID timing | — | Never live; native-screen path proposed (`topics/native-screens.md`) | Placeholder shown |
+| E18 unsupported mode, E19 off-EDID timing | — | Never live | Placeholder shown |
 
 - [D] E20 and E21 are neither ordinary browser actions nor exemptions named in DEC-013.
 - [F] A timing change powers TMDS down, so the monitor retrains (`fw@8778ef3:os/hdmi.c:L179-182`).

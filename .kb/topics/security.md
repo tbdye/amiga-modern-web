@@ -6,7 +6,7 @@ Status: draft
 ## Status
 
 No security decision exists.
-Every default, rule and placement below is a proposal (`[G]`, "Proposed"), and the threat model rests on an assumption (`[G]`, "Assumption"); the open questions are K71-K77 in `unknowns.md`.
+Every default, rule and placement below is a proposal (`[G]`, "Proposed"), and the threat model rests on an assumption (`[G]`, "Assumption"); the open questions are K69-K75 in `unknowns.md`.
 
 ## Threat model
 
@@ -17,20 +17,20 @@ Every default, rule and placement below is a proposal (`[G]`, "Proposed"), and t
 | From a compromised chip, it reaches | Impact [G] | Bounded by design | Not yet designed |
 |---|---|---|---|
 | Amiga or Zynq memory | Total | [G] No path: the chip has no bus access | — |
-| The picture (HDMI) | Garbage or fake UI inside the browser window | [G] SR13-SR15 bound the input writer and timing; the A9 and the 68k, not the chip, enable and place the plane (SR2) | [G] Receiver DDC serving only the fixed EDID; CEC off (K77) |
-| The ARM firmware, over the control link | Firmware takeover is close to Amiga takeover, because the firmware serves RTG and the Zorro interface | [G] SR16 rate-limits the link (`topics/plane-safety.md`) | Message format and size caps (K76); over Ethernet SR16's real bound is the GEM receive ring [R] |
-| The 68k client, over the control link | A client bug takes the whole Amiga, because AmigaOS has no memory protection [R: the Exec documentation would verify it] | — | Parser rules (K76) |
-| Clipboard into the Amiga | Malformed data reaches every clipboard reader | — | Limits (K72) |
-| Downloads onto Amiga volumes | Overwritten system drawers (`S:`, `LIBS:`); hostile `.info` icons | — | Default and confinement (K73) |
-| From the Amiga into the chip | Keystrokes typed in other windows; Amiga clipboard contents leaked to pages | — | Input only while the browser window has focus (K75) |
-| The home LAN | Scans of, or attacks on, the router, NAS and printers | — | Placement (K70; "Network placement") |
-| The chip's own storage | Persistence across reboots | — | K74 |
+| The picture (HDMI) | Garbage or fake UI inside the browser window | [G] SR13-SR15 bound the input writer and timing; the A9 and the 68k, not the chip, enable and place the plane (SR2) | [G] Receiver DDC serving only the fixed EDID; CEC off (K75) |
+| The ARM firmware, over the control link | Firmware takeover is close to Amiga takeover, because the firmware serves RTG and the Zorro interface | [G] SR16 rate-limits the link (`topics/plane-safety.md`) | Message format and size caps (K74); over Ethernet SR16's real bound is the GEM receive ring [R] |
+| The 68k client, over the control link | A client bug takes the whole Amiga, because AmigaOS has no memory protection [R: the Exec documentation would verify it] | — | Parser rules (K74) |
+| Clipboard into the Amiga | Malformed data reaches every clipboard reader | — | Limits (K70) |
+| Downloads onto Amiga volumes | Overwritten system drawers (`S:`, `LIBS:`); hostile `.info` icons | — | Default and confinement (K71) |
+| From the Amiga into the chip | Keystrokes typed in other windows; Amiga clipboard contents leaked to pages | — | Input only while the browser window has focus (K73) |
+| The home LAN | Scans of, or attacks on, the router, NAS and printers | — | Placement (K68; "Network placement") |
+| The chip's own storage | Persistence across reboots | — | K72 |
 
 ## Proposed rules on the chip
 
 - [G] Proposed: Chromium's sandbox always on (never `--no-sandbox`).
 - [G] Proposed: the browser never runs as root.
-- [G] Proposed: a read-only root file system, A/B images and a wipeable profile, against persistence (K74).
+- [G] Proposed: a read-only root file system, A/B images and a wipeable profile, against persistence (K72).
 
 ## Proposed parser rules
 
@@ -52,7 +52,7 @@ Every default, rule and placement below is a proposal (`[G]`, "Proposed"), and t
 | Downloads | Off by default; when on, each one confirmed, saved to one fixed drawer under a sanitised name (no `:`, `/` or `.info`), never auto-extracted or run | A user-set size cap |
 | Uploads | The user picks each file in an ASL requester | — |
 
-[D] DEC-014 requires downloads to go natively to the Amiga's file system; how far the proposed defaults above restrict that, including confinement to one drawer, is open (K73).
+[D] DEC-014 requires downloads to go natively to the Amiga's file system; how far the proposed defaults above restrict that, including confinement to one drawer, is open (K71).
 
 ## Patching
 
@@ -80,7 +80,7 @@ Release policies [F]:
 | B and C combined: published build scripts plus an optional prebuilt image | Users who build; the image's publisher for the rest | Anyone can rebuild, and the image spares most users the build | While the image is offered it carries B's costs; users who neither rebuild nor update stay exposed |
 
 - [G] Proposed default: B, with CI re-measuring each update, and the browser window warning when the image has gone a set period (proposed: four weeks) without one.
-- Which channel, and who builds the image, is open (K71).
+- Which channel, and who builds the image, is open (K69).
 
 ## Network placement
 

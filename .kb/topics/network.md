@@ -10,7 +10,7 @@ No decision records the browser chip's network attachment; everything here marke
 | Question | Standing |
 |---|---|
 | Does browser traffic go through the Amiga's TCP/IP stack? | [G] Proposed: no; the browser chip has its own network connection and address, and the Amiga keeps using the card's Ethernet as it does today |
-| One socket or two? | [G] Proposed: with one card, one RJ45 shared through an on-card switch chip; with an SBC, the SBC's own Ethernet or Wi-Fi; open with packaging (K70, DC-D) |
+| One socket or two? | [G] Proposed: with one card, one RJ45 shared through an on-card switch chip; with an SBC, the SBC's own Ethernet or Wi-Fi; open with packaging (K68, DC-D) |
 | Does the control link carry browser traffic? | [G] Proposed: never; it carries control, input, clipboard and files, and is not reachable from the network |
 
 ## The card's Ethernet today
@@ -49,7 +49,7 @@ Every assessment in this table is [G].
 - [G] Proposed: the control link carries control, input, clipboard, window geometry, files and a heartbeat, never the browser's network traffic, and is not reachable from the network.
 - [G] Over the card's Ethernet port that needs an isolated switch port plus a VLAN, or a second MAC, because GEM0 is the Amiga's own port; otherwise the link shares the Amiga's LAN segment (`sections/architecture.md`, "Control link (K8)").
 - [R] On Ethernet, SR16's real bound is the GEM receive ring times the line rate, not A9 rate limiting (`topics/plane-safety.md`, "Evidence behind the rules").
-- [G] A point-to-point Ethernet control link on an existing board's RJ45 needs no hardware change, but it takes the port the Amiga otherwise uses for its LAN, and it needs a receive classifier (by EtherType or UDP port) in the firmware, because the firmware bridges raw frames and has no TCP/IP stack.
+- [G] A point-to-point Ethernet control link on an existing board's RJ45 needs no hardware change, but it takes the port the Amiga otherwise uses for its LAN, and it needs a receive classifier (by EtherType or UDP port) in the firmware, because the firmware bridges raw frames and has no TCP/IP stack (K54).
 - The physical layer of the control link is open (K8).
 
 ## Placement

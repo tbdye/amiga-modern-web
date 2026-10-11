@@ -9,7 +9,7 @@ Status: draft
 |---|---|
 | Frame tracking (the ±1-line tracker) runs only on RTG screens | [G] Follows from [D] DEC-005: tracking in a native mode would make native output take its timing from the browser chip; SR15 encodes it (`topics/plane-safety.md`) |
 | The browser shows only on RTG screens at first | [G] A proposed design choice, deferred until RTG works; no decision records it |
-| Browsing on native screens from the acquisition buffer | [G] Proposed extension, built only after RTG browsing works and only if a DDR test passes with native capture, audio and Ethernet running (K69) |
+| Browsing on native screens from the acquisition buffer | [G] Proposed extension, built only after RTG browsing works and only if a DDR test passes with native capture, audio and Ethernet running (K67) |
 
 [G] So on an NTSC high-res interlaced Workbench the browser does not show at first, but no decision rules it out.
 
@@ -58,7 +58,7 @@ Status: draft
 | Work | Basis |
 |---|---|
 | Native gating in the PL and firmware, including a plane present path that runs while capture owns the scanout | [F] none exists today (`fw@bdfd8b0:os/overlay.h:L94-97`) |
-| Screen-to-output mapping from the live capture crop, row-class scaling (×1, ×2, ×4), interlace weave and centring offset | [F] the scaling and centring are per profile (`fw@bdfd8b0:README.md:L322-336`); [G] calibration is open: maths from the ViewPort and DisplayID, or the A9 finding corner markers in the captured buffer (K69) |
+| Screen-to-output mapping from the live capture crop, row-class scaling (×1, ×2, ×4), interlace weave and centring offset | [F] the scaling and centring are per profile (`fw@bdfd8b0:README.md:L322-336`); [G] calibration is open: maths from the ViewPort and DisplayID, or the A9 finding corner markers in the captured buffer (K67) |
 | Screen drags, autoscroll and occlusion tracked per vblank | [G] menus, requesters, other windows and screen-title drags punch holes in the plane; the 68k derives the visible region from the window's ClipRects, and the A9 moves the plane on the output frame that shows the matching captured frame, so a screen drag does not tear the plane from its screen |
 | Pointer | [G] The Amiga pointer is a chipset sprite inside the captured picture, so a plane over the window hides it. A lo-res sprite pixel at 2× output scale spans 4 output pixels, so a 16-pixel pointer is 64 output pixels wide. [F] The formatter's own sprite is 32×48 (`fw@bdfd8b0:video_formatter.v:L239-242`), composites above the overlay (`:L1137-1140`), and is hidden whenever the firmware sets up native capture (`os/video.c:L741-756`). [G] So the formatter sprite needs re-enabling with pixel doubling or a larger buffer |
 | 68k side | [G] The client reports the pointer position while over the window, sends the shape from Chromium, and swaps the Amiga pointer out and back at the window edge; the A9 maps the position to output coordinates. This adds a 68k → Zorro → A9 hop to pointer latency over the page |

@@ -82,7 +82,7 @@ Status: current
 | Prefix | Where defined |
 |---|---|
 | DEC-n | `decisions.md` |
-| K1-K57 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
+| K1-K75 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
 | DC-A to DC-F | `unknowns.md`, design decisions; DC-E and DC-F are closed |
 | R-TRIM, R-SoC, R-PLANE, R-PCIe, R-DDR, R-RX | `unknowns.md`, test methods |
 | SR1-SR16 | `topics/plane-safety.md` |

@@ -26,7 +26,7 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM** (`topics/monitor-trim.md`), then R-PLANE | DC-A |
 | K55 | Recovering a hung SoC | a | Open, timeout included: after the heartbeat watchdog (SR9) turns the plane off, the Zynq or a supervisor chip resets the SoC [G]; an unmodified SBC (P2) needs a wired reset [G] | design |
 | K57 | Raster alignment on entering RTG from native | a | Open: aligning the RTG raster to the receiver at that switch would cut the E2, E3 and E6 waits to about a frame, but needs an SR15 rewrite (`sections/display-coupling.md`) [G] | design |
-| K69 | Browsing on native screens from the acquisition buffer (proposed, after RTG works): DDR headroom with the permanent plane, native capture, audio and Ethernet; a plane present path while capture owns the scanout; screen-to-output calibration (ViewPort maths or corner markers) | a, then **d** | `topics/native-screens.md`; the native DDR test there, on an existing ZZ9000 | design |
+| K67 | Browsing on native screens from the acquisition buffer (proposed, after RTG works): DDR headroom with the permanent plane, native capture, audio and Ethernet; a plane present path while capture owns the scanout; screen-to-output calibration (ViewPort maths or corner markers) | a, then **d** | `topics/native-screens.md`; the native DDR test there, on an existing ZZ9000 | design |
 
 ## PCIe path (live only while DC-A keeps PCIe)
 
@@ -58,15 +58,15 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K60 | Toolkit for the toolbar, URL bar, tabs and status bar: GadTools, ReAction or MUI | a | A design choice on the 68k client | design |
-| K61 | Native-looking page scrollbars: injected page CSS, or a 68k prop gadget driven by scroll state | a | A design choice; Chromium draws page scrollbars itself | design |
-| K62 | Opening local HTML files from Amiga volumes, which the chip cannot see | a | A custom scheme handler on the chip fetching over the control link [G] | design |
-| K63 | Dragging a Workbench icon onto the page: CEF's drag-target calls are windowless-only | a + b | X11-level drag injection on the chip [G] | design |
-| K64 | Image clipboard (IFF ILBM to and from PNG) | a | A design choice; text clipboard is proposed | design |
-| K65 | Right-Amiga shortcut map, and IME for CJK input: CEF's IME calls are windowless-only | a + b | An X11 input method on the chip [G]; the shortcut table | design |
-| K66 | Right-mouse-button policy: it is the Amiga menu button, so page context menus and the Intuition menu strip compete | a | A design choice | design |
-| K67 | Printer output: the proposed path ends at a PDF on an Amiga volume | a | A design choice | design |
-| K68 | Browser window and tab count, and how the plane covers several windows | a | A design choice (the plane is the union of browser windows minus occluders [G]) | design |
+| K58 | Toolkit for the toolbar, URL bar, tabs and status bar: GadTools, ReAction or MUI | a | A design choice on the 68k client | design |
+| K59 | Native-looking page scrollbars: injected page CSS, or a 68k prop gadget driven by scroll state | a | A design choice; Chromium draws page scrollbars itself | design |
+| K60 | Opening local HTML files from Amiga volumes, which the chip cannot see | a | A custom scheme handler on the chip fetching over the control link [G] | design |
+| K61 | Dragging a Workbench icon onto the page: CEF's drag-target calls are windowless-only | a + b | X11-level drag injection on the chip [G] | design |
+| K62 | Image clipboard (IFF ILBM to and from PNG) | a | A design choice; text clipboard is proposed | design |
+| K63 | Right-Amiga shortcut map, and IME for CJK input: CEF's IME calls are windowless-only | a + b | An X11 input method on the chip [G]; the shortcut table | design |
+| K64 | Right-mouse-button policy: it is the Amiga menu button, so page context menus and the Intuition menu strip compete | a | A design choice | design |
+| K65 | Printer output: the proposed path ends at a PDF on an Amiga volume | a | A design choice | design |
+| K66 | Browser window and tab count, and how the plane covers several windows | a | A design choice (the plane is the union of browser windows minus occluders [G]) | design |
 
 ## FPGA side
 
@@ -111,14 +111,14 @@ No security default is decided; every proposal behind these rows is in `topics/s
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K70 | Browser-chip network attachment and placement: own port (SBC) or one RJ45 through an on-card switch with VLAN tagging; guest network or VLAN; LAN block in the image | a | Packaging (DC-D) and the control link (K8); proposals in `topics/network.md` | design |
-| K71 | Update channel for the browser-chip image and who builds it: distribution Chromium, a project image on a CEF long-term branch with signed A/B updates, user build scripts, or published build scripts plus an optional prebuilt image; stale-image warning | a | A policy choice; the CEF and Chrome release policies (`topics/security.md`, "Patching") | design |
-| K72 | Clipboard limits each way: formats, size caps, paste-only from the Amiga | a | A policy choice; proposed defaults in `topics/security.md` | design |
-| K73 | Downloads: on or off by default, per-download confirmation, confinement to one drawer, name sanitising and size cap, against DEC-014's native downloads | a | A policy choice | design |
-| K74 | Persistence on a compromised chip: read-only root, A/B images, wipeable profile | a | A design choice for the chip's image | design |
-| K75 | Keystroke capture: the chip receives input only while the browser window has focus | a | A 68k client design rule [G] | design |
-| K76 | Control-link message format, size caps and parser rules on the ARM and the 68k, with fuzzing | a + b | A protocol design; proposed rules in `topics/security.md` | design |
-| K77 | HDMI side channels: the receiver's DDC serving only the fixed EDID, and CEC off | a | Receiver configuration [G] | design |
+| K68 | Browser-chip network attachment and placement: own port (SBC) or one RJ45 through an on-card switch with VLAN tagging; guest network or VLAN; LAN block in the image | a | Packaging (DC-D) and the control link (K8); proposals in `topics/network.md` | design |
+| K69 | Update channel for the browser-chip image and who builds it: distribution Chromium, a project image on a CEF long-term branch with signed A/B updates, user build scripts, or published build scripts plus an optional prebuilt image; stale-image warning | a | A policy choice; the CEF and Chrome release policies (`topics/security.md`, "Patching") | design |
+| K70 | Clipboard limits each way: formats, size caps, paste-only from the Amiga | a | A policy choice; proposed defaults in `topics/security.md` | design |
+| K71 | Downloads: on or off by default, per-download confirmation, confinement to one drawer, name sanitising and size cap, against DEC-014's native downloads | a | A policy choice | design |
+| K72 | Persistence on a compromised chip: read-only root, A/B images, wipeable profile | a | A design choice for the chip's image | design |
+| K73 | Keystroke capture: the chip receives input only while the browser window has focus | a | A 68k client design rule [G] | design |
+| K74 | Control-link message format, size caps and parser rules on the ARM and the 68k, with fuzzing | a + b | A protocol design; proposed rules in `topics/security.md` | design |
+| K75 | HDMI side channels: the receiver's DDC serving only the fixed EDID, and CEC off | a | Receiver configuration [G] | design |
 
 ## Design decisions still open
 
