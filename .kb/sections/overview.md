@@ -18,7 +18,8 @@ Status: current
 ## The design under study
 
 [G] A Zynq-7000 does all a ZZ9000 does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
-[D] DEC-002, DEC-010: a separate browser chip (RK3588, x86 or Raspberry Pi CM5 class) runs Chromium.
+[D] DEC-002: a separate browser chip runs Chromium.
+[D] DEC-010: RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
 [D] DEC-008: its rendered frames reach the Zynq uncompressed.
 [G] The Zynq composites them into the browser's Workbench window or across the full screen.
 

@@ -30,7 +30,7 @@ Status: draft
 
 - [G] BRAM is the likeliest resource to bind on a Z-7015: 95 BRAM36 against the Z-7020's 140, 32% fewer.
 - [F] The firmware repository holds no utilisation report (`fw@bdfd8b0`, no `report_utilization` output or `.rpt` file in the tree), so the shipping design's use is unmeasured here (K20).
-- [G] A fit build passes with ≤ 85% of BRAM36 (≤ 80 of 95 on a Z-7015, PCIe BAR windows included) and ≤ 85% of LUTs; WNS ≥ 0 and WHS ≥ 0 on every clock, BCLK included; no Place 30-574-class placement warnings beyond those the build's per-net `CLOCK_DEDICATED_ROUTE FALSE` overrides already accept (`sections/firmware-and-rtl.md`, "Capture clock"); and step 0 of the native-video regression (`sections/firmware-and-rtl.md`).
+- [G] A fit build passes with ≤ 85% of BRAM36 (≤ 80 of 95 on a Z-7015, PCIe BAR windows included) and ≤ 85% of LUTs; WNS ≥ 0 and WHS ≥ 0 on every clock, BCLK included; no PLCK-23 placement violations beyond those the build's per-net `CLOCK_DEDICATED_ROUTE FALSE` overrides already work around (`fw@bdfd8b0:xdc/capture_e7m.xdc:L6-8`; `sections/firmware-and-rtl.md`, "Capture clock"); and step 0 of the native-video regression (`sections/firmware-and-rtl.md`).
 - [G] Its first step is `report_utilization` on the existing Z-7020 build.
 - [G] V-tracked's line FIFO takes about 8 BRAM36 (`sections/display-coupling.md`); PCIe fetch takes about 8 for its FIFO and 2-3 for its BAR windows (`topics/pcie-path.md`).
 

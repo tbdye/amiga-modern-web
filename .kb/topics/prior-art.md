@@ -32,7 +32,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 | System | What crosses the wire | What it shows | Source |
 |---|---|---|---|
-| Browservice | CEF renders off-screen; the view plus a control bar goes to an old browser as PNG or JPEG over HTTP, and input rides in the image-request URLs | Full Chromium compatibility; usable on a 100 Mbit/s LAN; clipboard through Ctrl+C/V plus a form; AltGr fails on some clients | [F] `browservice@02601b0:README.md:L65-67, L73-74, L143` |
+| Browservice | CEF renders off-screen; the view plus a control bar goes to an old browser as PNG or JPEG over HTTP; a JavaScript client there requests the images and sends input in their URLs | Full Chromium compatibility; usable on a 100 Mbit/s LAN; clipboard through Ctrl+C/V plus a form; AltGr fails on some clients | [F] `browservice@02601b0:README.md:L65-67, L73-74, L143` |
 | Browservice vice plugins | Browser core and client front end are split by a C plugin API, so a server for native clients could be written as a plugin | No Amiga client is listed | [F] `browservice@02601b0:README.md:L358` |
 | WRP | A screenshot proxy: a GIF/PNG/JPEG with a clickable imagemap, or pages converted to simplified HTML | Every interaction reloads a page | [F] `wrp@549d324:README.md:L16-19` |
 | Chrome DevTools screencast | `Page.startScreencast` (experimental) sends full frames, JPEG or PNG only | Frame metadata carries scroll offset and page scale, but no damage rectangles | [F] `cdp@c3ed21b:json/browser_protocol.json`, `Page.startScreencast`, `ScreencastFrameMetadata` |

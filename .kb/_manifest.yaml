@@ -19,7 +19,7 @@ files:
   unknowns.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, cm5-ds, ds187, browservice]
+    cites: [fw, cm5-ds, ds187, browservice, wrp]
   glossary.md:
     status: current
     reviewed_on: 2026-10-10
@@ -51,7 +51,7 @@ files:
   sections/firmware-and-rtl.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, ds187, amd-vivado-editions]
+    cites: [fw, amd-vivado-editions]
   sections/options-rejected.md:
     status: draft
     reviewed_on: 2026-10-10
@@ -63,7 +63,7 @@ files:
   sections/gotchas.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, linux, replica, myir-7015-pinmap, myir-7020-pinout, myir-order, ug470, ug472]
+    cites: [fw, linux, replica, ds187, myir-7015-pinmap, myir-7020-pinout, myir-order, ug470, ug472]
   topics/zynq-pin-budget.md:
     status: draft
     reviewed_on: 2026-10-10
