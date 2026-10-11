@@ -13,8 +13,13 @@
 
 I want a big-box Amiga to browse the modern web natively, in a Workbench window or full screen, up to 1920×1080 at 60 Hz (1080p60).
 To the user it's a Workbench program (§4).
-A separate browser chip runs Chromium and sends its picture over HDMI to a receiver on a card built around a Zynq-7000, the FPGA-plus-ARM chip of the MNT ZZ9000.
-The Zynq draws that picture, uncompressed, into the browser window, and keeps doing everything a ZZ9000 does: RTG, native video capture and scan doubling, audio and Ethernet.
+
+The browser engine, Chromium, runs on a separate computer, the browser chip: an RK3588, x86 or Raspberry Pi CM5 module or board (candidates in §7).
+The browser chip, which I assume runs Linux, sends its picture over HDMI to a receiver on a card built around a Zynq-7000, the FPGA-plus-ARM chip of the MNT ZZ9000.
+That card is new hardware: neither a stock ZZ9000 nor today's Replica has the FPGA pins for the receiver (§2).
+The Zynq runs neither Linux nor Chromium: it keeps the ZZ9000's bare-metal firmware, with additions.
+
+The Zynq draws the browser chip's picture, uncompressed, into the browser window, and keeps doing everything a ZZ9000 does: RTG, native video capture and scan doubling, audio and Ethernet.
 It keeps its own pixel clock and follows the browser chip by making each frame up to one line longer or shorter, so a browser-chip crash never blanks the monitor.
 The biggest risk is whether monitors accept those one-line changes.
 
@@ -39,7 +44,7 @@ Amiga users can't use the modern web from Workbench.
 Native browsers such as NetSurf can't keep up with current sites, and proxies such as Browservice put a network round trip in every interaction.
 None of the 68k, a 68k accelerator or the ZZ9000's own ARM cores is fast enough for a current browser engine.
 
-The [MNT ZZ9000](https://mntre.com/zz9000/) is a Zorro graphics and coprocessor card built on a Zynq-7020 module; BlitterStudio maintains its [firmware and FPGA logic](https://github.com/BlitterStudio/zz9000-firmware) and [AmigaOS drivers](https://github.com/BlitterStudio/zz9000-drivers).
+The [MNT ZZ9000](https://mntre.com/zz9000/) is a Zorro graphics and coprocessor card built on a Zynq-7020 module; BlitterStudio maintains its [bare-metal firmware and FPGA logic](https://github.com/BlitterStudio/zz9000-firmware) and [AmigaOS drivers](https://github.com/BlitterStudio/zz9000-drivers).
 The ZZ9000 Replica is a feature-enhanced recreation for the A2000, A3000 and A4000, not yet public.
 Staying on the Zynq-7000 lets the firmware, FPGA logic and drivers carry over with additions.
 Neither a stock ZZ9000 nor today's Replica has the FPGA pins for an HDMI receiver, so the result is a new card, a Zynq card plus a single-board computer (SBC), or a redesigned Replica (Q1).
@@ -188,7 +193,7 @@ A CM5's power input is rated 5 A against Zorro III's 2.0 A per slot at +5 V, so 
 | Concern | Position | Open |
 |---|---|---|
 | Security | I assume the browser chip can be compromised. It has no bus access and can't place the plane, so the main exposure is the control-link parsers. I propose keeping Chromium's sandbox on, never running as root, and a guest network (§4). | Patching, clipboard and downloads (Q14) |
-| Browser-chip image | Build scripts, and optionally a prebuilt image; not decided. Versions pinned to what was measured, and re-measured before upgrades. | How updates reach users (Q14) |
+| Browser-chip image | I assume Linux; no distribution is chosen. Build scripts, and optionally a prebuilt image; not decided. Versions pinned to what was measured, and re-measured before upgrades. | How updates reach users (Q14) |
 | Licensing | The firmware and drivers are GPL-3.0-or-later and stay so; Chromium and CEF are BSD-style. | This repository's licence, chosen before code lands; Amiga fonts in Chromium; the ADV7611 register manual. |
 | Power and thermal | Separate browser-side power (§8); one card designed for no airflow; an SBC can sit outside the case. Settled by testing and analysis; not a blocker. | Spare drive leads; design ambient temperature |
 
