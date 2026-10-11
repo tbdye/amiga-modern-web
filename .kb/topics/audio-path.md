@@ -68,8 +68,8 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 | Receiver I2S through an ASRC into the fabric | V-tracked with an HDMI EDID | +4 PL pins (`topics/zynq-pin-budget.md`) | [G] The ASRC moves the SoC-clocked stream onto the ADAU1701's clock (K7) |
 | Audio ring in the PCIe control window | PCIe options | The SoC writes 48 kHz S16LE into a ring in PL BRAM; an A9 producer drains it | [G] The ring lives in the control BAR window that SR1 allows (`topics/plane-safety.md`) |
 | I2S harness into `SDATA_IN1` (J111.5) | Any; a Replica option | The browser chip as I2S slave on J10.4 (32·Fs BCLK) and J10.8 (LRCLK), 16-bit, 48 kHz | [G] Conditional on a SigmaStudio compile with a second serial input (K33); a stub on J10.8 loads the LRCLK the FPGA samples, and a corrupted edge drops whole frames (see the coherence check above); [R] x86 boards rarely expose I2S |
-| Stock ZZ9000 with the ZZ9000AX audio add-on | No new card | The same fabric producer, fed over Ethernet | [G] |
-| Stock ZZ9000 without AX | No new card | PCM played through Paula by a 68k-side player | [G] Unlike A314's PiAudio, which writes shared chip memory directly (`topics/prior-art.md`, "A computer on a card"), the samples reach chip memory through the 68k; [R] costs 68k load and tens of ms |
+| Stock ZZ9000 with the ZZ9000AX audio add-on | No new card | The same fabric producer, fed over Ethernet | [G]; a stock-board path is open (K54) |
+| Stock ZZ9000 without AX | No new card | PCM played through Paula by a 68k-side player | [G] Unlike A314's PiAudio, which writes shared chip memory directly (`topics/prior-art.md`, "A computer on a card"), the samples reach chip memory through the 68k; [R] costs 68k load and tens of ms; a stock-board path is open (K54) |
 
 ## Latency and A/V sync [G]
 
