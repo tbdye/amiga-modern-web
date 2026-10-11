@@ -82,7 +82,7 @@ Status: current
 | Prefix | Where defined |
 |---|---|
 | DEC-n | `decisions.md` |
-| K1-K57 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
+| K1-K75 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
 | DC-A to DC-F | `unknowns.md`, design decisions; DC-E and DC-F are closed |
 | R-TRIM, R-SoC, R-PLANE, R-PCIe, R-DDR, R-RX | `unknowns.md`, test methods |
 | SR1-SR16 | `topics/plane-safety.md` |
@@ -111,7 +111,7 @@ Events that can leave the browser window black or not yet live; analysis in `sec
 | E15 | Amiga screen blanker or DPMS |
 | E16 | Window open, close or move; another same-mode screen in front |
 | E17 | Window resize or full-screen |
-| E18 | Browser on a native screen, on 2560×1440, or on a custom RTG mode |
+| E18 | Browser on a native screen (a buffered native path is proposed: `topics/native-screens.md`), on 2560×1440, or on a custom RTG mode |
 | E19 | SoC emits timing the EDID does not list (e.g. 59.94 Hz) |
 | E20 | ZZ9000 firmware watchdog reset |
 | E21 | ZZ9000 firmware or bitstream update |

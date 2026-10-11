@@ -50,6 +50,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **A PCIe-coupled SoC as a "coprocessor"** [G]: in topology there are two chips, but the link is a memory bus, not a network: no damage protocol, layer export, compression or A9 compositing budget.
 - **Keeping the engine remote and forking Chromium** [G]: the large gain in feel comes from putting the engine next to the scanout; a fork on a remote path gains much less, and with the engine local, layer export is unnecessary.
 - **A clock-switching genlock bench** [G]: under V-tracked no clock switch exists, so tracking is tested on existing hardware (R-TRIM, R-PLANE) and receiver interop at the desk, with R-RX optional.
+- **Browser traffic through the Amiga's TCP/IP stack, or forwarded by the card's A9** [G]: not under study for the browser chip's network; reasons in `topics/network.md`, "Not under study".
 - **The existing Replica with V input** [F]: the Replica connects all 125 PL pins of its module; 124 have on-board loads, and `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
 
 ## DPI into the video-capture path
