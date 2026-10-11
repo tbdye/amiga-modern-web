@@ -1,7 +1,7 @@
 # Browser chip
 
 Scope: the browser-chip candidates, the pass criteria that choose between them, the EDID and colour path into the receiver, and the Chromium host.
-Status: draft
+Status: current
 
 ## Candidates
 

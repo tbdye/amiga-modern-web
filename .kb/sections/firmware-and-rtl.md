@@ -25,7 +25,7 @@ Status: draft
 | [F] Vendor and loadable services live at `0x8000` and above, allocated on `0x0100` boundaries; `0x8100` is the JEDI renderer's | `fw@bdfd8b0:sdk/docs/zz9k-vendor-services.md:L3-8, L20-23` |
 | [F] Ethernet terminates on the A9 and is bridged to the Amiga as raw frames | `fw@8778ef3:os/ethernet.c` |
 | [F] ARM-side surface jobs: fill, copy and clipped scale (bilinear on supporting builds) on SDK surfaces and the RTG framebuffer; ARM-local surfaces not mapped into 68k memory; a helper that walks a window's visible ClipRects | `fw@bdfd8b0:sdk/docs/zz9k-library.md:L326-347, L362-368, L404-415, L694-700` |
-| [F] Card-side drawing operations (`gfx_acc_op`): buffer flip and clear, rectangle blit, surface allocate and free, line, rectangle fill, circle draw and fill, flat and textured triangles; also template and pattern fills and planar-to-chunky conversion | `fw@bdfd8b0:os/gfx.h:L59-84, L648-663` |
+| [F] Card-side drawing operations (`gfx_acc_op`): buffer flip and clear, rectangle blit, surface allocate and free, setting the bits-per-pixel conversion table, line, rectangle fill, circle draw and fill, flat and textured triangles; also template and pattern fills and planar-to-chunky conversion | `fw@bdfd8b0:os/gfx.h:L59-84, L648-663` |
 | [F] On Zorro II, general P96 offscreen bitmaps are disabled, and the 4 MiB profile's PIP source pool is 224 KiB | `fw@bdfd8b0:sdk/docs/zz9k-zorro2-services.md:L28, L52-53` |
 | [F] `REG_ZZ_VIDEOCAP_STATS` (`0x4e`) returns the live ten-bit frame line count | `fw@bdfd8b0:README.md:L381-382` |
 | [F] An Amiga reset drops a partly uploaded firmware update file | `fw@bdfd8b0:os/fw_update.c:L503-509` |
@@ -51,7 +51,7 @@ Status: draft
 - [F] It packs the capture RGB inputs (`fw@bdfd8b0:videocap_sampler.v:L558-560`) and the I2S LRCLK and data inputs (`rtl/audio_clock.v:L49-50`) into IOB registers, and `verify_vcap_iob_placement.tcl` fails the build unless the capture registers sit in ILOGIC sites (`fw@bdfd8b0:verify_vcap_iob_placement.tcl:L7-29`).
 - [F] The pixel clock powers up at 75 MHz, and implementation is timed against the fastest runtime mode, the 150 MHz 1920×1080 native-video container (`fw@bdfd8b0:xdc/runtime_pixel_timing.xdc:L4-14`).
 - [F] The preset table also holds 1600×1200 at 161.538 MHz (`fw@bdfd8b0:os/zz_video_modes.c:L23`), above that 150 MHz; whether that mode meets timing is unverified [G].
-- [F] At `bdfd8b0` the main RTL files run to a few thousand lines each (`mntzorro.v` about 3,500; `video_formatter.v` and `videocap_sampler.v` about 1,600-1,700), and the C sources under `os/` exceed 100,000 lines, third-party code included (line counts of each file at that commit).
+- [F] At `bdfd8b0` the main RTL files run to a few thousand lines each (`mntzorro.v` about 3,500; `video_formatter.v` and `videocap_sampler.v` about 1,600-1,700), and the C source and header files under `os/` run to about 126,000 lines, about 82,000 of them in `.c` files, third-party code included (line counts of each file at that commit).
 
 ## Lessons from the PIP bring-up
 
@@ -90,10 +90,10 @@ Status: draft
 
 ## Native-video regression [D] DEC-005
 
-- [F] The firmware has simulation benches for capture and the formatter under `test/video/` (sampler, phase, recovery, row timing, csync, variant, doubled, writeback, source sync, formatter, overlay), plus `video_mode_switch_test.c` (`fw@bdfd8b0:test/video/`), and two implementation checks, `verify_vcap_iob_placement.tcl` and `verify_vcap_cdc_timing.tcl` (`fw@bdfd8b0`, repository root).
+- [F] The firmware has simulation benches for capture and the formatter under `test/video/` (sampler, phase, recovery, row timing, csync, variant, doubled, writeback, source sync, formatter, overlay), plus `video_mode_switch_test.c` (`fw@bdfd8b0:test/video/`), and the bitstream build runs four checks: `verify_formatter_ooc_timing.tcl` after the formatter's out-of-context synthesis, then `verify_vcap_iob_placement.tcl`, `verify_vcap_cdc_timing.tcl` and `verify_runtime_pixel_timing.tcl` after implementation, the last being the release timing gate (no negative slack in any clock group, the 150 MHz runtime pixel clock included) (`fw@bdfd8b0:build_run_synthesis.tcl:L38, L59-61`; `verify_runtime_pixel_timing.tcl:L71-111`).
 - [F] The PIP was physically accepted on the default `zorro3` variant only; other variants passed build and timing gates but need their own hardware acceptance (`fw@8778ef3:docs/native-p96-pip.md:L12-16`).
 - [F] Release variants are `zorro3`, `zorro3-aga`, `zorro2`, `zorro2-2mb` and the A500-family builds (`fw@8778ef3:build_variant_bitstreams.sh:L44-54`).
-- [G] Regression for any board or module change: the benches and the two checks above as step 0; then NTSC and PAL, each scan-doubler mode, native↔RTG switching, PIP takeover and return, plane on and off, one fault row per applicable SR, on each Zorro variant; pass is no lost or corrupted native frame, by per-frame CRC identity with the Z-7020 baseline from a lossless RGB 4:4:4 HDMI capture (K30, K31).
+- [G] Regression for any board or module change: the benches and the four build checks above as step 0; then NTSC and PAL, each scan-doubler mode, native↔RTG switching, PIP takeover and return, plane on and off, one fault row per applicable SR, on each Zorro variant; pass is no lost or corrupted native frame, by per-frame CRC identity with the Z-7020 baseline from a lossless RGB 4:4:4 HDMI capture (K30, K31).
 - [G] The same run checks audio BCLK timing and listens for defects, and checks the VGA output where a VGA add-on is fitted.
 
 ## Toolchain

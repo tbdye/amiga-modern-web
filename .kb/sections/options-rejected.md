@@ -64,8 +64,8 @@ Firmware-side facts that show it is not a drop-in input [F]:
 
 Replica-side facts:
 
-- [F] The video-slot output header J9 carries the capture translators' bus-side nets, and net ties NT1-NT32 join each of them to the video-slot input header J8 (`replica@96bdef0`, netlist, not public); so a source on J9 drives the Amiga's video nets [G].
-- [F] The capture translators U8-U10 (74LVC8T245) run their bus side at +5 V and their FPGA side at +3V3 (`replica@96bdef0`, netlist), and the part's high-level input threshold for data inputs at 4.5-5.5 V is 0.7 × VCCI, 3.5 V at 5 V (`lvc8t245` §5.3 p7); so a 3.3 V DPI source would need 5 V drivers [G].
+- [F] Net ties NT1-NT32 join 32 nets of the video-slot output header J9 to the video-slot input header J8: 24 RGB nets reach the capture translators U8-U10, 3 (VVSYNC, VHSYNC, C28D) reach U7, another 74LVC8T245, 4 are audio nets (AUDFLTL/R, AUDRAWL/R), and NT30 joins GND to the slot's audio ground (`replica@96bdef0`, netlist, not public); so a source on J9 drives the Amiga's video nets [G].
+- [F] U7-U10 (74LVC8T245) run their bus side at +5 V and their FPGA side at +3V3, with DIR tied low so the bus side is the input (`replica@96bdef0`, netlist), and the part's high-level input threshold for data inputs at 4.5-5.5 V is 0.7 × VCCI, 3.5 V at 5 V (`lvc8t245` §5.3 p7); so a 3.3 V DPI source would need 5 V drivers [G].
 - Rejected likewise [D] DEC-005: a 2:1 bus switch selecting the video slot or a SoC header ahead of those translators, since native capture is lost while the SoC is selected.
 
 ## Dead ends

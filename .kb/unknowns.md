@@ -23,11 +23,13 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K46 | EDID is a design input (format, range, bpc) | a | Driver behaviour in `sections/browser-chip.md`; default a DVI-only EDID with exact DTDs [G]; readback on R-SoC | DC-A |
 | K47 | SoC-side dither, gamma and colour matrix are neutral | a | Kernel source per SoC; readback on R-SoC | DC-B |
 | K48 | Tracker constants for every RTG mode (delay, nominal, maximum, engagement floor, lock window); Vtotal above 1152 needs a new ceiling | a | `video_source_sync.v:L122-128` against `os/zz_video_modes.c`; proposed lock window ±2 lines and shorter-direction acquisition [G] | design |
-| K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM**, then R-PLANE | DC-A |
+| K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM** (`topics/monitor-trim.md`), then R-PLANE | DC-A |
 | K55 | Recovering a hung SoC | a | Open, timeout included: after the heartbeat watchdog (SR9) turns the plane off, the Zynq or a supervisor chip resets the SoC [G]; an unmodified SBC (P2) needs a wired reset [G] | design |
 | K57 | Raster alignment on entering RTG from native | a | Open: aligning the RTG raster to the receiver at that switch would cut the E2, E3 and E6 waits to about a frame, but needs an SR15 rewrite (`sections/display-coupling.md`) [G] | design |
 
 ## PCIe path (live only while DC-A keeps PCIe)
+
+Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|

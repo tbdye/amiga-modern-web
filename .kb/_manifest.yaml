@@ -44,7 +44,7 @@ files:
     reviewed_on: 2026-10-10
     cites: [fw, drivers, linux, replica, ds187, ds190, myir-7015, myir-7020v1, myir-7020v2]
   sections/browser-chip.md:
-    status: draft
+    status: current
     reviewed_on: 2026-10-10
     cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:

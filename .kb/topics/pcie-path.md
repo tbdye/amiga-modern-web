@@ -11,7 +11,7 @@ Status: draft
 
 | Source | What happens [G] | Gains [G] | Costs [G] |
 |---|---|---|---|
-| Fetch (preferred) | The FPGA reads each plane line from the SoC's front buffer into a few-line FIFO at scanout | No copy time; a late latch for free, since the front-buffer address is latched at vblank; no plane traffic in Zynq DDR; an underrun hits only plane pixels | The link carries the active-line rate all the time; read latency must stay bounded under GPU load (K11); an underrun policy |
+| Fetch (preferred [G]) | The FPGA reads each plane line from the SoC's front buffer into a few-line FIFO at scanout | No copy time; a late latch for free, since the front-buffer address is latched at vblank; no plane traffic in Zynq DDR; an underrun hits only plane pixels | The link carries the active-line rate all the time; read latency must stay bounded under GPU load (K11); an underrun policy |
 | Copy (fallback) | The FPGA pulls each frame's damage into a dedicated Zynq DDR plane region (SR3), and the plane scans it out | Tolerates any link jitter: a stalled SoC leaves the last complete frame on screen | Plane write and read in Zynq DDR, about 1 GB/s at 1080p60 and 32 bpp (K25); copy time per frame |
 
 [R] A 7-series endpoint reads root-complex memory by mastering through the AXI-PCIe bridge's AXI slave port, or through the DMA subsystem's host-to-card channel, as an NVMe drive does; the PG055 and PG195 product guides would verify it.
@@ -39,7 +39,7 @@ Status: draft
 | Gen2 ×2 | ~800 MB/s | 4.6 ms, 0.28 frame | 10.4 ms, 0.62 frame |
 | Gen2 ×4 | ~1.6 GB/s | 2.3 ms, 0.14 frame | 5.2 ms, 0.31 frame |
 
-[G] Where the copy takes more than half a frame (×1 at 720p, ×2 at 1080p), copies must be damage-only or overlapped with rendering.
+[G] Where the copy takes more than half a frame (×1 at 720p, ×2 at 1080p), copies must be damage-only or overlapped with rendering; on ×1 at 1080p a full copy takes 1.24 frames, so it cannot complete within a frame.
 
 ## Outstanding reads
 
@@ -86,7 +86,7 @@ Status: draft
 ## Remedies
 
 - [G] Under fetch the Zynq DDR load is capture writeback plus RTG scanout, roughly today's 1080p workload, so PL DDR used only for the plane cannot fix a fetch-load failure; it matters only if fetch fails its latency tests and copy fails the DDR test.
-- [G] If Zynq DDR fails under the fetch load, in order: run PS DDR at 1066 Mb/s, legal at every speed grade (`ds187` Table 18) and the shipping build's rate (`sections/zynq-and-board.md`, "Parts"), which restores parity rather than adding headroom; then move buffers into PL DDR on a new card, capture buffers first, since only PL masters touch them, and RTG buffers last, since the A9 draws on the framebuffer in software (`fill_rect`, `fw@bdfd8b0:os/gfx.h:L59-60`); or leave Zynq-7000 for a part with faster PS DDR, a full port (`sections/options-rejected.md`).
+- [G] If Zynq DDR fails under the fetch load, in order: on a board or module whose PS DDR runs below 1066 Mb/s, raise it to 1066, legal at every speed grade (`ds187` Table 18) and the shipping build's rate (`sections/zynq-and-board.md`, "Parts"), which restores parity rather than adding headroom; then move buffers into PL DDR on a new card, capture buffers first, since only PL masters touch them, and RTG buffers last, since the A9 draws on the framebuffer in software (`fill_rect`, `fw@bdfd8b0:os/gfx.h:L59-60`); or leave Zynq-7000 for a part with faster PS DDR, a full port (`sections/options-rejected.md`).
 - [G] If copy fails the DDR test: fetch, if its latency tests pass; otherwise the V route.
 
 ## Pass thresholds [G]

@@ -30,7 +30,8 @@ Status: current
 - [G] An async line FIFO from the receiver clock to the output clock: 4 lines at 1920 × 32 bpp ≈ 8 BRAM36, absorbing phase, not rate (K3).
 - [G] Per-mode tracker constants; today's are native-1080p values tied to the capture read-after-write guard (K48).
 - [F] Today's tracker unlocks when no anchor arrives within nominal + 256 lines (`WATCHDOG_LINES`) and returns to nominal frames (`fw@8778ef3:video_source_sync.v:L127, L473, L519-525`).
-- [G] Until it trips, 1-2 frames end early; under the ±1 cap each is at most one line short.
+- [F] Until it trips, today's tracker ends each frame at the blanking floor, up to 34 lines short at 1080p (`fw@8778ef3:video_source_sync.v:L492-495`).
+  [G] That lasts 1-2 frames; only the V variant's ±1 cap limits each to one line short.
 - [F] `MAX_TOTAL_LINES` 1152 was derived for the native single-buffer prefetch guard (`fw@8778ef3:video_source_sync.v:L25-37`).
 - [G] Read from the RTL, today's tracker would still engage on an RTG mode with Vtotal above 1152 (`nominal_valid` accepts up to 4030, `video_source_sync.v:L152-155`) and then cap every frame at 1152 lines (`:L197-199`), cutting frames short: 1600×1200 (1242) and 2560×1440 (1465) (Vtotals at `os/zz_video_modes.c:L23-24`).
 
@@ -73,7 +74,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | E15 Amiga blanker | No: DPMS masks syncs only (`fw@8778ef3:video_formatter.v:L1700-1703`) [F] | 0 | Phase kept |
 | E22 monitor power-cycle or replug | Monitor side only | 0 [G] | No HPD handling in `os/hdmi.c`, `os/main.c` or `os/video.c` [F, negative grep at `8778ef3`] |
 | E5 colour depth, same resolution | No: unchanged output timing keeps the clock and TMDS (`fw@8778ef3:os/video.c:L1174-1192, L1232-1236`) [F] | ≈ 5 frames (≈ 80 ms) blink [G] | Mode init drops source sync (below); f5 removes it |
-| E4 RTG resolution change | Yes; each RTG resolution has its own output timing (`drivers@ad9606b:rtg/mode_timing.h:L23-37`) [F] | SoC modeset + relock, ~0.1-0.5 s [G], hidden by the monitor's resync | User-requested, so DEC-013-exempt; needs an EDID DTD per mode |
+| E4 RTG resolution change | Yes; each RTG resolution has its own output timing (`drivers@ad9606b:rtg/mode_timing.h:L23-37`) [F] | SoC modeset + relock, ~0.1-0.5 s [G], hidden by the monitor's resync | User-requested, so DEC-013-exempt; needs an EDID DTD per mode (`sections/browser-chip.md`, "EDID for every RTG mode") |
 | E2 cold boot, SoC up; E3 warm reboot; E6 native↔RTG; E20 watchdog | Yes | ≤ 9.4 s after RTG appears, plus the ~5-frame lock qualification | E2, E3, E6 DEC-013-exempt; see below |
 | E1 joint cold boot, E7 SoC reboot, E21 firmware update | E1, E21: yes; E7: no | SoC boot (~15-30 s) plus ≤ 9.4 s lock, less if the SoC sets its final mode early [G] | Boot-bound; E1 DEC-013-exempt |
 | E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | The plane shows whatever the SoC scans out: its desktop, or black [G] |

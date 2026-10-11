@@ -57,7 +57,7 @@ Source: `lcsc`.
 | TE 3-1827253-6, 220-position 0.5 mm board-to-board plug (COM Express-class modules [R]) | C194182 | `lcsc` |
 
 - [F] The CM5 datasheet names Amphenol 10164227-1001A1RLF (1.5 mm stack) and 10164227-1004A1RLF (4.0 mm stack) as carrier connectors (`cm5-ds` p17); that the Hirose DF40C also mates is [R], which Raspberry Pi's carrier design guide would verify.
-- [G] Each of these has an LCSC number, so JLCPCB assembly can source it.
+- [G] Each has an LCSC number, the catalogue JLCPCB assembly draws on.
 
 ## Assembly
 
