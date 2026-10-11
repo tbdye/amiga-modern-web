@@ -24,13 +24,15 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 - [F] PiStorm with the Musashi emulator performs at roughly a 100-125 MHz 68030 and offers a virtual RTG card (`pistorm@88937a6:README.md:L25, L42`).
 - [F] Emu68 runs bare metal on the Raspberry Pi (`emu68@0ba3a89:README.md:L56`), so that Pi cannot also host Linux and Chromium [G].
+- [F] Musashi PiStorm is instead a Linux program (`emulator`) on 32-bit Raspberry Pi OS, on a Pi 3A+, 3B+ or Zero 2 (a Pi 4 cannot be used), in a 68000 DIP socket, confirmed only on the A500, A500+, A1000 and A2000 (`pistorm@88937a6:README.md:L24, L26-27, L47, L86`).
+- [G] So one Pi could in principle host both the 68k and Chromium, but only at about 68030 class, in 68000-socket machines, and on a Pi 3-class board, below the Pi 4-class floor for current Chromium (`sections/overview.md`); it is not a route.
 - [G] Fast 68k CPUs do not change the engine verdict above; they make native chrome snappier and occupy the CPU slot or trapdoor, so they complement a Zorro card rather than compete with it.
 
 ## Remote and split-engine browsers
 
 | System | What crosses the wire | What it shows | Source |
 |---|---|---|---|
-| Browservice | CEF renders off-screen; the view plus a control bar goes to an old browser as PNG or JPEG over HTTP, and input rides in the image-request URLs | Full Chromium compatibility; usable on a 100 Mbit/s LAN; clipboard through Ctrl+C/V plus a form; AltGr fails on some clients | [F] `browservice@02601b0:README.md:L65-67, L73-74, L143` |
+| Browservice | CEF renders off-screen; the view plus a control bar goes to an old browser as PNG or JPEG over HTTP; a JavaScript client there requests the images and sends input in their URLs | Full Chromium compatibility; usable on a 100 Mbit/s LAN; clipboard through Ctrl+C/V plus a form; AltGr fails on some clients | [F] `browservice@02601b0:README.md:L65-67, L73-74, L143` |
 | Browservice vice plugins | Browser core and client front end are split by a C plugin API, so a server for native clients could be written as a plugin | No Amiga client is listed | [F] `browservice@02601b0:README.md:L358` |
 | WRP | A screenshot proxy: a GIF/PNG/JPEG with a clickable imagemap, or pages converted to simplified HTML | Every interaction reloads a page | [F] `wrp@549d324:README.md:L16-19` |
 | Chrome DevTools screencast | `Page.startScreencast` (experimental) sends full frames, JPEG or PNG only | Frame metadata carries scroll offset and page scale, but no damage rectangles | [F] `cdp@c3ed21b:json/browser_protocol.json`, `Page.startScreencast`, `ScreencastFrameMetadata` |
@@ -57,7 +59,8 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 - [F] NetSurf front ends draw everything through one `plotter_table` of twelve calls (clip, arc, disc, line, rectangle, polygon, path, bitmap, text, group start and end, flush) (`netsurf@39da3c3:include/netsurf/plotters.h:L102-329`) and three font calls (width, position, split) (`include/netsurf/layout.h:L37-88`).
 - [F] NetSurf started on RISC OS, whose common hardware is a 200 MHz StrongARM, and its framebuffer front end ran on a 400 MHz ARM9 (`netsurf-web`, about page).
-- [D] DEC-003: rendering Chromium paint ops as a display list on the ZZ9000's A9 is not under study (`sections/options-rejected.md`).
+- [D] DEC-003: the early design with the browser in a networked box on the LAN is retired.
+- [G] Rendering Chromium paint ops as a display list on the ZZ9000's A9 belonged to that remote tier (family A, DC-F closed), so it is not under study (`sections/options-rejected.md`).
 
 ## A computer on a card
 

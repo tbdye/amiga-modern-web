@@ -26,7 +26,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 ## Why each pruned approach lost
 
 - **A browser engine on the 68k, a fast 68k, or the card's A9** [G]: none is fast enough for a current browser engine.
-- **Remote rendering with lossless tiles or display lists** [G]: every DOM change pays a network round trip, and the A9 has no GPU; superseded by an on-card browser chip [D] DEC-003.
+- **Remote rendering with lossless tiles or display lists** [G]: every DOM change pays a network round trip, and the A9 has no GPU; retired with the networked-box design, the browser chip sitting inside the Amiga or next to it [D] DEC-003.
 - **Zorro III DMA as the main link** [G]: below a 720p60 surface, and it leaves Zorro II out.
 - **A SoC module beside an unchanged Z-7020 over Ethernet** [G]: the same round trip on one PCB, with no gain in feel.
 - **The SoC doing capture itself, with a CPLD for Zorro** [R]: no app SoC exposes a low-latency slave bus for Zorro RTG, so the CPLD grows into an FPGA and native video runs through SoC Linux.
@@ -51,7 +51,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **Keeping the engine remote and forking Chromium** [G]: the large gain in feel comes from putting the engine next to the scanout; a fork on a remote path gains much less, and with the engine local, layer export is unnecessary.
 - **A clock-switching genlock bench** [G]: under V-tracked no clock switch exists, so tracking is tested on existing hardware (R-TRIM, R-PLANE) and receiver interop at the desk, with R-RX optional.
 - **Browser traffic through the Amiga's TCP/IP stack, or forwarded by the card's A9** [G]: not under study for the browser chip's network; reasons in `topics/network.md`, "Not under study".
-- **The existing Replica with V input** [F]: the Replica connects all 125 PL pins of its module; 124 have on-board loads, and `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
+- **The existing Replica with V input** [F]: the Replica connects all 125 PL pins of its module; 124 have on-board loads, and `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and an 8-pin TMDS input on HR pins caps the pixel clock near 125 MHz on the −2 module, from the DDR LVDS receiver's 1250 Mb/s (950 at −1, about 95 MHz; `ds187` Table 50, p33), so 1080p60 does not fit on either grade, 720p60 would on either, and 1280×1024 at 60 Hz (108 MHz) would only on the −2, and it also needs EDID, HPD and DDC pins [G] (`topics/zynq-pin-budget.md`).
 
 ## DPI into the video-capture path
 
@@ -74,6 +74,8 @@ Replica-side facts:
 
 - [G] Showing the plane before the tracker locks: the picture rolls (`sections/display-coupling.md`).
 - [G] MMCM phase-shift trim to speed acquisition: slower than the ±1-line cap.
+- [G] The SoC placing its content at the current phase offset Φ, fed a new Φ every frame: it works for windows smaller than the screen but fails full-screen, where content crosses the SoC's 45-line vertical blanking (1125 − 1080 at 1080p60), and full-screen 1080p60 is the target [D] DEC-010.
+- [G] The SoC timing its own modeset to land near the Zynq's phase: a 1080p60 line is 14.8 µs, so each 1 ms of software jitter leaves about 67 lines, over 1 s of acquisition at the ±1 cap, and when a stock driver completes a modeset is not controlled; f1 (about 1 frame after receiver lock) does better.
 - [G] A partial BRAM line buffer to absorb phase: about 64 lines against a phase of up to 562.
 - [G] An occlusion mask in BRAM: about 56 BRAM36 at 1080p of a 7015's 95.
 

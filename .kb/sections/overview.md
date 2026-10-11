@@ -18,8 +18,10 @@ Status: current
 ## The design under study
 
 [G] A Zynq-7000 does all a ZZ9000 does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
-A separate browser chip (RK3588, x86 or Raspberry Pi CM5 class) runs Chromium [D] DEC-002.
-Chromium's rendered frames arrive at the Zynq without compression, and the Zynq composites them into the browser's Workbench window, or across the full screen [D] DEC-008.
+[D] DEC-002: a separate browser chip runs Chromium.
+[D] DEC-010: RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
+[D] DEC-008: its rendered frames reach the Zynq uncompressed.
+[G] The Zynq composites them into the browser's Workbench window or across the full screen.
 
 | Element | Under study [G] | Detail |
 |---|---|---|
@@ -34,6 +36,7 @@ Chromium's rendered frames arrive at the Zynq without compression, and the Zynq 
 [F] The ADV7611's TMDS clock is 165 MHz maximum (`adv7611` p1), and its LLC range is 13.5-165 MHz, with the maximum limited to the 8-bit UXGA 60 Hz clock (`adv7611` Table 2 and note 1, p5).
 [R] VESA UXGA 60 Hz is 162 MHz; the VESA DMT standard would verify it.
 [F] The Zynq's 1080p60 runs at 148.57 MHz and its 1600×1200 at 161.54 MHz (`fw@8778ef3:os/zz_video_modes.c:L18, L23`), both under that clock; so the 1920 cap is the Linux driver's, not the chip's clock [G].
+[G] The 1600×1200 preset is still outside the Zynq's timed 150 MHz pixel clock and the datasheet's PLL range (`sections/firmware-and-rtl.md`, "Anchors for a browser plane").
 [F] The Zynq's 2560×1440 runs at 30 Hz, 146.43 MHz (`fw@8778ef3:os/zz_video_modes.c:L24`), also under the clock, but a 2560-pixel line is outside the datasheet's documented formats [R]; the ADV7611 hardware manual would verify it.
 
 ## Non-goals
@@ -42,6 +45,7 @@ Chromium's rendered frames arrive at the Zynq without compression, and the Zynq 
 - Compatibility with stock MNT ZZ9000 or Replica boards as a requirement [D] DEC-005.
 - A compressed or remote-desktop video path [D] DEC-008.
 - Board spins as a way to learn [D] DEC-011.
+- Throwaway scaffolding: a test rig exists only where it settles a measurement (class d) unknown more cheaply than anything else, and is never a board designed here [G] (follows from DEC-011).
 
 ## What is open
 

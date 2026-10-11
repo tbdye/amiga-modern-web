@@ -21,9 +21,11 @@ Status: draft
 | [F] At release `v2.8.1` (`6aa71d1`), ZZPlay plays MPEG-1 Program Streams and MP3 | `fw@6aa71d1:sdk/docs/zzplay.md:L3, L12-14` |
 | [F] At `bdfd8b0`, ZZPlay also decodes WebM (VP8/VP9 with Opus or Vorbis), native FLAC, Ogg Vorbis and animated WebP; the firmware advertises those services only when built with `ZZ9000_QUALIFY_UNADVERTISED` | `fw@bdfd8b0:sdk/docs/zzplay.md:L3, L17-28`; `os/sdk_service_catalog.h:L32-55` |
 | [F] On a 4 MiB Zorro II profile the PIP source pool fits 352×288 but not 640×360; the 2 MiB profile has none | `fw@8778ef3:sdk/docs/zzplay.md:L34-37` |
-| [F] A synchronous mailbox round trip measures about 6.1 ms | `fw@8778ef3:sdk/docs/zz9k-crypto-acceleration.md:L58-59` |
+| [F] A synchronous mailbox round trip's floor measures 225-339 µs (average 279 µs); the document's earlier 6.1 ms figure was the 68k wait loop, not the transport | `fw@bdfd8b0:sdk/docs/zz9k-crypto-acceleration.md:L115-121, L142-144` |
+| [F] A drop-in `amissl.library` with an OpenSSL 3 provider offloads TLS crypto to BearSSL on the A9: handshake (X25519, P-256, ECDSA and RSA verify) and record (ChaCha20-Poly1305, AES-GCM); the handshake operations run two to three orders of magnitude faster than the SDK's portable 68k code | `fw@bdfd8b0:sdk/docs/zz9k-crypto-acceleration.md:L10-18, L128-140, L183-185`; `sdk/docs/zz9k-amissl-provider.md:L19-31` |
 | [F] Vendor and loadable services live at `0x8000` and above, allocated on `0x0100` boundaries; `0x8100` is the JEDI renderer's | `fw@bdfd8b0:sdk/docs/zz9k-vendor-services.md:L3-8, L20-23` |
 | [F] Ethernet terminates on the A9 and is bridged to the Amiga as raw frames | `fw@8778ef3:os/ethernet.c` |
+| [F] The GEM DMAs each received frame into a 128-slot × 2048 B backlog at `0x3FE00000` that the Amiga reads in order; at 96 pending frames (128 less 32 RX descriptors) the firmware stops re-arming descriptors and sends an 802.3x pause frame (quantum `0x800`), and it advertises symmetric and asymmetric pause | `fw@bdfd8b0:os/memorymap.h:L30, L500`; `os/ethernet.h:L58-60`; `os/ethernet.c:L352-359, L596-612, L640-644, L853-856, L1103-1105` |
 | [F] ARM-side surface jobs: fill, copy and clipped scale (bilinear on supporting builds) on SDK surfaces and the RTG framebuffer; ARM-local surfaces not mapped into 68k memory; a helper that walks a window's visible ClipRects | `fw@bdfd8b0:sdk/docs/zz9k-library.md:L326-347, L362-368, L404-415, L694-700` |
 | [F] Card-side drawing operations (`gfx_acc_op`): buffer flip and clear, rectangle blit, surface allocate and free, setting the bits-per-pixel conversion table, line, rectangle fill, circle draw and fill, flat and textured triangles; also template and pattern fills and planar-to-chunky conversion | `fw@bdfd8b0:os/gfx.h:L59-84, L648-663` |
 | [F] On Zorro II, general P96 offscreen bitmaps are disabled, and the 4 MiB profile's PIP source pool is 224 KiB | `fw@bdfd8b0:sdk/docs/zz9k-zorro2-services.md:L28, L52-53` |
@@ -31,7 +33,7 @@ Status: draft
 | [F] An Amiga reset drops a partly uploaded firmware update file | `fw@bdfd8b0:os/fw_update.c:L503-509` |
 
 - [G] A written firmware or bitstream update takes effect at the next card power-on; no runtime PL reload was found, and the A9 keeps running across an Amiga reset.
-- [G] The 6.1 ms round trip makes per-frame synchronous calls costly; a Zorro-only path is capped by bus throughput and, on Zorro II, by the small PIP source pool, which is why DEC-004 allows a non-Zorro link.
+- [G] A Zorro-only path is capped by bus throughput and, on Zorro II, by the small PIP source pool, which is why DEC-004 allows a non-Zorro link.
 
 ## Anchors for a browser plane
 
@@ -51,6 +53,8 @@ Status: draft
 - [F] It packs the capture RGB inputs (`fw@bdfd8b0:videocap_sampler.v:L558-560`) and the I2S LRCLK and data inputs (`rtl/audio_clock.v:L49-50`) into IOB registers, and `verify_vcap_iob_placement.tcl` fails the build unless the capture registers sit in ILOGIC sites (`fw@bdfd8b0:verify_vcap_iob_placement.tcl:L7-29`).
 - [F] The pixel clock powers up at 75 MHz, and implementation is timed against the fastest runtime mode, the 150 MHz 1920×1080 native-video container (`fw@bdfd8b0:xdc/runtime_pixel_timing.xdc:L4-14`).
 - [F] The preset table also holds 1600×1200 at 161.538 MHz (`fw@bdfd8b0:os/zz_video_modes.c:L23`), above that 150 MHz; whether that mode meets timing is unverified [G].
+- [F] Six presets, 1600×1200 among them, put the pixel PLL outside the datasheet range of the −1 part the build targets, and the custom-mode check exempts presets (`sections/gotchas.md`, "Firmware and RTL").
+- [G] So 1600×1200 is outside both the timed 150 MHz container and the datasheet PLL range.
 - [F] At `bdfd8b0` the main RTL files run to a few thousand lines each (`mntzorro.v` about 3,500; `video_formatter.v` and `videocap_sampler.v` about 1,600-1,700), and the C source and header files under `os/` run to about 126,000 lines, about 82,000 of them in `.c` files, third-party code included (line counts of each file at that commit).
 
 ## Lessons from the PIP bring-up
@@ -85,8 +89,15 @@ Status: draft
 - [F] On an Amiga reset with range B lent, the firmware quiesces core 1 (or cold-restarts it), takes B back and flushes the caches, then releases every non-FIRMWARE owner and lends B again if the Amiga cannot use it (`fw@bdfd8b0:os/main.c:L447-463, L572-575`; `os/card_pool.h:L114-124`).
 - [F] The firmware's memory-map document sends large working memory to the pool, not to new fixed ranges or the general heap; a fixed range is for hardware or the Amiga needing a stable address (`fw@bdfd8b0:docs/memory-map.md:L22, L34`).
 - [F] The 0x30000000 codec scratch of earlier firmware is gone: `0a17831` removed the codecs that used it and freed it for the pool (`fw` `git show 0a17831`).
-- [G] An f1 acquisition ring (about 18.7 MB at 1080p, `sections/display-coupling.md`), if built, would be a pool allocation; a FIRMWARE-class owner fits the 64 MB limit and stays out of range B.
+- [F] The pool entered `master` with the allocator `04b157f` and the map document `c019f60`, both dated 2026-10-10 and merged by `bdfd8b0` (pull request #158); neither is in `8778ef3` (`fw` `git log -1`, `git merge-base --is-ancestor`).
+- [F] Before the pool, 0x18000000-0x30000000 held only the 1 MB task queue at 0x18000000, the 1 MB core-1 stack below 0x1C000000 and the 256 MB Z3 fast-RAM window from 0x20000000, with codec scratch at 0x30000000; 0x18100000-0x1BF00000 and 0x1C000000-0x20000000 were unassigned (`fw@8778ef3:os/memorymap.h:L310-311, L319, L330-331, L407-409`; `os/codec37.c:L19`; no other fixed address there in `os/`, `git grep`).
+- [G] An f1 acquisition ring (about 18.7 MB at 1080p, `sections/display-coupling.md`), if built, must survive an Amiga reset (E3), so it would be a pool allocation; a FIRMWARE-class owner fits the 64 MB limit and stays out of range B.
 - [G] Whether a PL master may write pool memory coherently is unverified.
+
+## Capture clock
+
+- [F] Default builds clock capture from `ZORRO_E7M` (ball R14) through the capture MMCM, which has dynamic phase shift; R14 is regular I/O, so the route is allowed per net with `CLOCK_DEDICATED_ROUTE FALSE`, and `ZORRO_C28D` is false-pathed (`fw@bdfd8b0:xdc/zz9000.xdc:L134`; `xdc/capture_e7m.xdc:L4-12, L34-38`; `mntzorro.v:L1465-1489, L1581-1587`).
+- [F] The `zorro3-aga` release variant is built with `--capture-c28` and clocks capture from video-slot `ZORRO_C28D` (ball B20, regular I/O, the same per-net override), constrained at 34.9 ns (`fw@bdfd8b0:xdc/zz9000.xdc:L117`; `xdc/capture_c28.xdc:L4-13`; `build_variant_bitstreams.sh:L256-260`; `README.md:L440-447`).
 
 ## Native-video regression [D] DEC-005
 

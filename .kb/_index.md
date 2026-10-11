@@ -33,7 +33,9 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
-| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks | `topics/prior-art.md` |
+| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks, browser speed by CPU class | `topics/prior-art.md` |
+| What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
+| Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
 | Sourcing channels and assembly | `sections/sourcing.md` |
 | What is open, and what settles it | `unknowns.md` |
@@ -43,6 +45,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Build a link from a citation | `sources.md` |
 | Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
 | Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
+| Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
 
 ## Files
 
@@ -70,7 +73,4 @@ To check a source that moved:
    Fact changed: re-derive the claim and cite it at the new commit; until then, the file is `stale`.
 4. Record the commit checked and its `verified_on` date under `pins` in `_manifest.yaml`.
 
-A public-repo pin must exist on the public remote.
-For fw and drivers, run `git fetch` in a clone, then `git branch -r --contains <commit>`; no branch listed fails the pin.
-For Linux and CEF, which have no local checkout here, confirm the commit exists at `https://github.com/<owner>/<repo>/commit/<sha>`; a 404 fails the pin.
-Triggers: a firmware or driver release tag; a Replica revision the project relies on; any KB change that cites a source whose manifest pin is older than its HEAD.
+When to check, and how to confirm a public pin exists: `sources.md`, "Pin checks".

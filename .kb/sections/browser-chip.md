@@ -15,7 +15,8 @@ Status: current
 - [F] CM5 power input: a single 5 V input, up to 5 A (`cm5-ds` p6).
 - [F] i915 checks an HDMI clock only against a range and per-platform PLL holes (`linux@6c377d19d4a5:intel_hdmi.c:L1885-1922`); whether it then synthesises the Zynq's exact rates is [R], which R-SoC's readback settles.
 - [F] The Radxa CM5 module is an RK3588S2 with one HDMI TX (up to 8K60), one eDP TX and one DP TX shared with USB 3.0; the Radxa CM5 Lite is an RK3582 with no GPU (`radxa-cm5`).
-- [G] So the CM5 Lite is no browser chip, and the Radxa CM5, being RK3588S-class, cannot serve PCIe fetch (table above).
+- [G] So the Radxa CM5 Lite is no browser chip, and the Radxa CM5, being RK3588S-class, cannot serve PCIe fetch (table above).
+- [F] The Raspberry Pi CM5 Lite is a different part, the CM5 without eMMC (`cm5-ds` p6), and stays a candidate [G].
 - [G] Fetch link load at 1080p60, 32 bpp: 518 MB/s averaged over active lines (7,680 B per 14.8 µs line, CEA-861 timing; 518.6 MB/s at the Zynq's 148.57 MHz, `fw@8778ef3:os/zz_video_modes.c:L18`), about 600 MB/s with ~15% read overhead (K9).
 - [G] A Gen2 lane carries 500 MB/s after 8b/10b and about 400 MB/s usable [R], so ×1 cannot carry it and ×2 is the minimum; whether the ~400 MB/s already includes the read overhead is unverified, and if it does, the ~15% is counted twice.
 - [G] The frame average (498 MB/s) applies only with a buffer about 43 lines (332 KB) deep, which the 45-line vblank refills at the frame-average rate; a 4-line FIFO is far smaller.
@@ -58,6 +59,7 @@ The receiver must see bit-exact RGB 4:4:4, 8 bpc, full range, at the Zynq's exac
 - [R] A base EDID block holds 2-3 DTDs after the name and range descriptors, and one CTA-861 extension about 6, in the ADV7611's 256-byte EDID RAM; CTA-861 and the ADV7611 hardware manual would verify it.
 - [G] Verdict: fits, with 1-2 slots spare; a user-defined custom mode can never have an entry (E18).
 - [F] The Zynq's 1600×1200 is 2160 × 1242 at 161.538462 MHz, 60.21 Hz (`fw@8778ef3:os/zz_video_modes.c:L23`): a standard horizontal total with a shortened vertical, so it needs its own DTD; it is neither VESA DMT (2160 × 1250 at 162 MHz) nor a reduced-blanking timing [R], which the VESA DMT standard would verify.
+- [G] That mode is also outside the Zynq's timed 150 MHz pixel clock and the datasheet's PLL range (`sections/firmware-and-rtl.md`, "Anchors for a browser plane").
 
 ## The Chromium host
 
