@@ -41,4 +41,4 @@ Under V-tracked the SoC uses its own display path and these frame paths are not 
 - [G] So the embedder can measure the A/V offset per packet; correcting it means holding video, because the tap cannot move Chromium's video schedule [R].
 - [F] `CefAudioHandler` captures audio from Alloy-style browsers only, and capturing mutes the browser's normal audio output (`cef@a875f407e36b:include/cef_audio_handler.h:L45-48, L57-60`).
 - [R] On Linux Chromium prefers PulseAudio or PipeWire when present, so an ALSA plugin is the sink only if no sound server runs.
-- Audio routing into the card's audio fabric is deferred to a later KB version.
+- Routing this audio into the card's audio fabric, and the A/V sync options: `topics/audio-path.md`.

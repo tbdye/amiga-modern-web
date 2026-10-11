@@ -68,6 +68,7 @@ Replica-side facts:
 - [F] Net ties NT1-NT32 join 32 nets of the video-slot output header J9 to the video-slot input header J8: 24 RGB nets reach the capture translators U8-U10, 3 (VVSYNC, VHSYNC, C28D) reach U7, another 74LVC8T245, 4 are audio nets (AUDFLTL/R, AUDRAWL/R), and NT30 joins GND to the slot's audio ground (`replica@96bdef0`, netlist, not public); so a source on J9 drives the Amiga's video nets [G].
 - [F] U7-U10 (74LVC8T245) run their bus side at +5 V and their FPGA side at +3V3, with DIR tied low so the bus side is the input (`replica@96bdef0`, netlist), and the part's high-level input threshold for data inputs at 4.5-5.5 V is 0.7 × VCCI, 3.5 V at 5 V (`lvc8t245` §5.3 p7); so a 3.3 V DPI source would need 5 V drivers [G].
 - Rejected likewise [D] DEC-005: a 2:1 bus switch selecting the video slot or a SoC header ahead of those translators, since native capture is lost while the SoC is selected.
+- Where J8, J9 and the translators sit in the Replica's wiring: `topics/replica-interconnect.md`, "Video slot (J8, J9)".
 
 ## Dead ends
 
@@ -78,11 +79,13 @@ Replica-side facts:
 
 ## Prior approaches
 
-[R] Named for orientation only; each is a landscape note, not verified here.
+Depth, with sources and lessons: `topics/prior-art.md`.
+
+[R] Named for orientation only; verified rows are in `topics/prior-art.md`.
 
 | Approach | What it does |
 |---|---|
-| Native Amiga browsers (NetSurf, AWeb, Voyager, IBrowse) | Render on the 68k; cannot run current JavaScript-heavy sites at speed |
+| Native Amiga browsers (NetSurf, AWeb, Voyager, IBrowse) | Render on the 68k; cannot run current JavaScript-heavy sites |
 | Browservice, WRP | A modern browser elsewhere renders pages for a legacy browser to display |
 | FrogFind | A server simplifies pages for vintage browsers |
 | Opera Mini | A server lays pages out and sends a compact interactive snapshot |

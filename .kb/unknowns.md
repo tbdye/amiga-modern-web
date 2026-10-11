@@ -17,7 +17,7 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K3 | Line FIFO depth and phase bound | a | 0.54 lines per frame drift at 1080p, plus one line each of horizontal phase and quantisation: 4 lines [G]; outside the lock window the plane stays off (SR13, SR14) | DC-A |
 | K4 | Receiver interop | a, else d | ADV7611 desk facts in `sections/browser-chip.md`; TFP401-class is DVI only, no EDID, no audio [R]; residual: R-RX | DC-A |
 | K5 | The SoC emits each RTG mode at the Zynq's exact timing, within the ±1 cap (~0.09% at 1080p) | a | EDID DTDs carry the Zynq timings and stock KMS selects them; fixed EDID holds 7 DTDs + 3 DMT modes (`sections/browser-chip.md`, "EDID for every RTG mode"); 720p preset moved near CEA (M/D/O 52/5/14 → 74.286 MHz [G]); readback on R-SoC | DC-A |
-| K7 | Audio route under V | a | With a DVI EDID there is no HDMI audio, so PCM goes over the control link; 48 kHz 16-bit stereo is 1.536 Mb/s of payload, about 1.92 Mbaud with 8N1 framing, plus control traffic, so a UART route needs about 2 Mbaud or more on both ends, and 1.5 Mbaud is too slow [G]; each end's maximum UART rate (TRM or bridge datasheet) settles it; an HDMI EDID allows receiver I2S through an ASRC | DC-A |
+| K7 | Audio route under V | a | With a DVI EDID there is no HDMI audio, so PCM goes over the control link; 48 kHz 16-bit stereo is 1.536 Mb/s of payload, about 1.92 Mbaud with 8N1 framing, plus control traffic, so a UART route needs about 2 Mbaud or more on both ends, and 1.5 Mbaud is too slow [G]; each end's maximum UART rate (TRM or bridge datasheet) settles it; an HDMI EDID allows receiver I2S through an ASRC; routes in `topics/audio-path.md` | DC-A |
 | K8 | Control link | a | PS USB0 and the UART1 console occupy the obvious MIO (`sections/architecture.md`); candidates are UART0 plus USB-serial for a split SBC, or Ethernet through an on-card switch on GEM0, which is the Amiga's Ethernet port and runs at 10/100 (`sections/architecture.md`, "Control link (K8)"), so it shares the Amiga's LAN unless ports are isolated or VLANs used [G]; SR16's real bound under GEM RX DMA | design |
 | K45 | Window coherence during drags and popups | a | Policy: plane off during a drag, or rely on outline drag [R]; under the proposed windowed CEF host (K50), CEF has no popup callback (`topics/cef-frame-path.md`), so popup rectangles come from the X11 side [G] and feed the occlusion list (SR2) | design |
 | K46 | EDID is a design input (format, range, bpc) | a | Driver behaviour in `sections/browser-chip.md`; default a DVI-only EDID with exact DTDs [G]; readback on R-SoC | DC-A |
@@ -91,13 +91,13 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K32 | Audio-fabric slot for the SoC producer (pump, lease or a fourth slot) | a | `docs/audio-fabric.md` and the fabric headers in `fw` | design |
-| K33 | ADAU1701 second serial input | b | SigmaStudio compile; needed only for receiver I2S | design |
-| K34 | A/V sync: active sink and delay sign | a + v | Chromium audio renderer source; flash-and-beep test at acceptance | design |
-| K35 | Aux-domain checks: inrush, per-rail fusing, sequencing, no back-feed (incl. a powered SoC's HDMI into an unpowered receiver), ground return | a + b | Design rules; SPICE | freeze |
-| K36 | PSU-side floppy receptacle current rating (~2 A) | a | Receptacle datasheet; moot for P2 | freeze |
-| K37 | Spare floppy leads per machine | c | Owner survey; an own supply removes it | freeze |
-| K38 | Zorro slot draw | a + v | Sum of datasheet maxima; measured at acceptance | freeze |
+| K32 | Audio-fabric slot for the SoC producer (pump, lease or a fourth slot) | a | `docs/audio-fabric.md` and the fabric headers in `fw`; options in `topics/audio-path.md` | design |
+| K33 | ADAU1701 second serial input | b | SigmaStudio compile; needed only for an I2S input into the DSP's `SDATA_IN1`, not for the fabric routes (`topics/audio-path.md`) | design |
+| K34 | A/V sync: active sink and delay sign | a + v | Chromium audio renderer source; flash-and-beep test at acceptance (`topics/audio-path.md`) | design |
+| K35 | Aux-domain checks: inrush, per-rail fusing, sequencing, no back-feed (incl. a powered SoC's HDMI into an unpowered receiver), ground return | a + b | Design rules; SPICE; checklist in `topics/power-domains.md` | freeze |
+| K36 | PSU-side floppy receptacle current rating (~2 A) | a | Receptacle datasheet; moot for P2 (`topics/power-domains.md`) | freeze |
+| K37 | Spare floppy leads per machine | c | Owner survey; an own supply removes it (`topics/power-domains.md`) | freeze |
+| K38 | Zorro slot draw | a + v | Sum of datasheet maxima against the slot limits in `topics/power-domains.md`; measured at acceptance | freeze |
 | K39 | 68k client: native conventions and ClipRect occlusion | b | An emulator with a P96 RTG card [R] against a stub plane interface | design |
 | K40 | Amiga font licensing for Chromium | a | Desk | design |
 | K41 | Reusing MNT's `0x6d6e` Zorro ID | c | Ask MNT; fallback is a new ID in every driver | fw freeze |

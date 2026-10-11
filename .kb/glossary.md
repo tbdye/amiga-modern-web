@@ -39,6 +39,10 @@ Status: current
 | HR, HP, MIO | 7-series high-range banks (1.2-3.3 V), high-performance banks (1.2-1.8 V), and Zynq PS multiplexed I/O |
 | MYIR module | MYC-C7Z010/20 (V1, the ZZ9000's), MYC-C7Z020-V2, or MYC-C7Z015: Zynq modules on two 140-pin board-to-board connectors |
 | J1/J2 | The 7020 module's connector numbering, used for every module in this KB (the 7015 map calls them J2/J3) |
+| VGA-USB add-on | An interposer card for a stock ZZ9000 that adds VGA output and a USB hub between the module and the carrier; the Replica has both on board (`topics/replica-interconnect.md`) |
+| Audio fabric; pump, lease | The A9 firmware's audio mixer; slot 0, the pump, carries MHI and ZZPlay, and slots 1-2 are leases taken by AHI and other producers (`topics/audio-path.md`) |
+| Inlet | A card header that takes a PSU drive lead, floppy-type by default, for the browser chip's power (`topics/power-domains.md`) |
+| Browservice | A remote browser: CEF renders off-screen and sends the view as images to a legacy browser (`topics/prior-art.md`) |
 
 ## Packaging and option codes
 

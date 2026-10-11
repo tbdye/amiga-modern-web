@@ -5,7 +5,7 @@ Status: current
 
 The KB holds the project's facts, decisions, open questions and rejected options for native modern web browsing on Zorro Amigas, each statement labelled and cited.
 It describes the design under study; it does not argue for it.
-Audio-path and power-domain depth, the Replica interconnect, prior-art depth and agent-tooling traps are deferred to a later KB version.
+Agent-tooling traps (PDF and KiCad parsing) are deferred to a later KB version.
 
 ## Load by task
 
@@ -18,7 +18,8 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
 | Pick or evaluate a Zynq part, package or module | `sections/zynq-and-board.md`, then `topics/zynq-pin-budget.md` |
-| Pin or bank arithmetic; Replica board I/O and module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
+| Pin or bank arithmetic; module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
+| Replica board I/O: translators, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
 | PCIe fetch or copy: link load, FIFO, pass thresholds | `topics/pcie-path.md` |
@@ -27,11 +28,12 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
 | Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
-| Power | `sections/architecture.md` ("Blocks"), `decisions.md` (DEC-003), `unknowns.md` (K35-K38) |
-| Audio | `unknowns.md` (K7, K32-K34), `topics/cef-frame-path.md` ("Audio") |
+| Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
+| Audio: ADAU1701 clocks, the audio fabric, browser audio routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
-| Why an alternative was rejected or is not under study; prior approaches | `sections/options-rejected.md` |
+| Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
+| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks | `topics/prior-art.md` |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
 | Sourcing channels and assembly | `sections/sourcing.md` |
 | What is open, and what settles it | `unknowns.md` |
