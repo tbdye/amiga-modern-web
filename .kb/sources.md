@@ -30,6 +30,14 @@ Files at the `fw` root (`video_source_sync.v`, `video_formatter.v`, `mntzorro.v`
 
 `linux` paths: `adv7604.c` = `drivers/media/i2c/adv7604.c`; `drm_hdmi_state_helper.c` and `drm_bridge_connector.c` are in `drivers/gpu/drm/display/`; `intel_hdmi.c` = `drivers/gpu/drm/i915/display/intel_hdmi.c`; `vc4_hdmi.c` = `drivers/gpu/drm/vc4/vc4_hdmi.c`; `dw_hdmi_qp-rockchip.c` = `drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c`; `hdptx.c` = `drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c`; `motorcomm.c` = `drivers/net/phy/motorcomm.c`; `rk3588-base.dtsi`, `rk3588-extra.dtsi`, `rk3588.dtsi` and `rk3588s.dtsi` are in `arch/arm64/boot/dts/rockchip/`.
 
+## Pin checks
+
+The procedure is in `_index.md`, "Keeping pins current".
+A public-repo pin must exist on the public remote.
+For fw and drivers, run `git fetch` in a clone, then `git branch -r --contains <commit>`; no branch listed fails the pin.
+For Linux and CEF, which have no local checkout here, confirm the commit exists at `https://github.com/<owner>/<repo>/commit/<sha>`; a 404 fails the pin.
+Triggers: a firmware or driver release tag; a Replica revision the project relies on; any KB change that cites a source whose manifest pin is older than its HEAD.
+
 ## Documents
 
 Datasheets are cited, never committed.
@@ -37,7 +45,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 
 | ID | Document | Where | SHA-256 | Access note |
 |---|---|---|---|---|
-| `ds187` | AMD DS187 v1.21 (2020-12-01), Zynq-7000 DC and AC switching characteristics (Z-7007S to Z-7020) | `docs.amd.com`, by document ID | `61e245380c01d2b9cc1350d529265d185e04c1c0379b0fdb3adcba76585c8dac` | Table 18 p15; Tables 50, 51 p33 |
+| `ds187` | AMD DS187 v1.21 (2020-12-01), Zynq-7000 DC and AC switching characteristics (Z-7007S to Z-7020) | `docs.amd.com`, by document ID | `61e245380c01d2b9cc1350d529265d185e04c1c0379b0fdb3adcba76585c8dac` | Table 18 p15; Tables 50, 51 p33; Table 73 p55 (text extraction misaligns its rows; read the rendered page) |
 | `ds190` | AMD DS190 v1.10 (2016-09-27), Zynq-7000 overview | `docs.amd.com`, by document ID | `9645d24599147afd989c89f19f50ff2d4c4e142db73fb4fa8fb77d53c7194097` | Resources p3; packages p4 (Tables 2, 3) |
 | `sii9022a` | Lattice SiI9022A/SiI9024A HDMI transmitter, SiI-DS-1076-E.01 | Lattice website | `3654d67aabee107820761e0804e52664c60edf42866b76fbfe04c6f870868766` | Copy read from `replica@96bdef0:Docs/datasheets/SiI9022A.pdf` |
 | `lvc8t245` | TI SN74LVC8T245, SCES584D (revised May 2026) | `https://www.ti.com/lit/ds/symlink/sn74lvc8t245.pdf` | `c14e874982491aadeb329649325a038a3d1e8a759d2035b08ddb13acc372ad1d` | §5.3 p7, §5.7 p10, §5.9 p11; TI stamps each download, so a fresh copy of the same revision hashes differently |

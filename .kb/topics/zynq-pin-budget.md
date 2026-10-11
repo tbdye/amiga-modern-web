@@ -15,6 +15,7 @@ Where each Replica pin goes (translators, headers, PS MIO): `topics/replica-inte
 - [F] The 7015 adds 12 bank-13 pins on J2.67-78 and GTP bank 112 (4 lanes, 2 reference clocks) on J2.111-140 (`evidence/z15.json`); the Replica leaves J2.67-78 and the GTP signal pins unconnected, and the interleaved GND pins are on GND (`replica@96bdef0`, netlist).
 - [F] Every power, GND, PS MIO, Ethernet, USB and VCCO pin matches between the two maps, and every PL pin stays a PL pin in the same bank (`evidence/z15.json`, `evidence/z20.json`).
 - [F] All module VCCO pins are on `+3V3` on the Replica, so every PL bank runs at 3.3 V (`replica@96bdef0`, netlist, U12.59/60, U13.35/36, U13.81/82).
+- The module, not the carrier, supplies `+3V3` and `+1V8`: `topics/power-domains.md`, "The Replica's power tree".
 - [F] J2.68/70 and J2.76/78 are clock-capable pairs L13 and L14 in bank 13 (`evidence/z15.json`).
 - [F] MGTREFCLK0 is on J2.135/137 and MGTREFCLK1 on J2.138/140 (`evidence/z15.json`; `myir-7015-pinmap` p1).
 - [F] Of the 125 Replica PL pins, 36 change clock-capable status on a 7015 (16 gain, 20 lose); only J2.28 carries a declared clock, `I2SO_BCLK` (`evidence/` pair comparison; `fw@8778ef3:xdc/zz9000.xdc:L270`).

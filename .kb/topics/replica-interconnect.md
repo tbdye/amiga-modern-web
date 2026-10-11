@@ -26,6 +26,7 @@ Pin budgets for a new board: `topics/zynq-pin-budget.md`; audio wiring: `topics/
 
 - [F] All eleven translators have VCCA on `+3V3`, VCCB on `+5V` and `/OE` tied to ground; U7-U10 have DIR tied low (bus to FPGA), U11 tied high (FPGA to bus), and U1-U6 take DIR from the PL (`replica@96bdef0`, netlist).
 - [F] U8-U10 and three channels of U7 carry the 27 video-slot capture nets: 24 RGB, `VHSYNC`, `VVSYNC` and `C28D` (`replica@96bdef0`, netlist).
+- Which builds clock capture from `C28D` rather than `ZORRO_E7M`: `sections/firmware-and-rtl.md`, "Capture clock".
 - [F] U24's sixth channel buffers PS MIO10 to the HDD LED (`replica@96bdef0`, netlist; `fw@bdfd8b0:os/sd_activity_led.h:L12`).
 - [F] The 74LVC06A needs VIH ≥ 2.0 V at VCC 2.7-3.6 V and sinks only 4 mA at VCC 1.65 V (`lvc06a` p3); U24 runs from `+3V3` (`replica@96bdef0`, netlist).
 - [G] So U24's five PL nets need a 3.3 V bank, or another translator, on any new board.

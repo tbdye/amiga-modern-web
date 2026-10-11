@@ -19,7 +19,7 @@ files:
   unknowns.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, cm5-ds, ds187]
+    cites: [fw, cm5-ds, ds187, browservice]
   glossary.md:
     status: current
     reviewed_on: 2026-10-10
@@ -51,11 +51,11 @@ files:
   sections/firmware-and-rtl.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, amd-vivado-editions]
+    cites: [fw, ds187, amd-vivado-editions]
   sections/options-rejected.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [fw, replica, cef, cm5-ds, lvc8t245]
+    cites: [fw, replica, ds187, cef, cm5-ds, lvc8t245]
   sections/sourcing.md:
     status: draft
     reviewed_on: 2026-10-10
@@ -107,7 +107,7 @@ files:
   topics/power-domains.md:
     status: draft
     reviewed_on: 2026-10-10
-    cites: [replica, addon, zorro3, jk-nsmd350l, lutefuse-1206l, te-171826, atx12v, a4000-sm, cm5-ds, myir-7015]
+    cites: [replica, addon, zorro3, jk-nsmd350l, lutefuse-1206l, te-171826, atx12v, a4000-sm, cm5-ds, myir-7015, myir-7020-pinout]
   topics/replica-interconnect.md:
     status: draft
     reviewed_on: 2026-10-10

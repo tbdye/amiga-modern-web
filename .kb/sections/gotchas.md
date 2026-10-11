@@ -10,7 +10,8 @@ Status: draft
 ## Firmware and RTL
 
 - [F] Every mode init drops source sync before reprogramming, even when the output timing is unchanged (`fw@8778ef3:os/video.c:L1202-1207`); a V variant inheriting that path blinks the plane for about 5 frames on a colour-depth change [G] (E5, fix f5).
-- [F] `MAX_TOTAL_LINES` (1152) and the 256-line delay are native-1080p values derived from the capture prefetch guard (`fw@8778ef3:video_source_sync.v:L25-37`); they are not RTG limits, and 1600×1200 and 2560×1440 exceed 1152 lines.
+- [F] `MAX_TOTAL_LINES` (1152) and the 256-line delay are native-1080p values derived from the capture prefetch guard (`fw@8778ef3:video_source_sync.v:L25-37`), yet the tracker engages on nominal frames of up to 4031 lines (`:L152-153`) and clamps the wrap at line 1151 (`:L197-199`).
+- [G] So they were not sized for RTG but bind there: read from the RTL, 1600×1200 (1242 lines) and 2560×1440 (1465) would be cut short once locked (Vtotals at `fw@8778ef3:os/zz_video_modes.c:L23-24`), and a browser variant needs per-mode constants (K48).
 - [F] The pixel clock is `clk_wiz_0`, a PLLE2_ADV reprogrammed through DRP for every mode (`fw@8778ef3:xdc/runtime_pixel_timing.xdc:L6-11`); a PLLE2 has no dynamic phase shift [R `ug472`], so a phase-shift trim means an MMCM swap [G].
 - [F] The default native profile is `filtered_60` (`fw@8778ef3:README.md:L129`), an 800×600 or 720×480 output, not a 1080p profile (`os/zz_config.c:L233-236`; `os/video.c:L491-520`); only a centred-1080p native profile with RTG at 1080p60 avoids a monitor retrain on native↔RTG switches (`README.md:L385-391`), and the tracker still relocks [G] (`sections/display-coupling.md`).
 - [F] `ZZ9000.CFG` is read at power-on; a soft reset does not reload it, except `fast_ram`, which every reset re-reads (`fw@bdfd8b0:README.md:L118-121`), so test a profile change with a power cycle.
@@ -23,6 +24,8 @@ Status: draft
 - [F] On the 7015, PUDC_B moves to J2.14 (`myir-7015-pinmap`, ball K7), which the Replica wires to `HG0`, a live HDMI pixel line (`replica@96bdef0`, netlist, not public): it would float during configuration unless strapped [R `ug470`: PUDC_B must not float, and a strap is 1 kΩ or less].
 - [G] So PUDC_B needs an on-module tie or a strap high, with the low level and edge rate then checked at every receiver on `HG0`.
 - [F] On the 7020, J2.28 (the ADAU1701's output BCLK, `I2SO_BCLK`, `fw@8778ef3:xdc/zz9000.xdc:L270, L285`) is clock-capable pair L12; on the 7015 the same pin is pair L6, not clock-capable (`evidence/z20.json`, `evidence/z15.json`, section 2 pin 28).
+- [F] `I2SO_BCLK` is a declared clock with no `CLOCK_DEDICATED_ROUTE FALSE`, while the firmware already sets that property per net for its capture clocks on regular I/O, `ZORRO_E7M` and `ZORRO_C28D` (`fw@bdfd8b0:xdc/zz9000.xdc:L270`; `xdc/capture_e7m.xdc:L6-10`; `xdc/capture_c28.xdc:L11-13`).
+- [G] So a 7015 module on the Replica needs the same override on `I2SO_BCLK` and a re-check of BCLK timing (WNS and WHS ≥ 0); a new board puts BCLK on a clock-capable pin (K21).
 - [F] MYIR labels GTP lanes 0 and 2 "Pcie", lane 1 "Sata" and lane 3 "Sfp", and reference clocks MGTREFCLK0 "Pcie" and MGTREFCLK1 "Sfp" (`myir-7015-pinmap` p1); a label is not a validation, and ×2/×4 PCIe on those pins is unvalidated [G].
 - [F] The firmware's PHY check accepts any PHY whose register 2 reads `0x22` or `0x4f51` (`fw@8778ef3:os/ethernet.c:L1007-1024`); `0x0022` is Micrel's OUI word, so it accepts more than the KSZ9031 it names [R].
 

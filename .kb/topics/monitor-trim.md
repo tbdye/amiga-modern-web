@@ -36,7 +36,7 @@ Positive means the source is slower than the output, so output frames are length
 
 - [F] Today's tracker ends each 1080p frame between line 1091 and line 1152 against 1125 nominal (`sections/display-coupling.md`, "The precedent in shipping firmware").
 - [G] So while acquiring, the phase ramps by about −34 lines per frame (frames shortened, vertical rate +3.1%) or +27 (frames lengthened, −2.3%).
-- [G] Closing a full frame of phase then takes about 33 frames (0.55 s) in one direction, and about 18 frames (0.3 s) worst case taking the shorter way.
+- [G] Closing a full frame of phase then takes about 33 frames (0.55 s) shortening or about 42 (0.69 s) lengthening, and about 18 frames (0.3 s) worst case taking the shorter way.
 - [G] An uncapped V variant would ramp like this on every SoC boot, reboot or replug while RTG is visible; that is why the V variant caps the trim at ±1 line per frame (K2).
 
 ## Reading R-TRIM results

@@ -76,7 +76,7 @@ Status: draft
 | MYIR 7015 module (137 HR) | A 50-pin DDR3 bank at 1.5 V leaves 87: does not fit |
 | 7015 chip-down CLG485 (150 HR) | 100 HR left: fits only with TMDS output and the slow controls on MIO, which loses 1080p (`topics/zynq-pin-budget.md`, "PL DDR on a 7015 loses 1080p") |
 | 7030 SBG485 (50 HR + 100 HP) | DDR3 on HP leaves 50 HR + 50 HP: does not fit |
-| 7030 FBG484 (100 HR + 63 HP) | DDR3 on HP leaves 13 HP, too few for a 28-pin 1.8 V HDMI bus, so 3.3 V needs 88 + 16 = 104 of 100 HR: 4 short; a translator moving I2S onto HP closes it |
+| 7030 FBG484 (100 HR + 63 HP) | DDR3 on HP leaves 13 HP, too few for a 28-pin 1.8 V HDMI bus, so 3.3 V needs 88 + 16 = 104 of 100 HR, with PERST# and the enables on MIO: 4 short; a translator moving I2S onto HP closes it |
 | 7030 FBG676 (100 HR + 150 HP) | Fits: 94-96 of 100 HR at 3.3 V, HDMI as the 28-pin bus at 1.8 V on HP |
 
 - [F] Package I/O is per `ds190` p4 (`sections/zynq-and-board.md`, "Parts").

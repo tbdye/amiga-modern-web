@@ -69,6 +69,7 @@ flowchart LR
 - [F] The firmware runs it at 10/100 on either PHY type: `link_speed = 100` under a FIXME, 10 and 100 advertised, the 1000BASE-T advertisement cleared, then autonegotiation restarted (`fw@bdfd8b0:os/ethernet.c:L1085-1121, L1142-1148`).
 - Candidates [G]: UART0 on MIO plus a USB-serial bridge for a split SBC, or Ethernet through an on-card switch on GEM0.
 - [G] A control link through a GEM0 switch shares the Amiga's LAN segment unless the ports are isolated or VLANs are used.
+- GEM0's receive backlog and pause-frame flow control: `sections/firmware-and-rtl.md`, "What the card offers today".
 
 ## Safety summary
 

@@ -41,6 +41,9 @@ The budgets and checks below are planning values for a design under study, not m
 - [F] F3 holds 2.50 A in still air at 25 °C (`lutefuse-1206l` p4).
 - [G] `+9VA` draws tens of mA, and F5 passes only the fan's current, so a fan of 400 mA or less keeps +12 V inside the 500 mA Zorro III figure.
 - [F] The MYC-C7Z015 module is rated 5 V, 0.5 A (`myir-7015`); with capture it fits the 2.0 A slot limit [G].
+- [F] No carrier part drives `+3V3` or `+1V8`: neither net has a power-output pin, and both reach the module on its bank VDDIO pins, `+3V3` on U12.59, 60, 139 and U13.35, 36, 81, 82, and `+1V8` on U12.138 (`replica@96bdef0`, netlist; pin names in `evidence/z20.json`).
+- [F] The carrier's own regulators are U104 (78M09, `+9VA`), U105 and U111 (LMR33630, USB 5 V), U16 (AP2112K-1.2), U25 (AP2112K-3.3, `VAA3.3_LDO`) and the FE1.1s hub's internal 3.3 V (`replica@96bdef0`, netlist).
+- [G] So the module supplies both rails, and a replacement module must supply them on the same pins, or the carrier must add regulators.
 
 ### Stock ZZ9000 with the VGA-USB add-on
 

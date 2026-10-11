@@ -30,7 +30,7 @@ Status: draft
 
 - [G] BRAM is the likeliest resource to bind on a Z-7015: 95 BRAM36 against the Z-7020's 140, 32% fewer.
 - [F] The firmware repository holds no utilisation report (`fw@bdfd8b0`, no `report_utilization` output or `.rpt` file in the tree), so the shipping design's use is unmeasured here (K20).
-- [G] A fit build passes with ≤ 85% of BRAM36 (≤ 80 of 95 on a Z-7015, PCIe BAR windows included) and ≤ 85% of LUTs; WNS ≥ 0 and WHS ≥ 0 on every clock, BCLK included; no Place 30-574-class placement warnings; and step 0 of the native-video regression (`sections/firmware-and-rtl.md`).
+- [G] A fit build passes with ≤ 85% of BRAM36 (≤ 80 of 95 on a Z-7015, PCIe BAR windows included) and ≤ 85% of LUTs; WNS ≥ 0 and WHS ≥ 0 on every clock, BCLK included; no Place 30-574-class placement warnings beyond those the build's per-net `CLOCK_DEDICATED_ROUTE FALSE` overrides already accept (`sections/firmware-and-rtl.md`, "Capture clock"); and step 0 of the native-video regression (`sections/firmware-and-rtl.md`).
 - [G] Its first step is `report_utilization` on the existing Z-7020 build.
 - [G] V-tracked's line FIFO takes about 8 BRAM36 (`sections/display-coupling.md`); PCIe fetch takes about 8 for its FIFO and 2-3 for its BAR windows (`topics/pcie-path.md`).
 
@@ -80,4 +80,5 @@ Status: draft
 ## What a new card removes, and where reuse stops
 
 - [G] A new card removes the Replica-specific problems of a Z-7015 module: the PUDC_B strap on a live pixel line, the BCLK pin losing clock capability (`sections/gotchas.md`), add-on stacking and a GTP interposer; the Z-7015's BRAM squeeze goes only with a Z-7030 or a chip-down Z-7020.
+- [G] The new-card designs are a chip-down Z-7020 CLG484 fed by V, with or without a PL DDR3 bank (`topics/zynq-pin-budget.md`, "Package results under V-tracked"), and a Z-7030 FBG676 with PL DDR3 for PCIe copy (`topics/pcie-path.md`, "Pin budget under PCIe"); which leads is open (DC-C, `unknowns.md`).
 - [G] Reuse stops paying at the MYIR 7015 module's 137 PL pins under V (`topics/zynq-pin-budget.md`), at the Replica as a host for a 1080p V input (P4, R2 above), and, for firmware and PL, at the Zynq-7000 boundary (P6, P7, P9) and at a SoC-owned display (P8).

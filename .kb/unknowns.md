@@ -73,7 +73,7 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
 | K20 | PL fit and BRAM margin | b | `report_utilization` on the 7020 build; fit builds per DC-C candidate, against the pass criteria in `sections/zynq-and-board.md`, "Fit" | DC-C |
-| K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin, J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
+| K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin (a Replica with a 7015 module instead needs `CLOCK_DEDICATED_ROUTE FALSE` on `I2SO_BCLK` and a BCLK timing re-check, `sections/gotchas.md`), J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
 | K22 | PS port, PHY ID, DDR3 at 1066 | a + c | A chip-down board picks its PHY; [F] DDR3 1066 is legal at every grade (`ds187` Table 18); MYIR only on the module path (7015 PHY, DDR3 rate, PUDC_B tie) | DC-C |
 | K23 | Module lanes (lifecycle answered: `sections/sourcing.md`, "Lifecycle") | c | ×2/×4 lane validation via MYIR | DC-C |
 | K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **Gate for f1:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. If it fails, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
@@ -102,7 +102,7 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 | K40 | Amiga font licensing for Chromium | a | Desk | design |
 | K41 | Reusing MNT's `0x6d6e` Zorro ID | c | Ask MNT; fallback is a new ID in every driver | fw freeze |
 | K42 | SR table edits for V (`topics/plane-safety.md`) | a | Desk edit | design |
-| K54 | A path for owners of stock ZZ9000 boards | a + c | Open: no decision records one, and stock compatibility is a bonus, not a requirement [D] DEC-005; one candidate is point-to-point Ethernet on the card's RJ45, which the firmware bridges to the Amiga as raw frames with no TCP/IP stack (`sections/architecture.md`, "Control link (K8)"), so it would need a receive classifier, by EtherType or UDP port [G] | design |
+| K54 | A path for owners of stock ZZ9000 boards | a + c | Open: no decision records one, and stock compatibility is a bonus, not a requirement [D] DEC-005; one candidate is point-to-point Ethernet on the card's RJ45, which the firmware bridges to the Amiga as raw frames with no TCP/IP stack (`sections/architecture.md`, "Control link (K8)"), so it would need a receive classifier, by EtherType or UDP port [G]; [G] the routes open to a stock board today are remote browsers such as Browservice or WRP shown in an Amiga browser, which as pixel streaming fail native feel by construction (`topics/prior-art.md`, "Remote and split-engine browsers"); [F] Browservice confirms no Amiga client and is unmaintained at `02601b0` (`browservice@02601b0:README.md:L3-7, L105-136`) | design |
 | K56 | How the feature ships in the ZZ9000 firmware | c | Open: a bitstream variant for cards with the hardware, a firmware SDK service, or mainline firmware enabled on that hardware [G]; the firmware maintainers' review decides what lands upstream | fw freeze |
 
 ## Network and security
