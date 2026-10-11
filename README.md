@@ -11,18 +11,19 @@ Whether this ends up as one card, a Zynq card plus an off-the-shelf SBC, or a re
 
 ## Status
 
-A request for comments is in preparation.
-It is design only, and nothing has been built.
+RFC 0001 is open for comment in [#8](https://github.com/tbdye/amiga-modern-web/pull/8).
+The project is design only, and nothing has been built.
 
 | Document | Path | State |
 |---|---|---|
 | Agent instructions; `CLAUDE.md` imports them | `AGENTS.md` | Current |
 | Agent knowledge base: facts, decisions, unknowns and options, each labelled and cited | `.kb/` | v1; some files are `Status: draft` |
-| RFC 0001: Native modern web browsing on Zorro Amigas | — | In preparation |
+| RFC 0001: Native modern web browsing on Zorro Amigas | [#8](https://github.com/tbdye/amiga-modern-web/pull/8) | Open for comment |
 
 ## Taking part
 
-Once the RFC's pull request opens, comments on it go inline there.
+Comments on the RFC go in its pull request, [#8](https://github.com/tbdye/amiga-modern-web/pull/8).
+For a specific point, comment on that line in the **Files changed** tab; for something broader, comment on the conversation.
 Changes come as pull requests too.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how review and merging work here.
 
