@@ -1,7 +1,7 @@
 # Architecture
 
 Scope: the blocks of the design under study, its data and control paths, the browser plane, and a summary of the safety rules.
-Status: current
+Status: draft
 
 ## Blocks
 
@@ -19,11 +19,13 @@ flowchart LR
 | Zynq-7000 | Owns the Zorro bus, native capture, the scan doubler, final scanout and HDMI out, as on a ZZ9000 | [G] design |
 | Receiver | ADV7611 class; SoC HDMI to 24-bit RGB 4:4:4 | [G]; Linux exposes RGB888_1X24 for the ADV7611 (`linux@6c377d19d4a5:adv7604.c:L709-711`) [F] |
 | Browser chip | Chromium with GPU raster and compositing | [G]; candidates in `sections/browser-chip.md` |
-| Control link | Input, commands and a heartbeat between the 68k client, the Zynq and the SoC | Open (K8) |
+| Control link | Input, commands, clipboard, window geometry, files and a heartbeat between the 68k client, the Zynq and the SoC; audio too, proposed (K7) | [G]; transport open (K8) |
 | 68k client | The Workbench window, menus, ASL, clipboard, keymap, ARexx; tracks the window rectangle and occluders | [G] design |
 | Host daemon | On the SoC: CEF windowed host, input injection, dialog and download handlers, audio sink | [G] proposed (DEC-014 mechanism, K50) |
 | Audio | Browser audio joins the card's existing audio fabric | One line here; depth deferred |
 | Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | One line here; depth deferred |
+
+- [F] A CM5 alone may draw up to 5 A at 5 V (`cm5-ds` p6), against 2.0 A at +5 V per Zorro III slot [R `zorro3`]; so the slot cannot feed the SoC [G], and the SoC's own feed must not back-feed the receiver or the Zynq side (K35).
 
 ## Paths
 

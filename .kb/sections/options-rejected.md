@@ -1,12 +1,13 @@
 # Options and rejections
 
 Scope: the alternatives to the design under study, why each lost, stays a fallback or is not under study, and dead ends; no ranking or case for the design.
-Status: current
+Status: draft
 
 ## Options compared
 
 Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 [D] DEC-008 keeps the FPGA, module and board open, so "Rejected" marks only options a decision rules out; the rest are "Not under study".
+[G] V-tracked's properties: the monitor only ever sees the Zynq's clock; any SoC with an HDMI output works; no PCIe link is needed; the line FIFO adds microseconds (4 lines, about 59 µs at 1080p); and the firmware, RTL and drivers carry over without a rewrite.
 
 | Option | Felt quality | Integration effort | Firmware-rewrite cost | DEC-005 / DEC-013 | Standing |
 |---|---|---|---|---|---|
@@ -30,6 +31,25 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **A SoC module beside an unchanged Z-7020 over Ethernet** [G]: the same round trip on one PCB, with no gain in feel.
 - **The SoC doing capture itself, with a CPLD for Zorro** [R]: no app SoC exposes a low-latency slave bus for Zorro RTG, so the CPLD grows into an FPGA and native video runs through SoC Linux.
 - **Jetson Orin** [R]: Chromium GPU acceleration on L4T is unproven and the stack is proprietary; revisit if that changes.
+- **A direct parallel video output from the SoC instead of a receiver**: it does not generalise.
+  [R] RK3588's parallel output is BT.1120, YCbCr 4:2:2, which breaks lossless text.
+  [F] The CM5's 24-bit DPI takes GPIO0-27, every I2S pin among them (`cm5-ds` p12-13).
+  [R] x86 parts have none.
+  [G] An HDMI receiver works with any SoC.
+- **Zynq UltraScale+ (P6)**: [R] a ZU+ module such as the Enclustra Mercury XU5 offers 92 HP (≤ 1.8 V) and 54 HD (≤ 3.3 V) I/O, with PCIe Gen2 ×4 on ZU2/ZU3 or Gen3 ×4 on ZU4EV/ZU5EV, which add a video codec unit; the vendor's datasheet would verify it.
+  [G] Its 52-54 usable 3.3 V pins fall far short of the 88-91 that Zorro, capture and I2S need (`topics/zynq-pin-budget.md`), so it adds translators and their timing work.
+  [R] A chip-down ZU2/ZU3 in SFVC784 may have about 96 HD pins, and whether HD banks offer the IOB input registers the capture and I2S inputs use (`sections/firmware-and-rtl.md`) is unverified; DS925 and UG571 would settle both.
+  [R] Alone, its 4 × A53 at about 1.2-1.5 GHz is Raspberry Pi 3 class and its Mali-400 MP2 is GLES 2 class, often blocklisted for Chromium GPU raster, so it cannot host the browser.
+- **Versal AI Edge Gen 2 (P7)** [R]: the only single chip with Zorro-capable fabric, an application CPU and a Chromium-capable GPU (Mali-G78AE), but silicon and module availability and the Chromium GPU driver are unproven; its XPIO banks reach only about 1.5 V and its 3.3 V HDIO count is unverified (K28).
+- **The card's A9 rasterising Chromium display lists** [G]: it makes scrolling local, but needs a Chromium cc/Skia fork with a standing rebase cost and unproven A9 raster coverage, and every DOM change still round-trips; it went with the remote tier.
+- **A downstream HDMI compositor card** [G]: a P8 variant, in which a SoC card takes the ZZ9000's HDMI in and composites Chromium into it; all Amiga video then passes through the card (at least a frame added, the display depending on the card) and there is no VGA path; it was the only option giving stock ZZ9000 owners full feel; out with P8 [D] DEC-013.
+- **A second monitor** [G]: the browser would not be in Workbench.
+- **A second Ethernet MAC (GEM1 over EMIO RGMII)** [G]: about 12-14 PL pins; the Replica has none free, and on a chip-down 7020 CLG484 with PL DDR it reaches or overflows the 150 HR left.
+- **MIPI DSI or CSI into the Zynq** [R]: D-PHY needs a 1.2 V low-power receiver plus a high-speed receiver, which a 3.3 V bank shared with Zorro and HDMI cannot provide, and no pins are free; XAPP894 would verify the D-PHY levels.
+- **The SoC as a USB device on the card's USB** [F]: the card's USB is a single-owner proxy aperture shared by the firmware and `zzusbhw.device` (`fw@bdfd8b0:docs/usb-proxy-protocol.md:L3`), the Poseidon stack's device, and the CM5's USB device mode is not officially documented (`cm5-ds` p10).
+- **A PCIe-coupled SoC as a "coprocessor"** [G]: in topology there are two chips, but the link is a memory bus, not a network: no damage protocol, layer export, compression or A9 compositing budget.
+- **Keeping the engine remote and forking Chromium** [G]: the large gain in feel comes from putting the engine next to the scanout; a fork on a remote path gains much less, and with the engine local, layer export is unnecessary.
+- **A clock-switching genlock bench** [G]: under V-tracked no clock switch exists, so tracking is tested on existing hardware (R-TRIM, R-PLANE) and receiver interop at the desk, with R-RX optional.
 - **The existing Replica with V input** [F]: the Replica connects all 125 PL pins of its module; 124 have on-board loads, and `Free7` (J2.62) reaches only expansion header J10.3 (`replica@96bdef0`, netlist, not public); a 7015 module adds 12 unconnected pins, so the free count is 12 plus `Free7` (header only) (`topics/zynq-pin-budget.md`); a 28-pin receiver input does not fit, and the 8-pin TMDS alternative caps near 720p on HR banks [G].
 
 ## DPI into the video-capture path
@@ -42,7 +62,11 @@ Firmware-side facts that show it is not a drop-in input [F]:
 - Capture writes into DDR through Zorro `m01` (`fw@8778ef3:mntzorro.v:L2042`).
 - The PIP plane that could show it is YUV422 only (`fw@8778ef3:docs/native-p96-pip.md:L55-57`).
 
-The Replica-side electrical points (video-slot net ties, translator input thresholds) wait for a re-derivation at the current Replica revision.
+Replica-side facts:
+
+- [F] Net ties NT1-NT32 join 32 nets of the video-slot output header J9 to the video-slot input header J8: 24 RGB nets reach the capture translators U8-U10, 3 (VVSYNC, VHSYNC, C28D) reach U7, another 74LVC8T245, 4 are audio nets (AUDFLTL/R, AUDRAWL/R), and NT30 joins GND to the slot's audio ground (`replica@96bdef0`, netlist, not public); so a source on J9 drives the Amiga's video nets [G].
+- [F] U7-U10 (74LVC8T245) run their bus side at +5 V and their FPGA side at +3V3, with DIR tied low so the bus side is the input (`replica@96bdef0`, netlist), and the part's high-level input threshold for data inputs at 4.5-5.5 V is 0.7 × VCCI, 3.5 V at 5 V (`lvc8t245` §5.3 p7); so a 3.3 V DPI source would need 5 V drivers [G].
+- Rejected likewise [D] DEC-005: a 2:1 bus switch selecting the video slot or a SoC header ahead of those translators, since native capture is lost while the SoC is selected.
 
 ## Dead ends
 

@@ -20,9 +20,10 @@ Status: draft
 ## Modules and pins
 
 - [F] The 7015 pin map labels the module connectors J2/J3, the 7020 document J1/J2 (`myir-7015-pinmap`, `myir-7020-pinout`); this KB uses the 7020 numbering, so 7015 "J3.14" is J2.14 here.
-- [F] On the 7015, PUDC_B moves to J2.14 (`myir-7015-pinmap`, ball K7), which the Replica wires to `HG0`, a live HDMI pixel line (`replica@96bdef0`, netlist, not public): it would float during configuration unless strapped [R `ug470`: PUDC_B must not float].
+- [F] On the 7015, PUDC_B moves to J2.14 (`myir-7015-pinmap`, ball K7), which the Replica wires to `HG0`, a live HDMI pixel line (`replica@96bdef0`, netlist, not public): it would float during configuration unless strapped [R `ug470`: PUDC_B must not float, and a strap is 1 kΩ or less].
+- [G] So PUDC_B needs an on-module tie or a strap high, with the low level and edge rate then checked at every receiver on `HG0`.
 - [F] On the 7020, J2.28 (the ADAU1701's output BCLK, `I2SO_BCLK`, `fw@8778ef3:xdc/zz9000.xdc:L270, L285`) is clock-capable pair L12; on the 7015 the same pin is pair L6, not clock-capable (`evidence/z20.json`, `evidence/z15.json`, section 2 pin 28).
-- [F] MYIR labels GTP lanes 0 and 2 "Pcie", lane 1 "Sata" and lane 3 "Sfp" (`myir-7015-pinmap`); a label is not a validation, and ×2/×4 PCIe on those pins is unvalidated [G].
+- [F] MYIR labels GTP lanes 0 and 2 "Pcie", lane 1 "Sata" and lane 3 "Sfp", and reference clocks MGTREFCLK0 "Pcie" and MGTREFCLK1 "Sfp" (`myir-7015-pinmap` p1); a label is not a validation, and ×2/×4 PCIe on those pins is unvalidated [G].
 - [F] The firmware's PHY check accepts any PHY whose register 2 reads `0x22` or `0x4f51` (`fw@8778ef3:os/ethernet.c:L1007-1024`); `0x0022` is Micrel's OUI word, so it accepts more than the KSZ9031 it names [R].
 
 ## Video path

@@ -29,6 +29,9 @@ Status: current
 - [G] A tracker variant anchored on the receiver's VSYNC/DE, capped at ±1 line per frame in acquisition and steady state, that never hides RTG and goes to nominal frames on unlock (K2).
 - [G] An async line FIFO from the receiver clock to the output clock: 4 lines at 1920 × 32 bpp ≈ 8 BRAM36, absorbing phase, not rate (K3).
 - [G] Per-mode tracker constants; today's are native-1080p values tied to the capture read-after-write guard (K48).
+- [F] Today's tracker unlocks when no anchor arrives within nominal + 256 lines (`WATCHDOG_LINES`) and returns to nominal frames (`fw@8778ef3:video_source_sync.v:L127, L473, L519-525`).
+- [F] Until it trips, today's tracker ends each frame at the blanking floor, up to 34 lines short at 1080p (`fw@8778ef3:video_source_sync.v:L492-495`).
+  [G] That lasts 1-2 frames; only the V variant's ±1 cap limits each to one line short.
 - [F] `MAX_TOTAL_LINES` 1152 was derived for the native single-buffer prefetch guard (`fw@8778ef3:video_source_sync.v:L25-37`).
 - [G] Read from the RTL, today's tracker would still engage on an RTG mode with Vtotal above 1152 (`nominal_valid` accepts up to 4030, `video_source_sync.v:L152-155`) and then cap every frame at 1152 lines (`:L197-199`), cutting frames short: 1600×1200 (1242) and 2560×1440 (1465) (Vtotals at `os/zz_video_modes.c:L23-24`).
 
@@ -71,12 +74,12 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | E15 Amiga blanker | No: DPMS masks syncs only (`fw@8778ef3:video_formatter.v:L1700-1703`) [F] | 0 | Phase kept |
 | E22 monitor power-cycle or replug | Monitor side only | 0 [G] | No HPD handling in `os/hdmi.c`, `os/main.c` or `os/video.c` [F, negative grep at `8778ef3`] |
 | E5 colour depth, same resolution | No: unchanged output timing keeps the clock and TMDS (`fw@8778ef3:os/video.c:L1174-1192, L1232-1236`) [F] | ≈ 5 frames (≈ 80 ms) blink [G] | Mode init drops source sync (below); f5 removes it |
-| E4 RTG resolution change | Yes; each RTG resolution has its own output timing (`drivers@ad9606b:rtg/mode_timing.h:L23-37`) [F] | SoC modeset + relock, ~0.1-0.5 s [G], hidden by the monitor's resync | User-requested, so DEC-013-exempt; needs an EDID DTD per mode |
+| E4 RTG resolution change | Yes; each RTG resolution has its own output timing (`drivers@ad9606b:rtg/mode_timing.h:L23-37`) [F] | SoC modeset + relock, ~0.1-0.5 s [G], hidden by the monitor's resync | User-requested, so DEC-013-exempt; needs an EDID DTD per mode (`sections/browser-chip.md`, "EDID for every RTG mode") |
 | E2 cold boot, SoC up; E3 warm reboot; E6 native↔RTG; E20 watchdog | Yes | ≤ 9.4 s after RTG appears, plus the ~5-frame lock qualification | E2, E3, E6 DEC-013-exempt; see below |
 | E1 joint cold boot, E7 SoC reboot, E21 firmware update | E1, E21: yes; E7: no | SoC boot (~15-30 s) plus ≤ 9.4 s lock, less if the SoC sets its final mode early [G] | Boot-bound; E1 DEC-013-exempt |
-| E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | |
+| E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | The plane shows whatever the SoC scans out: its desktop, or black [G] |
 | E9 Chromium modeset, E11 SoC mode/EDID, E12 cable replug, E13 SoC DPMS, E14 tracker watchdog | No | ≤ 9.4 s, not exempt | f4 removes E9, E11, E13 |
-| E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | |
+| E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | Then the placeholder shows and the SoC is reset [G]; the timeout is open (K55) |
 | E18 unsupported mode, E19 off-EDID timing | — | Never live | Placeholder shown |
 
 - [D] E20 and E21 are neither ordinary browser actions nor exemptions named in DEC-013.
@@ -95,7 +98,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 
 | ID | Mitigation | Effect [G] | Cost and condition |
 |---|---|---|---|
-| f1 | PS-DDR acquisition bridge: the receiver writes a 3-frame ring (≈ 18.7 MB at 1080p, 24 bpp) in PS DDR; a reader shows the newest complete frame until lock, then a vblank switch to the line FIFO | **About 1 frame after receiver lock [G]** for E2, E3, E5, E6, E9, E11-E14, E20, at up to +1 frame latency while acquiring. **Gated on the DDR headroom measurement (K25); if that fails, the wait stays ≤ 9.4 s at 1080p60** | No BOM. Yields to native PIP (then ≤ 9.4 s at 1080p60). Brings SR3, SR12 and SR13's frame clause into V-tracked, plus a no-stall read rule; HP1 excluded |
+| f1 | PS-DDR acquisition bridge: the receiver writes a 3-frame ring (≈ 18.7 MB at 1080p, 24 bpp) in PS DDR; a reader shows the newest complete frame until lock, then a vblank switch to the line FIFO | **About 1 frame after receiver lock [G]** for E2, E3, E5, E6, E9, E11-E14, E20, at up to +1 frame latency while acquiring. **Gated on the DDR headroom measurement (K25); if that fails, the wait stays ≤ 9.4 s at 1080p60** | No BOM; proposed. Yields to native PIP (then ≤ 9.4 s at 1080p60): "PIP wins" is a proposed policy [G], the alternatives being time-sharing or the PIP's ARM-compositor path (`fw@bdfd8b0:docs/native-p96-pip.md:L106-108`). Write and read 0.37-0.50 GB/s each (K25). Brings SR3, SR12 and SR13's frame clause into V-tracked, plus a no-stall read rule; HP1 excluded |
 | a′ | Snap at RTG→RTG mode inits: hold TMDS down until the receiver shows the SoC's new mode, then start the raster aligned to it | E4 = SoC modeset + ~1 frame, hidden by the monitor's resync | RTG→RTG only (SR15); every RTG mode change then waits on the SoC, bounded by a timeout |
 | f3 | Lock before the window opens | 0 for E16, E17 | Part of the design |
 | f4 | SoC hygiene: a compositor holds the mode across Chromium restarts; no DPMS; fixed EDID; modesets only on command; never toggle HPD | Removes E9, E11, E13 | SoC image configuration |
@@ -105,15 +108,8 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 
 Dead ends [G]: MMCM phase-shift trim for acquisition (kept as a steady-state remedy for K49); a partial BRAM buffer; showing the plane unlocked (`sections/options-rejected.md`).
 
-[G] The f1 ring would be a card-pool allocation, not a fixed range (`sections/firmware-and-rtl.md`, "PS DDR map and card pool").
+[G] The f1 ring, if built, would have to survive an Amiga reset (E3), so it would be a FIRMWARE-class card-pool allocation, not a fixed range (`sections/firmware-and-rtl.md`, "PS DDR map and card pool").
 [F] Capture writes are idle in RTG: the writeback state machine re-arms only when `videocap_mode_sync` is set (`fw@8778ef3:mntzorro.v:L2023, L2081`).
-
-## EDID for every RTG mode
-
-- [F] The RTG table has 13 rows and 11 distinct output timings: 640×400 shares 640×480's, and 640×512 shares 800×600's (`drivers@ad9606b:rtg/mode_timing.h:L23-37`).
-- [G] Excluding 2560×1440 leaves 10; three are exact DMT modes (800×600, 1024×768, 1280×1024) that fit standard timings, leaving 7 DTDs.
-- [R] A base EDID block holds 2-3 DTDs after the name and range descriptors, and one CTA-861 extension about 6, in the ADV7611's 256-byte EDID RAM; CTA-861 and the ADV7611 hardware manual would verify it.
-- [G] Verdict: fits, with 1-2 slots spare; a user-defined custom mode can never have an entry (E18).
 
 ## R-TRIM: the monitor test anyone can run
 
@@ -128,5 +124,4 @@ Results are welcome as a GitHub issue on this repository: monitor make and model
 5. Record any "no signal" message, mode banner, HDMI audio drop, or blank longer than about half a second; a short hidden picture after a toggle is expected.
 6. Record the live capture line count ZZTop shows (`drivers@ad9606b:ZZTop/Sources/ZZTop.c:L870-871`).
 
-[G] R-TRIM is harsher than V-tracked in steady state (up to 3.81 lines per frame for NTSC non-interlaced against 1080p60) and in acquisition (the −34/+27 ramp), so a pass covers the ±1 design.
-A blank of 1-3 s or an on-screen mode banner counts as a resync.
+What the trim per source is, why R-TRIM is harsher than V-tracked, and what counts as a resync: `topics/monitor-trim.md`.

@@ -16,16 +16,20 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K2 | Tracker V variant: receiver anchor, ±1-line cap, engages at SoC boot, never hides RTG, nominal frames on unlock, keeps engagement on unchanged output timing (f5) | a + b | RTL reading of `video_source_sync.v`; its source-sync bench adapted to a receiver anchor; static timing; R-PLANE | DC-A |
 | K3 | Line FIFO depth and phase bound | a | 0.54 lines per frame drift at 1080p, plus one line each of horizontal phase and quantisation: 4 lines [G]; outside the lock window the plane stays off (SR13, SR14) | DC-A |
 | K4 | Receiver interop | a, else d | ADV7611 desk facts in `sections/browser-chip.md`; TFP401-class is DVI only, no EDID, no audio [R]; residual: R-RX | DC-A |
-| K5 | The SoC emits each RTG mode at the Zynq's exact timing, within the ±1 cap (~0.09% at 1080p) | a | EDID DTDs carry the Zynq timings and stock KMS selects them; fixed EDID holds 7 DTDs + 3 DMT modes (`sections/display-coupling.md`); 720p preset moved near CEA (M/D/O 52/5/14 → 74.286 MHz [G]); readback on R-SoC | DC-A |
+| K5 | The SoC emits each RTG mode at the Zynq's exact timing, within the ±1 cap (~0.09% at 1080p) | a | EDID DTDs carry the Zynq timings and stock KMS selects them; fixed EDID holds 7 DTDs + 3 DMT modes (`sections/browser-chip.md`, "EDID for every RTG mode"); 720p preset moved near CEA (M/D/O 52/5/14 → 74.286 MHz [G]); readback on R-SoC | DC-A |
 | K7 | Audio route under V | a | With a DVI EDID there is no HDMI audio, so PCM goes over the control link; 48 kHz 16-bit stereo is 1.536 Mb/s of payload, about 1.92 Mbaud with 8N1 framing, plus control traffic, so a UART route needs about 2 Mbaud or more on both ends, and 1.5 Mbaud is too slow [G]; each end's maximum UART rate (TRM or bridge datasheet) settles it; an HDMI EDID allows receiver I2S through an ASRC | DC-A |
 | K8 | Control link | a | PS USB0 and the UART1 console occupy the obvious MIO (`sections/architecture.md`); candidates are UART0 plus USB-serial for a split SBC, or Ethernet through an on-card switch on GEM0, which is the Amiga's Ethernet port and runs at 10/100 (`sections/architecture.md`, "Control link (K8)"), so it shares the Amiga's LAN unless ports are isolated or VLANs used [G]; SR16's real bound under GEM RX DMA | design |
 | K45 | Window coherence during drags and popups | a | Policy: plane off during a drag, or rely on outline drag [R]; under the proposed windowed CEF host (K50), CEF has no popup callback (`topics/cef-frame-path.md`), so popup rectangles come from the X11 side [G] and feed the occlusion list (SR2) | design |
 | K46 | EDID is a design input (format, range, bpc) | a | Driver behaviour in `sections/browser-chip.md`; default a DVI-only EDID with exact DTDs [G]; readback on R-SoC | DC-A |
 | K47 | SoC-side dither, gamma and colour matrix are neutral | a | Kernel source per SoC; readback on R-SoC | DC-B |
 | K48 | Tracker constants for every RTG mode (delay, nominal, maximum, engagement floor, lock window); Vtotal above 1152 needs a new ceiling | a | `video_source_sync.v:L122-128` against `os/zz_video_modes.c`; proposed lock window ±2 lines and shorter-direction acquisition [G] | design |
-| K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM**, then R-PLANE | DC-A |
+| K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM** (`topics/monitor-trim.md`), then R-PLANE | DC-A |
+| K55 | Recovering a hung SoC | a | Open, timeout included: after the heartbeat watchdog (SR9) turns the plane off, the Zynq or a supervisor chip resets the SoC [G]; an unmodified SBC (P2) needs a wired reset [G] | design |
+| K57 | Raster alignment on entering RTG from native | a | Open: aligning the RTG raster to the receiver at that switch would cut the E2, E3 and E6 waits to about a frame, but needs an SR15 rewrite (`sections/display-coupling.md`) [G] | design |
 
 ## PCIe path (live only while DC-A keeps PCIe)
+
+Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
@@ -51,10 +55,10 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K20 | PL fit and BRAM margin | b | `report_utilization` on the 7020 build; fit builds per DC-C candidate | DC-C |
+| K20 | PL fit and BRAM margin | b | `report_utilization` on the 7020 build; fit builds per DC-C candidate, against the pass criteria in `sections/zynq-and-board.md`, "Fit" | DC-C |
 | K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin, J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
 | K22 | PS port, PHY ID, DDR3 at 1066 | a + c | A chip-down board picks its PHY; [F] DDR3 1066 is legal at every grade (`ds187` Table 18); MYIR only on the module path (7015 PHY, DDR3 rate, PUDC_B tie) | DC-C |
-| K23 | Module lifecycle and lanes | a + c | AMD and MYIR lifecycle statements; ×2/×4 lane validation via MYIR | DC-C |
+| K23 | Module lanes (lifecycle answered: `sections/sourcing.md`, "Lifecycle") | c | ×2/×4 lane validation via MYIR | DC-C |
 | K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **Gate for f1:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. If it fails, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
 | K26 | S_AXI_GP width and speed; no bus timeout | a | UG585 | design |
 | K27 | 7030 memory controller rate on HP banks | a | DS191 | DC-C |
@@ -81,6 +85,8 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K40 | Amiga font licensing for Chromium | a | Desk | design |
 | K41 | Reusing MNT's `0x6d6e` Zorro ID | c | Ask MNT; fallback is a new ID in every driver | fw freeze |
 | K42 | SR table edits for V (`topics/plane-safety.md`) | a | Desk edit | design |
+| K54 | A path for owners of stock ZZ9000 boards | a + c | Open: no decision records one, and stock compatibility is a bonus, not a requirement [D] DEC-005; one candidate is point-to-point Ethernet on the card's RJ45, which the firmware bridges to the Amiga as raw frames with no TCP/IP stack (`sections/architecture.md`, "Control link (K8)"), so it would need a receive classifier, by EtherType or UDP port [G] | design |
+| K56 | How the feature ships in the ZZ9000 firmware | c | Open: a bitstream variant for cards with the hardware, a firmware SDK service, or mainline firmware enabled on that hardware [G]; the firmware maintainers' review decides what lands upstream | fw freeze |
 
 ## Design decisions still open
 
@@ -107,10 +113,10 @@ All use off-the-shelf hardware or an existing ZZ9000; none is a PCB of this proj
 
 | Method | Settles | What it is |
 |---|---|---|
-| R-TRIM | K49 (timing itself) | The shipping `centered_1080p_match` profile on existing monitors; steps in `sections/display-coupling.md`. Results welcome by issue |
+| R-TRIM | K49 (timing itself) | The shipping `centered_1080p_match` profile on existing monitors; steps in `sections/display-coupling.md`, how to read results in `topics/monitor-trim.md`. Results welcome by issue |
 | R-SoC | K15, K50, K16 peak; readback of K5, K46, K47 | An RK3588 SBC, a CM5 with IO board and an N100-class mini PC driving a 1080p60 monitor; heavy-page scroll, video and DOM-heavy pages in stock Chromium and `cefclient`; Chromium trace from input to presentation; boot with the target EDID via `drm.edid_firmware`, then read back mode, clock, bpc and range |
 | R-PLANE | K2, K3, K45, the 68k client | An existing ZZ9000 with a test bitstream: a second PL clock generating a synthetic SoC raster, the FIFO, the tracker variant and the plane. Sweep offsets: 0.048% tracks and locks; 0.148% (59.94 Hz) and 1% are rejected cleanly with RTG unaffected; repeated drops and re-locks on each monitor |
-| R-DDR | K25 | An existing ZZ9000 with a traffic-generator bitstream and an AXI performance monitor |
+| R-DDR | K25 | An existing ZZ9000 with a traffic-generator bitstream and an AXI performance monitor: RTG at 1080p60 with audio playing and recording, then native modes with capture and Ethernet running; pass is no scanout, capture or audio underrun or overrun. It decides f1, and whether a browser plane over native screens could have the DDR it needs [G]; PCIe thresholds in `topics/pcie-path.md` |
 | R-PCIe | K11 | An Artix-7 GTP Gen2 M.2 card in the SoC boards' M.2 slots; only if DC-A leans PCIe |
 | R-RX | K4 residual | A receiver evaluation board and one SBC; only if desk work leaves doubt |
 
