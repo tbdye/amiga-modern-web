@@ -1,6 +1,6 @@
 # Power domains
 
-Scope: where each part of the design draws power: Zorro slot limits, the Replica's power tree, PSU-lead inlets, machine PSU rails, per-browser-chip arithmetic, and the checks a second power domain needs.
+Scope: where each part of the design draws power: Zorro slot limits, the Replica's power tree, PSU-lead inlets, machine PSU rails, per-browser-chip arithmetic, and the checks a second power domain needs; thermals are open (K18, `unknowns.md`).
 Status: draft
 
 Replica facts come from its netlist at `replica@96bdef0` (not public).
@@ -10,7 +10,7 @@ The budgets and checks below are planning values for a design under study, not m
 
 - [D] DEC-003: the browser chip may take power from a spare drive lead off the machine's PSU, a floppy-type connector by default, or from its own supply; the slot's limits do not bind it.
 - [G] The Zynq side (Zorro buffers, the Zynq, capture, HDMI out, audio) stays on slot power: only the Zorro buffers must draw from the backplane, but keeping the rest there too ties it to the Amiga's power and reset, so native video never depends on an auxiliary lead (DEC-005).
-- [G] The browser chip cannot run from the slot: a CM5 alone may draw up to 5 A at 5 V (`cm5-ds` p6), against 2.0 A per slot at +5 V.
+- [G] The browser chip cannot count on the slot: a CM5's power input is rated to 5 A at 5 V (`cm5-ds` p6) and its peak draw is open (K16), against 2.0 A per slot at +5 V.
 
 ## Zorro slot limits
 
@@ -41,6 +41,9 @@ The budgets and checks below are planning values for a design under study, not m
 - [F] F3 holds 2.50 A in still air at 25 °C (`lutefuse-1206l` p4).
 - [G] `+9VA` draws tens of mA, and F5 passes only the fan's current, so a fan of 400 mA or less keeps +12 V inside the 500 mA Zorro III figure.
 - [F] The MYC-C7Z015 module is rated 5 V, 0.5 A (`myir-7015`); with capture it fits the 2.0 A slot limit [G].
+
+### Stock ZZ9000 with the VGA-USB add-on
+
 - [F] The VGA-USB add-on for a stock ZZ9000 takes a floppy lead on J123 and passes it through to J124 (both 171826-4); its +12 V feeds its own USB buck through a 1206L250/16AR, and +5 V is passed through unused (`addon@40bca90`, `README.md:L3` and netlist, not public).
 
 ## Browser-chip domain: PSU-lead inlets
@@ -68,7 +71,7 @@ These bind only when the browser chip feeds from the machine's PSU.
 
 | Chip | Draw | One inlet gives | Fit |
 |---|---|---|---|
-| CM5 | Up to 5 A at 5 V, a 25 W ceiling [F `cm5-ds` p6; G arithmetic]; typically about 900 mA operating and 400 mA idle [F `cm5-ds` p16, §3.3] | 10 W direct from +5 V at 2 A, or about 22 W through a 12 V to 5 V buck from +12 V at 2 A (92% efficient) | One inlet; whether 22 W covers the CM5's peak is open (K16) |
+| CM5 | Power input rated to 5 A at 5 V, a 25 W ceiling [F `cm5-ds` p6; G arithmetic]; typically about 900 mA operating and 400 mA idle [F `cm5-ds` p16, §3.3] | 10 W direct from +5 V at 2 A, or about 22 W through a 12 V to 5 V buck from +12 V at 2 A (92% efficient) | One inlet; whether 22 W covers the CM5's peak is open (K16) |
 | RK3588 module | About 15-20 W [R] | About 34 W split across both rails | One inlet split across rails, two for margin |
 | x86 board | 15-45 W [G]; SoC TDP 6-25 W [R] | About 34 W split | One inlet at the 15 W end; at a 40 W planning point after a 92% converter, about 3.6 A on +12 V (two inlets on that rail alone, most of an A4000's 4.0 A) or about 8.7 A on +5 V (five or more inlets), so its own supply or an upgraded PSU |
 
@@ -77,7 +80,7 @@ These bind only when the browser chip feeds from the machine's PSU.
 ## Own supply [G]
 
 - A second internal PSU, or an external brick through a DC jack on the slot bracket.
-- The machine PSU then stops binding; thermals and the checks below bind instead, more so because the two supplies rise and fail independently.
+- The machine PSU then stops binding; thermals (K18) and the checks below bind instead, more so because the two supplies rise and fail independently.
 
 ## Aux-domain checks (K35) [G]
 

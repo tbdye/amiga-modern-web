@@ -43,7 +43,7 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 - [F] The SDK plan gives the reason for the Zorro II single slot: its 64 KiB host-visible window cannot hold a safe two-slot reserve (`fw@bdfd8b0:sdk/docs/plans/2026-08-27-1453-feat-direct-audio-rings-plan.md:L38`).
 - [F] 48 kHz bypass producers are always admissible; any other rate needs one of the two qualified converter slots (`fw@bdfd8b0:os/audio_fabric.h:L229-234`).
 - [F] A lease ring holds whole periods of 3840 bytes (`fw@bdfd8b0:os/audio_fabric.h:L221`), which is 20 ms of 48 kHz 16-bit stereo [G: arithmetic].
-- [F] Hardware row B4, a converting 44.1 kHz pump plus two 48 kHz direct-ring producers, passed with no underruns (`fw@bdfd8b0:docs/audio-fabric.md:L138, L167`).
+- [F] Hardware row B4 of `fw` `docs/audio-fabric.md`, a converting 44.1 kHz pump plus two 48 kHz direct-ring producers, passed with no underruns (`fw@bdfd8b0:docs/audio-fabric.md:L138, L167`).
 - [G] The Zorro II limit is an aperture limit on 68k-side producers; a producer inside the A9, fed from the browser chip rather than the 68k, needs no Zorro aperture.
 
 ## Where browser audio enters [G]
@@ -56,7 +56,7 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 |---|---|
 | Share the pump | Contends with ZZPlay and MHI; whether a producer inside the A9 can bind there is unverified |
 | Take a lease slot | Shares the lease plane with AHI; on Zorro II, with one lease, the browser and AHI are exclusive |
-| Add a fourth slot | Keeps Zorro II equal to Zorro III; the B rows would be re-run on hardware |
+| Add a fourth slot | Keeps Zorro II equal to Zorro III; the B rows of `fw` `docs/audio-fabric.md` would be re-run on hardware |
 
 - Proposed: a fourth slot as the target and a lease slot for bring-up.
 
@@ -68,8 +68,8 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 | Receiver I2S through an ASRC into the fabric | V-tracked with an HDMI EDID | +4 PL pins (`topics/zynq-pin-budget.md`) | [G] The ASRC moves the SoC-clocked stream onto the ADAU1701's clock (K7) |
 | Audio ring in the PCIe control window | PCIe options | The SoC writes 48 kHz S16LE into a ring in PL BRAM; an A9 producer drains it | [G] The ring lives in the control BAR window that SR1 allows (`topics/plane-safety.md`) |
 | I2S harness into `SDATA_IN1` (J111.5) | Any; a Replica option | The browser chip as I2S slave on J10.4 (32·Fs BCLK) and J10.8 (LRCLK), 16-bit, 48 kHz | [G] Conditional on a SigmaStudio compile with a second serial input (K33); a stub on J10.8 loads the LRCLK the FPGA samples, and a corrupted edge drops whole frames (see the coherence check above); [R] x86 boards rarely expose I2S |
-| Stock ZZ9000 with the AX add-on | No new card | The same fabric producer, fed over Ethernet | [G] |
-| Stock ZZ9000 without AX | No new card | PCM to an AHI driver on the 68k, as A314's PiAudio does (`topics/prior-art.md`) | [R] Costs 68k load and tens of ms |
+| Stock ZZ9000 with the ZZ9000AX audio add-on | No new card | The same fabric producer, fed over Ethernet | [G] |
+| Stock ZZ9000 without AX | No new card | PCM played through Paula by a 68k-side player | [G] Unlike A314's PiAudio, which writes shared chip memory directly (`topics/prior-art.md`, "A computer on a card"), the samples reach chip memory through the 68k; [R] costs 68k load and tens of ms |
 
 ## Latency and A/V sync [G]
 

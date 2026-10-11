@@ -28,7 +28,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
 | Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
-| Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38) | `topics/power-domains.md` |
+| Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
 | Audio: ADAU1701 clocks, the audio fabric, browser audio routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |

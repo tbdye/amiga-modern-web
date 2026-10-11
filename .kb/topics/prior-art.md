@@ -13,11 +13,11 @@ Why a particular approach is not under study here is in `sections/options-reject
 | IBrowse 3.0a | HTML 4.01 and XHTML 1.0, a JavaScript 1.6 engine, TLS 1.3 through OpenSSL 3; released 2023-12-22 | [F] `ibrowse` |
 | AWeb 3.6 | JavaScript 1.5 (ECMA-262 3rd edition); an experimental CSS1/CSS2 subset | [F] `aweb3@116516f:README.md:L44, L115, L127-129` |
 | Voyager 3.5 | An HTML 3.2 layout engine; JavaScript 1.3, compiled to bytecode and interpreted | [F] `voyager@dd15a86:README.md:L27, L179` |
-| NetSurf | JavaScript support is primitive and disabled by default; release 3.11 for AmigaOS 4 is dated 2023-12-28 | [F] `netsurf-web` (documentation/info; downloads/amiga) |
-| Wayfarer (MorphOS) | A WebKit-based browser; MorphOS 3.16 (2022-03-15) ships it and retires the Odyssey browser | [F] `morphos-news` |
+| NetSurf | HTML 4.01 and CSS 2.1; JavaScript support it calls "primitive and incomplete", disabled by default; release 3.11 for AmigaOS 4 is dated 2023-12-28 | [F] `netsurf-web` (home; documentation/info; downloads/amiga) |
+| Wayfarer (MorphOS) | MorphOS 3.16 (2022-03-15) ships it and retires the Odyssey browser; a WebKit-based engine | [F] `morphos-news` (release); [R] engine, which the Wayfarer project's own pages would verify |
 | OWB (AmigaOS 4) | A WebKit port with a native GUI | [R] os4depot listing |
 
-- [G] On the 68k every native engine stops at roughly ES3-era JavaScript with partial CSS2, a ceiling set by the engines' features, not by CPU speed.
+- [G] The 68k engines in the table (IBrowse, AWeb, Voyager) stop at roughly ES3-era JavaScript, and NetSurf pairs CSS 2.1 with primitive JavaScript; the ceiling is set by the engines' features, not by CPU speed.
 - [G] Wayfarer shows that native feel (fonts, windows, clipboard, menus) comes from the front end around a modern engine, but it needs a PowerPC host OS that a Zorro Amiga does not run.
 
 ## Fast-68k routes
@@ -35,7 +35,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 | WRP | A screenshot proxy: a GIF/PNG/JPEG with a clickable imagemap, or pages converted to simplified HTML | Every interaction reloads a page | [F] `wrp@549d324:README.md:L16-19` |
 | Chrome DevTools screencast | `Page.startScreencast` (experimental) sends full frames, JPEG or PNG only | Frame metadata carries scroll offset and page scale, but no damage rectangles | [F] `cdp@c3ed21b:json/browser_protocol.json`, `Page.startScreencast`, `ScreencastFrameMetadata` |
 | Opera Mini | Servers run the page's JavaScript and send OBML, an interactive snapshot similar in form to a PDF; elements with mouse listeners become hotspots that cost a server round trip | Timers pause after about 5 s; animations work poorly if at all | [F] `opera-mini-js` |
-| Chromium's own pipeline | Paint ops (PaintRecord, its counterpart of SkPicture) go to raster; the compositor thread handles scroll and pinch without Blink; software-raster tiles are about 256×256 | Exact rendering; scroll never waits on the page | [F] `chromium-docs`, `how_cc_works.md` L18, L128, L298 |
+| Chromium's own pipeline | Paint ops (PaintRecord, its counterpart of SkPicture) go to raster; the compositor thread handles scroll and pinch without Blink; software-raster tiles are about 256×256 | Exact rendering; scroll never waits on the page | [F] `chromium-docs@3078967c68c4:docs/how_cc_works.md:L18, L128, L298` |
 | Skia remote glyph cache | `SkStrikeServer` serializes the glyph data a draw needs; `SkStrikeClient` replays it, with discardable handles keeping entries cached | Exact glyphs without a font engine on the client | [F] `skia@3136abe:include/private/chromium/SkChromeRemoteGlyphCache.h:L31-60, L82` |
 | RDP GDI acceleration | Encodes the drawing operations that produce an image instead of the image | Lossless UI at lower bandwidth | [F] `ms-rdpegdi` |
 | RDP RemoteApp (RAIL) | Presents each remote application as a local window | Native window handling around remote content | [F] `ms-rdperp` §1.3 |
@@ -44,7 +44,6 @@ Why a particular approach is not under study here is in `sections/options-reject
 | Carbonyl | A Chromium-based browser that renders to a terminal | WebGL, video and audio work; runs over SSH | [F] `carbonyl@ab80a27:readme.md:L18-22` |
 
 - [F] At `02601b0` the Browservice README declares the project unmaintained, names v0.9.12.2 (2026-02-09) as the final release, and states that its security model rests on the embedded Chromium being kept current (`browservice@02601b0:README.md:L3-7`).
-- [G] GitHub repository searches on 2026-10-10 (`browservice amiga`, `amiga remote browser`, `amiga chromium`, `a314 browser`, `carbonyl amiga`) found no native Amiga front end for a remote engine.
 
 **Lessons [G]:**
 
@@ -56,9 +55,9 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 ## Display lists and small renderers
 
-- [F] NetSurf front ends draw everything through one `plotter_table` of eleven calls (clip, arc, disc, line, rectangle, polygon, path, bitmap, text, group start and end, flush) (`netsurf@39da3c3:include/netsurf/plotters.h:L102-329`) and three font calls (width, position, split) (`include/netsurf/layout.h:L37-88`).
+- [F] NetSurf front ends draw everything through one `plotter_table` of twelve calls (clip, arc, disc, line, rectangle, polygon, path, bitmap, text, group start and end, flush) (`netsurf@39da3c3:include/netsurf/plotters.h:L102-329`) and three font calls (width, position, split) (`include/netsurf/layout.h:L37-88`).
 - [F] NetSurf started on RISC OS, whose common hardware is a 200 MHz StrongARM, and its framebuffer front end ran on a 400 MHz ARM9 (`netsurf-web`, about page).
-- [G] An earlier idea studied here, rendering Chromium paint ops as a display list on the ZZ9000's A9, had A9 raster throughput as its deciding experiment; it went with the remote tier when the browser chip moved into or beside the Amiga [D] DEC-003.
+- [D] DEC-003: rendering Chromium paint ops as a display list on the ZZ9000's A9 is not under study (`sections/options-rejected.md`).
 
 ## A computer on a card
 
@@ -76,9 +75,9 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 ## Carrying a Chromium port
 
-- [F] Carbonyl's Chromium patch set is 14 patches (`carbonyl@ab80a27:chromium/patches/chromium/`), and its last release is v0.0.3 (2023-02-18) (`carbonyl` releases).
-- [F] Chromium's Ozone layer aims to make out-of-tree platforms easy, by patching one `ozone_extra.gni`, and warns that ports which are hard to keep current ship outdated and potentially insecure Chromium-derived code (`chromium-docs`, `ozone_overview.md` L42-49).
-- [G] The cost of a Chromium fork is upkeep, tracking Chromium's release cadence for security fixes, not patch size; Browservice's final release (above) shows the same pressure on a CEF embedder.
+- [F] Carbonyl carries its Chromium changes as 14 patches (`carbonyl@ab80a27:chromium/patches/chromium/`); v0.0.3 was released 2023-02-18 (`carbonyl` releases).
+- [F] The Ozone overview lists easy out-of-tree platforms among its guiding principles, supported by patching one `ozone_extra.gni`, and warns that ports which are hard to keep current ship outdated and potentially insecure Chromium-derived code (`chromium-docs@3078967c68c4:docs/ozone_overview.md:L42-49`).
+- [G] Upkeep, tracking Chromium's security releases, is the recurring cost of a fork whatever its patch count (Ozone warning above); a CEF embedder carries the same need (`browservice@02601b0:README.md:L3-7`).
 - [G] A CEF embedder or an Ozone platform is the low-upkeep tier; a patch at the compositor or Skia level needs a standing rebase budget.
 
 ## Dead ends [G]

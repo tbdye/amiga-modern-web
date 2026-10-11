@@ -81,11 +81,11 @@ Replica-side facts:
 
 Depth, with sources and lessons: `topics/prior-art.md`.
 
-[R] Named for orientation only; each is a landscape note, not verified here.
+[R] Named for orientation only; verified rows are in `topics/prior-art.md`.
 
 | Approach | What it does |
 |---|---|
-| Native Amiga browsers (NetSurf, AWeb, Voyager, IBrowse) | Render on the 68k; cannot run current JavaScript-heavy sites at speed |
+| Native Amiga browsers (NetSurf, AWeb, Voyager, IBrowse) | Render on the 68k; cannot run current JavaScript-heavy sites |
 | Browservice, WRP | A modern browser elsewhere renders pages for a legacy browser to display |
 | FrogFind | A server simplifies pages for vintage browsers |
 | Opera Mini | A server lays pages out and sends a compact interactive snapshot |

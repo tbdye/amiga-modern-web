@@ -42,7 +42,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `sii9022a` | Lattice SiI9022A/SiI9024A HDMI transmitter, SiI-DS-1076-E.01 | Lattice website | `3654d67aabee107820761e0804e52664c60edf42866b76fbfe04c6f870868766` | Copy read from `replica@96bdef0:Docs/datasheets/SiI9022A.pdf` |
 | `lvc8t245` | TI SN74LVC8T245, SCES584D (revised May 2026) | `https://www.ti.com/lit/ds/symlink/sn74lvc8t245.pdf` | `c14e874982491aadeb329649325a038a3d1e8a759d2035b08ddb13acc372ad1d` | §5.3 p7, §5.7 p10, §5.9 p11; TI stamps each download, so a fresh copy of the same revision hashes differently |
 | `adv7611` | Analog Devices ADV7611 datasheet, Rev. D, ADI's Chinese-language edition | `https://datasheet.lcsc.com/datasheet/pdf/d944f827e87cafee093b0fb111927fee.pdf?productCode=C146553` (LCSC C146553, `ADV7611BSWZ`) | `3fad618d4110ee7f9eb89335155f8f4cc2794d4ed58ac773cfb4e09c27059f69` | Features p1; Table 2 and its note 1 p5 (text extraction garbles p5; read the rendered page); fetched 2026-10-10 |
-| `cm5-ds` | Raspberry Pi Compute Module 5 datasheet, Release 3 (build date printed 08/06/2026) | `https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf` | `80070fefd8db6e8abc6e146c8b7b5fb318ba129cc1e28826936d547fde79c863` | Features p6; PCIe p9; USB p10; GPIO functions p12-13; carrier connectors p17 |
+| `cm5-ds` | Raspberry Pi Compute Module 5 datasheet, Release 3 (build date printed 08/06/2026) | `https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf` | `80070fefd8db6e8abc6e146c8b7b5fb318ba129cc1e28826936d547fde79c863` | Features p6; PCIe p9; USB p10; GPIO functions p12-13; power consumption and regulator outputs p16 (§3.3, §3.4); carrier connectors p17 |
 | `tfp401a` | TI TFP401/TFP401A PanelBus digital receiver, SLDS120H (revised March 2022) | `https://www.ti.com/lit/ds/symlink/tfp401a.pdf` | `b4e30688f4be01f01fdb1841944f9522724fb8ec8d63c780c72f94c2ab036d95` | Features p1; fetched 2026-10-10 |
 | `myir-7015-pinmap` | MYIR MYC-C7Z015 pin map V1.0 (2023-03-09) | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z015_PINMAP.pdf` | `1b6127569b0026f91b61d5fc0ed1e0f47435318ffbb25c962f554b3e869a31d4` | Matched live 2026-10-08 |
 | `myir-7020-pinout` | MYIR MYC-C7Z010/20 pin-out | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z010_20_PinOuts.pdf` | `4f859609c63c341d09b974fc1d214123671a4fc5e79fa160aeb442e21565b74a` | Matched live 2026-10-08; identical to the copy in `replica` |
@@ -101,8 +101,8 @@ Cited by `topics/prior-art.md`. GitHub repositories use `https://github.com/<own
 | `mistex` | MiSTeX hardware | `github.com/MiSTeX-devel/MiSTeX-hardware` | `ccf697c` |
 | `skia` | Skia | `github.com/google/skia` | `3136abe` |
 | `cdp` | Chrome DevTools Protocol | `github.com/ChromeDevTools/devtools-protocol` | `c3ed21b` |
-| `chromium-docs` | Chromium design docs `how_cc_works.md`, `ozone_overview.md` | `https://chromium.googlesource.com/chromium/src/+/main/docs/<file>` | `main`, accessed 2026-10-10; line numbers as of that date |
-| `netsurf-web` | NetSurf about, documentation/info and downloads/amiga pages | `https://www.netsurf-browser.org/<page>/` | 2026-10-10 |
+| `chromium-docs` | Chromium design docs `docs/how_cc_works.md`, `docs/ozone_overview.md` | `github.com/chromium/chromium` (mirror of `chromium.googlesource.com/chromium/src`) | `3078967c68c4` |
+| `netsurf-web` | NetSurf home, about, documentation/info and downloads/amiga pages | `https://www.netsurf-browser.org/<page>/` | 2026-10-10 |
 | `ibrowse` | IBrowse home page | `https://www.ibrowse-dev.net/` | 2026-10-10 |
 | `morphos-news` | MorphOS team news | `https://www.morphos-team.net/news` | 2026-10-10 |
 | `opera-mini-js` | Opera Mini and JavaScript | `https://dev.opera.com/articles/opera-mini-and-javascript/` | 2026-10-10 |

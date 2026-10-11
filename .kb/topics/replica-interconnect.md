@@ -63,7 +63,7 @@ Pin budgets for a new board: `topics/zynq-pin-budget.md`; audio wiring: `topics/
 - [F] UART1 (MIO48/49) reaches header J12 (TX, RX, ground) through U19, a TXS0108E with VCCA on `+1V8` and VCCB on `+3V3`; I2C0 (MIO50/51) reaches the SiI9022A's configuration pins through the same part (`replica@96bdef0`, netlist).
 - [F] UART1 is the console, standard output at base 0xE0001000, and the only UART the PS7 configuration enables (`fw@bdfd8b0:zz9000_project.tcl:L1180-1181`; `ZZ9000_proto.sdk/zz9000_bsp_new/ps7_cortexa9_0/include/xparameters.h:L22, L641, L645`).
 - [R `ug585`] UART0 can map onto MIO14/15, so J5.1/J5.2 could become a 3.3 V UART0 by a PS-configuration change alone (`ps7_init`, FSBL), with no board change.
-- [F] Module pins with no connection on the Replica: MDIO (J1.22/24), the XADC pins (J1.93-101), `SDIO0_WP` (J1.118; write-protect is disabled in the PS7 configuration, `fw@bdfd8b0:zz9000_project.tcl:L1159`), J1.136 and eMMC reset (J1.137) (`replica@96bdef0`, netlist).
+- [F] Module pins with no connection on the Replica: MDIO (J1.22/24), the XADC pins (J1.93, 95, 97, 99, 101), `SDIO0_WP` (J1.118; write-protect is disabled in the PS7 configuration, `fw@bdfd8b0:zz9000_project.tcl:L1159`), J1.136 and eMMC reset (J1.137) (`replica@96bdef0`, netlist).
 - [F] PS USB0 runs to an on-board FE1.1s hub (U106), which feeds the external port P1 and internal header J112 (`replica@96bdef0`, netlist, `ZZ9000-USB/` sheet).
 
 ## Expansion and audio headers
@@ -89,9 +89,11 @@ Pin budgets for a new board: `topics/zynq-pin-budget.md`; audio wiring: `topics/
 ## VGA-USB add-on (for a stock ZZ9000)
 
 - [F] The add-on is a card for the MNT ZZ9000 with VGA output and internal USB ports (`addon@40bca90:README.md:L3`).
+- [F] The Replica carries both functions on board (ADV7125 U23, FE1.1s hub U106), so the add-on applies only to a stock ZZ9000 (`replica@96bdef0`, netlist).
 - [F] It is an interposer: the module plugs into its sockets U12/U13 (Amphenol 61083-141402LF), and its plugs UZ12/UZ13 (61082-141402LF) go into the carrier's module sockets (`addon@40bca90`, netlist).
-- [F] Every module signal passes straight through except the USB0 data pair, which it routes into an FE1.1s hub (U106) and passes on from a downstream port (`addon@40bca90`, netlist).
+- [F] Every pin the add-on connects passes straight through except the USB0 data pair (J1.19, J1.21), which it routes into an FE1.1s hub (U106) and passes on from a downstream port (`addon@40bca90`, netlist).
 - [F] It taps the 24 HDMI data lines (HG0 included) and DE into an ADV7125 VGA DAC (U23), IDCK through buffer U22, and HSYNC and VSYNC through R31/R32 (`addon@40bca90`, netlist).
-- [F] It leaves J2.67-78, the GTP signal pins on J2.111-140, MDIO, the XADC pins, `SDIO0_WP`, J1.136 and eMMC reset unconnected (`addon@40bca90`, netlist).
+- [F] It also taps `USB_VBUS_EN` (J1.30) through R159 into the hub's VBUSM pin (`addon@40bca90`, netlist).
+- [F] It leaves J2.67-78, the GTP signal pins on J2.111-140, MDIO, the XADC pins (J1.93, 95, 97, 99, 101), `SDIO0_WP` and J1.136 unconnected (`addon@40bca90`, netlist).
 - [G] So a 7015's extra bank-13 or GTP pins can be reached only by a board between the module and the add-on.
-- Its floppy-lead inlet is in `topics/power-domains.md`.
+- Its floppy-lead inlet is in `topics/power-domains.md`, "Stock ZZ9000 with the VGA-USB add-on".
