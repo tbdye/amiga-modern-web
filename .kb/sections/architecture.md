@@ -25,7 +25,8 @@ flowchart LR
 | Audio | Browser audio joins the card's existing audio fabric | [G]; routes in `topics/audio-path.md` |
 | Power | The Zorro side stays on the slot; the SoC takes a PSU lead or its own supply [D] DEC-003 | Budgets in `topics/power-domains.md` |
 
-- [F] A CM5 alone may draw up to 5 A at 5 V (`cm5-ds` p6), against 2.0 A at +5 V per Zorro III slot [R `zorro3`]; so the slot cannot feed the SoC [G], and the SoC's own feed must not back-feed the receiver or the Zynq side (K35).
+- [F] A CM5's power input is rated to 5 A at 5 V (`cm5-ds` p6), and a Zorro III slot supplies 2.0 A at +5 V (`zorro3` §2.3.1 p24, §6.2 p63).
+  [G] With the CM5's peak draw open (K16), the SoC cannot count on the slot, and its own feed must not back-feed the receiver or the Zynq side (K35).
 
 ## Paths
 
