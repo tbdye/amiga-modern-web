@@ -8,14 +8,14 @@
 | Decision owner | Thomas Dye. Firmware changes also need the BlitterStudio maintainers' agreement, and Replica changes its maintainer's. |
 | Feedback | First, whether a new card is the right route (Q15); then packaging (Q1–Q3 in §11). The review stays open until they're settled. Comment on this file's pull request. |
 | Sources | This repository's `.kb/`; estimates are marked. Amiga terms: Appendix A. |
-| Licence | Not chosen yet; the project is not closed-source (§9). |
+| Licence | Not chosen yet (§9); the project is not closed-source. |
 
 ## 1. Summary
 
 I want a big-box Amiga to browse the modern web natively: nearly any site, YouTube and Discord included, in a Workbench window or full screen, up to 1920×1080 at 60 Hz (1080p60).
 To the user it's a Workbench program (§4).
 
-The browser engine, Chromium, runs on a separate computer, the browser chip: an RK3588, x86 or Raspberry Pi CM5 module or board (candidates in §7).
+The browser engine, Chromium (proposed, Q16), runs on a separate computer, the browser chip: an RK3588, x86 or Raspberry Pi CM5 module or board (candidates in §7).
 The browser chip, which I assume runs Linux, sends its picture over HDMI to a receiver on a new Zorro card built around a Zynq-7000, the FPGA-plus-ARM chip of the MNT ZZ9000.
 The browser chip has its own network connection, and a control link carries input, clipboard and files between it and the Amiga (§4).
 The Zynq runs neither Linux nor Chromium: it keeps the ZZ9000's bare-metal firmware, with additions.
@@ -203,7 +203,8 @@ A CM5's power input is rated 5 A against Zorro III's 2.0 A per slot at +5 V, so 
 
 ## 10. What hardware would show
 
-Analysis comes first: only hardware can show the first two of these four points, simulation and arithmetic come first for the last two, and any test of them comes last.
+Analysis comes first, and any test comes last.
+Only hardware can show the first two of these four points; for the last two, simulation and arithmetic come first.
 What would show each, and what counts as a pass: [`.kb/unknowns.md`](../.kb/unknowns.md), "Test methods".
 
 | Open point | What the answer changes |
@@ -214,7 +215,7 @@ What would show each, and what counts as a pass: [`.kb/unknowns.md`](../.kb/unkn
 | Whether the Zynq's DDR has headroom for the buffer beside scanout, capture, audio and Ethernet | Whether the buffer and native-screen browsing are built. |
 
 Any new board must also match today's ZZ9000 frame for frame (CRC) on native video in every mode, outside the browser window when it's showing.
-The first point decides the most, and a ZZ9000 and a monitor are enough to show it; reports of how a monitor takes the firmware's `centered_1080p_match` profile are welcome as a GitHub issue naming the monitor.
+The first point decides the most, and a ZZ9000 and a monitor are enough to show it; reports of how a monitor takes the firmware's `centered_1080p_match` profile (v2.8.0 and later) are welcome as a GitHub issue naming the monitor.
 
 ## 11. Open questions
 
@@ -235,7 +236,7 @@ Most have my current proposal; if you can't live with one, say so.
 | Q12 | The §3 latency targets and the §7 frame-rate target | Tighter; as stated; looser | As stated, as targets, not hard requirements | Tighter could favour PCIe; looser widens the chip choice and favours the frame-buffered fallback (§6). |
 | Q13 | Look-and-feel gaps | Drop-down lists in pages, which Chromium draws as windows that can pass the window edge; the right mouse button, also the Amiga's menu button; printer output | Open | How native these feel. |
 | Q14 | Browser-chip security policy | Update channel for patched images; clipboard rules each way; download confirmation, and whether downloads are confined to one drawer | Open | Who keeps the chip patched; Chromium ships security fixes weekly. |
-| Q16 | Browser engine and its host | Chromium in a CEF host; a stock packaged browser | CEF so far; open, to keep engine upkeep low | CEF hands dialogs to the Amiga as events, but the project ships every engine update itself, its published builds have no H.264 or AAC unless the project builds its own, and Google may refuse sign-in from embedded browsers. A stock browser gets fixes and those codecs from its distribution (Debian's and Raspberry Pi's packages carry them), but its dialogs reach the Amiga only through Chromium's remote-control protocol, which its owner doesn't support for third-party use, and its context menus and permission prompts stay pixels. |
+| Q16 | Browser engine and its host | Chromium in a CEF host; a stock packaged browser | CEF so far; open, because less engine upkeep is better | CEF hands dialogs to the Amiga as events, but the project ships every engine update itself, its published builds have no H.264 or AAC unless the project builds its own, and Google may refuse sign-in from embedded browsers. A stock browser gets fixes and those codecs from its distribution (Debian's and Raspberry Pi's packages carry them), but its dialogs reach the Amiga only through Chromium's remote-control protocol, which its owner doesn't support for third-party use, and its context menus and permission prompts stay pixels. |
 
 If you've done HDMI receive into an FPGA, RK3588 or CM5 display work, CEF on ARM Linux, SoC thermals or chip-down Zynq at JLCPCB, please comment or point someone here.
 
