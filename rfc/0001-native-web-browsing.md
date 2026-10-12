@@ -3,11 +3,12 @@
 | | |
 |---|---|
 | Author | Thomas Dye |
-| Status | Draft, in review; nothing is built yet. The project is not closed-source; its licence isn't chosen yet (§9). |
-| Last updated | 2026-10-11 |
+| Status | Draft, in review; nothing is built yet. |
+| Last updated | 2026-10-12 |
 | Decision owner | Thomas Dye. Firmware changes also need the BlitterStudio maintainers' agreement, and Replica changes its maintainer's. |
-| Feedback | First, whether a new card is the right route at all (Q15); then packaging (Q1–Q3 in §11). The review stays open until they're settled. Comment on this file's pull request. |
+| Feedback | First, whether a new card is the right route (Q15); then packaging (Q1–Q3 in §11). The review stays open until they're settled. Comment on this file's pull request. |
 | Sources | This repository's `.kb/`; estimates are marked. Amiga terms: Appendix A. |
+| Licence | Not chosen yet; the project is not closed-source (§9). |
 
 ## 1. Summary
 
@@ -16,14 +17,14 @@ To the user it's a Workbench program (§4).
 
 The browser engine, Chromium, runs on a separate computer, the browser chip: an RK3588, x86 or Raspberry Pi CM5 module or board (candidates in §7).
 The browser chip, which I assume runs Linux, sends its picture over HDMI to a receiver on a new Zorro card built around a Zynq-7000, the FPGA-plus-ARM chip of the MNT ZZ9000.
-It has its own network connection, and a control link carries input, clipboard and files between it and the Amiga (§4).
+The browser chip has its own network connection, and a control link carries input, clipboard and files between it and the Amiga (§4).
 The Zynq runs neither Linux nor Chromium: it keeps the ZZ9000's bare-metal firmware, with additions.
 
 Who it's for, and what it costs:
 
 - It's for A2000, A3000 and A4000-class Amigas with a Zorro slot; page pixels never cross the Zorro bus or the 68k, so by design the Amiga's CPU doesn't limit the page.
 - It costs a new card and a browser chip with its own power feed; no price is set (Appendix B).
-- It does nothing for an emulated Amiga, an existing ZZ9000 or another RTG card (§2); I'd prefer a route that serves existing cards, if one makes nearly any site work, and none is ruled out (§6).
+- It does nothing for an emulated Amiga, an existing ZZ9000 or another RTG card; a route that serves existing cards isn't ruled out (§6, Q15).
 
 The Zynq draws the browser chip's picture, uncompressed, into the browser window, and keeps doing everything a ZZ9000 with its audio add-on does: RTG, native video capture and scan doubling, audio and Ethernet.
 It keeps its own pixel clock and follows the browser chip by making each frame up to one line longer or shorter, so a browser-chip crash never blanks the monitor.
@@ -33,14 +34,14 @@ Where things stand:
 
 | Choice | State |
 |---|---|
-| Whether to build new hardware at all | Open (Q15) |
+| Whether to build new hardware | Open (Q15) |
 | Requirements (§3) | Decided, except the 1080p60 and latency targets (Q12) |
 | Workbench look and feel | Decided; mechanisms (§4) Proposed |
 | Chromium as the engine, and its host program (§4) | Proposed (Q16) |
-| The Zynq always owns the monitor's clock, and tracks frames only on RTG screens | Decided; the second follows from the native-video requirement (§3) |
+| The Zynq always owns the monitor's clock, and tracks frames only on RTG screens | The first is Decided; the second follows from the native-video requirement (§3) |
 | HDMI receiver with ±1-line frame tracking | Proposed; open on monitor acceptance (§10) |
 | Acquisition buffer, and native-screen browsing from it | Proposed; open on DDR headroom (§10), and native screens after RTG works |
-| Browser chip, on its own network connection | To measure (§7); the connection is Proposed |
+| Browser chip, on its own network connection | Open (§7, §10); the connection is Proposed |
 | Packaging | Open (Q1) |
 | Zynq-7000, as a chip-down 7020 in CLG484 | Proposed (Q3) |
 
@@ -49,11 +50,10 @@ Where things stand:
 Amiga users can't use the modern web from Workbench.
 Native browsers such as NetSurf can't keep up with current sites, and proxies such as Browservice put a network round trip in every interaction.
 None of the 68k, a 68k accelerator or the ZZ9000's own ARM cores is fast enough for a current browser engine, and those ARM cores run bare-metal firmware with no operating system to host one.
-So in any design the engine runs on a second, Linux-class computer; designs differ in how its picture reaches the Amiga's screen.
+So a current engine needs a second, Linux-class computer; designs differ in how its picture reaches the Amiga's screen.
 
 The [MNT ZZ9000](https://mntre.com/zz9000/) is a Zorro graphics and coprocessor card built on a Zynq-7020 module; BlitterStudio maintains its [bare-metal firmware and FPGA logic](https://github.com/BlitterStudio/zz9000-firmware) and [AmigaOS drivers](https://github.com/BlitterStudio/zz9000-drivers).
 The ZZ9000 Replica is a feature-enhanced recreation for the A2000, A3000 and A4000, not yet public.
-Staying on the Zynq-7000 lets the firmware, FPGA logic and drivers carry over with additions.
 Neither a stock ZZ9000 nor today's Replica has the FPGA pins for an HDMI receiver, so the result is a new card, a Zynq card plus a single-board computer (SBC), or a redesigned Replica (Q1).
 
 The closest prior art is the firmware's experimental `centered_1080p_match` profile, which moves each frame's end to follow native video; mine moves it one line per frame at most.
@@ -64,7 +64,7 @@ The closest prior art is the firmware's experimental `centered_1080p_match` prof
 |---|---|
 | Modern web | Nearly any website works; YouTube and Discord's website are the examples. |
 | 1080p output | Native pass-through and RTG both reach 1920×1080 on 16:9 monitors. |
-| Full-screen browser (this design's target, not required) | A browser filling a 1080p60 Workbench screen meets the §7 criteria; neither that size nor 60 fps is required (Q12). |
+| Full-screen browser (a target, Q12) | A browser filling a 1080p60 Workbench screen meets the §7 target; neither that size nor 60 fps is required. |
 | Video with sound in step | Web video plays with its sound synchronized; no tolerance is set, and 40 ms is proposed ([`.kb/topics/audio-path.md`](../.kb/topics/audio-path.md)). |
 | Workbench look and feel | The window, gadgets and dialogs are the Amiga's; files go to and from Amiga volumes. |
 | The Amiga keeps its own TCP/IP address | The browser doesn't take over the Amiga's network stack or address (§4). |
@@ -73,7 +73,7 @@ The closest prior art is the firmware's experimental `centered_1080p_match` prof
 | Native video never disrupted | Capture, scan doubling and pass-through work in every mode, browser or not; feeding the browser into the capture input would displace native capture. |
 
 I'm not doing 3D acceleration or Amiga-side H.264 decode.
-Uncompressed pixels are a property of this design, no longer a requirement.
+Uncompressed pixels are a property of this design, not a requirement.
 The browser chip's software holds its display mode across Chromium restarts, never blanks the screen or toggles hot-plug, and changes mode only when the Zynq asks.
 
 ## 4. Architecture
@@ -129,7 +129,7 @@ That needn't rule out native screens: after RTG works, and if DDR headroom allow
 **Look and feel.** A 68k client owns the window, and the Amiga draws its frame, gadgets, toolbar, menus and requesters; only the page comes from the browser chip.
 I propose running Chromium in a Chromium Embedded Framework (CEF) host (Q16), which hands its dialogs to the client: ASL requesters for files, Amiga requesters for page alerts, confirmations and prompts.
 Downloads save to an Amiga volume and uploads read from one, over the control link; confining downloads to one drawer is open (Q14).
-Text copies both ways through the Amiga clipboard, typing follows your keymap, and the Amiga drives the pointer.
+I propose that text copies both ways through the Amiga clipboard; typing follows your keymap, and the Amiga drives the pointer.
 I propose printing to a PDF on an Amiga volume.
 Amiga windows on top cut holes in the plane (Q7).
 
@@ -138,7 +138,7 @@ With one card I propose one network socket shared through a switch chip; with an
 I'd put the browser on a guest network, which with a shared socket needs a VLAN-capable router.
 The control link never carries the browser's network traffic, and isn't reachable from the network; over the card's Ethernet port that needs a VLAN or a second MAC (Q9).
 
-**Sound.** Browser sound joins the Amiga's on the card and plays from its line output; the board carries the ZZ9000AX add-on's audio circuit, as the Replica does.
+**Sound.** I propose that browser sound joins the Amiga's on the card (Q8) and plays from its line output.
 Today's firmware sets up no sound on the HDMI output, so none reaches the monitor.
 
 ## 5. Lock time and when the browser window waits
@@ -155,14 +155,19 @@ Its cost in DDR, and every event with its wait: [`.kb/sections/display-coupling.
 |---|---|---|
 | HDMI receiver, ±1-line tracking (this design) | Proposed | Open on monitor acceptance (§10). |
 | Zynq fetches frames over PCIe (needs a 7015) | Second choice, if HDMI misses latency targets | Frames need about 520 MB/s, 600 with overhead (estimate): two Gen2 lanes or more, ruling out the CM5 and RK3588S. |
-| Frame-buffered fallback: the Zynq buffers every frame | Fallback if monitors reject the changes | No tracker and no monitor risk, for a frame more latency and a DDR3 chip only the CLG484 7020 has pins for, or the existing DDR at PIP's cost. |
+| Frame-buffered fallback: the Zynq buffers every frame | Fallback if monitors reject the changes | No tracker and no monitor risk, for a frame more latency, a repeated or dropped frame now and then, and a DDR3 chip only the CLG484 7020 has pins for, or the existing DDR at PIP's cost. |
 | Browser chip locks to the Zynq's VSYNC | Preferred if available | None known to support it (not verified). |
 | Direct HDMI (TMDS) into the FPGA | Rejected: 1080p output | The FPGA's I/O tops out near 1.25 Gb/s per lane; 1080p60 needs 1.49 Gb/s. |
 | Browser chip supplies the monitor clock | Rejected: no blank | A browser-chip reboot blanks the monitor. |
 | A newer or non-AMD FPGA | Not under study | A full firmware port. |
-| A browser on a networked computer, shown through an existing ZZ9000 or other RTG card | Not ruled out; outside this RFC | It serves cards people already own, which I'd prefer if it reaches the goal (Q15), at a network round trip in every interaction (§2). |
+| A browser on a networked computer, shown through an existing ZZ9000 or other RTG card | Not ruled out; outside this RFC | It serves cards people already own, and is preferable if it reaches the goal (Q15); it costs a network round trip in every interaction (§2). |
 
-Where the browser can't show, the window has a placeholder and the monitor never blanks: at 2560×1440, on native screens until the buffered path (§4) is built, in custom RTG modes the fixed EDID doesn't list, and when the browser chip sends 59.94 Hz ([`.kb/sections/overview.md`](../.kb/sections/overview.md), [`.kb/sections/display-coupling.md`](../.kb/sections/display-coupling.md)).
+Where the browser can't show, the window has a placeholder and the monitor never blanks ([`.kb/sections/overview.md`](../.kb/sections/overview.md), [`.kb/sections/display-coupling.md`](../.kb/sections/display-coupling.md)):
+
+- At 2560×1440.
+- On native screens until the buffered path (§4) is built.
+- In custom RTG modes the fixed EDID doesn't list.
+- When the browser chip sends 59.94 Hz.
 
 ## 7. Browser chip candidates
 
@@ -179,7 +184,7 @@ With one card I'd pick the cheapest chip that meets the target; with an SBC, use
 
 ## 8. Hardware
 
-The AmigaOS drivers stay as they are; the new work is the FPGA receive path, its firmware, the 68k client (new, or built on an existing program; not decided) and the board.
+The AmigaOS drivers stay as they are; the new work is the FPGA receive path, its firmware, the 68k client and the board.
 The firmware also keeps the tracker engaged when output timing is unchanged, so a colour-depth change costs nothing, and moves its 720p preset close to standard timing; both need the maintainers' agreement (Q11).
 The board starts from the Replica's Zorro buffers, level translators, capture front end, HDMI transmitter and audio.
 
@@ -192,19 +197,19 @@ A CM5's power input is rated 5 A against Zorro III's 2.0 A per slot at +5 V, so 
 | Concern | Position | Open |
 |---|---|---|
 | Security | I assume the browser chip can be compromised. It has no bus access and can't place the plane, so the main exposure is the control-link parsers. I propose keeping Chromium's sandbox on, never running as root, and a guest network (§4). | Patching, clipboard and downloads (Q14) |
-| Browser-chip image | I assume Linux; no distribution is chosen. Build scripts, and optionally a prebuilt image; not decided. Versions pinned to what was measured, and re-measured before upgrades. | How updates reach users (Q14) |
+| Browser-chip image | No distribution is chosen. Build scripts, and optionally a prebuilt image; not decided. Versions pinned to what was measured, and re-measured before upgrades. | How updates reach users (Q14) |
 | Licensing | The firmware and drivers are GPL-3.0-or-later and stay so; Chromium and CEF are BSD-style. | This repository's licence, chosen before code lands; Amiga fonts in Chromium; the ADV7611 register manual. |
 | Power and thermal | Separate browser-side power (§8); one card designed for no airflow; an SBC can sit outside the case. Settled by testing and analysis; not a blocker. | Spare drive leads; design ambient temperature |
 
-## 10. What only hardware can show
+## 10. What hardware would show
 
-Analysis comes first; these four points are what it can't settle, and none is a step in this proposal.
+Analysis comes first: only hardware can show the first two of these four points, simulation and arithmetic come first for the last two, and any test of them comes last.
 What would show each, and what counts as a pass: [`.kb/unknowns.md`](../.kb/unknowns.md), "Test methods".
 
 | Open point | What the answer changes |
 |---|---|
 | Whether monitors accept the ±1-line changes (Q4) | A no means the frame-buffered fallback. |
-| Whether a browser chip meets the §7 target and the §3 latency at the Zynq's exact timings | The chip; missing the latency means PCIe. |
+| Whether a browser chip meets the §7 target and the §3 latency at the Zynq's exact timings | The chip; missing the latency points to PCIe (§6). |
 | Whether the tracker locks at small clock offsets and rejects large ones with RTG undisturbed | The FPGA design. |
 | Whether the Zynq's DDR has headroom for the buffer beside scanout, capture, audio and Ethernet | Whether the buffer and native-screen browsing are built. |
 
@@ -217,11 +222,12 @@ Most have my current proposal; if you can't live with one, say so.
 
 | # | Decision | Options | Proposed | What it changes |
 |---|---|---|---|---|
+| Q15 | Whether to build new hardware at all | This card; a route that an existing ZZ9000 or other RTG card can use (§6) | The cheapest route that reaches the goal (§1); not settled | Whether this card is built. |
 | Q1 | Packaging | One card with a browser-chip module; a Zynq card plus an SBC; a redesigned Replica | No lean; slot-fit and SoC-on-Zorro experience welcome. | Who carries the chip's power, heat and layout, and whether users pick the chip; the Replica is someone else's design. |
 | Q2 | What JLCPCB can't source or place | Per part | Standard assembly for all but plug-in modules | Such a part is consigned, swapped or moved to a module. |
 | Q3 | Zynq part and form | Chip-down 7020 (CLG484) or 7015 (CLG485); MYIR 7015 module | Chip-down 7020: pin margin and the fallback's DDR3, no PCIe. LCSC chips are fine for production (Appendix B). | A module removes Zynq layout and sourcing but leaves no pins to spare. |
 | Q4 | Monitors tolerate ±1-line changes? | Yes; no | Yes; only hardware can show it (§10) | No means the frame-buffered fallback. |
-| Q5–Q7 | FPGA-internal choices: raster alignment on entering RTG from native; PIP and the buffer sharing DDR reads; occlusion | In [`.kb/sections/display-coupling.md`](../.kb/sections/display-coupling.md) and [`.kb/sections/architecture.md`](../.kb/sections/architecture.md) | Independent rasters; PIP wins; a rectangle list | Reboot waits without the buffer; the 9.4 s wait with PIP open; DDR reads. |
+| Q5–Q7 | FPGA-internal choices: raster alignment on entering RTG from native; PIP and the buffer sharing DDR reads; occlusion | In [`.kb/sections/display-coupling.md`](../.kb/sections/display-coupling.md) and [`.kb/sections/architecture.md`](../.kb/sections/architecture.md); for occlusion: a rectangle list, a 1-bit mask in DDR or a colour key | Independent rasters; PIP wins; a rectangle list | Reboot waits without the buffer; the 9.4 s wait with PIP open; a mask adds DDR reads, and a colour key misfires on matching content. |
 | Q8 | Browser audio | Control link; HDMI audio from the receiver | Control link | HDMI audio needs 4 more FPGA pins and an HDMI EDID, which risks limited-range RGB. |
 | Q9 | Control link physical layer | UART and USB-serial bridge; Ethernet on an isolated switch port, plus a VLAN or second MAC | After Q1 and Q8 | Audio (48 kHz 16-bit stereo needs about 1.92 Mbaud on a UART), file transfer speed and the SBC's connectors; files rank below input, control and audio. |
 | Q10 | Hang recovery | Heartbeat timeout, then reset by the Zynq or a supervisor chip | Open, including the timeout | An unmodified SBC needs a wired reset. |
@@ -229,8 +235,7 @@ Most have my current proposal; if you can't live with one, say so.
 | Q12 | The §3 latency targets and the §7 frame-rate target | Tighter; as stated; looser | As stated, as targets, not hard requirements | Tighter could favour PCIe; looser widens the chip choice and favours the frame-buffered fallback (§6). |
 | Q13 | Look-and-feel gaps | Drop-down lists in pages, which Chromium draws as windows that can pass the window edge; the right mouse button, also the Amiga's menu button; printer output | Open | How native these feel. |
 | Q14 | Browser-chip security policy | Update channel for patched images; clipboard rules each way; download confirmation, and whether downloads are confined to one drawer | Open | Who keeps the chip patched; Chromium ships security fixes weekly. |
-| Q15 | Whether to build new hardware at all | This card; a route that an existing ZZ9000 or other RTG card can use (§6) | The cheapest route that makes nearly any site work; not settled | Whether this card is built. |
-| Q16 | Browser engine and its host | Chromium in a CEF host; a stock packaged browser | CEF so far; open, because the less engine upkeep the better | CEF hands dialogs to the Amiga as events, but we build and patch it, its published builds have no H.264 or AAC, and Google may refuse sign-in from embedded browsers. A stock browser gets fixes and those codecs from its distribution, but its context menus and permission prompts stay pixels. |
+| Q16 | Browser engine and its host | Chromium in a CEF host; a stock packaged browser | CEF so far; open, to keep engine upkeep low | CEF hands dialogs to the Amiga as events, but the project ships every engine update itself, its published builds have no H.264 or AAC unless the project builds its own, and Google may refuse sign-in from embedded browsers. A stock browser gets fixes and those codecs from its distribution (Debian's and Raspberry Pi's packages carry them), but its dialogs reach the Amiga only through Chromium's remote-control protocol, which its owner doesn't support for third-party use, and its context menus and permission prompts stay pixels. |
 
 If you've done HDMI receive into an FPGA, RK3588 or CM5 display work, CEF on ARM Linux, SoC thermals or chip-down Zynq at JLCPCB, please comment or point someone here.
 
