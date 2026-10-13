@@ -50,7 +50,7 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 | K17 | Module or SBC form, HDMI exposure, lifecycle | a + c | Datasheets and vendors | DC-B, DC-D |
 | K18 | Thermals inside an Amiga case | a | Heatsink sized for no airflow at a stated ambient; moot for an external box | freeze |
 | K19 | Other SoCs (Jetson, i.MX95, Genio) | a | Desk, if DC-B widens | DC-B |
-| K50 | Mechanism for DEC-014: whether CEF windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest would use | a | `cefclient` beside stock Chromium on R-SoC | design |
+| K50 | Mechanism for DEC-014: which arrangement puts the control program on the engine (`topics/engine-control.md`, "Arrangements"), and, for a CEF host, whether windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest would use | a | `cefclient` beside stock Chromium on R-SoC; what each arrangement reports as events, and what is not established: `topics/engine-control.md` | design |
 
 ## Look and feel
 

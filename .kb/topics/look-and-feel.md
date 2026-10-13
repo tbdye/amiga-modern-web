@@ -5,7 +5,7 @@ Status: draft
 
 ## What is decided
 
-[D] DEC-014: browsing has a native look and feel on Workbench: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
+[D] DEC-014: browsing on Workbench looks and feels native: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
 [D] DEC-014: the mechanisms are not decided.
 Everything below the requirement is a proposal (`[G]`, "Proposed") or open (a K row in `unknowns.md`); none of it is a decision.
 
@@ -34,7 +34,7 @@ Proposed acceptance dimensions [G]:
 
 ## The proposed host
 
-- [G] Proposed (DEC-014 mechanism, open in K50): Chromium runs on the browser chip inside a Chromium Embedded Framework (CEF) host in windowed mode, because CEF exposes the dialog, file, download and context-menu handlers below and stock Chromium does not (`sections/browser-chip.md`, "The Chromium host"); whether CEF windowed mode keeps these handlers is open (K50).
+- [G] Proposed (DEC-014 mechanism, open in K50): Chromium runs on the browser chip inside a Chromium Embedded Framework (CEF) host in windowed mode, because CEF exposes the dialog, file, download and context-menu handlers below (`sections/browser-chip.md`, "The Chromium host"); what a stock Chromium reports in their place: `topics/engine-control.md`, "What a stock Chromium reports"; whether CEF windowed mode keeps these handlers is open (K50).
 - [G] Proposed, if the CEF host is chosen: Alloy style, without Chromium's own UI, because Chrome style brings its own UI.
 - [F] Returning false from `OnBeforeDownload` cancels the download in Alloy style and starts Chromium's own download handling in Chrome style (`cef@a875f407e36b:include/cef_download_handler.h:L109-113`).
 - [F] With Alloy style, an unhandled permission prompt defaults to "ignore"; with Chrome style, Chromium shows its own prompt (`cef@a875f407e36b:include/cef_permission_handler.h:L118-121`).
