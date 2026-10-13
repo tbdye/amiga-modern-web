@@ -52,7 +52,7 @@ Stock-board facts are read from the schematic on page 2 of two MNT manuals, `zz9
 
 ### What a master drives, by the specification
 
-[F] `zorro3`, by section and PDF page; edge pins are from its Appendix A.1, pp76-78; "—" marks a role with no part in the signal:
+[F] `zorro3`, by section and PDF page; edge pins are from its Appendix A.1, pp76-78; "—" marks a role that neither drives the signal nor must read it:
 
 | Signal (edge pin) | Zorro II master | Zorro III master | Slave | `zorro3` |
 |---|---|---|---|---|
@@ -100,7 +100,7 @@ Module pin to FPGA ball is from `myir-7020-pinout`, ball to firmware port from `
 
 - [F] DIR low passes a translator's B side, the bus, to its A side, the FPGA, and DIR high the reverse (`lvc8t245` Table 7-1, p15).
 - [F] On the Replica 10 kΩ resistors pull the three direction nets to ground (R45-R47) and `/BRn`'s FPGA side to `+3V3` (R50), and 100 kΩ resistors pull U24's `/DTACK`, `/CINH`, `/MTACK` and `/BGACK` inputs to ground (R14, R36-R38) (`replica@96bdef0`, netlist).
-- [G] So U24 releases `/MTACK` and `/BGACK` only while their FPGA pins are high-impedance or low.
+- [G] So U24, an inverter (`lvc06a` p3), releases `/MTACK` and `/BGACK` only while their FPGA pins are high-impedance or low.
 - [F] The firmware keeps a commented-out `ZORRO_NMTCR` port and a commented-out constraint that put it on ball C20, which `VCAP_R7` now takes (`fw@cfbb910:mntzorro.v:L143`; `xdc/zz9000.xdc:L28, L121`).
 
 ### The wiring against the specification
@@ -121,8 +121,9 @@ Module pin to FPGA ball is from `myir-7020-pinout`, ball to firmware port from `
 ### Not established
 
 - Whether the R-2 drawing, or a stock board later than the R-3 drawing, differs: the firmware's history names an R5 board (`fw@4b12ca4`, commit message), and no schematic of one was read.
-- Whether a board earlier than R-1 routed `/MTCR`.
-- What a backplane does while a card is master: whether the bus controller drives or releases `/CCS` outside Zorro II address space, who drives `DOE` for a Zorro II master, what holds `/MTCR` negated, and what level undriven `FC0-FC2` take, which the specification gives only for a Zorro II master on a Zorro III backplane (FC1 = 0, `zorro3` §2.3.6 p30); a backplane's schematic would show them.
+- Whether the R-1 design has sheets that the manual does not print: the title block reads "Id: 1/3" and the page shows no sub-sheet symbol (`zz9000-manual-r1` p2); the board's design files would show it.
+- Whether a board earlier than R-1 routed `/MTCR`; its schematic would show it.
+- What a backplane does while a card is master: whether the bus controller drives or releases `/CCS` outside Zorro II address space, who drives `DOE` for a Zorro II master, what holds `/MTCR` negated, and what level undriven `FC0-FC2` take; the specification says that Standard signals, these among them, are generally terminated by a 220 Ω/330 Ω Thevenin terminator (`zorro3` §6.1.1 p62), and that a Zorro III backplane sees FC1 = 0 from a Zorro II master that does not drive the function codes (§2.3.6 p30); a backplane's schematic would show them.
 - [R] Which bus-controller revisions grant a Zorro III card's request varies by Buster revision; no file read covers it, and the controller's documentation would verify it.
 - Whether turning the translators round meets the master timings of `zorro3` chapter 5: no analysis was made; a static timing analysis of the translator and FPGA delays would settle it.
 - Whether ball U13, whose configuration function is PUDC_B ("PUDC_B"), carries any restriction as an output; `ug470` would settle it.
