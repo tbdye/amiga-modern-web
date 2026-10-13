@@ -103,7 +103,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | f4 | SoC hygiene: a compositor holds the mode across Chromium restarts; no DPMS; fixed EDID; modesets only on command; never toggle HPD | Removes E9, E11, E13 | SoC image configuration |
 | f5 | Keep the tracker engaged when the output timing is unchanged | Removes E5 | Do not drop source sync when `output_unchanged` |
 | c | Use today's +27/−34 ramp | ≤ 0.3 s at 1080p | Depends on monitor acceptance (K49) |
-| b | Frame-buffered V in its own PL DDR3 | ≈ 1 frame after lock, always +≤1 frame; trim off: a frame dropped or repeated every ≈ 150 s at 110 ppm between SoC and Zynq frame rates (1 ÷ 0.00011 = 9,091 frames at 60 Hz) | ×16 DDR3 bank; 7020 only (`topics/zynq-pin-budget.md`) |
+| b | Frame-buffered V in its own PL DDR3 | ≈ 1 frame after lock, always +≤1 frame; trim off: a frame dropped or repeated every ≈ 150 s, assuming SoC and Zynq frame rates 110 ppm apart (1 ÷ 0.00011 = 9,091 frames at 60 Hz) | ×16 DDR3 bank; 7020 only (`topics/zynq-pin-budget.md`) |
 
 Dead ends [G]: MMCM phase-shift trim for acquisition (kept as a steady-state remedy for K49); a partial BRAM buffer; showing the plane unlocked; SoC-side phase placement; a timed SoC modeset (`sections/options-rejected.md`).
 
