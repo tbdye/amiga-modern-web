@@ -81,6 +81,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `lutefuse-1206l` | Lutefuse 1206L series PPTC datasheet (1206L250/16AR), revision 2020 | Vendor PDF | `9b5eae932a00b0947da930f441730842a8b315f1e7d76675c3e9453d2bd4e1c3` | Copy read from `replica@96bdef0:Docs/datasheets/1206L250_16AR.pdf`; ratings table p4 |
 | `te-171826` | TE Connectivity 171826-4 product data | TE website, by part number | `01115b5280220528241758b932d5814e0ffd79e55df8e4c85f0684290f68edec` | Copy read from `replica@96bdef0:Docs/datasheets/171826-4_product-data.pdf`; contact rating p2 |
 | `ksz9031` | Microchip KSZ9031RNX gigabit Ethernet transceiver data sheet, DS00002117F | `https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/00002117F.pdf` | `f7c402264e7b9b65e09f88242a0e8269e4c01e051cd515dbdbabb66dfff4f408` | Preamble p14; auto MDI/MDI-X p16; auto-negotiation p17; fetched 2026-10-11 |
+| `zz9000ax-manual` | MNT ZZ9000AX R-1 Quickstart Manual; page 2 is the schematic, title block "MNT ZZ9000AX", Rev R-1, 2022-03-16 | `https://mntre.com/media/ZZ9000_info_md/zz9000ax-manual-r1.pdf` | `d211d492b5b11a522086ba63210bcac11dea03a3bdc65ea65aff4d614df566a2` | Text p1; schematic p2: a vector drawing with outlined lettering and no text layer, read from renders at 220 and 300 dpi; fetched 2026-10-12 |
 
 ## Web pages
 

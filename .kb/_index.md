@@ -65,6 +65,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
 | Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
 | Audio: ADAU1701 clocks, the audio fabric, browser audio routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
+| Video with sound in step; sound paths, buffers and load | `topics/av-sync.md`, `topics/sound-paths.md` |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |

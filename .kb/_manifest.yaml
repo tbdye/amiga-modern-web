@@ -116,6 +116,14 @@ files:
     status: draft
     reviewed_on: 2026-10-12
     cites: [fw, replica, adau1701, myir-7020-pinout]
+  topics/av-sync.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, chromium, rfc, ms-rdpea, ms-rdpev, ms-rdpevor, spice-server, spice-gtk, thinc, ffmpeg, mpv, gstreamer, bt1359, ebu-r37, itu-j100, html-media, video-rvfc, media-playback-quality]
+  topics/sound-paths.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, aminet, zz9000ax-manual]
   topics/power-domains.md:
     status: draft
     reviewed_on: 2026-10-10
