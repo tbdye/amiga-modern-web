@@ -114,8 +114,8 @@ files:
     cites: [drivers, a314, icomp-wiki-xsurf100, amiga-hrm, aros, plipbox, a314rtg, daynaport, piscsi]
   topics/audio-path.md:
     status: draft
-    reviewed_on: 2026-10-12
-    cites: [fw, replica, adau1701, myir-7020-pinout]
+    reviewed_on: 2026-10-13
+    cites: [fw, drivers, linux, replica, adau1701, sii9022a, myir-7020-pinout, zz9000-manual-r1, zz9000-manual-r3, zz9000ax-manual]
   topics/av-sync.md:
     status: current
     reviewed_on: 2026-10-12
@@ -186,7 +186,7 @@ files:
     cites: [cef, cdp, cdp-site, chromium, firefox, webkit, electron, qt, browservice, chrome-rdp, chrome-headless-old, chrome-ext, chromium-av, google-repo, google-signin, google-2019, cf-browsers, deb-chromium, pkg-index, waypipe, ff-remote, ff-cdp, bmo-1612995, rpi-bookworm, wpe-site, wl-proto, wlroots, xpra, xorgproto, portal]
   topics/engine-interfaces.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [cef, cdp, chromium, firefox, electron, qt, chrome-ext, chrome-ext-install, chrome-headless, chrome-headless-shell, pkg-index, wpe-api, wpe-platform-post, wpe-site, wpe-254, bidi, ff-geckoview, rwv, puppeteer-stream]
   topics/hidden-display.md:
     status: current

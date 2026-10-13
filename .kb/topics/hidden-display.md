@@ -30,6 +30,7 @@ A version after `@` names the source package as its distribution builds it ("Sou
 
 - [G] A capture alone gives dialogs in the pixels and no sound; with the protocol and a PipeWire tap added, the dialogs the protocol reports are events and sound carries times.
 - [G] Captured sound buffers carry times and, in the first two rows, captured frames carry a presentation time on the monotonic clock; that the two line up with the browser's own audio-video schedule is not established.
+- How sound is kept in step with video, and the published tolerances: `topics/av-sync.md`.
 
 ## Which packaged compositor offers what
 

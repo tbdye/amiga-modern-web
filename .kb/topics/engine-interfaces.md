@@ -23,6 +23,7 @@ Nothing here was run; pages were read on 2026-10-11.
 | Qt WebEngine | [F] No frame hand-off with changed rectangles is in the three pages read (`qt`) | Not found | Not found |
 
 - Sound timing: `topics/cef-frame-path.md`, "Audio", for CEF, and `topics/hidden-display.md`, "Frames, video and sound", for the sound server.
+- How sound is kept in step with video, and the published tolerances: `topics/av-sync.md`.
 
 ## Input, and events against pixels
 
