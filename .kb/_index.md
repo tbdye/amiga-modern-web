@@ -25,6 +25,10 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Owner groups; what reaches each | `topics/audience.md` (stock ZZ9000, RTG cards, emulators); `topics/audience-pistorm.md` (PiStorm) |
 | Page-pixel compression: lossless, JPEG, soft text | `topics/page-pixels.md`, then `topics/page-pixels-lossless.md`, `topics/page-pixels-lossy.md` |
 | What sites resend when scrolled; updates a second at 50 MHz | `topics/scroll-redraw.md` |
+| Which engines run today's sites; engine speed and memory; candidate computers | `topics/engine-options.md` |
+| Control program on an unforked engine: arrangements, site markers, codecs, upkeep | `topics/engine-control.md` |
+| What each engine interface hands a control program: frames, sound, input, dialogs | `topics/engine-interfaces.md` |
+| Stock browser on a hidden compositor or X display: capture, damage, packages | `topics/hidden-display.md` |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |

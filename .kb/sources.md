@@ -106,6 +106,29 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.
 
+## Engine and display-server sources
+
+Sources that two or more topics cite; a source that one topic alone cites is in that topic's `## Sources` table.
+Web pages and package indexes were read on 2026-10-11.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `chromium` | Chromium source | `github.com/chromium/chromium` (mirror of `chromium.googlesource.com/chromium/src`) | `ceb8f3a65507`; `media/gpu/args.gni` at `4afca57b57f5` |
+| `firefox` | Firefox source | `github.com/mozilla-firefox/firefox` | `8e9ac3e12bba` |
+| `webkit` | WebKit | `github.com/WebKit/WebKit` | `f0fdd66b6957` |
+| `electron` | Electron | `github.com/electron/electron` | `04449e9846ed` |
+| `xpra` | xpra | `github.com/Xpra-org/xpra` | `de195aac2dda` |
+| `portal` | Desktop portal, `data/org.freedesktop.portal.ScreenCast.xml` | `github.com/flatpak/xdg-desktop-portal` | `ee298d1817fe` |
+| `wl-proto` | Wayland protocols | `gitlab.freedesktop.org/wayland/wayland-protocols` | `682ae76bccd6` |
+| `wlroots` | wlroots | `gitlab.freedesktop.org/wlroots/wlroots` | `2f08303d3c09`; tags 0.18.2, 0.19.0, 0.20.0; `@0.18.2` and `@0.20.2` are the source packages 0.18.2-3 (Debian 13) and 0.20.2-1+rpt4 (Raspberry Pi archive) |
+| `xorgproto` | X.Org protocol documents: `damageproto.txt`, `fixesproto.txt`, `compositeproto.txt`, and `xtest.xml` in the `xextproto` folder of its `specs` directory | `gitlab.freedesktop.org/xorg/proto/xorgproto` | `6d3907b6d5dc` |
+| `pkg-index` | arm64 `Packages` and `Sources` indexes with their `Release` files: Debian 13 (main, contrib, non-free, updates, backports, security), Debian testing, and the Raspberry Pi archive's suite trixie | `deb.debian.org/debian/dists/`; `security.debian.org/debian-security/dists/trixie-security/`; `archive.raspberrypi.com/debian/dists/trixie/` | 2026-10-11 |
+| `qt` | Qt 6 documentation: Qt WebEngine features, overview and licensing; `QWebEnginePage` | `https://doc.qt.io/qt-6/` | 2026-10-11 |
+| `chrome-ext` | Chrome extensions documentation: `tabCapture`, `debugger`, `downloads`, native messaging, Manifest V2 timeline | `https://developer.chrome.com/docs/extensions/` | 2026-10-11 |
+| `wpe-site` | WPE WebKit site: about, FAQ, release schedule, security | `https://wpewebkit.org/` | 2026-10-11 |
+| `wpe-254` | WPE WebKit 2.54 release post (2026-09-16) | `https://wpewebkit.org/blog/2026-09-16-wpewebkit-2.54.html` | 2026-10-11 |
+| `rpi-bookworm` | Raspberry Pi news post of 2023-10-11, with its comments | `https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/` | 2026-10-11 |
+
 ## Prior-art sources
 
 GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
