@@ -20,7 +20,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 | OWB (AmigaOS 4) | A WebKit port with a native GUI | [R] os4depot listing |
 
 - [G] IBrowse, AWeb and Voyager, which run on the 68k, stop at roughly ES3-era JavaScript, and NetSurf, which also has a 68k target, pairs CSS 2.1 with primitive JavaScript (rows above); for each of these engines the limit is its features, which a faster CPU does not add.
-- [F] Amelinium's readme states that a page whose scripts do much work is slow in it, because "the interpreter is not fast, and that is the honest limit" (`amelinium`, "Known issues", L119-121); [R] that the browser does what its readme states, here and in its row, which running it would verify.
+- [F] Amelinium's readme states that a page whose scripts do much work is slow in it, because "the interpreter is not fast, and that is the honest limit" (`amelinium`, "Known issues", L119-121); [F] the same list of known issues also names things that do not work (`amelinium`, "Known issues", L117-119, L122-126); [R] that the browser does what its readme states, here and in its row, which running it would verify.
 - [G] Wayfarer shows that native feel (fonts, windows, clipboard, menus) comes from the front end around a modern engine, but it needs a PowerPC host OS that a Zorro Amiga does not run.
 
 ## Fast-68k routes
