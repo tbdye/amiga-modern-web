@@ -1,6 +1,6 @@
 # Video with sound in step
 
-Scope: what keeps a web page's video and its sound in step when the picture reaches an Amiga from another computer: the requirement, the published tolerances, how the ZZ9000 firmware's own player does it, which of the firmware's sound paths report a played position, the times a browser engine gives its frames and sound, and how comparable systems do it.
+Scope: what keeps a web page's video and its sound in step when the picture reaches an Amiga from another computer: what is decided, the published tolerances, how the ZZ9000 firmware's own player does it, which of the firmware's sound paths report a played position, the times a browser engine gives its frames and sound, and how comparable systems do it.
 Status: current
 
 - [D] DEC-036: video with synchronised audio should be supported on the target configuration; no tolerance, picture size or frame rate is set, and where the sound plays is not decided.
@@ -51,7 +51,7 @@ One run with sound and picture is published (`docs/native-p96-pip.md:L394-410`, 
 | [F] Exact size | 4,405 | 4,379 | 26 | 29.916 | 6,476,544 | 13 |
 | [F] Window enlarged | 4,405 | 4,374 | 31 | 29.925 | 6,476,544 | 10 |
 
-- [F] It is a 640×480 MPEG-1 program stream at 30 frames a second on Zorro III, with sound decoded on the card and played on the add-on's own output; the document names neither the Amiga nor its processor.
+- [F] It is a 640×480 MPEG-1 program stream at 30 frames a second on Zorro III, on a build of a development branch, with sound decoded on the card and played on the add-on's own output; the document names neither the Amiga nor its processor (`docs/native-p96-pip.md:L381-395`).
 - [G] 6,476,544 ÷ 44,100 = 146.86 s, against 4,405 ÷ 30 = 146.83 s for the picture, so the track was 44.1 kHz and the card was converting it to 48 kHz.
 - [F] The underrun counter is the card's, one for each 20 ms period that nothing filled (`zzplay/zzplay.c:L2081-2088, L3514-3525`; `os/audio_fabric.c:L1082-1110`).
 - [G] 13 × 20 ms = 0.26 s of silence in 146.86 s, 0.18%; both runs played the same number of sound frames, so no sound was lost.
@@ -96,7 +96,7 @@ Inside the engine:
 What a page's video element exposes:
 
 - [F] Audio that is played must be played synchronised with the element's current playback position (`html-media`, "Playing the media resource").
-- [F] A per-frame callback gives the frame's media time in seconds, the time it was submitted for composition, the expected display time, a count of presented frames and a processing duration (`video-rvfc`, §2).
+- [F] A per-frame callback gives the frame's media time in seconds, which may be zero for a live stream, the time it was submitted for composition, the expected display time, a count of presented frames and a processing duration (`video-rvfc`, §2).
 - [F] `getVideoPlaybackQuality()` gives dropped and total frames (`media-playback-quality`).
 - [G] None of the capture interfaces on the three pages named above attaches the page video's own media time to a captured frame or packet: a control program gets times of composition and of capture, and the media time is reachable only from script in the page.
 
@@ -108,7 +108,7 @@ What a page's video element exposes:
 | RDP, sound channel | [F] The client's confirmation of a sound block returns the block's time stamp plus the milliseconds it held the block, so that the server can work out the time taken; a later form of the block adds a 32-bit stamp of when the server got the sound, which "SHOULD be used to sync the audio stream with a video stream" | [F] Not stated; consuming a block means that it was processed, cancelled or dropped | `ms-rdpea` §1.3, §2.2.3.10, §3.2.5.2.1.6; the block and its confirmation: `topics/remote-display-protocols.md`, "RDP" |
 | RDP, a video region sent as its own stream | [F] Each packet's time stamp, in 100 ns units from the start of the presentation, "SHOULD be used to sync the video stream with an audio stream" | [F] The client must tell the server when it cannot decode fast enough, naming a rate from 1 to 30 frames a second, and the server spaces its frames to stay below it | `ms-rdpevor` §2.2.1.2, §2.2.1.5, §2.2.1.6; no Linux server read sends this stream: `topics/remote-display-servers.md`, "RDP servers" |
 | RDP, video redirection | [F] The client plays the audio and video data it is sent and synchronises them by the start and end time each sample carries; a per-sample duration lets the server keep a certain amount of data buffered on the client, and the client acknowledges what it has played | Not stated | `ms-rdpev` §1.3, §2.2.4.1, §2.2.8 |
-| VNC with the QEMU audio extension; xpra | A sound message with no time value; a time stamp in the packet's metadata and a `sync` control whose meaning the page read does not give | Not stated | `topics/remote-display-protocols.md`, "VNC (RFB)", "xpra" |
+| VNC with the QEMU audio extension; xpra | [F] A sound message with no time value; a time stamp in the packet's metadata and a `sync` control whose meaning the page read does not give | Not stated | `topics/remote-display-protocols.md`, "VNC (RFB)", "xpra" |
 | THINC, a research thin client | [F] It stamps sound and video at the server so that they reach the client with the same synchronisation as at the server; the paper gives no details | Not stated | `thinc` §4.2 |
 | RTP | [F] A sender's reports pair each stream's media time stamp with one wall-clock time, so a receiver can line up the sound and the picture of one source | Not specified | `rfc:3550:L357-359, L2063-2066, L2092-2096` |
 | ffplay | [F] Sound is the default master clock; nothing is corrected below 40 ms; when sound is the slave its samples are stretched by at most 10%; the picture queue holds 3 frames | [F] A late frame is dropped, by default, unless video is the master | `ffmpeg@n7.1:fftools/ffplay.c:L76-87, L124, L325, L1536-1556, L1650-1651`; `doc/ffplay.texi:L136-142, L182-185` |
@@ -127,7 +127,7 @@ What a page's video element exposes:
 What reading would settle:
 
 - What delay Chromium's renderer is told while capture mutes the browser's output: its capture sink's source.
-- What RDP clients, RTP receivers, mpv and ffplay's clock code do about drift between sender and receiver, and what the resampling element in SPICE's default sound pipeline is for: their sources.
+- What RDP clients, RTP receivers, mpv and ffplay's clock code do about drift between sender and receiver, and what the resampling element in SPICE's default sound pipeline is for (`spice-gtk@0.42:src/spice-gstaudio.c:L305-306`): their sources.
 - ATSC IS-191; RDP's graphics pipeline acknowledgements as a means of pacing video against sound; Citrix's and PCoIP's documents: not read.
 - What xpra's `sync` control carries: its source.
 - When a media session raises its back-pressure flag, and how much it holds when fed from a live stream: the firmware's session source.
