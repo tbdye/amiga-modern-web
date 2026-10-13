@@ -98,8 +98,4 @@ Whole windows at the ceilings, 16 bits a pixel (halve for 32-bit, double for 8-b
 
 ## Sources
 
-`aminet`, `aminet-rview`, `zz9000-bench`, `fw` and `zorro3` are defined in `sources.md`.
-
-| ID | Source | Where | Pin or accessed |
-|---|---|---|---|
-| `xacp` | XACP, a third-party firmware line for the ZZ9000 | `github.com/Xanxi-Amiga/XACP-ZZ9000` | `cca1f3c` |
+`aminet`, `aminet-rview`, `zz9000-bench`, `fw`, `zorro3` and `xacp` are defined in `sources.md`.

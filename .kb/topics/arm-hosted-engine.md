@@ -171,8 +171,6 @@ Each point names what would settle it; none is a condition of anything.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
-| `xacp` | XACP-ZZ9000, a third-party ZZ9000 firmware line with its Amiga programs and documents | `github.com/Xanxi-Amiga/XACP-ZZ9000` | `cca1f3c`; read as data, nothing built or run |
 | `almanac-2025` | HTTP Archive Web Almanac 2025, page weight and WebAssembly chapters | `https://almanac.httparchive.org/en/2025/page-weight`; `https://almanac.httparchive.org/en/2025/webassembly` | 2026-10-11 |
-| `cf-challenges` | Cloudflare challenges, supported browsers | `https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/` | 2026-10-11 |
 | `litehtml` | litehtml | `github.com/litehtml/litehtml` | `4a651c5` |
 | `libcss`, `libdom`, `libhubbub` | CSS, DOM and HTML parsing libraries | `github.com/netsurf-browser/<name>` | `499f1c4`, `f69781e`, `6651b8c` |

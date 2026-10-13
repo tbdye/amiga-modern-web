@@ -59,6 +59,7 @@ A licence, language level, implementation language, line count, JIT back end or 
 | The card's core at 667 MHz, scaled from the three Cortex-A9 rows | 730-895 | 1.10-1.34 | 77-88 | [G] each row's figure per MHz × 666.67; 675 if the 1,317 build ran at 1,300 MHz |
 | The same, on the vendor figure | 1,667 | 2.5 | | [G] 2.5 × 666.67 |
 
+- [F] The legend of the Linpack chart prints MIPS for MFLOPS (`magpi-pi4-bench`).
 - [F] The Cortex-A9 rows are Android builds and the Pi rows Raspbian gcc; their source notes that MIPS per MHz depends on compiler optimisation, and one tablet scores 1,610 or 1,317 by build alone (`bench-android`).
 - [G] The Pi rows sit at the vendor figures (ARM11 1.21-1.23 against 1.25; Cortex-A7 1.71-1.85 against 1.9) and the Cortex-A9 rows at about half of theirs (1.10-1.34 against 2.5), so the two anchors for the card differ by about 2.
 - [G] The one figure reported from the card falls between them, at 1.59 per MHz; it is a third party's approximate figure on another firmware line and compiler, and nothing measures the build of `fw`.
@@ -156,7 +157,6 @@ Each point names what would settle it; none is a condition of anything.
 | `moddable` | Moddable SDK, which holds the XS engine | `github.com/Moddable-OpenSource/moddable` | `5f215f7` |
 | `v8-jitless` | V8 blog, "JIT-less V8" (2019-03-13) | `https://v8.dev/blog/jitless` | 2026-10-11 |
 | `bench-android`, `bench-rpi` | Android benchmarks and Raspberry Pi benchmarks pages: Dhrystone 2.1 and Linpack results by device and build | `http://www.roylongbottom.org.uk/android%20benchmarks.htm`; `http://www.roylongbottom.org.uk/Raspberry%20Pi%20Benchmarks.htm` | 2026-10-11; served over HTTP only |
-| `magpi-pi4-bench` | The MagPi, Raspberry Pi 4 specifications and benchmarks: Linpack chart (its legend prints MIPS for MFLOPS) and the Speedometer note | `https://magpi.raspberrypi.com/articles/raspberry-pi-4-specs-benchmarks` | 2026-10-11; figures read from the chart image |
 | `wiki-ips`, `wiki-68060` | Wikipedia, "Instructions per second" (table of Dhrystone MIPS by processor); "Motorola 68060" | `https://en.wikipedia.org/wiki/Instructions_per_second`; `https://en.wikipedia.org/wiki/Motorola_68060` | 2026-10-11 |
 | `gsmarena` | GSMArena reviews, by address: `asus_google_nexus_7-review-797`, `samsung_i9300_galaxy_s_iii-review-761`, `google_nexus_4_vs_samsung_galaxy_s_iii-review-864`, `huawei_ascend_p7-review-1074`, `huawei_ascend_p6-review-967`, `motorola_moto_g-review-1021` | `https://www.gsmarena.com/<review>p<page>.php` | 2026-10-11 |
 | `anandtech-nexus7` | AnandTech, "Nexus 7 (2013) - Mini Review", page 4, and its Octane v1 chart | `https://web.archive.org/web/20141227121351/http://www.anandtech.com/show/7176/nexus-7-2013-mini-review/4` | 2026-10-11; an archived copy |
