@@ -126,7 +126,7 @@ files:
     cites: [fw, drivers, anx, prism, amigaorg-66041, icomp-shop-xsurf100, roadshow, aminet, aminet-rview, zz9000-bench]
   topics/bus-and-card-rates.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [fw, zorro3, xacp, aminet, aminet-rview, zz9000-bench]
   topics/decode-rates.md:
     status: current
