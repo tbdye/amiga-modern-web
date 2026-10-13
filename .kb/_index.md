@@ -21,7 +21,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
 | Prior approaches | `topics/prior-art.md` (Amiga browsers, remote engines, Chromium forks, Speedometer); `topics/prior-art-remote-clients.md` (Amiga clients) |
-| Published rates | `topics/target-config-rates.md` (receive, copy, pixel); `topics/bus-and-card-rates.md` (bus ceilings, card scrolls); `topics/decode-rates.md` (decode) |
+| Published rates | `topics/target-config-rates.md` (receive, copy, pixel); `topics/bus-and-card-rates.md` (Zorro ceilings, scrolls); `topics/decode-rates.md` (68k, ARM) |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
