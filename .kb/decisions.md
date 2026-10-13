@@ -223,3 +223,4 @@ Status: active.
 Decided: 2026-10-11.
 Rule: the less work on a browser engine the project carries, the better; this is a preference.
 Rule: no engine is fixed (DEC-020).
+Consequences: the ways of putting a control program on an engine that is not forked, and what each costs to keep, are in `topics/engine-control.md`; what each interface hands the program is in `topics/engine-interfaces.md` and `topics/hidden-display.md`.

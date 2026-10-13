@@ -56,7 +56,7 @@ A policy is stated as its publisher states it; no version here is given as curre
 
 ## Speed and memory on small Linux computers
 
-Speedometer 2.0 and 2.1 scores for Chromium across Raspberry Pi boards are in `topics/prior-art.md`, "App SoC plus FPGA", and are not repeated here.
+Speedometer 2.0 and 2.1 scores by Raspberry Pi board are in `topics/prior-art.md`, "App SoC plus FPGA", and are not repeated here.
 
 ### Three engines on Raspberry Pi 4 test hosts
 
@@ -82,7 +82,7 @@ Conditions of every row:
 - [G] Private memory is the safer comparison: a resident figure summed over several processes can count shared pages more than once, and the API does not say how it sums.
 - [G] Servo scores 0.97 / 1.62 = 0.60 of WPE `main`.
 - [F] Speedometer 3 has no bad-run check in this dashboard (the field is null on every row), so the Chrome run is unvetted; the same host's Chrome MotionMark and JetStream runs that day are flagged bad (`wpe-dash`).
-- [G] If the Pi 5 to Pi 4 ratio of the Speedometer 2.1 scores in `topics/prior-art.md` (62.5 / 20.5 = 3.05) held for Speedometer 3, the table would give about 7.2 for Chrome and 4.9 for WPE `main` on a Pi 5; the two benchmark versions differ, so this is an extrapolation.
+- [G] If the Pi 5 to Pi 4 ratio of the Speedometer 2.1 scores in `topics/prior-art.md` (62.5 / 20.5 = 3.05) held for Speedometer 3, the table would give about 7.2 for Chrome and 4.9 for WPE `main` on a Pi 5; the two benchmark versions differ and the post that gives the two scores names no browser for them, so this is an extrapolation.
 
 ### Other benchmarks
 
@@ -103,7 +103,7 @@ Conditions of every row:
 | Radxa ROCK 5B+ (RK3588) | [F] H.265, H.264, VP9, AV1 and AVS2, up to 8K60 | `radxa-5bp` |
 
 - [F] Ladybird's newsletter states that every YouTube video is available as VP9 with Opus in WebM, that some older videos have several quality levels only as H.264, and that higher qualities, 8K especially, are often served only as AV1 (`lb-news`, 2026-08-31); it is a secondary source for YouTube's formats.
-- [G] On that statement a Pi 5 lists a decoder for none of YouTube's formats, so YouTube video is decoded in software there whatever the engine, and a Pi 4 has a hardware path for H.264 only.
+- [G] On that statement a Pi 5 lists a decoder for none of YouTube's formats, so YouTube video is decoded in software there whatever the engine, and a Pi 4 has a hardware path for H.264 only; the maker's comment on the Pi 5: `topics/decode-rates.md`, "Video playback on Raspberry Pi boards".
 - A decoder a board lists serves a browser only if the browser's build uses it: `topics/engine-control.md`, "Codecs by build".
 - [F] Raspberry Pi's Firefox has V4L2 codec support for the boards' hardware H.264 decoder, which Raspberry Pi says significantly improves performance and reduces CPU load on older models when playing HD video (`rpi-bookworm`).
 - [F] Raspberry Pi stated in 2022 that its Chromium package used the V4L2 stateless decoders (`rpi-64bit`, comments).
@@ -142,7 +142,7 @@ Identity and durable characteristics only; "—" means the page read does not st
 
 - Whether Discord's web application works in WPE WebKit or WebKitGTK, and whether YouTube does without a user-agent override: a primary statement from either site or from WebKit would settle it.
 - Speed and memory of Firefox on any Raspberry Pi, and of any engine on a Pi Zero 2 W, an RK3588 board or a low-end x86 board: a published benchmark from a primary source.
-- YouTube playback at 480p on any of these boards, and playback compared across engines at any size: no published report was found.
+- YouTube playback at 480p on any of these boards, and playback compared across engines at any size: no published report was found; what reviews report of video playback on Raspberry Pi boards: `topics/decode-rates.md`, "Video playback on Raspberry Pi boards".
 - Whether YouTube serves H.264 to an engine that advertises VP9: no source read says.
 - The memory size of the dashboard's Pi 4 hosts, the unit of its memory fields and what each process kind sums: the dashboard's own documentation.
 - The memory floor of each engine: Chrome's only memory figure here has an assumed unit and comes from a benchmark run.
@@ -172,9 +172,5 @@ A SHA-256 is of the copy read.
 | `cobalt` | Cobalt home page | `https://cobalt.dev/` | 2026-10-11 |
 | `rpi-64bit` | Raspberry Pi news post of 2022-02-02, with its comments | `https://www.raspberrypi.com/news/raspberry-pi-os-64-bit/` | 2026-10-11 |
 | `rpi-power` | Raspberry Pi documentation, `documentation/asciidoc/computers/raspberry-pi/power-supplies.adoc` | `github.com/raspberrypi/documentation` | `62ba0a0c2dd5` |
-| `rpi-zero2w` | Raspberry Pi Zero 2 W product brief | `https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf` | SHA-256 `503f348880c00c543e99383ca8759a0b60c1b511cc3c27f216720866159a2bff` |
-| `rpi-3aplus` | Raspberry Pi 3 Model A+ product brief | `https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-a-plus-product-brief.pdf` | SHA-256 `d253dcedae53f055ac2f08240ee7d8240f6d9001fd391c6437eefe6c56c18904` |
-| `rpi4-brief` | Raspberry Pi 4 Model B product brief | `https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-product-brief.pdf` | SHA-256 `7e18898418a47cdbab2f6184ae93fbe6e4943c45475cecbe1db8eb11d32f4328` |
 | `rpi5-brief` | Raspberry Pi 5 product brief | `https://datasheets.raspberrypi.com/rpi5/raspberry-pi-5-product-brief.pdf` | SHA-256 `944fc1d70da50f0b8d5947dd4263078f698c79586f29c07f35fcd4b87077dd3f` |
-| `rpi-cm4` | Raspberry Pi Compute Module 4 datasheet, Release 4 (build date printed 30/06/2026) | `https://datasheets.raspberrypi.com/cm4/cm4-datasheet.pdf` | SHA-256 `d6946f8bb3e0276defa95b99b9d402a01a4805d3de02d53f835e93044ea7af97` |
 | `radxa-5bp`, `radxa-x4` | Radxa ROCK 5B+ and X4 product pages | `https://radxa.com/products/rock5/5bp`; `https://radxa.com/products/x/x4` | 2026-10-11 |
