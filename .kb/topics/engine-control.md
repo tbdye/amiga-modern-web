@@ -34,7 +34,7 @@ Left out of the comparison, with the reason:
 - Carbonyl is a patched Chromium (`topics/prior-art.md`, "Carrying a Chromium port").
 - Neko, Selkies and KasmVNC expect a modern browser as their client (`topics/hidden-display.md`, "Existing remote-display servers").
 - [F] waypipe forwards Wayland messages and must be installed on both computers (`waypipe@6e3034620c4b:README.md`).
-- [R] Hosted remote-browser services were not examined; a third party would see every page.
+- [R] Hosted remote-browser services were not examined; a third party would see every page, which each service's own documentation would verify.
 
 ## What a stock Chromium reports
 
@@ -52,7 +52,7 @@ Source for the table: `cdp@c3ed21b:json/browser_protocol.json`, `json/js_protoco
 - [F] With file-chooser interception on, the native file chooser dialog is not shown (`cdp`, `Page.setInterceptFileChooserDialog`).
 - [F] The definition has no event for context menus, drop-down lists, permission prompts, the clipboard or the cursor shape, and permissions can only be preset; the negative rests on a search of every command, event and type name and description for those words, parameter descriptions not searched (`cdp`).
 - [G] So on a stock Chromium, JavaScript dialogs, the file chooser, authentication, new windows and downloads can reach the control program as events, while context menus, drop-down lists and permission prompts stay pixels.
-- [G] The definition has 59 domains: 17 unflagged, 40 experimental and 2 deprecated; of 908 commands and events, 646 are experimental by their own flag or their domain's, and 46 deprecated (counted over the definition at the pin).
+- [G] The definition has 59 domains: 17 unflagged, 40 experimental and 2 deprecated; of 908 commands and events, 646 are experimental by their own flag or their domain's, and 46 are deprecated by their own flag (counted over the definition at the pin).
 
 ### Who is supported
 
@@ -85,7 +85,7 @@ Whether the browser also draws its own dialog, scroll offsets through an injecte
 ### How WebKit's Linux ports identify themselves
 
 - [F] They send a Safari user-agent string on an X11 or Linux platform token, with a Safari version set above any real Safari's; the code comment gives the reason that many sites discriminate against fairly recent Safari versions (`webkit@f0fdd66b6957:Source/WebCore/platform/glib/UserAgentGLib.cpp:L112-131`).
-- [F] A per-site table presents Chrome, Firefox or a Macintosh platform to listed sites that reject that string; neither youtube.com nor discord.com is in it at that commit (`Source/WebCore/platform/glib/UserAgentQuirks.cpp:L42-82, L119-175`).
+- [F] A per-site table presents Chrome, Firefox or a Macintosh platform to listed sites that reject that string; neither youtube.com nor discord.com is in it at that commit (`Source/WebCore/platform/glib/UserAgentQuirks.cpp:L42-175`).
 - [F] For accounts.google.com, docs.google.com and drive.google.com the table drops an embedding application's branding from the string (`UserAgentQuirks.cpp:L187-205`).
 
 ## Codecs by build
