@@ -21,9 +21,9 @@ Status: draft
 | [F] At release `v2.8.1` (`6aa71d1`), ZZPlay plays MPEG-1 Program Streams and MP3 | `fw@6aa71d1:sdk/docs/zzplay.md:L3, L12-14` |
 | [F] At `bdfd8b0`, ZZPlay also decodes WebM (VP8/VP9 with Opus or Vorbis), native FLAC, Ogg Vorbis and animated WebP; the firmware advertises those services only when built with `ZZ9000_QUALIFY_UNADVERTISED` | `fw@bdfd8b0:sdk/docs/zzplay.md:L3, L17-28`; `os/sdk_service_catalog.h:L32-55` |
 | [F] On a 4 MiB Zorro II profile the PIP source pool fits 352×288 but not 640×360; the 2 MiB profile has none | `fw@8778ef3:sdk/docs/zzplay.md:L34-37` |
-| [F] A synchronous mailbox round trip's floor measures 225-339 µs (average 279 µs); the document's earlier 6.1 ms figure was the 68k wait loop, not the transport | `fw@bdfd8b0:sdk/docs/zz9k-crypto-acceleration.md:L115-121, L142-144` |
-| [F] A drop-in `amissl.library` with an OpenSSL 3 provider offloads TLS crypto to BearSSL on the A9: handshake (X25519, P-256, ECDSA and RSA verify) and record (ChaCha20-Poly1305, AES-GCM); the handshake operations run two to three orders of magnitude faster than the SDK's portable 68k code | `fw@bdfd8b0:sdk/docs/zz9k-crypto-acceleration.md:L10-18, L128-140, L183-185`; `sdk/docs/zz9k-amissl-provider.md:L19-31` |
-| [F] Vendor and loadable services live at `0x8000` and above, allocated on `0x0100` boundaries; `0x8100` is the JEDI renderer's | `fw@bdfd8b0:sdk/docs/zz9k-vendor-services.md:L3-8, L20-23` |
+| A synchronous mailbox round trip's floor measures 225-339 µs (average 279 µs) on a 68060; its conditions, and the 6.1 ms figure it supersedes | `topics/arm-offload.md`, "Per-call cost" |
+| [F] A drop-in `amissl.library` with an OpenSSL 3 provider offloads TLS crypto to BearSSL on the A9: handshake (X25519, P-256, ECDSA and RSA verify) and record (ChaCha20-Poly1305, AES-GCM); the handshake operations run two to three orders of magnitude faster than the SDK's portable 68k code; how it is built and when it falls back: `topics/arm-offload.md`, "How the TLS offload is built" | `fw@bdfd8b0:sdk/docs/zz9k-crypto-acceleration.md:L10-18, L128-140, L183-185`; `sdk/docs/zz9k-amissl-provider.md:L19-31` |
+| [F] Service IDs at `0x8000` and above are set aside for vendor and loadable services, allocated on `0x0100` boundaries, with `0x8100` assigned to the JEDI renderer; the range is an ID space only, with no loader and no vendor opcode handler in the firmware (`topics/arm-offload.md`, "Mechanisms in the firmware") | `fw@cfbb910:sdk/docs/zz9k-vendor-services.md:L3-8, L20-23, L36-38`; `sdk/docs/zz9k-modules.md:L56-61` |
 | [F] Ethernet terminates on the A9 and is bridged to the Amiga as raw frames | `fw@8778ef3:os/ethernet.c` |
 | [F] The GEM DMAs each received frame into a 128-slot × 2048 B backlog at `0x3FE00000` that the Amiga reads in order; at 96 pending frames (128 less 32 RX descriptors) the firmware stops re-arming descriptors and sends an 802.3x pause frame (quantum `0x800`), and it advertises symmetric and asymmetric pause | `fw@bdfd8b0:os/memorymap.h:L30, L500`; `os/ethernet.h:L58-60`; `os/ethernet.c:L352-359, L596-612, L640-644, L853-856, L1103-1105` |
 | [F] ARM-side surface jobs: fill, copy and clipped scale (bilinear on supporting builds) on SDK surfaces and the RTG framebuffer; ARM-local surfaces not mapped into 68k memory; a helper that walks a window's visible ClipRects | `fw@bdfd8b0:sdk/docs/zz9k-library.md:L326-347, L362-368, L404-415, L694-700` |
@@ -98,6 +98,7 @@ Status: draft
 
 - [F] Default builds clock capture from `ZORRO_E7M` (ball R14) through the capture MMCM, which has dynamic phase shift; R14 is regular I/O, so the route is allowed per net with `CLOCK_DEDICATED_ROUTE FALSE`, and `ZORRO_C28D` is false-pathed (`fw@bdfd8b0:xdc/zz9000.xdc:L134`; `xdc/capture_e7m.xdc:L4-12, L34-38`; `mntzorro.v:L1465-1489, L1581-1587`).
 - [F] The `zorro3-aga` release variant is built with `--capture-c28` and clocks capture from video-slot `ZORRO_C28D` (ball B20, regular I/O, the same per-net override), constrained at 34.9 ns (`fw@bdfd8b0:xdc/zz9000.xdc:L117`; `xdc/capture_c28.xdc:L4-13`; `build_variant_bitstreams.sh:L256-260`; `README.md:L440-447`).
+- [F] A bitstream fixes its capture clock source, which `ZZ9000.CFG` alone cannot change; the E7M bitstreams serve the A3000, other machines and an A4000 as a fallback (`fw@cfbb910:README.md:L444-446`).
 
 ## Native-video regression [D] DEC-005
 
@@ -109,7 +110,7 @@ Status: draft
 
 ## Toolchain
 
-- [F] The firmware builds with Vivado 2018.3 (`fw@8778ef3:BUILD.md:L16-18`; `zz9000_project.tcl:L2`).
+- [F] The bitstream builds with Vivado 2018.3 (`fw@8778ef3:BUILD.md:L16-18`; `zz9000_project.tcl:L2`); the ARM firmware builds without it (`topics/arm-offload.md`, "Mechanisms in the firmware").
 - [F] From Vivado 2026.1 a free BASIC tier covers every Zynq 7000 device; only PRO and above include pre-2026.1 versions, and BASIC users keep an existing licence file to use them (`amd-vivado-editions`).
 - [F] BASIC limits XSIM to 50K design instances with no UVM, and debug to one ILA core with up to 5 probes (`amd-vivado-editions`).
 - [G] So either the project ports to 2026.x, or a 2018.3 installation is used; whether 2018.3 WebPACK still downloads and needs no licence file is [R].
