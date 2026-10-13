@@ -54,6 +54,7 @@ Rule: compression of the browser's pixels may be explored and is not ruled out; 
 Rule: it is not decided whether text and user-interface areas have to be pixel-exact.
 Rule: module, FPGA and board are all still open.
 Rule: Amiga-side 3D and video decode are not goals; decoding web video on the browser chip is unaffected.
+Consequences: measured sizes of real pages' pixels under lossless codings and JPEG are in `topics/page-pixels.md`, `topics/page-pixels-lossless.md` and `topics/page-pixels-lossy.md`; the uncompressed bytes a scroll resends are in `topics/scroll-redraw.md`.
 
 ## DEC-009: 1080p output is required
 

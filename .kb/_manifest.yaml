@@ -140,6 +140,22 @@ files:
     status: current
     reviewed_on: 2026-10-13
     cites: [pistorm, emu68, a314, pistorm-site, emu68-tools, emu68-releases, framethrower, a2000-relocator, pistorm2k, pistorm-zorro-list, ps32-a4000-adapter, rpi-3aplus, rpi-3bplus, rpi-zero2w, rpi4-brief, rpi-cm4]
+  topics/page-pixels.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [rfc6143]
+  topics/page-pixels-lossless.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: []
+  topics/page-pixels-lossy.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: []
+  topics/scroll-redraw.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: []
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10
