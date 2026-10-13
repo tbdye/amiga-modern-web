@@ -49,11 +49,11 @@ Rows 1 and 3.
 - [G] The choice of stack moves the rate: on one machine and card that table has 1.280, 2.185 and 2.066 MB/s for three stacks, a spread of 2.185 ÷ 1.280 = 1.7 times; its source does not say which way the data ran.
 - [G] The link is not the limit in row 1: the 2.9 MB/s the 68k receives at 50 MHz (same heading) is 23% of 12.5 MB/s.
 - [G] Each 1 MB/s of other received traffic takes 1 ÷ 2.9 to 1 ÷ 2.6 = 34 to 38% of what the 68k can receive, before the receiving program's own work.
-- [G] While another flow receives s MB/s the session's pixel rate is at most (1 − s ÷ receive) × the pixel rate of `topics/target-config-rates.md`, "Pixel rate": at s = 0.5, 0.81 × 1.62 = 1.31 to 0.83 × 2.08 = 1.72 MB/s; at s = 1.0, 1.00 to 1.36 MB/s.
+- [G] While another flow receives s MB/s the session's pixel rate is at most (1 − s ÷ receive) × the pixel rate of `topics/target-config-rates.md`, "Pixel rate": at s = 0.5, (1 − 0.5 ÷ 2.6) × 1.62 = 1.31 to (1 − 0.5 ÷ 2.9) × 2.08 = 1.72 MB/s; at s = 1.0, (1 − 1 ÷ 2.6) × 1.62 = 1.00 to (1 − 1 ÷ 2.9) × 2.08 = 1.36 MB/s.
 - [G] These are upper bounds: they divide the 68k's time by bytes and count the other program's own work as free.
 - [F] Exec gives the processor to a higher-priority task before a lower-priority one (`amigaos-wiki-exec-tasks`).
 - Both flows also pass one receive backlog on the card: `topics/card-ethernet-sharing.md`, "One receive backlog".
-- [F] One third-party observation of two uses at once: during and after a 150-second TCP receive run through a ZZ9000 at 8.4 Mbit/s, the Amiga's HTTP services answered; the machine is an A3000 with a 68030 at 25 MHz under AmiNetXDuo, with an X-Surf 100 also fitted (`anx@9a6f6fc:docs/plans/zz9000-ethernet.md:L3-6, L31-38`).
+- [F] One third-party observation of two uses at once: during and after a 150-second TCP receive run through a ZZ9000 at 8.4 Mbit/s, the Amiga's HTTP services answered; the machine is an A3000 with a 68030 at 25 MHz under AmiNetXDuo, on that project's own driver and firmware fork, with an X-Surf 100 also fitted (`anx@9a6f6fc:docs/plans/zz9000-ethernet.md:L3-6, L12-15, L31-38`).
 
 ## Cabled straight to the card
 
@@ -77,7 +77,8 @@ Conditions on every row of this table:
 - [G] From the facts there: no crossover cable is needed; after the second computer restarts, frames flow again only if negotiation lands on the speed first set; and the Amiga is not told that the link went away.
 - [F] Wi-Fi as the bridge's uplink takes three parties: the access point and the client must both send 4-address frames, and each Linux Wi-Fi driver declares that capability itself (`linux-wireless-iw`).
 - [F] Without 4-address mode Linux marks a Wi-Fi client interface as not bridgeable, and the bridge refuses it (`linux:net/wireless/util.c:L1225-1234`; `linux:net/bridge/br_if.c:L592-597`).
-- [F] The driver bound to a Raspberry Pi 4's on-board Wi-Fi sets no such capability at this commit: its flags are at `linux:drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:L7621-7629`, the file holds no `4ADDR`, and the binding is `linux:arch/arm/boot/dts/broadcom/bcm283x-rpi-wifi-bt.dtsi:L20-23`, `bcm2711-rpi-4-b.dts:L7` and `brcmfmac/of.c:L117`.
+- [F] The driver bound to a Raspberry Pi 4's on-board Wi-Fi sets no such capability at this commit: its flags are at `linux:drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:L7621-7629`, the file holds no `4ADDR`, and the binding is `linux:arch/arm/boot/dts/broadcom/bcm283x-rpi-wifi-bt.dtsi:L20-23`, `linux:arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts:L7` and `linux:drivers/net/wireless/broadcom/brcm80211/brcmfmac/of.c:L117`.
+- [F] At the later commit `6c377d19d4a5` the same driver is bound to a Raspberry Pi 5's on-board Wi-Fi and sets no such capability there either: the binding is `linux@6c377d19d4a5:arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi:L210-213`, which `linux@6c377d19d4a5:arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts:L13` includes, and `linux@6c377d19d4a5:drivers/net/wireless/broadcom/brcm80211/brcmfmac/of.c:L124`; its flags are at `linux@6c377d19d4a5:drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:L7707-7715`, and the file holds no `4ADDR`.
 - [G] Where the Wi-Fi uplink lacks 4-address mode at either end the second computer therefore cannot bridge it, and rows 2c and 2d are what is left.
 - [F] The routed rows are IPv4 only: RFC 3022 and RFC 1027 are IPv4; IPv6 crosses a bridge (`linux:Documentation/networking/bridge.rst:L317-319`); for proxying IPv6 neighbour discovery the kernel page records only that the setting exists (`linux:Documentation/networking/ip-sysctl.rst:L2259-2260`).
 - [F] A second wired port can be a USB Ethernet adapter: Linux has drivers for Realtek RTL8152/RTL8153 and ASIX AX88xxx adapters (`linux:drivers/net/usb/Kconfig:L99-110, L168-198`).
@@ -100,7 +101,6 @@ Conditions on every row of this table:
 
 - [G] In rows 1 and 3 the session is a connection across the home network, so the control link of the design under study, proposed as unreachable from the network (`topics/network.md`, "The control link and the network"), does not describe it.
 - [G] A guest network that keeps its clients off the home network also keeps the second computer off the Amiga in rows 1 and 3.
-- [R] What a given router's guest network does is in its manual, which would verify it.
 - [G] The assumption that a web page eventually takes over the computer that runs the engine carries over, with the proposed parser rules and crossing defaults (`topics/security.md`, "Threat model", "Proposed parser rules", "Proposed crossing defaults").
 - [F] TLS on a 68k exists: with the card's acceleration (`topics/arm-offload.md`, "How the TLS offload is built"), and in AmiNetXDuo's `tls.library`, which its README says also runs on Roadshow, AmiTCP and Miami, with a first handshake of about 4 to 9 seconds on a 68020 (`anx@9a6f6fc:README.md:L256-265`).
 - In rows 2a to 2e the second computer's frames reach the card's firmware: `topics/card-ethernet-sharing.md`, "Exposure".
@@ -119,7 +119,7 @@ Row 4.
 - How the 68k's time divides between two flows, and the rate of two flows at once: the priorities the stacks and programs run at were not read, no published figure was found, and only a measurement on a machine shows it.
 - What each stack does at start-up when no address server answers; whether Roadshow runs several interfaces at once [R]: each stack's documentation would settle it.
 - Crossover behaviour of the second transceiver the firmware supports (`os/ethernet.c:L1160-1165`): its data sheet.
-- 4-address support in the Wi-Fi driver of a Raspberry Pi 5, whose device tree at this commit has no Wi-Fi node (`linux:arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts`), and in the vendor's own kernel: their sources.
+- 4-address support in the vendor's own kernel for a Raspberry Pi 4 or 5: its source.
 - What a given home router's guest network and static routes do: its manual.
 - Whether the link returns after the second computer restarts, and what the Amiga's stack then does: only hardware shows it.
 - Mounting and cooling of a board inside the case, and Wi-Fi reception inside a metal case: not researched.
