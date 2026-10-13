@@ -133,6 +133,15 @@ Web pages and package indexes were read on 2026-10-11.
 | `wpe-254` | WPE WebKit 2.54 release post (2026-09-16) | `https://wpewebkit.org/blog/2026-09-16-wpewebkit-2.54.html` | 2026-10-11 |
 | `rpi-bookworm` | Raspberry Pi news post of 2023-10-11, with its comments | `https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/` | 2026-10-11 |
 
+## Remote-display and RTG sources
+
+Sources that two or more of the remote-display and RTG topics cite; a source that one topic alone cites is in that topic's `## Sources` table.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `freerdp` | FreeRDP | `github.com/FreeRDP/FreeRDP` | `87baff6c80e1` |
+| `guacd`, `guac-man` | Apache Guacamole's server; its manual | `github.com/apache/guacamole-server`; `github.com/apache/guacamole-manual` | `ae12b8e51aa6`; `482ac54f15ae` |
+
 ## Prior-art sources
 
 GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
