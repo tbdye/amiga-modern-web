@@ -1,5 +1,5 @@
 kb_version: 1
-updated: 2026-10-10
+updated: 2026-10-12
 pins:                       # newest pin each source was verified against
   fw:      { commit: bdfd8b0, verified_on: 2026-10-10 }
   drivers: { commit: ad9606b, verified_on: 2026-10-10 }
