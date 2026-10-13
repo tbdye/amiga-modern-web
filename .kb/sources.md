@@ -176,7 +176,7 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 | `opera-mini-js` | Opera Mini and JavaScript | `https://dev.opera.com/articles/opera-mini-and-javascript/` | 2026-10-10 |
 | `spice` | SPICE for newbies | `https://www.spice-space.org/spice-for-newbies.html` | 2026-10-10 |
 | `ms-rdpegdi` | [MS-RDPEGDI] RDP GDI Acceleration Extensions, revision 34.0 | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
-| `ms-rdperp` | [MS-RDPERP] RDP Remote Programs Virtual Channel Extension | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
+| `ms-rdperp` | [MS-RDPERP] RDP Remote Programs Virtual Channel Extension, revision 34.0 | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
 | `citrix-bcr` | Citrix browser content redirection | `https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/multimedia/browser-content-redirection.html` | 2026-10-10 |
 | `mnt-modularity` | MNT Reform modularity | `https://mntre.com/modularity.html` | 2026-10-10 |
 | `rpi5-launch` | Raspberry Pi 5 launch post | `https://www.raspberrypi.com/news/introducing-raspberry-pi-5/` | 2026-10-10 |

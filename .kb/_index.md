@@ -30,7 +30,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | What an engine interface or hidden display hands a control program | `topics/engine-interfaces.md`, `topics/hidden-display.md` |
 | Card's ARM: call path, cores, per-call cost; hosting an engine there | `topics/arm-offload.md`; `topics/arm-hosted-engine.md` |
 | Script engine candidates and speed: interpreter, JIT, card ARM, 68k | `topics/native-engine-speed.md` |
-| Remote-display protocols, Linux servers, 68k client work, delay and integration | `topics/remote-display-protocols.md`, `topics/remote-display-servers.md`, `topics/remote-display-client.md` |
+| Remote display | `topics/remote-display-protocols.md` (client speaks); `topics/remote-display-servers.md` (servers send); `topics/remote-display-client.md` (68060 cost, delay, integration) |
 | RTG layer: P96, PrismRTG, window pixel calls, scroll-copy, overlays | `topics/rtg-layer.md` |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
