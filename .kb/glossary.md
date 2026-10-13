@@ -55,6 +55,12 @@ Status: current
 | VGA-USB add-on | An interposer card for a stock ZZ9000 that adds VGA output and a USB hub between the module and the carrier; the Replica has both on board (`topics/replica-interconnect.md`) |
 | Audio fabric; pump, lease | The A9 firmware's audio mixer; slot 0, the pump, carries MHI and ZZPlay, and slots 1-2 are leases taken by AHI and other producers (`topics/audio-path.md`) |
 | Inlet | A card header that takes a PSU drive lead, floppy-type by default, for the browser chip's power (`topics/power-domains.md`) |
+| Scroll-copy | Client moves pixels it holds; only the newly exposed strip is sent |
+| Byte-weighted ratio | Raw bytes of all units ÷ their coded bytes (`topics/page-pixels.md`) |
+| PSNR | Peak signal-to-noise ratio in dB; higher is closer to the original |
+| Soft text | Text after a lossy coding such as JPEG (`topics/page-pixels-lossy.md`) |
+| Hextile, TRLE, ZRLE | VNC tile encodings, ZRLE with zlib (`topics/page-pixels.md`, "Method") |
+| Whole-window slide, region-aware slide | Two models of what a scroll resends (`topics/scroll-redraw.md`) |
 | Browservice | A remote browser: CEF renders off-screen and sends the view as images to a legacy browser (`topics/prior-art.md`) |
 | Pixel rate | MB/s of pixels reaching the screen by receive then copy (`topics/target-config-rates.md`) |
 | Mpix | 10^6 pixels; 1 Mpix/s of 16-bit pixels is 2 MB/s |

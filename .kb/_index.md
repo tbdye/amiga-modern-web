@@ -23,6 +23,8 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Prior approaches | `topics/prior-art.md` (Amiga browsers, remote engines, Chromium forks, Speedometer); `topics/prior-art-remote-clients.md` (Amiga clients) |
 | Published rates | `topics/target-config-rates.md` (receive, copy, pixel); `topics/bus-and-card-rates.md` (Zorro ceilings, scrolls); `topics/decode-rates.md` (68k, ARM) |
 | Owner groups; what reaches each | `topics/audience.md` (stock ZZ9000, RTG cards, emulators); `topics/audience-pistorm.md` (PiStorm) |
+| Page-pixel compression: lossless, JPEG, soft text | `topics/page-pixels.md`, then `topics/page-pixels-lossless.md`, `topics/page-pixels-lossy.md` |
+| What sites resend when scrolled; updates a second at 50 MHz | `topics/scroll-redraw.md` |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
