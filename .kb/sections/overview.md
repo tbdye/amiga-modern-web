@@ -6,7 +6,7 @@ Status: current
 ## Problem and goal
 
 - [F] The ZZ9000's Zynq-7020 has a dual Cortex-A9 at 666 MHz and 1 GB of DDR3 (`fw@8778ef3:sdk/README.md:L17-18`).
-- [G] No Amiga-side processor, the card's A9 included, runs a current browser engine at usable speed; a Pi 4 class SoC is about the floor for current Chromium.
+- [G] No Amiga-side processor, the card's A9 included, runs current Chromium at usable speed; a Pi 4 class SoC is about the floor for current Chromium (Speedometer by board: `topics/prior-art.md`, "App SoC plus FPGA"); that is a limit of speed, for Chromium, and the features of the native Amiga browsers are stated apart (`topics/prior-art.md`, "Native Amiga browsers").
 - Goal [D] DEC-020: "modern web" browsing, meaning that nearly any website works; how that is reached is open.
 - [G] The design under study aims at a browser in a Workbench window or full screen, up to full-screen 1080p60; that is this design's target, not a requirement (DEC-010).
 
