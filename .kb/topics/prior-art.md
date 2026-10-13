@@ -59,8 +59,8 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 - [F] NetSurf front ends draw everything through one `plotter_table` of twelve calls (clip, arc, disc, line, rectangle, polygon, path, bitmap, text, group start and end, flush) (`netsurf@39da3c3:include/netsurf/plotters.h:L102-329`) and three font calls (width, position, split) (`include/netsurf/layout.h:L37-88`).
 - [F] NetSurf started on RISC OS, whose common hardware is a 200 MHz StrongARM, and its framebuffer front end ran on a 400 MHz ARM9 (`netsurf-web`, about page).
-- [D] DEC-003: the early design with the browser in a networked box on the LAN is retired.
-- [G] Rendering Chromium paint ops as a display list on the ZZ9000's A9 belonged to that remote tier (family A, DC-F closed), so it is not under study (`sections/options-rejected.md`).
+- [D] DEC-003: a networked browser computer is not ruled out, nor is any role chosen for it.
+- [G] Rendering Chromium paint ops as a display list on the ZZ9000's A9 belongs to the remote tier (family A, DC-F), which is not part of the design under study (`sections/options-rejected.md`).
 
 ## A computer on a card
 
@@ -86,6 +86,5 @@ Why a particular approach is not under study here is in `sections/options-reject
 ## Dead ends [G]
 
 - A native modern engine on the 68k at any accelerator speed: the engines' features, not the CPU, set the ceiling.
-- Pixel streaming as the main path: it fails scroll and lossless text.
 - Client models that need a modern DOM and CSS engine on the Amiga.
 - Bulk drawing by the 68k over Zorro: every pixel crosses the bus, so Zorro II falls behind Zorro III.

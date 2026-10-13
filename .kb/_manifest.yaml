@@ -14,11 +14,11 @@ files:
     cites: []
   decisions.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: []
   unknowns.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, cm5-ds, ds187, browservice, wrp]
   glossary.md:
     status: current
@@ -30,7 +30,7 @@ files:
     cites: []
   sections/overview.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers, linux, cef, adv7611]
   sections/architecture.md:
     status: draft
@@ -38,7 +38,7 @@ files:
     cites: [fw, linux, ug585, cm5-ds, zorro3]
   sections/display-coupling.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers]
   sections/zynq-and-board.md:
     status: draft
@@ -74,7 +74,7 @@ files:
     cites: [fw, replica, ug585]
   topics/monitor-trim.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, sii9022a]
   topics/pcie-path.md:
     status: draft
@@ -90,7 +90,7 @@ files:
     cites: [cef]
   topics/native-screens.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw]
   topics/network.md:
     status: draft
@@ -114,7 +114,7 @@ files:
     cites: [fw, replica, addon, sii9022a, lvc06a, lvc8t245, myir-7020-pinout, ug470, ug585, zorro3, zz9000-manual-r1, zz9000-manual-r3]
   topics/prior-art.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [browservice, wrp, carbonyl, a314, pistorm, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
   evidence/README.md:
     status: draft

@@ -58,7 +58,7 @@ Vtotal and refresh are [F] from `fw@8778ef3:os/zz_video_modes.c:L13-24`; times a
 - [F] Today's tracker qualifies lock over 4 plausible intervals, then one warm frame: add about 5 frames (`fw@8778ef3:video_source_sync.v:L126, L446-457, L531-537`).
 - [F] Today's tracker has no direction choice: it wraps at the first legal line once the anchor age reaches 256, or is forced at the maximum (`fw@8778ef3:video_source_sync.v:L486-495`).
 - [G] Shorter-direction picking is new V-variant RTL.
-- [G] At today's +27/−34 ramp, 1080p closes in about 18 frames (0.3 s) worst case in the shorter direction; using it on a live screen depends on R-TRIM.
+- [G] At today's +27/−34 ramp, 1080p closes in about 18 frames (0.3 s) worst case in the shorter direction; using it on a live screen depends on monitor acceptance (K49).
 - [G] Showing the plane before lock does not work: without a frame buffer the picture sits Φ lines off and rolls.
 
 ## When the window is not live
@@ -97,12 +97,12 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 
 | ID | Mitigation | Effect [G] | Cost and condition |
 |---|---|---|---|
-| f1 | PS-DDR acquisition bridge: the receiver writes a 3-frame ring (≈ 18.7 MB at 1080p, 24 bpp) in PS DDR; a reader shows the newest complete frame until lock, then a vblank switch to the line FIFO | **About 1 frame after receiver lock [G]** for E2, E3, E5, E6, E9, E11-E14, E20, at up to +1 frame latency while acquiring; E1, E7, E21 become SoC boot plus about 1 frame, losing the ≤ 9.4 s lock tail. **Gated on the DDR headroom measurement (K25); if that fails, the wait stays ≤ 9.4 s at 1080p60** | No BOM; proposed. Yields to native PIP (then ≤ 9.4 s at 1080p60): "PIP wins" is a proposed policy [G], the alternatives being time-sharing or the PIP's ARM-compositor path (`fw@bdfd8b0:docs/native-p96-pip.md:L106-108`). Write and read 0.37-0.50 GB/s each (K25). Brings SR3, SR12 and SR13's frame clause into V-tracked, plus a no-stall read rule; HP1 excluded |
+| f1 | PS-DDR acquisition bridge: the receiver writes a 3-frame ring (≈ 18.7 MB at 1080p, 24 bpp) in PS DDR; a reader shows the newest complete frame until lock, then a vblank switch to the line FIFO | **About 1 frame after receiver lock [G]** for E2, E3, E5, E6, E9, E11-E14, E20, at up to +1 frame latency while acquiring; E1, E7, E21 become SoC boot plus about 1 frame, losing the ≤ 9.4 s lock tail. **Depends on DDR headroom (K25); without it, the wait stays ≤ 9.4 s at 1080p60** | No BOM; proposed. Yields to native PIP (then ≤ 9.4 s at 1080p60): "PIP wins" is a proposed policy [G], the alternatives being time-sharing or the PIP's ARM-compositor path (`fw@bdfd8b0:docs/native-p96-pip.md:L106-108`). Write and read 0.37-0.50 GB/s each (K25). Brings SR3, SR12 and SR13's frame clause into V-tracked, plus a no-stall read rule; HP1 excluded |
 | a′ | Snap at RTG→RTG mode inits: hold TMDS down until the receiver shows the SoC's new mode, then start the raster aligned to it | E4 = SoC modeset + ~1 frame, hidden by the monitor's resync | RTG→RTG only (SR15); every RTG mode change then waits on the SoC, bounded by a timeout |
 | f3 | Lock before the window opens | 0 for E16, E17 | Part of the design |
 | f4 | SoC hygiene: a compositor holds the mode across Chromium restarts; no DPMS; fixed EDID; modesets only on command; never toggle HPD | Removes E9, E11, E13 | SoC image configuration |
 | f5 | Keep the tracker engaged when the output timing is unchanged | Removes E5 | Do not drop source sync when `output_unchanged` |
-| c | Use today's +27/−34 ramp | ≤ 0.3 s at 1080p | Only if R-TRIM passes on every monitor |
+| c | Use today's +27/−34 ramp | ≤ 0.3 s at 1080p | Depends on monitor acceptance (K49) |
 | b | Frame-buffered V in its own PL DDR3 | ≈ 1 frame after lock, always +≤1 frame | ×16 DDR3 bank; 7020 only (`topics/zynq-pin-budget.md`) |
 
 Dead ends [G]: MMCM phase-shift trim for acquisition (kept as a steady-state remedy for K49); a partial BRAM buffer; showing the plane unlocked; SoC-side phase placement; a timed SoC modeset (`sections/options-rejected.md`).
@@ -120,7 +120,7 @@ Results are welcome as a GitHub issue on this repository: monitor make and model
 2. Set `videocap_profile = centered_1080p_match` in `ZZ9000.CFG` beside `BOOT.bin` (`fw@8778ef3:README.md:L129`; sample `ZZ9000.CFG:L15-16`), or choose it in ZZTop under Scandoubler > Output and Save; then power-cycle, because the file is read at power-on (`fw@8778ef3:README.md:L118-122, L409-410, L420-422`).
 3. On each monitor, run a PAL and an NTSC source, each in a non-interlaced and an interlaced mode, 10 minutes each.
 4. Toggle interlace about 10 times per run; each toggle restarts the tracking (`fw@8778ef3:video_source_sync.v:L439-444`).
-5. Record any "no signal" message, mode banner, HDMI audio drop, or blank longer than about half a second; a short hidden picture after a toggle is expected.
+5. Record any "no signal" message, mode banner, or blank longer than about half a second; a short hidden picture after a toggle is expected.
 6. Record the live capture line count ZZTop shows (`drivers@ad9606b:ZZTop/Sources/ZZTop.c:L870-871`).
 
 What the trim per source is, why R-TRIM is harsher than V-tracked, and what counts as a resync: `topics/monitor-trim.md`.

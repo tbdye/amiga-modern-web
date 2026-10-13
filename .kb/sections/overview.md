@@ -1,13 +1,14 @@
 # Overview
 
-Scope: the problem, the goal, the project's status, the design under study, non-goals and what is open.
+Scope: the problem, the goal, the project's status, the brief, the design under study, non-goals and what is open.
 Status: current
 
 ## Problem and goal
 
 - [F] The ZZ9000's Zynq-7020 has a dual Cortex-A9 at 666 MHz and 1 GB of DDR3 (`fw@8778ef3:sdk/README.md:L17-18`).
 - [G] No Amiga-side processor, the card's A9 included, runs a current browser engine at usable speed; a Pi 4 class SoC is about the floor for current Chromium.
-- Goal [D] DEC-008, DEC-010: modern web pages in a Workbench window or full screen, up to a full-screen 1080p60 browser, with text and UI pixel-exact (no compressed video stream).
+- Goal [D] DEC-020: "modern web" browsing, meaning that nearly any website works; how that is reached is open.
+- [G] The design under study aims at a browser in a Workbench window or full screen, up to full-screen 1080p60; that is this design's target, not a requirement (DEC-010).
 
 ## Status
 
@@ -15,19 +16,28 @@ Status: current
 - Decisions so far: `decisions.md`.
 - Every open question, with what settles it: `unknowns.md`.
 
+## The brief
+
+- [D] DEC-020: by "modern web" the project means that nearly any website works; no design and no engine is fixed.
+- [D] DEC-022: approaches are preferred in this order: an acceptable software solution, then a co-processor board if the software needs one, then a full card such as the design under study; none is chosen, and something that existing cards can use is preferred, not required.
+- [D] DEC-035: the target configuration is a 68060 at 50 MHz on Zorro III with a ZZ9000; other Amigas vary from it; no minimum is named.
+- [D] DEC-036: that configuration should support video with synchronised audio.
+- [D] DEC-037: needing a second computer is acceptable, and so is a co-processor board; the Amiga must keep a TCP/IP address of its own.
+
 ## The design under study
 
-[G] A Zynq-7000 does all a ZZ9000 does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
-[D] DEC-002: a separate browser chip runs Chromium.
-[D] DEC-010: RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
-[D] DEC-008: its rendered frames reach the Zynq uncompressed.
+One proposal, not the project's settled design [D] DEC-020; this section describes it.
+[G] A Zynq-7000 does all a ZZ9000 with its audio add-on does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
+[D] DEC-002: in this design a separate browser chip runs Chromium.
+[D] DEC-010: in this design RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
+[G] Its rendered frames reach the Zynq uncompressed; that is a property of this design, which no decision requires (DEC-008).
 [G] The Zynq composites them into the browser's Workbench window or across the full screen.
 
 | Element | Under study [G] | Detail |
 |---|---|---|
 | Coupling | V-tracked: the SoC's HDMI into a receiver chip; the Zynq trims its own frame length by ±1 line per frame to follow it | `sections/display-coupling.md` |
 | Zynq | Zynq-7000 family, so firmware, RTL and drivers carry over | `sections/zynq-and-board.md` |
-| Browser chip | RK3588, x86 or CM5, settled on integration and price [D] DEC-010; a full-screen 1080p60 pass bar is proposed (DC-B), and a lower tier below 1080p is acceptable [D] DEC-012 | `sections/browser-chip.md` |
+| Browser chip | RK3588, x86 or CM5, settled on integration and price [D] DEC-010; full-screen 1080p60 is the design's target, not a bar a chip must clear (DC-B), and a lower tier below 1080p is acceptable [D] DEC-012 | `sections/browser-chip.md` |
 | Packaging | Open: one card; a Zynq card plus an unmodified SBC or mini PC; or a redesigned Replica [D] DEC-003 | `sections/zynq-and-board.md` |
 | Safety | Nothing the SoC does can touch native capture, the doubler or scanout [D] DEC-005 | `topics/plane-safety.md` |
 
@@ -42,8 +52,6 @@ Status: current
 ## Non-goals
 
 - 3D acceleration and video decode as Amiga-side features [D] DEC-008.
-- Compatibility with stock MNT ZZ9000 or Replica boards as a requirement [D] DEC-005.
-- A compressed or remote-desktop video path [D] DEC-008.
 - Board spins as a way to learn [D] DEC-011.
 - Throwaway scaffolding: a test rig exists only where it settles a measurement (class d) unknown more cheaply than anything else, and is never a board designed here [G] (follows from DEC-011).
 
@@ -51,8 +59,9 @@ Status: current
 
 | Question | Where |
 |---|---|
-| Do monitors accept the frame-length trim? (the cheapest test of the design, runnable today) | K49; `sections/display-coupling.md`, "R-TRIM" |
-| Which browser chip passes full-screen 1080p60? | K15, DC-B |
+| Which approach is taken, whether any new hardware is built, and which computer runs the engine | `decisions.md` (DEC-020, DEC-022) |
+| Do monitors accept the frame-length trim? Only hardware can show it | K49; `sections/display-coupling.md`, "R-TRIM" |
+| Which browser chip, and how near each comes to the design's full-screen 1080p60 target | K15, DC-B |
 | Which Zynq part and package? | DC-C; `topics/zynq-pin-budget.md` |
 | One card or a split? | DC-D |
 | Does the DDR headroom allow the acquisition bridge (f1)? | K25 |
@@ -72,10 +81,10 @@ Status: current
 |---|---|
 | This project's design (`decisions.md`) | The project maintainer, through issues and pull requests here (`CONTRIBUTING.md`) |
 | ZZ9000 firmware or drivers | Their upstream maintainers, through those repositories' reviews |
-| The Replica board | The Replica's maintainer |
+| The Replica board | The Replica project, outside this repository |
 
 ## Licences
 
 - [F] The ZZ9000 firmware and drivers are GPL-3.0-or-later (`fw@bdfd8b0:README.md:L677-681`; `drivers@ad9606b:README.md:L580-584`); a few firmware files carry GPL-2.0+, GPL-2.0 or MIT notices instead (`fw@bdfd8b0`, `SPDX-License-Identifier` lines).
 - [F] CEF is under a BSD-style licence (`cef@a875f407e36b:LICENSE.txt:L1-29`); Chromium is too [R], which its `LICENSE` file would verify.
-- Open: this repository's licence (`CONTRIBUTING.md`, "Licence"); Amiga fonts in Chromium (K40); whether the ADV7611 hardware manual, which receiver set-up needs, is freely available [R].
+- Open: this repository's licence (`CONTRIBUTING.md`, "Licence"), with the project not planned as closed-source [D] DEC-019; Amiga fonts in Chromium (K40); whether the ADV7611 hardware manual, which receiver set-up needs, is freely available [R].

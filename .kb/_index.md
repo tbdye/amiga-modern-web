@@ -3,17 +3,39 @@
 Scope: what the KB covers and which files to load for a task.
 Status: current
 
-The KB holds the project's facts, decisions, open questions and rejected options for native modern web browsing on Zorro Amigas, each statement labelled and cited.
-It describes the design under study; it does not argue for it.
+The KB holds the project's facts, decisions, open questions and rejected options for modern web browsing on Zorro Amigas, each statement labelled and cited.
+It covers the design under study, a Zorro card whose Zynq shows the output of a separate browser chip (the design `README.md` describes), and facts that hold whichever approach is taken.
+That design is one proposal; no approach is chosen [D] DEC-020, DEC-022.
+The KB describes; it does not argue for any approach.
 Agent-tooling traps (PDF and KiCad parsing) are deferred to a later KB version.
 
 ## Load by task
 
 Load `AGENTS.md` and this file first, then only what the task needs.
 
+### The project, and facts for any approach
+
 | Task | Load |
 |---|---|
-| Understand the project; the operating system on each side | `sections/overview.md`, then `sections/architecture.md` |
+| Understand the project; the operating system on each side | `sections/overview.md`, then `sections/architecture.md` for the design under study |
+| Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
+| What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
+| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks, browser speed by CPU class | `topics/prior-art.md` |
+| Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
+| What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
+| Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
+| Who decides; licences; fault policy | `sections/overview.md` |
+| A code or term | `glossary.md` |
+| Build a link from a citation | The file's own `## Sources` or `sources.md`, whichever defines the ID (search for it) |
+| Check a pinned citation against HEAD | `sources.md`, "Pin checks" |
+| Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
+| Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
+| Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
+
+### The design under study (the card)
+
+| Task | Load |
+|---|---|
 | Which events resync the monitor (DEC-013 exemptions); lock times; when the window is black | `sections/display-coupling.md` |
 | Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
@@ -24,7 +46,6 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
 | PCIe fetch or copy: link load, FIFO, pass thresholds | `topics/pcie-path.md` |
-| Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | Browsing on native (chipset) screens | `topics/native-screens.md` |
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
 | TLS crypto offload; the Ethernet receive backlog | `sections/firmware-and-rtl.md`, "What the card offers today" |
@@ -35,20 +56,8 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
-| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks, browser speed by CPU class | `topics/prior-art.md` |
-| What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
-| Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
 | Sourcing channels and assembly | `sections/sourcing.md` |
-| What is open, and what settles it | `unknowns.md` |
-| Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
-| Who decides; licences; fault policy | `sections/overview.md` |
-| A code or term | `glossary.md` |
-| Build a link from a citation | The file's own `## Sources` or `sources.md`, whichever defines the ID (search for it) |
-| Check a pinned citation against HEAD | `sources.md`, "Pin checks" |
-| Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
-| Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
-| Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
 
 ## Files
 
