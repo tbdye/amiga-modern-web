@@ -20,7 +20,7 @@ XPK is a compression library system; `xBench` is its benchmark tool, and each su
 | `xpkGZIP` 1.0 inflate (zlib 0.93, 1995) | A500, 68030 with 68882 at 50 MHz | [F] 246, 263, 285 and 525 kB/s on files whose size reductions were 4.9%, 19.8%, 32.5% and 70.8% | `xBench`, files in the RAM disk; the 32.5% file is a 512×512 8-bit grey image | `aminet:util/pack/xpkSDHC`, `Docs/Deutsch/SDHC.guide` L196-199, L233-295 (1998) |
 | `xpkRAKE` 1.7; `xpkSQSH` 1.10 (LZ77 without entropy coding) | Same 68030 | [F] 1.05, 1.58 and 1.92 MB/s; 0.87, 0.92 and 1.10 MB/s, on the three compressible files | Same | Same guide, L251-294 |
 | `xpkNONE` (a copy through the XPK layer) | Same 68030 | [F] 4.73 MB/s | Same | Same guide, L213 |
-| Speeds the XPK sub-libraries declare for themselves, K/s | A3000, 68030 at 25 MHz | [F] Copy (`NONE`) 2,477; run-length `FRLE` 1,480 at a declared reduction of 0.2% and `RLEN` 1,043 at 4.5%; LZ77 `FAST` 1,055 to 1,096, `NUKE` 630, `MASH` 400, `SMPL` 354, `IMPL` 270 to 340, `SQSH` "300K/s on A3000"; Huffman `HUFF` 138; arithmetic coding `SHRI` 21 to 25 | Each author's own approximate value, "with SCRAM and AmigaVision executable as standard test" | `aminet:util/pack/xpk_Develop`, `Include/C/xpk/xpk.h` L279-288; `aminet:util/pack/xpk_Source`; `aminet:util/pack/xpk_User`, `XpkMaster.guide` L2119 (XPK 5.2a, 2000) |
+| Speeds the XPK sub-libraries declare for themselves, K/s | A3000, 68030 at 25 MHz | [F] Copy (`NONE`) 2,477; run-length `FRLE` 1,480 at a declared reduction of 0.2% and `RLEN` 1,043 at 4.5%; LZ77 `FAST` 1,055 to 1,096, `NUKE` 630, `MASH` 400, `SMPL` 354, `IMPL` 270 to 340, `SQSH` "300K/s on A3000"; Huffman `HUFF` 138; arithmetic coding `SHRI` 21 to 25 | Each author's own approximate value, "with SCRAM and AmigaVision executable as standard test" | `aminet:util/pack/xpk_Develop`, `Include/C/xpk/xpk.h` L279-288 and `Autodocs/xpksub.doc` L327-328; `aminet:util/pack/xpk_Source`; `aminet:util/pack/xpk_User`, `XpkMaster.guide` L2119 (XPK 5.2a, 2000) |
 
 - [G] The 68060 figures are 1.49 to 1.56 MB/s for deflate and 4.68 MB/s for the stored mode (× 1,024).
 - [G] `xBench` turns task switching off while it unpacks, so the timed step is memory to memory (`aminet:util/pack/xpk_User`, `XpkMaster.guide` L2224-2226).
@@ -43,7 +43,7 @@ XPK is a compression library system; `xBench` is its benchmark tool, and each su
 | Decoder | Machine | Result | Method | Source |
 |---|---|---|---|---|
 | Four picture datatypes: `jfif` 44.18, `akjfif` 45.95, `warpjpeg` 45.16 and the OS 3.2 datatype 47.8 | A3000, 68060 at 100 MHz (BFG9060), CyberVision 64 in a 16-bit mode, picture.datatype 47.15 | [F] Seconds a picture, fastest to slowest of the four: 640×480 0.319 to 0.501; 800×600 0.630 to 0.945; 1024×768 1.479 to 2.027; 1536×1024 1.227 to 1.871; 2592×1728 3.069 to 4.713 and 5.553 to 8.376 | Median of 5 runs of a viewer's timed load through the datatype system, pictures in the RAM disk | `aminet:util/dtype/JFIFdt44`, readme L17-36 (2022-06-26); `jpegbench` |
-| The same four, OS datatype 47.6 | A4000, 68040 at 25 MHz, Picasso IV | [F] 640×480 2.549 to 3.566; 800×600 5.550 to 7.424; 1024×768 13.733 to 17.822; 1536×1024 10.239 to 14.160 | Same | Same readme, L38-55; `jpegbench` |
+| The same four, OS datatype 47.6 | A4000, BFG9060 board with a 68040 at 25 MHz, Picasso IV | [F] 640×480 2.549 to 3.566; 800×600 5.550 to 7.424; 1024×768 13.733 to 17.822; 1536×1024 10.239 to 14.160 | Same | Same readme, L38-55; `jpegbench` |
 | FastJPEG 1.10 and three other viewers | A1200, 68030 at 50 MHz (Microbotics 1230XA), AGA | [F] A 597×796 colour JPEG: FastJPEG 14.3 s real, 12.6 s processor time; PPShow 18.9 s; Viewtek 40.4 s; ViewJpeg 57.9 s; the same picture in grey, FastJPEG 6.9 s real, 5.8 s processor time | One run each; includes start-up and conversion for an AGA screen | `aminet-rview:PictureViewerS` (1994-03-15) |
 | FastJPEG 1.0 | "a 7MHz 68000" | [F] 276×212 in 28 s; 415×473 in 64 s | "timed with my watch" | `aminet-rview:FastJPEG` (1994-03-02) |
 
@@ -55,8 +55,8 @@ Rates `[G]`, pixels ÷ seconds, in Mpix/s; bits a pixel from the file sizes in `
 | Picture | Bits a pixel in the file | 68060 at 100 MHz: fastest datatype / OS 3.2's own | 68040 at 25 MHz: fastest / OS 3.2's own |
 |---|---|---|---|
 | 640×480 | 1.59 | 0.96 / 0.80 | 0.121 / 0.086 |
-| 768×576 | 2.01 | 1.00 / 0.84 | 0.126 / 0.091 |
-| 800×600 | 3.65 | 0.76 / 0.63 | 0.087 / 0.065 |
+| 768×576 | 2.01 | 1.00 / 0.83 | 0.126 / 0.091 |
+| 800×600 | 3.65 | 0.76 / 0.63 | 0.086 / 0.065 |
 | 1024×768 | 8.09 | 0.53 / 0.43 | 0.057 / 0.044 |
 | 1536×1024 | 1.86 | 1.28 / 1.07 | 0.154 / 0.111 |
 | 2592×1728, two files | 1.99 and 3.92 | 1.46 and 0.81 / 1.20 and 0.67 | 0.166 and 0.090 / 0.123 and 0.068 |
@@ -84,7 +84,7 @@ Decode and display together:
 
 - [F] The ZZ9000 firmware builds libjpeg-turbo with NEON, the processor's vector instructions (`fw@cfbb910:build_libjpeg_turbo.sh:L64-79`).
 - [F] It selects the library's fast integer inverse transform (`fw@cfbb910:os/sdk_jpeg.c:L189`; `os/sdk_image_stream.c:L2414`).
-- [F] The library's own study on a phone with an "800 MHz dual-core ARM Cortex-A9", one core, quality 95, output to RGB, five test images of 1240×960 to 3136×2352, in Mpix/s (`libjpeg-turbo-perf`, sheet "iOS-A9"; command `tjbench {file} 95 -rgb -qq -nowrite -warmup 10`):
+- [F] The library's own study on a phone with an "800 MHz dual-core ARM Cortex-A9", quality 95, output to RGB, five test images of 1240×960 to 3136×2352, in Mpix/s (`libjpeg-turbo-perf`, sheet "iOS-A9"; command `tjbench {file} 95 -rgb -qq -nowrite -warmup 10`):
 
 | Chroma subsampling | libjpeg-turbo 1.5 with NEON [F] | Without vector instructions [F] | libjpeg v6b [F] | NEON figure × 667 ÷ 800 [G] |
 |---|---|---|---|---|
@@ -93,13 +93,13 @@ Decode and display together:
 | 4:4:4 | 12.3 to 20.0 | 5.4 to 7.7 | 4.9 to 7.2 | 10.3 to 16.6 |
 | Grey | 23.7 to 37.5 | 15.3 to 23.2 | 13.2 to 21.2 | 19.8 to 31.3 |
 
-- [G] The last column scales to the card's 667 MHz by clock alone; the phone's chip is another maker's, and cache and memory are not accounted for.
+- [G] The last column scales to the card's 667 MHz by clock alone and takes the study to have used one core, which its sheet does not state; the phone's chip is another maker's, and cache and memory are not accounted for.
 - [G] The three colour rows together span 10.3 to 20.7 Mpix/s; a rate is paired only with a size ratio of the same chroma format, so for 4:2:0 the bracket is 13.0 to 18.1 Mpix/s.
 - [F] The same page puts the fast inverse transform 4 to 14% ahead in decompression, "with very little overall loss in quality", and merged upsampling "as much as 15-20%" ahead for subsampled files (`libjpeg-turbo-perf`, "Fast Upsampling and Fast IDCT").
 - [G] The study's command names neither option, so the firmware's transform may run faster than the table; its speed on this processor is unmeasured.
 - [G] Quality 95 is a heavy setting; no figure at a lower quality is given for this core.
 - [G] These rates are decodes to RGB; on a 16-bit screen the card adds a second pass ("What the card's ARM decodes today").
-- [F] One figure from the card itself, for another codec: MPEG-1 video measured 209 decode calls a second on a 318×240 clip and 93.113 on 640×480 (`fw@cfbb910:docs/native-p96-pip.md:L329-337`).
+- [F] One figure from the card itself, for another codec: MPEG-1 video measured 209 decode calls a second on a 318×240 clip and 93.113 on 640×480, in a test build on Zorro III with the Amiga not named (`fw@cfbb910:docs/native-p96-pip.md:L313-314, L329-337, L394`).
 - [G] That is 16 to 29 Mpix/s (76,320 × 209; 307,200 × 93.113).
 
 ## Inflate, LZ4 and PNG on neighbouring ARM cores
@@ -137,7 +137,7 @@ The video service, its codecs and its Zorro II limit are in `sections/firmware-a
 - [G] The writes go to absolute framebuffer positions, so the program owns the clipping and must keep the window layout still while a job runs.
 - Video frames go to the P96 overlay as a decoder-owned planar frame, not into the window's bitmap, and compressed input arrives in shared-buffer chunks (`lib.md:L722-733, L751-753`).
 - [G] So a program could feed the video service from a network stream; the firmware's own player takes files (`sdk/docs/zzplay.md:L17-23`).
-- The document's own real-time envelope for WebM on this processor is about 1280×720 for VP8 and 854×480 for VP9 (`lib.md:L815-816`).
+- The document's own real-time envelope for WebM on this processor, which release firmware does not advertise, is about 1280×720 for VP8 and 854×480 for VP9 (`lib.md:L801-807, L815-816`).
 
 ## Video playback on Raspberry Pi boards
 

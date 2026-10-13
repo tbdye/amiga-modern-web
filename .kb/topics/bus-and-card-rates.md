@@ -14,8 +14,8 @@ Status: current
 
 Zorro II:
 
-- [F] The bus is 16 bits wide, and its minimum cycle is four clocks of 7.16 MHz (`zorro3` §2.2 p23, §3.1.1 p32).
-- [G] 4 ÷ 7.16 MHz = 559 ns a cycle, and 2 bytes ÷ 559 ns = 3.58 MB/s at most (3.55 on a PAL machine), for any card, before the 68k's own copy loop.
+- [F] The bus is 16 bits wide, and its minimum cycle is four clocks of 7.16 MHz, 7.09 MHz on a PAL machine (`zorro3` §2.2 p23, §2.3.2 p25, §3.1.1 p32).
+- [G] 4 ÷ 7.16 MHz = 559 ns a cycle, and 2 bytes ÷ 559 ns = 3.58 MB/s at most (3.55 on a PAL machine, 2 bytes ÷ (4 ÷ 7.09 MHz)), for any card, before the 68k's own copy loop.
 - [F] A maker's specification for the EGS Spectrum 28/24 gives "Zorro II - 3.5 MB/Sec; Zorro III - 12.0 MB/Sec" (`aminet-rview:EGSSpectrum_2`, 1993-10-13).
 - [G] The fastest published Zorro II copy, 337 × 9,090 = 3.06 MB/s on a 68060, is 86% of the ceiling (3.06 ÷ 3.58; `topics/target-config-rates.md`, "Copies into the card").
 
@@ -32,12 +32,12 @@ Zorro III:
 | A3000 motherboard fast memory | A3000, CyberStorm Mk II, 68060 at 50 MHz by the readme's text | [F] 511.8 ns = 7.8 MB/s | [F] 299.0 ns = 13.4 MB/s | `aminet:util/moni/bustest`, readme |
 | Chip memory | Same A3000 | [F] 569.0 ns = 7.0 MB/s | [F] 1,051.8 ns = 3.8 MB/s | Same readme |
 | The accelerator's own memory | Same A3000 | [F] 174.7 ns = 22.9 MB/s | [F] 121.7 ns = 32.9 MB/s | Same readme |
-| ZZ9000 memory, firmware later than release v2.8.1 | A3000, 68060 | Not given | [F] 569 to 574 ns a single-beat longword, about 280 ns of it the card's DDR round trip; 452 ns inside the Ethernet receive window, where alone a read-ahead applies | `fw` commit `a30214c`, message |
-| ZZ9000 memory, a third-party firmware line | A4000, 68060 at 50 MHz | [F] about 9.6 MiB/s | [F] about 6.3 MiB/s | `xacp@cca1f3c:applications/benchmarks/ZZBenchGUI_readme_v1.3.md:L94-120` |
+| ZZ9000 Ethernet receive window, firmware later than release v2.8.1 | A3000, 68060, clock not stated for these cycles | Not given | [F] 569 to 574 ns a single-beat longword, about 280 ns of it the card's DDR round trip; 452 ns with a read-ahead that serves this window alone | `fw` commit `a30214c`, message |
+| ZZ9000 framebuffer window, a third-party firmware line | A4000, 68060 at 50 MHz | [F] about 9.6 MiB/s | [F] about 6.3 MiB/s | `xacp@cca1f3c:applications/benchmarks/ZZBenchGUI_readme_v1.3.md:L94-120, L187-215` |
 
-- [G] The first region is inferred: the address lies inside the one 32 MB Zorro III board in that package's board list, at `0x40000000`, and its readme lists a Picasso IV among the cards; the result file names no region.
+- [G] The first region is inferred: the address lies inside the one 32 MiB Zorro III board in that package's board list, at `0x40000000`, and its readme lists a Picasso IV among the cards; the result file names no region.
 - [G] The ZZ9000 reads are 4 ÷ 569 ns = 7.0 MB/s and 6.3 × 1.048576 = 6.6 MB/s; the write is 9.6 × 1.048576 = 10.1 MB/s, 397 ns a longword.
-- [G] With the card's 280 ns removed, the A3000 of the 569 ns read would reach about 13.8 MB/s (4 ÷ 289 ns), near its motherboard memory's 13.4.
+- [G] With the card's 280 ns removed, the A3000 of the 569 ns read would reach about 13.8 MB/s (4 ÷ 289 ns), near the 13.4 of the other A3000's motherboard memory in the table.
 - [G] Write-only longword loops into a Zorro III graphics card therefore span 7.4 to 10.1 MB/s on three cards and three machines, and 6.5 on the ZZ9000 with firmware 2.8 (`topics/target-config-rates.md`, "Copies into the card"); they are ceilings for a copy.
 - [G] On the one card with both figures the copy from memory is 11% below the register write (5.5 against 6.2), if the pair keeps the program's column order (same heading).
 - [G] Reads from these cards are slower than writes: Picasso IV 3.9 against 9.6 MB/s, CyberVision 64 5.8 against 7.4, ZZ9000 6.6 against 10.1.
@@ -54,7 +54,7 @@ Whole windows at the ceilings, 16 bits a pixel (halve for 32-bit, double for 8-b
 | 1280×720 | 1,843,200 | 1.9 | 3.8 |
 | 1920×1080 | 4,147,200 | 0.9 | 1.7 |
 
-- [G] The Zorro III column applies the ZZ9000's 569 ns read cycle, 7.03 MB/s, to writes; that rate lies between the published copies from memory (4.3 to 7.3 MB/s, same heading) and the write-only loops above.
+- [G] The Zorro III column applies the 569 ns read cycle of the ZZ9000's Ethernet receive window on one A3000, 7.03 MB/s, to framebuffer writes on any card; that rate is inside the published copies from memory (4.3 to 7.3 MB/s; `topics/target-config-rates.md`, "Copies into the card") and below the write-only loops above.
 - [G] A 16-row strip 800 pixels wide is 25,600 bytes: about 140 a second at the Zorro II ceiling and 275 at 4 bytes ÷ 569 ns, so a scroll done on the card plus a strip costs far less than a repaint.
 
 ## Scrolls on the card
@@ -80,11 +80,11 @@ Whole windows at the ceilings, 16 bits a pixel (halve for 32-bit, double for 8-b
 
 - [G] So a ZZ9000 moves an 800×600, 16-bit window's pixels vertically in 1.4 to 1.9 ms with a 68060 at 50 MHz; the 2.3 ms figure is the 68040 at 25 MHz.
 - [G] Those times are scaled from whole-screen one-pixel scrolls on firmware 1.7 to 1.13, not measured at that size or on the 2.8 line.
-- [G] The ZZ9000's sideways scroll runs at 0.33 to 0.44 of its vertical rate in every run (707 ÷ 2,110 to 168 ÷ 379), so a sideways move takes 2.3 to 3 times as long.
+- [G] The ZZ9000's sideways scroll runs at 0.33 to 0.44 of its vertical rate in every run of the table (707 ÷ 2,110 to 168 ÷ 379), so a sideways move takes 2.3 to 3 times as long.
 - [G] At 1920×1080 the ZZ9000's time is the same on the 68040 at 25 MHz as on the 68060 at 50 MHz (112 against 114 calls), so the card sets it; at 640×480, 8-bit the 68040 run is slower (1,289 against 1,717 and 2,110), so the 68k side shows on small moves, and the firmware also differs between those runs.
 - [G] For the older cards the scaling from an 8-bit scroll to a 16-bit move is untested.
-- [F] The firmware 1.13 run at 1280×1024, 32-bit shows 41,430 and 54,362 scroll calls a second (`zz9000-bench` `1.13_1280_1024`).
-- [G] At 5.2 MB a call that would be 280 GB/s, so those calls did no scroll, and the run is left out.
+- [F] The runs at 1280×1024, 32-bit show 41,430 and 54,362 scroll calls a second on firmware 1.13, 38,999 and 49,609 on 1.9a, and 22,601 and 40,814 on 1.8 (`zz9000-bench` `1.13_1280_1024`, `1.9a_1280_1024`, `1.8DMA_1280_1024`).
+- [G] At 5.2 MB a call the first would be 280 GB/s, so the calls did no scroll at that size, and the three runs are left out.
 
 ## Not established
 

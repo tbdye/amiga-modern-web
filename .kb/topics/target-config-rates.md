@@ -22,17 +22,17 @@ Each figure is `[G]`, derived under the heading named, where its conditions are.
 
 ## Network receive
 
-Rates are into the Amiga; method and stack are as the source states them.
+The ZZ9000 and `anx` rows, the browser's download rate and the 997 KBytes/s are stated as rates into the Amiga; the sources of the other rows state no direction; method and stack are as each source states them.
 `amigaorg-66041` is a forum thread, cited by reply number.
 
 | Card (bus, link) | Machine, CPU | Stack | Rate | Method | Source |
 |---|---|---|---|---|---|
-| ZZ9000 (Zorro III, 100 Mb/s) | A3000, 68060 at 50 MHz | Not stated | [F] 20.6, then 21.4, then 21.7 Mbit/s over two driver changes; 21.6, then 23.1 with a read-ahead in the FPGA that is Zorro III only; 27.9 at 82 MHz | iperf TCP receive, the last three figures over 8 cold boots; firmware and drivers later than release v2.8.1 | `drivers` commits `6f45554`, `936b96d`, messages; `fw` commit `a30214c`, message |
+| ZZ9000 (Zorro III, 100 Mb/s) | A3000, 68060 at 50 MHz | Not stated | [F] 20.6, then 21.4, then 21.7 Mbit/s over two driver changes; 21.6, then 23.1 with a read-ahead in the FPGA that is Zorro III only; 27.9 at 82 MHz | iperf TCP receive, the last three figures over 8 cold boots; firmware and drivers later than release v2.8.1, the first three figures on top of a driver priority change that `drivers` does not hold at `cb6a1c4` | `drivers` commits `6f45554`, `936b96d`, messages; `fw` commit `a30214c`, message |
 | ZZ9000 | A4000, 68060, clock not stated | Roadshow | [F] 3-4 Mbit/s sustained with about 43% of frames dropped, before a receive-backlog change that is in release v2.8.1; the message puts Zorro-side reads at about 4 MB/s and gives no rate after the change | Not stated | `fw` commit `4b12ca4`, message; stack from `fw@4b12ca4:notes/zz9000net-rx-throughput.md:L13` |
 | ZZ9000, driver `ZZ9000Net.device` 2.2 | A3000, 68030 at 25 MHz | AmiNetXDuo, whose README reports it | [F] 3.6 Mbit/s in | Not stated | `anx@9a6f6fc:README.md:L111` |
 | X-Surf 100 (Zorro III, 100 Mb/s), driver `anxnet.device` | A3000, 68030 at 25 MHz | AmiNetXDuo | [F] 3.8 Mbit/s in | Not stated | `anx@9a6f6fc:README.md:L109` |
 | X-Surf 100, driver `anxnet.device` | A3000, 68060 at 50 MHz | AmiNetXDuo | [F] 22.5 Mbit/s in with flow control on the switch port, 18.9 without | Not stated | `anx@9a6f6fc:README.md:L110` |
-| X-Surf 100 | A3000T, WarpEngine 68040 at 40 MHz | Roadshow and AmiTCP Genesis, "about exactly as fast" | [F] "about 1.700 MByte/s" | "TCP transmission tests" on a local network, with ports of `tcpspeed` and NetIO (reply 10) | `amigaorg-66041` reply 2 (2013-10-03) |
+| X-Surf 100 | A3000T, WarpEngine 68040 at 40 MHz | Roadshow and AmiTCP Genesis, "about exactly as fast" | [F] "about 1.700 MByte/s" | "TCP transmission tests" on a local network, with NetIO ported and `tcpspeed` reworked (reply 10) | `amigaorg-66041` reply 2 (2013-10-03) |
 | X-Surf 100 | CyberStorm Mk II, 68060 at 50 MHz | Not stated | [F] "about 2 MByte/s", reported second hand | Not stated | Same reply |
 | X-Surf 100 | A3000, CyberStorm Mk III 68060 at 50 MHz | Miami; EasyNet; Roadshow | [F] 1.280; 2.185; 2.066 MB/s | `tcpspeed`, whose client receives 20 MB; which side the Amiga ran is not stated | Reply 56 (2013-11-14); machine in reply 3 |
 | X-Surf 100 | Same machine, same day | EasyNet; Roadshow | [F] The IBrowse web browser downloading at 80,000; 350,000 characters a second, and over 800,000 with Roadshow after tuning | The browser's own download rate; what was downloaded is not stated | Replies 56, 60 |
@@ -41,20 +41,20 @@ Rates are into the Amiga; method and stack are as the source states them.
 | X-Surf 100 | Not stated | Not stated | [F] "Transfer rates of over 1600kBytes/s have been measured" | Not stated | `icomp-shop-xsurf100` |
 | Ariadne (Zorro II, 10 Mb/s) | A3000T, WarpEngine 68040 at 40 MHz | Roadshow | [F] "able to receive 997 KBytes/s" | "sustained data transmission tests" | `roadshow` |
 | Ariadne | A3000UX, 68060 at 50 MHz | Roadshow | [F] "more than 900 KByte/s" | Not stated | `amigaorg-66041` reply 77 (2016-11-16) |
-| Ariadne II (Zorro II, 10 Mb/s) | A4000, CyberStorm PPC with a 68060 at 50 MHz | Miami 3.2b | [F] "around 470 kb/s" | FTP to a PC over a crossover cable | `aminet-rview:Ariadne` (1998-12-30) |
-| Ariadne | "A4000/40" | AmiTCP/IP 4 | [F] "up to 430KB/s (peak)" | FTP from a Linux machine, 150 MB file | `aminet-rview:AmiTCP4.2` (1995-02-28) |
+| Ariadne II (Zorro II, 10 Mb/s) | A4000, CyberStorm PPC with a 68060 at 50 MHz | Miami 3.2b | [F] "around 470 kb/s" | FTP between the Amiga and a PC over a crossover cable | `aminet-rview:Ariadne` (1998-12-30) |
+| Ariadne | "A4000/40" | AmiTCP/IP 4 | [F] "up to 430KB/s (peak)" | FTP with a Linux machine, 150 MB file | `aminet-rview:AmiTCP4.2` (1995-02-28) |
 | A2065 in one machine, Ariadne in the other (both Zorro II, 10 Mb/s) | Two A3000s, 68030 at 25 MHz | AmiTCP/IP 4 | [F] "up to 300KB/s" by FTP; 360 KB/s by NFS | 150 MB file, so disk included | Same review |
 
 - [G] The ZZ9000 figures divided by 8: 2.6 to 2.7 MB/s without the read-ahead and 2.9 with it at 50 MHz; 3.5 at 82 MHz; 0.45 on the 68030 at 25 MHz.
-- [G] The release's own rate is not given and is lower: 20.6 was measured after the first change of that series, and each later change reports a gain.
+- [F] The release's own rate is not given: 20.6 was measured on top of a change to the driver process's priority that the message names, while the driver at `cb6a1c4` starts that process at priority 0 (`drivers` commit `6f45554`, message; `drivers@cb6a1c4:net/device.c:L502-503`).
 - [F] The note that `4b12ca4` added gives its unit as kilobits a second: receive topping out at 3,000-4,000, falling to 2,500-3,500 on transfers of 800 kB or more, and transmit about 10,300 (`fw@4b12ca4:notes/zz9000net-rx-throughput.md:L13-17`).
-- [G] Driver commits of the day before print "KB/s" beside the same magnitudes, about 7,600 falling to about 2,800 for receive and 10,170 and 9,749 for transmit, so they are read as kilobits a second, 0.35 MB/s of sustained receive; the first of those messages also writes a transfer size as "KB", so the reading rests on the magnitudes alone (`drivers` commits `f8ee04e`, `c45c415`, `224dde8`, messages).
+- [G] Driver commits of the day before print "KB/s" beside the same magnitudes, about 7,600 falling to about 2,800 for receive and 10,170 and 9,749 for transmit, so they are read as kilobits a second, 0.35 MB/s of sustained receive; the first of those messages also writes a transfer size as "KB", so the reading rests on the magnitudes alone; the messages name no machine (`drivers` commits `f8ee04e`, `c45c415`, `224dde8`, messages).
 - [G] The X-Surf 100 figures from `anx` are 0.48 MB/s on the 68030 and 2.8 and 2.4 MB/s on the 68060.
 - [F] Of the 1.7 and 2 MB/s figures the same reply says that at these rates "your CPU load will be at 96%, if not higher"; a later reply calls 2.2 MB/s "the top end of the scale" for a 68060 (`amigaorg-66041` replies 2 and 58).
 - [G] The 1.7 MB/s is a receive rate if it came from `tcpspeed`: those tests ran the Amiga as the client, and the tool's client receives; NetIO was also in use, and no reply says which tool gave the figure (`amigaorg-66041` reply 10; `aminet:comm/tcp/TcpSpeed`, readme).
 - [G] `tcpspeed` moves a fixed amount of data and times it, with no file or display, so it is a memory sink; on the machine it put at 2.07 to 2.19 MB/s a real program got 3.7% (80,000 ÷ 2,185,000), 17% (350,000 ÷ 2,066,000) and 39% (800,000 ÷ 2,066,000), reading characters as bytes.
 - [G] "kb/s" in reply 75 and in the Ariadne II review is read as kilobytes a second.
-- [G] The 10 Mb/s Ariadne's 0.9 to 1.0 MB/s is 72 to 80% of its 1.25 MB/s wire rate, on a 68040 at 40 MHz and on a 68060 at 50 MHz alike; the X-Surf 100's 1.7 to 2.8 MB/s is 14 to 22% of 12.5 MB/s, with the processor as the stated limit.
+- [G] The 10 Mb/s Ariadne's 0.9 to 1.0 MB/s is 72 to 80% of its 1.25 MB/s wire rate, on a 68040 at 40 MHz and on a 68060 at 50 MHz alike; the X-Surf 100's 1.7 to 2.8 MB/s is 14 to 22% of 12.5 MB/s, and the processor is the stated limit for the 1.7 and 2 MB/s figures.
 - [F] The X-Surf 100's maker says a Zorro III machine runs it "up to five times faster than Z2" (`icomp-shop-xsurf100`).
 - [G] Every figure for a Zorro II card above is from an A3000 or an A4000, which are Zorro III machines.
 
@@ -89,7 +89,7 @@ What the two benchmark programs measure:
 | AGA, no card | A4000, 68060 at 50 MHz | PAL high resolution | 120 | 1.1 Mpix/s | `Compare.dat` |
 | Picasso IV, Zorro III | A4000, Apollo 4060 at 50 MHz, bus controller revision 11 | 720×480, 24-bit | "796 pix/ms", printed by P96Speed 0.14 | 0.80 Mpix/s, converting from 8-bit | `aminet:util/moni/p4_A4060`, `P96Speed.results` (1997) |
 
-Figures taken on a ZZ9000 with firmware 2.8, on an A4000 with a 68060 whose clock is not stated, under PrismRTG, an RTG layer that takes the place of P96:
+[F] The figures below were taken under PrismRTG, an RTG layer that takes the place of P96, on an A4000 with a 68060 whose clock is not stated and a ZZ9000 that its README lists with firmware 2.8 (`prism@d62ee32:README.md:L12-13, L22`; `docs/design.md:L1350`).
 
 - [F] "CgxBenchmark 1.1 runs to the end here. Raw VRAM 6.2 / 5.5 MB/s." (`prism@d62ee32:docs/design.md:L1358`).
 - [G] Both are 68k-to-card write rates, 6.5 and 5.8 MB/s (× 1.048576); that 6.5 is the register column and 5.8 the copy from memory follows the program's column order, and neither that order nor the screen depth is stated.
