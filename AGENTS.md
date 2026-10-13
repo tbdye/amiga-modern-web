@@ -55,7 +55,7 @@ A source that a second file starts to cite moves to `.kb/sources.md` in the same
 | KB-internal | Relative path and heading | `sections/display-coupling.md`, "R-TRIM" |
 
 Pins are as-of: a citation is true at its pin, not necessarily at HEAD.
-Before acting on a pinned line, re-check it at HEAD (`.kb/_index.md`, "Keeping pins current").
+Before acting on a pinned line, re-check it at HEAD (`.kb/sources.md`, "Pin checks").
 Re-pin a citation only when its fact changed at HEAD; a line shift alone is not an error and is no reason to edit the citation.
 
 ## Rules for agents that write here
