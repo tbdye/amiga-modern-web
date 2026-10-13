@@ -32,6 +32,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Script engine candidates and speed: interpreter, JIT, card ARM, 68k | `topics/native-engine-speed.md` |
 | Remote display | `topics/remote-display-protocols.md` (client speaks); `topics/remote-display-servers.md` (servers send); `topics/remote-display-client.md` (68060 cost, delay, integration) |
 | RTG layer: P96, PrismRTG, window pixel calls, scroll-copy, overlays | `topics/rtg-layer.md` |
+| Connect a second computer | `topics/link-and-address.md` (ways, address); `topics/card-ethernet-sharing.md` (firmware service); `topics/other-attachments.md` (other links) |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |

@@ -211,6 +211,7 @@ Status: active.
 Decided: 2026-10-11.
 Rule: needing a second computer is acceptable, and so is a co-processor board; no approach is chosen (DEC-022).
 Rule: the Amiga keeps a TCP/IP address of its own; this is a requirement.
+Consequences: the ways to connect a second computer, and what each does to the Amiga's own address, are in `topics/link-and-address.md`.
 
 ## DEC-042: New or existing Amiga program: an engineering choice
 

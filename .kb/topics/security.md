@@ -92,5 +92,6 @@ Release policies [F]:
 | Through an on-card switch on the card's Ethernet port, untagged | The Amiga's segment: the chip reaches the Amiga's TCP/IP stack unless filtered |
 | Through the Amiga's TCP/IP stack | The Amiga becomes the chip's gateway (not under study, `topics/network.md`) |
 
-- [G] Proposed: the chip's own internet path, a LAN block in its image, and a guest network or VLAN recommended.
-- [G] Proposed: the control link kept physically separate from the internet path; over the card's Ethernet port only with port isolation or VLANs (`topics/network.md`).
+- [G] Proposed, for a browser chip that reaches the Amiga by a control link and not across the home network: the chip's own internet path, a LAN block in its image, and a guest network or VLAN recommended.
+- [G] Proposed, for the card design: the control link kept physically separate from the internet path; over the card's Ethernet port only with port isolation or VLANs (`topics/network.md`).
+- [G] Neither line describes a second computer whose session with the Amiga crosses the home network: there the session is a network connection, and a guest network that keeps its clients off the home network cuts that computer off from the Amiga (`topics/link-and-address.md`, "Safety on the home network").

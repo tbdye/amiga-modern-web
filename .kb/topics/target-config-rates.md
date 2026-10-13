@@ -30,6 +30,7 @@ The ZZ9000 and `anx` rows, the browser's download rate and the 997 KBytes/s are 
 | ZZ9000 (Zorro III, 100 Mb/s) | A3000, 68060 at 50 MHz | Not stated | [F] 20.6, then 21.4, then 21.7 Mbit/s over two driver changes; 21.6, then 23.1 with a read-ahead in the FPGA that is Zorro III only; 27.9 at 82 MHz | iperf TCP receive, the last three figures over 8 cold boots; firmware and drivers later than release v2.8.1, the first three figures on top of a driver priority change that `drivers` does not hold at `cb6a1c4` | `drivers` commits `6f45554`, `936b96d`, messages; `fw` commit `a30214c`, message |
 | ZZ9000 | A4000, 68060, clock not stated | Roadshow | [F] 3-4 Mbit/s sustained with about 43% of frames dropped, before a receive-backlog change that is in release v2.8.1; the message puts Zorro-side reads at about 4 MB/s and gives no rate after the change | Not stated | `fw` commit `4b12ca4`, message; stack from `fw@4b12ca4:notes/zz9000net-rx-throughput.md:L13` |
 | ZZ9000, driver `ZZ9000Net.device` 2.2 | A3000, 68030 at 25 MHz | AmiNetXDuo, whose README reports it | [F] 3.6 Mbit/s in | Not stated | `anx@9a6f6fc:README.md:L111` |
+| ZZ9000, driver `anxzz9000.device`, which the README marks as not in its archive, on that project's firmware fork | A3000, 68060 at 50 MHz | AmiNetXDuo, whose README reports it | [F] 22.2 Mbit/s in | iperf | `anx@9a6f6fc:README.md:L112` |
 | X-Surf 100 (Zorro III, 100 Mb/s), driver `anxnet.device` | A3000, 68030 at 25 MHz | AmiNetXDuo | [F] 3.8 Mbit/s in | Not stated | `anx@9a6f6fc:README.md:L109` |
 | X-Surf 100, driver `anxnet.device` | A3000, 68060 at 50 MHz | AmiNetXDuo | [F] 22.5 Mbit/s in with flow control on the switch port, 18.9 without | Not stated | `anx@9a6f6fc:README.md:L110` |
 | X-Surf 100 | A3000T, WarpEngine 68040 at 40 MHz | Roadshow and AmiTCP Genesis, "about exactly as fast" | [F] "about 1.700 MByte/s" | "TCP transmission tests" on a local network, with NetIO ported and `tcpspeed` reworked (reply 10) | `amigaorg-66041` reply 2 (2013-10-03) |
@@ -45,7 +46,7 @@ The ZZ9000 and `anx` rows, the browser's download rate and the 997 KBytes/s are 
 | Ariadne | "A4000/40" | AmiTCP/IP 4 | [F] "up to 430KB/s (peak)" | FTP with a Linux machine, 150 MB file | `aminet-rview:AmiTCP4.2` (1995-02-28) |
 | A2065 in one machine, Ariadne in the other (both Zorro II, 10 Mb/s) | Two A3000s, 68030 at 25 MHz | AmiTCP/IP 4 | [F] "up to 300KB/s" by FTP; 360 KB/s by NFS | 150 MB file, so disk included | Same review |
 
-- [G] The ZZ9000 figures divided by 8: 2.6 to 2.7 MB/s without the read-ahead and 2.9 with it at 50 MHz; 3.5 at 82 MHz; 0.45 on the 68030 at 25 MHz.
+- [G] The ZZ9000 figures divided by 8: 2.6 to 2.7 MB/s without the read-ahead and 2.9 with it at 50 MHz; 3.5 at 82 MHz; 0.45 on the 68030 at 25 MHz; 2.8 on the 68060 at 50 MHz with the `anx` driver and firmware fork.
 - [F] The release's own rate is not given: 20.6 was measured on top of a change to the driver process's priority that the message names, while the driver at `cb6a1c4` starts that process at priority 0 (`drivers` commit `6f45554`, message; `drivers@cb6a1c4:net/device.c:L502-503`).
 - [F] The note that `4b12ca4` added gives its unit as kilobits a second: receive topping out at 3,000-4,000, falling to 2,500-3,500 on transfers of 800 kB or more, and transmit about 10,300 (`fw@4b12ca4:notes/zz9000net-rx-throughput.md:L13-17`).
 - [G] Driver commits of the day before print "KB/s" beside the same magnitudes, about 7,600 falling to about 2,800 for receive and 10,170 and 9,749 for transmit, so they are read as kilobits a second, 0.35 MB/s of sustained receive; the first of those messages also writes a transfer size as "KB", so the reading rests on the magnitudes alone; the messages name no machine (`drivers` commits `f8ee04e`, `c45c415`, `224dde8`, messages).
@@ -132,11 +133,9 @@ What the table shows:
 
 ## Sources
 
-`aminet`, `aminet-rview`, `zz9000-bench`, `fw`, `drivers` and `prism` are defined in `sources.md`.
+`aminet`, `aminet-rview`, `zz9000-bench`, `fw`, `drivers`, `prism`, `anx` and `roadshow` are defined in `sources.md`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
 | `amigaorg-66041` | Forum thread on TCP/IP stacks for the X-Surf 100 | `https://forum.amiga.org/index.php?topic=66041.0` | 2026-10-11 |
 | `icomp-shop-xsurf100` | The maker's product page for the X-Surf 100 | `https://shop.icomp.de/index.php/en/shop/product/x-surf-100.html` | 2026-10-11 |
-| `roadshow` | Roadshow's home page | `http://roadshow.apc-tcp.de/index-en.php` | 2026-10-11 |
-| `anx` | AmiNetXDuo | `github.com/tinic/AmiNetXDuo` | `9a6f6fc` |

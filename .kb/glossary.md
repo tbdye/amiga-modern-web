@@ -53,6 +53,9 @@ Status: current
 | Chip-down | A chip soldered onto the board itself, not carried on a module |
 | Bus master | A card that takes the bus and runs its own cycles |
 | VGA-USB add-on | An interposer card for a stock ZZ9000 that adds VGA output and a USB hub between the module and the carrier; the Replica has both on board (`topics/replica-interconnect.md`) |
+| SANA-II | AmigaOS standard interface between a network card's driver and a TCP/IP stack |
+| bsdsocket.library | The socket library an Amiga TCP/IP stack provides to programs |
+| 4-address mode | Wi-Fi frames carrying four addresses, so a client can be bridged |
 | Audio fabric; pump, lease | The A9 firmware's audio mixer; slot 0, the pump, carries MHI and ZZPlay, and slots 1-2 are leases taken by AHI and other producers (`topics/audio-path.md`) |
 | Inlet | A card header that takes a PSU drive lead, floppy-type by default, for the browser chip's power (`topics/power-domains.md`) |
 | Scroll-copy | Client moves pixels it holds; only the newly exposed strip is sent |

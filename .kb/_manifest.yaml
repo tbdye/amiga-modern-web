@@ -94,12 +94,24 @@ files:
     cites: [fw]
   topics/network.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [fw, replica]
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, replica, ksz9031]
   topics/security.md:
     status: draft
     reviewed_on: 2026-10-12
     cites: [chromium-release-cycle, chromium-linux-sandbox, cef-branches, cef-builds, debian-13-relnotes, debian-chromium, debian-contents]
+  topics/link-and-address.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, linux, aminet, anx, roadshow, rfc, linux-wireless-iw, radxa-docs, nanopi-r6s, amigaos-wiki-exec-tasks]
+  topics/card-ethernet-sharing.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, linux, anx, rfc, ksz9031, ug585, zephyr, ethtool]
+  topics/other-attachments.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [drivers, a314, icomp-wiki-xsurf100, amiga-hrm, aros, plipbox, a314rtg, daynaport, piscsi]
   topics/audio-path.md:
     status: draft
     reviewed_on: 2026-10-12

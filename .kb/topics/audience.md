@@ -53,7 +53,7 @@ Where an engine's pixels could come from:
 
 - [G] The 68k, as a native Amiga browser's do (`topics/prior-art.md`, "Native Amiga browsers"), with or without the services above.
 - [G] The card's ARM cores, which run bare-metal firmware and no operating system (`sections/architecture.md`, "What each side runs"; `sections/firmware-and-rtl.md`, "Why the Zynq cannot host the browser"); the card's ARM services, their call path and cost: `topics/arm-offload.md`; what hosting an engine there would take: `topics/arm-hosted-engine.md`.
-- [G] A second computer on the network, as in the shipped projects of `topics/prior-art.md`, "Remote and split-engine browsers"; every byte then passes the Amiga's TCP/IP stack and the 68k.
+- [G] A second computer on the network, as in the shipped projects of `topics/prior-art.md`, "Remote and split-engine browsers"; every byte then passes the Amiga's TCP/IP stack and the 68k; the ways to connect one, and what each does to the Amiga's own address: `topics/link-and-address.md`.
 - [G] Input, clipboard and files start in AmigaOS in each case; they would reach an engine on the card through the firmware's mailbox ("What the card offers today"), or one on a second computer through the network.
 
 ## PiStorm
