@@ -56,6 +56,9 @@ Status: current
 | Audio fabric; pump, lease | The A9 firmware's audio mixer; slot 0, the pump, carries MHI and ZZPlay, and slots 1-2 are leases taken by AHI and other producers (`topics/audio-path.md`) |
 | Inlet | A card header that takes a PSU drive lead, floppy-type by default, for the browser chip's power (`topics/power-domains.md`) |
 | Browservice | A remote browser: CEF renders off-screen and sends the view as images to a legacy browser (`topics/prior-art.md`) |
+| Pixel rate | MB/s of pixels reaching the screen by receive then copy (`topics/target-config-rates.md`) |
+| Mpix | 10^6 pixels; 1 Mpix/s of 16-bit pixels is 2 MB/s |
+| MB/s, MiB/s | On the rate pages, 10^6 and 2^20 bytes a second (`topics/target-config-rates.md`) |
 
 ## Packaging and option codes
 

@@ -1,5 +1,5 @@
 kb_version: 1
-updated: 2026-10-12
+updated: 2026-10-13
 pins:                       # newest pin each source was verified against
   fw:      { commit: cfbb910, verified_on: 2026-10-12 }
   drivers: { commit: cb6a1c4, verified_on: 2026-10-12 }
@@ -10,23 +10,23 @@ pins:                       # newest pin each source was verified against
 files:
   _index.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: []
   decisions.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: []
   unknowns.md:
     status: draft
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [fw, cm5-ds, ds187, browservice, wrp]
   glossary.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: []
   sources.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: []
   sections/overview.md:
     status: current
@@ -114,12 +114,24 @@ files:
     cites: [fw, replica, addon, sii9022a, lvc06a, lvc8t245, myir-7020-pinout, ug470, ug585, zorro3, zz9000-manual-r1, zz9000-manual-r3]
   topics/prior-art.md:
     status: draft
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [browservice, wrp, vncfox, amifox, amifox-server, amitube, twinvnc, amifleet68, rd68k, rd-pages, carbonyl, a314, a314-cp, a314rtg, pistorm, pistorm32-hw, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, magpi-pi4-bench, rpi5-bench, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
   topics/prior-art-remote-clients.md:
     status: current
     reviewed_on: 2026-10-12
     cites: [amifox, amifox-server, amitube, twinvnc, amifleet68, wrp, twinvnc-site, twinvnc-aminet, rd-pages, rd68k]
+  topics/target-config-rates.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, anx, prism, amigaorg-66041, icomp-shop-xsurf100, roadshow, aminet, aminet-rview, zz9000-bench]
+  topics/bus-and-card-rates.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, zorro3, xacp, aminet, aminet-rview, zz9000-bench]
+  topics/decode-rates.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, aminet, aminet-rview, jpegbench, libjpeg-turbo-perf, squash-benchmark, toms-pi5, toms-pi4, toms-pizero2w, rpi5-launch]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10
