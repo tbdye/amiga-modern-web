@@ -1,6 +1,6 @@
 # Sources
 
-Scope: every source the KB cites, with its short ID, visibility, link template and pin or access date.
+Scope: every repository whose pin `_manifest.yaml` tracks and every other source the KB cites, except a source that one topic alone cites and defines in its own closing `## Sources` table; for each, its short ID, visibility, link template and pin or access date; also the path abbreviations and the pin checks.
 Status: current
 
 Citations elsewhere use these IDs (`AGENTS.md`, "Labels, status and citations").

@@ -11,7 +11,7 @@ Status: current
 | `[G]` | Guess, estimate or inference; carries its basis where one exists |
 | `[R]` | Recalled or reported, not verified here; says what would verify it |
 | `[D]` | Requirement that comes from a decision; carries the DEC ID |
-| `Status: current` | Every statement in the file rests on a primary source or an approved finding |
+| `Status: current` | Every statement in the file rests on a primary source, a decision or reviewed analysis |
 | `Status: draft` | Every `[F]` was re-verified against its primary source at its pin, but the selection and synthesis have not had a separate design review |
 | `Status: stale` | A cited fact is known or suspected to differ at HEAD and has not been re-verified; a source moving is not by itself a reason |
 

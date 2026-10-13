@@ -36,7 +36,7 @@ The label opens the sentence and the citation closes it; a table cell carries on
 
 Each KB file opens with `Scope:` and `Status:` lines matching `.kb/_manifest.yaml`:
 
-- `current`: every statement rests on a primary source or an approved finding.
+- `current`: every statement rests on a primary source, a decision or reviewed analysis.
 - `draft`: every `[F]` was re-verified against its primary source at its pin, but the file's selection and synthesis have not had a separate design review.
   Treat its `[F]` as checked and its framing as provisional.
 - `stale`: a cited fact is known or suspected to differ at HEAD and has not been re-verified.
@@ -51,7 +51,7 @@ A source that a second file starts to cite moves to `.kb/sources.md` in the same
 | Public repo | `id@commit:path:Lstart-Lend` | `fw@8778ef3:video_source_sync.v:L122-128` |
 | Private repo | Same form; `sources.md` marks it not public | `replica@96bdef0` (netlist) |
 | Document | ID, revision, table or page | `ds187` Table 18, p15 |
-| Web page | ID with access date in `sources.md` | `myir-order` |
+| Web page | ID; access date where the ID is defined | `myir-order` |
 | KB-internal | Relative path and heading | `sections/display-coupling.md`, "R-TRIM" |
 
 Pins are as-of: a citation is true at its pin, not necessarily at HEAD.
@@ -74,7 +74,8 @@ Re-pin a citation only when its fact changed at HEAD; a line shift alone is not 
 - No personal information about anyone: no names, handles or descriptions of individuals, except the maintainer's credit in `README.md`, the repository's own address, and owner segments of source URLs in `.kb/sources.md` or a topic's `## Sources` table.
 - Never publish who holds a tool licence or must be asked about something, to-dos, review rounds, draft revision numbers or approvals, project schedules or estimates of how long work will take, build budgets or per-card cost estimates, local filesystem paths, project-tracking IDs that resolve only outside this repository, or verbatim quotes from private sources.
 - One page owns each fact; other pages point to its heading.
-- A new topic or section closes with `## Not established`, above any `## Sources`; name an open point and what settles it, and never make a test a gate or condition.
+- A new topic or section closes with `## Not established`, above any `## Sources`.
+- Name an open point and what settles it; never make a test a gate or condition.
 - Commits and pull requests follow `CONTRIBUTING.md`; a KB change goes on a `kb/<topic>` branch (or a fork) and opens a pull request against `main`; open it as a draft only while it is incomplete.
 
 ## Size budgets
