@@ -1,6 +1,6 @@
 # Knowledge base index
 
-Scope: what the KB covers, which files to load for a task, and how pins are kept current.
+Scope: what the KB covers and which files to load for a task.
 Status: current
 
 The KB holds the project's facts, decisions, open questions and rejected options for native modern web browsing on Zorro Amigas, each statement labelled and cited.
@@ -18,6 +18,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
 | Pick or evaluate a Zynq part, package or module | `sections/zynq-and-board.md`, then `topics/zynq-pin-budget.md` |
+| Swapping the Zynq module: BCLK, PUDC_B, module-supplied rails | `sections/gotchas.md` ("Modules and pins"), `topics/power-domains.md` |
 | Pin or bank arithmetic; module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
 | Replica board I/O: translators, bus mastering, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
@@ -26,6 +27,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | Browsing on native (chipset) screens | `topics/native-screens.md` |
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
+| TLS crypto offload; the Ethernet receive backlog | `sections/firmware-and-rtl.md`, "What the card offers today" |
 | Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
 | Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
@@ -42,7 +44,8 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
 | Who decides; licences; fault policy | `sections/overview.md` |
 | A code or term | `glossary.md` |
-| Build a link from a citation | `sources.md` |
+| Build a link from a citation | The file's own `## Sources` or `sources.md`, whichever defines the ID (search for it) |
+| Check a pinned citation against HEAD | `sources.md`, "Pin checks" |
 | Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
 | Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
 | Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
@@ -59,18 +62,3 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | `sections/` | Orientation; each read in one sitting |
 | `topics/` | Depth; load only when the task needs it |
 | `evidence/` | Pin-map data and the scripts that produced it |
-
-## Keeping pins current
-
-A citation is true at its pin forever; what can change is its truth at HEAD.
-Re-pin a citation only when its fact changed at HEAD; a line shift alone is no reason to edit it.
-To check a source that moved:
-
-1. List KB citations to it, e.g. `rg -n "fw@" .kb/` (pass `.kb/` explicitly; it is hidden).
-2. Run `git diff <pin>..<HEAD> --stat -- <cited paths>`; a claim whose cited paths did not change needs no further check.
-3. For each changed path, re-read each claim that cites it at HEAD.
-   Fact unchanged, even if its lines moved: leave the citation at its pin.
-   Fact changed: re-derive the claim and cite it at the new commit; until then, the file is `stale`.
-4. Record the commit checked and its `verified_on` date under `pins` in `_manifest.yaml`.
-
-When to check, and how to confirm a public pin exists: `sources.md`, "Pin checks".

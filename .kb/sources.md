@@ -1,11 +1,11 @@
 # Sources
 
-Scope: every source the KB cites, with its short ID, visibility, link template and pin or access date.
+Scope: every repository whose pin `_manifest.yaml` tracks and every other source the KB cites, except a source that one topic alone cites and defines in its own closing `## Sources` table; for each, its short ID, visibility, link template and pin or access date; also the path abbreviations and the pin checks.
 Status: current
 
 Citations elsewhere use these IDs (`AGENTS.md`, "Labels, status and citations").
 Pins are as-of: a citation is true at its pin, not necessarily at HEAD.
-Re-verify against HEAD before relying on a pinned line (procedure in `_index.md`, "Keeping pins current").
+Re-verify against HEAD before relying on a pinned line ("Pin checks").
 
 ## Repositories
 
@@ -32,7 +32,17 @@ Files at the `fw` root (`video_source_sync.v`, `video_formatter.v`, `mntzorro.v`
 
 ## Pin checks
 
-The procedure is in `_index.md`, "Keeping pins current".
+A citation is true at its pin forever; what can change is its truth at HEAD.
+Re-pin a citation only when its fact changed at HEAD; a line shift alone is no reason to edit it.
+To check a source that moved:
+
+1. List KB citations to it, e.g. `rg -n "fw@" .kb/` (pass `.kb/` explicitly; it is hidden).
+2. Run `git diff <pin>..<HEAD> --stat -- <cited paths>`; a claim whose cited paths did not change needs no further check.
+3. For each changed path, re-read each claim that cites it at HEAD.
+   Fact unchanged, even if its lines moved: leave the citation at its pin.
+   Fact changed: re-derive the claim and cite it at the new commit; until then, the file is `stale`.
+4. Record the commit checked and its `verified_on` date under `pins` in `_manifest.yaml`.
+
 A public-repo pin must exist on the public remote.
 For fw and drivers, run `git fetch` in a clone, then `git branch -r --contains <commit>`; no branch listed fails the pin.
 For Linux and CEF, which have no local checkout here, confirm the commit exists at `https://github.com/<owner>/<repo>/commit/<sha>`; a 404 fails the pin.
@@ -95,7 +105,7 @@ TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and t
 
 ## Prior-art sources
 
-Cited by `topics/prior-art.md`. GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
+GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
