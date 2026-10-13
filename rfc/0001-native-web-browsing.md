@@ -4,7 +4,7 @@
 |---|---|
 | Author | Thomas Dye |
 | Status | Draft, in review; nothing is built yet. |
-| Last updated | 2026-10-12 |
+| Last updated | 2026-10-13 |
 | Decision owner | Thomas Dye. Firmware changes also need the BlitterStudio maintainers' agreement, and Replica changes its maintainer's. |
 | Feedback | First, whether a new card is the right route (Q15); then packaging (Q1–Q3 in §11). The review stays open until they're settled. Comment on this file's pull request. |
 | Sources | This repository's `.kb/`; estimates are marked. Amiga terms: Appendix A. |
