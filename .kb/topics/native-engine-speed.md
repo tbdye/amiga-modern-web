@@ -100,7 +100,7 @@ Nothing in it is measured on the card.
 
 | Link | Value | Not held constant |
 |---|---|---|
-| 1. Chromium with its JIT on a Pi, Speedometer 2.0 | 0.60 (Pi B) to 4.14 (Pi 2) (`topics/prior-art.md`, "App SoC plus FPGA") | Four cores on the Pi 2, one ARMv6 core on the Pi B; memory speed and capacity, on which its source says the test also hinges (`magpi-pi4-bench`) |
+| 1. Chromium on a Pi, Speedometer 2.0 | 0.60 (Pi B) to 4.14 (Pi 2) (`topics/prior-art.md`, "App SoC plus FPGA") | Four cores on the Pi 2, one ARMv6 core on the Pi B; memory speed and capacity, on which its source says the test also hinges (`magpi-pi4-bench`) |
 | 2. The card's core in place of that board | × 1 against the Pi B (0.86 to 1.06 of it on the scaled Dhrystone rows); × 1.08 against a Pi 2 core (vendor figure) | Dhrystone does not predict Speedometer; the engine gets one core, run to completion and shared with TLS, image, audio and video work (`topics/arm-offload.md`, "Which core runs what"), where the Pi 2 had four; counted here as costing nothing |
 | 3. An interpreter in place of the JIT | ÷ 1.67 to ÷ 4.2 ("Interpreter against JIT") | The CPU (x64 and M4, not a Cortex-A9); the workload (a compute suite, not a browser benchmark); the script share |
 | 4. A document model and layout engine as efficient as Chromium's | × 1, assumed | No such engine exists for this target (`topics/arm-hosted-engine.md`, "Layout engines small enough to consider") |
@@ -113,7 +113,7 @@ Nothing in it is measured on the card.
 - [G] Link 4 has no established direction: a small engine does less work per page than Chromium and is less optimised for the work it does.
 - [G] Link 5 limits which pages load at all, not how fast they run.
 - [F] The card cannot run the Chromium that links 1 and 2 imagine: its firmware is bare metal (`sections/architecture.md`, "What each side runs").
-- [G] Against the Pi 4 class that `sections/overview.md`, "Problem and goal", gives as about the floor for current Chromium (16.9 on Speedometer 2.0 and 20.5 on 2.1 in the figures pointed to above), the estimate is 6 to 150 times lower (16.9 ÷ 2.7 to 20.5 ÷ 0.14).
+- [G] Against the Pi 4 class that `sections/overview.md`, "Problem and goal", gives as about the floor for current Chromium (16.9 on Speedometer 2.0 in the figures pointed to above), the estimate is 6 to 120 times lower (16.9 ÷ 2.7 to 16.9 ÷ 0.14).
 
 ## 68k CPUs
 
@@ -140,7 +140,7 @@ Each point names what would settle it; none is a condition of anything.
 - The speed of any script engine on the card's ARM, on a 68k, or the ratio between them: no published benchmark of a script engine on a real or emulated 68k was found, and none of a small interpreter on a Cortex-A9; only a measurement on both shows the ratio.
 - Whether an engine in the table other than Duktape has a 68k AmigaOS port: on 2026-10-11 searches of Aminet for `quickjs` and `duktape`, and of GitHub repositories for QuickJS on the Amiga, on m68k and on MorphOS and for a JavaScript engine on 68k AmigaOS, found none; the other engines were not searched for by name, and this shows absence in those searches only.
 - A result for a browser with a JIT on a Cortex-A9 under Speedometer, JetStream or Kraken, and any browser benchmark on a Zynq-7000 board: none was found in the review sites fetched on 2026-10-11.
-- A primary figure for any 68k CPU, and any citable figure for a 68k emulated on ARM by Emu68 or implemented as the Apollo 68080: none was retrieved.
+- A primary figure for any 68k CPU, and any benchmark figure for a 68k emulated on ARM by Emu68 or implemented as the Apollo 68080: none was retrieved; what the Emu68 project itself states of its speed is in `topics/audience-pistorm.md`, "The two software stacks".
 - The share of Speedometer's time that is script, and so where in 1.67 to 4.2 the third link lies.
 
 ## Sources
