@@ -82,11 +82,11 @@ files:
     cites: [fw, ds187, ds190, myir-7015-pinmap]
   topics/cef-frame-path.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [cef]
+    reviewed_on: 2026-10-12
+    cites: [cef, chromium]
   topics/look-and-feel.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [cef]
   topics/native-screens.md:
     status: draft
@@ -98,11 +98,11 @@ files:
     cites: [fw, replica]
   topics/security.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [chromium-release-cycle, chromium-linux-sandbox, cef-branches, cef-builds, debian-13-relnotes, debian-chromium, debian-contents]
   topics/audio-path.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, replica, adau1701, myir-7020-pinout]
   topics/power-domains.md:
     status: draft
