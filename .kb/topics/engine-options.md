@@ -142,7 +142,7 @@ Identity and durable characteristics only; "—" means the page read does not st
 
 - Whether Discord's web application works in WPE WebKit or WebKitGTK, and whether YouTube does without a user-agent override: a primary statement from either site or from WebKit would settle it.
 - Speed and memory of Firefox on any Raspberry Pi, and of any engine on a Pi Zero 2 W, an RK3588 board or a low-end x86 board: a published benchmark from a primary source.
-- YouTube playback at 480p, 720p and 1080p (frames dropped, CPU load) on any of these boards, with any engine: no published measurement was found.
+- YouTube playback at 480p on any of these boards, and playback compared across engines at any size: no published report was found.
 - Whether YouTube serves H.264 to an engine that advertises VP9: no source read says.
 - The memory size of the dashboard's Pi 4 hosts, the unit of its memory fields and what each process kind sums: the dashboard's own documentation.
 - The memory floor of each engine: Chrome's only memory figure here has an assumed unit and comes from a benchmark run.
