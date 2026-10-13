@@ -117,7 +117,7 @@ Nothing in it is measured on the card.
 
 ## 68k CPUs
 
-Every 68k figure in the table and in the lines under it is [R] from an encyclopedia page, which a Motorola document would verify; none was retrieved.
+Every 68k figure in the table is [R] from an encyclopedia page, and so is each one marked [R] in the lines under it; a Motorola document would verify them, and none was retrieved.
 The ratios are [G]: the card's core, as scaled above, over the 68k figure.
 
 | 68k | Figure [R] | Unit as the source gives it | Card core, scaled rows (730-895) | Card core, vendor figure (1,667) |
