@@ -26,7 +26,7 @@ Inputs, each by pointer:
 | Ratios on text whole screens: zlib; run-length | 16.6; 6.0 | `topics/page-pixels.md`, "At a glance" |
 
 - [G] Slow inputs are paired with slow and fast with fast, as on the pages that own them.
-- [G] The receive rate is a benchmark into memory with no TLS, and the copies are 8-bit runs standing in for a 16-bit write; no source measures one program doing both.
+- [G] The receive rate is a benchmark into memory with no TLS, the copies are 8-bit runs standing in for a 16-bit write, and the card's move time is scaled from whole-screen scrolls; no source measures one program doing all three.
 - The ZZ9000's screen layouts, 16-bit `rrrrrggg gggbbbbb` high byte first and 32-bit bytes B, G, R, A: `topics/rtg-layer.md`, "Putting pixels into a window".
 
 Every figure below is `[G]`.
@@ -43,7 +43,7 @@ Every figure below is `[G]`.
 | JPEG | RFB's Tight; Guacamole; xpra; xrdp's JPEG codec, at 24 bits and up for a client that offers it | A full decode | 0.39 to 1.46 MB/s of 16-bit pixels, before conversion and copy |
 
 - [G] The deflate rate is for data that halves, and its rate on page-like data is unmeasured (`topics/decode-rates.md`, "68k lossless decoders"), so the zlib row holds at the published rate only.
-- [G] At xrdp's default level a client on classic RDP security, without TLS, decrypts every received byte with RC4, a pass that no figure above includes; at the `low` level it does not (`topics/remote-display-servers.md`, "Security and listening defaults"); no RC4 rate on a 68060 was looked for.
+- [G] At xrdp's default level a client on classic RDP security, without TLS, decrypts every received byte with RC4, a pass that no figure above includes; at the `low` level it does not (`topics/remote-display-servers.md`, "Security and listening defaults"; `topics/remote-display-protocols.md`, "What a minimal RDP client must speak"); no RC4 rate on a 68060 was looked for.
 - [G] A client that widens each 16-bit pixel to 32-bit ARGB and writes it with `WritePixelArray`, which has no 16-bit source format, converts twice on a 16-bit screen, where the low-byte-first row above needs one swap (`topics/rtg-layer.md`, "Putting pixels into a window"); which published clients draw this way: `topics/prior-art.md`, "Remote and split-engine browsers".
 - [G] JPEG and PNG, the forms the card's ARM decodes (`topics/decode-rates.md`, "What the card's ARM decodes today"), are what RFB's Tight, Guacamole and xpra can send; none of RDP's own codings (run-length, planar, NSCodec, RemoteFX, H.264) is among them; on a 16-bit screen the card needs the second pass that heading describes.
 - [G] Sound: xrdp's two PCM formats are 44,100 × 4 = 176,400 and 22,050 × 4 = 88,200 bytes a second; if a sound byte costs the 68k what a pixel byte does, that is 176,400 ÷ 2,080,000 = 8.5% to 176,400 ÷ 1,620,000 = 10.9% of the pixel rate, and 4.2% to 5.4% (`topics/remote-display-servers.md`, "RDP servers").
@@ -53,14 +53,14 @@ Every figure below is `[G]`.
 
 ## Delay and integration
 
-Each line restates a fact with the page and heading that own it; `p` is `topics/remote-display-protocols.md` and `s` is `topics/remote-display-servers.md`.
+Each line restates a fact with the page and heading that own it; `p` is `topics/remote-display-protocols.md` and `s` is `topics/remote-display-servers.md`; a bare `p` is that page's table under the heading of each protocol the line names.
 The lines are facts on either side of each property, and none is weighed against another.
 
 ### Delay
 
 | What bears on it | Fact | Owner |
 |---|---|---|
-| Who starts an update | RDP, xpra and Guacamole servers push; base RFB needs a request for every update, and an extension removes it | `p`, each protocol's table |
+| Who starts an update | RDP and xpra servers push; base RFB needs a request for every update, and an extension removes it | `p`, each protocol's table |
 | | [F] Of a client that must ask, one paper says it adds "an update delay of at least half the round-trip time" | `thinc` §5 |
 | The pointer | RDP, xpra and RFB each send the pointer's shape for the client to draw; [G] pointer motion then waits for no update | `p`, each protocol's table |
 | The round trip | [G] A network round trip remains in every interaction by construction | — |
@@ -70,7 +70,7 @@ The lines are facts on either side of each property, and none is weighed against
 | Scrolls | xpra, guacd and the Web Rendering Proxy's VNC mode find a scroll from the frames, so only the exposed strip travels; two more pass on only the copies an application asks of the X server, and Chromium's software path asks for none; xrdp with its X module and wayvnc never send a copy, so a scroll arrives as bitmaps of the whole changed area | `s`, "How a scroll becomes a copy" |
 | Pacing to a slow client | xrdp with its X module captures no new frame while one is unacknowledged and stops reading while output is buffered; xpra has decode-time acknowledgements, Guacamole `sync`, RDP's pipeline its acknowledgements, TigerVNC congestion control | `s`, "RDP servers", "Security and listening defaults"; `p` |
 | Capture interval | xrdp's X module captures a change 4 ms after it; its ceiling of 25 updates a second is a setting | `s`, "RDP servers" |
-| Encryption | At xrdp's default level a client on classic security receives every byte RC4-encrypted | `s`, "Security and listening defaults" |
+| Encryption | At xrdp's default level a client on classic security receives every byte RC4-encrypted | `s`, "Security and listening defaults"; `p`, "What a minimal RDP client must speak" |
 | The network path | xpra's documentation calls it sensitive to jitter and latency from queueing on the path | `p`, "xpra" |
 
 ### Integration
@@ -82,7 +82,7 @@ The lines are facts on either side of each property, and none is weighed against
 | | xrdp's mount has no links and no locking; Guacamole sends a file saved into one folder to its client; xpra sends single files and has no drive; RFB defines no file transfer | `s`, "RDP servers", "xpra and guacd"; `p` |
 | Sound | RDP: PCM mandatory, a time stamp on each block and a confirmation; xrdp offers two PCM rates and needs an extra module; xpra: named codecs and time-stamp metadata; RFB's extension and Guacamole: PCM with no time stamp; neither VNC server read sends sound | `p`; `s`, "RDP servers", "VNC servers" |
 | Windows | xpra: every remote window, pop-ups included, is a client window that the client's own window manager frames, moves and resizes | `p`, "xpra" |
-| | RDP's per-window channel also gives one client window for each remote window, but as specified the server draws the frame; xrdp's variant, made to draw borders locally, is incomplete by its own wiki; upstream Weston, GNOME Remote Desktop and the shadow server have none | `p`, "RDP"; `s`, "RDP servers" |
+| | RDP's per-window channel also gives one client window for each remote window, but as specified the server draws the frame; xrdp's variant, made to draw borders locally, is incomplete by its own wiki; upstream Weston and the shadow server have none | `p`, "RDP"; `s`, "RDP servers" |
 | | RFB and Guacamole carry one desktop rectangle | `p` |
 | Clipboard | RDP: Unicode text and files; xpra: by type; RFB: Latin-1, with UTF-8 in an extension | `p` |
 | Screen size | With RDP and RFB the remote screen can follow the client's size: xrdp on connection and on the fly, Weston to the client's announced resolution, TigerVNC by default; under xpra each window is the client's to resize | `s`, "RDP servers", "VNC servers"; `p`, "xpra" |

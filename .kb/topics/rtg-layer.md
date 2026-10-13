@@ -3,7 +3,7 @@
 Scope: what the Amiga's RTG software layer gives a program that draws received pixel rectangles into its own Workbench window on a graphics card: P96 and the open-source PrismRTG, the calls that put pixels in a window, scroll-copy, overlay (picture-in-picture) windows, what in either layer could fill a rectangle without the pixels crossing the 68k, and what an open layer changes.
 Status: current
 
-- [D] DEC-028: the ZZ9000 is the likely benchmark, for performance only; P96, which most RTG cards share, and an open-source layer in its place are raised, not adopted.
+- [D] DEC-028: the ZZ9000 is the likely benchmark, for performance only; P96 as what RTG cards have in common, and an open-source layer in its place, are raised, not adopted.
 - Nothing here was built or run; third-party files were read as text on 2026-10-11, and a measurement is its source's own.
 - `[F]` opens what a source states; `[G]` opens arithmetic or inference made here; a "none" names the search it rests on.
 - `prism` citations are at `d62ee32`, which is tagged `v1.1-beta5`; `fw` at `cfbb910`; `drivers` at `cb6a1c4`.
@@ -13,8 +13,8 @@ Status: current
 
 ## P96
 
-- [F] P96 is "an RTG software package for the Amiga", sold as commercial software whose current package may not be redistributed; its old V2.0 stays redistributable as shareware (`p96-wiki`, introduction).
-- [F] What is published for developers is two archives of headers, autodocs and examples, under CC-BY terms, and no source code of the package (`p96-wiki`, "Software Developer archive", "Hardware manufacturer archive"; `p96-develop`, `P96Develop.readme`).
+- [F] P96 is "an RTG software package for the Amiga", sold as commercial software whose current package may not be redistributed; its old V2.0 stays redistributable as shareware (`p96-wiki`, "General").
+- [F] What is published for developers is two archives, one for programs that call P96 and one for card drivers, and no source code of the package; the first holds headers, autodocs and examples under CC-BY terms, and the second was not read (`p96-wiki`, "Software Developer archive", "Hardware manufacturer archive"; `p96-develop`, `P96Develop.readme`).
 - [F] Its release notes name its parts: `rtg.library`, `Picasso96API.library`, and `emulation.library`, "responsible for emulation of the villageTronic API and the cybergraphics API" (`p96-wiki`, "Update V3.3.3", "Update September 2021 (V3.1.2)").
 - [F] Under P96 the Amiga's `graphics.library` is patched to render on RTG screens (`p96-develop`, `P96Develop.readme`).
 - [G] So a program written to the CyberGraphX interface runs on P96 through `emulation.library`.
@@ -62,7 +62,7 @@ Under this heading a path with no ID is `prism@d62ee32`.
 - [R] Neither locking entry mentions windows or clipping, so the caller must clip to its own visible area; the layers documentation would verify it.
 - [F] The "raw" format of PrismRTG's `WritePixelArray` is absent from the CyberGraphX Release VI header: PrismRTG defines it only where the header has not, and its test tool calls the definition "missing from the NDK header" (`prism:src/cgx.c:L121-122`; `prism:tools/tmpltest.c:L17-18`); which other layers accept it was not checked.
 - [F] The ZZ9000's 16-bit screen is `R5G6B5`, bits `rrrrrggggggbbbbb`, so bytes `rrrrrggg gggbbbbb` with the high byte first, and its 32-bit screen is BGRA, under both layers (`drivers@cb6a1c4:rtg/mntgfx-gcc.c:L149-161, L232-240`; `p96-develop`, `Include/libraries/Picasso96.h`; `prism:src/drv_zz9000.c:L630-631`; `fw@cfbb910:sdk/docs/zz9k-library.md:L349-352`).
-- [G] No documented CyberGraphX source format is BGRA or 16-bit, so every `WritePixelArray` in a documented format to a ZZ9000 screen converts.
+- [G] No documented CyberGraphX source format is BGRA or 16-bit, so every `WritePixelArray` in a documented format to a ZZ9000 screen deeper than 8 bits converts.
 - One raw write figure into a ZZ9000 under PrismRTG, and frames a second through its pixel-array call: `topics/target-config-rates.md`, "Copies into the card".
 
 ## Scroll-copy
@@ -82,19 +82,10 @@ Under this heading a path with no ID is `prism@d62ee32`.
 
 ## Overlay windows
 
-- [F] `p96PIP_OpenTagList` "Opens a Picasso96API picture-in-picture window", which "behaves like a standard intuition window"; the caller gets a source bitmap and RastPort and draws into them; the types are a memory window, the default, and a video window (`p96-develop`, autodoc `p96PIP_OpenTagList`).
+- [F] `p96PIP_OpenTagList` "Opens a Picasso96API picture-in-picture window", which "behaves like a standard intuition window"; the caller gets a source bitmap and RastPort and draws into them; the types are a memory window, the default, and a video window (`p96-develop`, autodoc `p96PIP_OpenTagList`, `p96PIP_GetTagList`).
 - [F] A driver supplies it as a "special feature" through `CreateFeature` and `SetFeatureAttrs`, and in the overlay "the chip may offer color spaces such as YUV" (`p96-drv`, "BIB_VIDEOWINDOW", "CreateFeature").
-
-| Card under P96 | Overlay, as its release notes or driver state it | Source |
-|---|---|---|
-| Picasso IV | [F] Video overlays; overlays are disabled on 32-bit screens | `p96-wiki`, "Update V3.4.1", "Update December 2021 (V3.2.0)" |
-| CyberVision 64/3D (S3 ViRGE) | [F] A memory window, disabled on interlaced modes; its stream processor is also unavailable on double-clocked and double-scan modes | `p96-wiki`, "Update to V3.1.0 (June 2021)" |
-| Tseng ET4000W32 cards | [F] A memory overlay, only in the screen's own pixel mode and only while it is topmost and neither overlapped nor clipped | `p96-wiki`, "Update V3.2.4" |
-| Voodoo cards | [F] Video overlays | `p96-wiki`, "Update V3.5.0" |
-| Radeon, RageXL and Matrox cards | [F] An overlay, named in a correction to each driver | `p96-wiki`, "Update V3.6.1", "Update V3.6.3" |
-| Picasso II (Cirrus GD542x) | [F] None named on either wiki page | `p96-wiki`; `p96-drv` |
-| ZZ9000 | [F] Advertised by the driver on firmware 2.6 or later; it accepts three packed YUV 4:2:2 orderings only | `drivers@cb6a1c4:rtg/mntgfx-gcc.c:L1111-1139`; `rtg/overlay_feature.h:L52-57` |
-
+- Which cards have an overlay under P96, and the limits of each: `topics/audience.md`, "P96 overlay windows by card".
+- [F] The ZZ9000's driver advertises an overlay on firmware 2.6 or later and accepts three packed YUV 4:2:2 orderings only (`drivers@cb6a1c4:rtg/mntgfx-gcc.c:L1111-1139`; `rtg/overlay_feature.h:L52-57`).
 - [G] On the ZZ9000, RGB browser pixels would therefore need converting to YUV 4:2:2 and would still cross the bus; the plane behind that overlay: `sections/firmware-and-rtl.md`, "What the card offers today".
 - [F] The firmware's note says applications reach the overlay through `p96PIP_*` "directly or through cgxvideo" (`fw@cfbb910:docs/native-p96-pip.md:L20-21`).
 - [F] A program can also open a `cgxvideo.library` video layer on its window and write pixels into it through a lock; one VNC client does so with a 16-bit RGB source (`twinvnc@86a5721:twinvnc/gfxoverlay.c:L48-64, L208-232`); [G] the ZZ9000 driver would refuse that source unless P96's `cgxvideo` side converts, which was not checked.
@@ -107,13 +98,13 @@ Under this heading a path with no ID is `prism@d62ee32`.
 
 | What | Exists? | Source |
 |---|---|---|
-| A P96 driver hook that takes pixel data from anywhere but 68k memory or card memory | [F] None on the driver-development page, whose function index was read in full: every drawing hook takes 68k memory (templates, patterns, planar bitmaps) or card memory (`BlitRect`); the special-feature types are flicker fixer, memory window, video window and video capture | `p96-drv`, "Functions", "Blitter Support", "CreateFeature" |
+| A P96 driver hook that takes pixel data from anywhere but 68k memory or card memory | [F] None on the driver-development page, whose function index was read in full: every drawing hook takes 68k memory (templates, patterns, planar bitmaps) or card memory (`BlitRect`); the special-feature types are flicker fixer, memory window, video window and video capture | `p96-drv`, "Functions", "Blitter Support", "GetFeatureAttrs" |
 | Hooks in the driver header that the page does not describe | [F] `ScrollPlanar`, `UpdatePlanar`, `WriteYUVRect`, `GetVBeamPos` and the driver's own bitmap allocation; `WriteYUVRect` takes an untyped source pointer and a `RenderInfo`, and its meaning is undocumented | `prism:src/p96sdk/boardinfo.h:L511-514, L543-554` |
 | The same in PrismRTG's driver interface | [F] None: fill, copy within a bitmap, copy between two card areas, 1-bit template expansion, line and cursor; a newer table adds planar-to-chunky conversion and byte-range reads and writes between RAM and device memory | `prism:src/prismboard.h:L101-131`; `prism:src/boardops.h:L28-47` |
-| Drawing into the RTG framebuffer from the ZZ9000's own processor, beside the RTG layer | Yes, through `zz9k.library` and not through P96 | `sections/firmware-and-rtl.md`, "What the card offers today"; `topics/arm-offload.md` |
+| Drawing into the RTG framebuffer from the ZZ9000's own processor, beside the RTG layer | Yes, through `zz9k.library` and not through P96 | `sections/firmware-and-rtl.md`, "What the card offers today"; `topics/arm-offload.md`, "Mechanisms in the firmware" |
 | Decoding on the card, shown in a P96 overlay window | Yes | `topics/decode-rates.md`, "What the card's ARM decodes today" |
 | A network path into the ZZ9000's processor that bypasses the 68k | No | `sections/architecture.md`, "Control link (K8)" |
-| Whether `zz9k.library` services work while PrismRTG drives the card | [F] Not stated: PrismRTG's files mention neither `zz9k` nor the SDK, but for one comment on memory layout | `prism:src/drv_zz9000.c:L623-626` |
+| Whether `zz9k.library` services work while PrismRTG drives the card | [F] Not stated: PrismRTG's files mention neither `zz9k` nor the card's SDK, but for two comments on memory layout | `prism:src/drv_zz9000.c:L623-626`; `prism:tools/prismtest.c:L237-239` |
 
 - [G] A "put these pixels from a card-side buffer into this window" operation could exist as a new driver hook in an open layer or, as the ZZ9000's SDK does, beside the layer; nothing read shows either done for received pixel rectangles.
 
