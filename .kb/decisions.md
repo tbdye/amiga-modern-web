@@ -143,6 +143,7 @@ Rule: approaches are preferred in this order: an acceptable software solution; t
 Rule: no approach is chosen.
 Rule: something that existing cards can use, ZZ9000 and other RTG cards alike, is preferred; it is not required.
 Consequences: [G] so whether any new hardware is built, and which computer runs the engine, are open (DEC-037).
+Consequences: the owner groups, what each has, the mechanisms that could reach each and what the design under study gives each are in `topics/audience.md`, with the PiStorm group in `topics/audience-pistorm.md`.
 
 ## DEC-024: A PiStorm alone is not seen as a solution
 

@@ -59,6 +59,8 @@ Status: current
 | Pixel rate | MB/s of pixels reaching the screen by receive then copy (`topics/target-config-rates.md`) |
 | Mpix | 10^6 pixels; 1 Mpix/s of 16-bit pixels is 2 MB/s |
 | MB/s, MiB/s | On the rate pages, 10^6 and 2^20 bytes a second (`topics/target-config-rates.md`) |
+| Owner group | Amiga owners who have the same kind of hardware (`topics/audience.md`) |
+| PiStorm | An adapter with a Raspberry Pi in place of the 68k (`topics/audience-pistorm.md`) |
 
 ## Packaging and option codes
 
