@@ -24,7 +24,7 @@ Status: current
 
 ## Pass criteria (DC-B)
 
-[G] Per SoC, at full-screen 1080p60 [D] DEC-010:
+[G] Per SoC, at full-screen 1080p60, which is the design's target and not a requirement (DEC-010); missing a criterion does not alone rule a chip out:
 
 | Criterion | Pass |
 |---|---|

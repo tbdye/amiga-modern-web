@@ -64,7 +64,7 @@ Status: current
 
 | Term | Meaning |
 |---|---|
-| Family A | The browser engine runs on a separate machine, and the ZZ9000 shows its output (the retired remote tier) |
+| Family A | The browser engine runs on a separate machine, and the ZZ9000 shows its output (the remote tier: not ruled out, no role chosen [D] DEC-003) |
 | Family B | The engine runs on an application-class chip on the card, coupled to the FPGA that owns the display (P1-P5, R2) |
 | Family C | The application chip owns the display, and native video passes through it (P8) |
 | Family D | One chip does everything (P7; a ZU+ alone) |
@@ -88,7 +88,7 @@ Status: current
 |---|---|
 | DEC-n | `decisions.md` |
 | K1-K75 | `unknowns.md`, unknowns register; K6, K24, K43 and K44 are retired |
-| DC-A to DC-F | `unknowns.md`, design decisions; DC-E and DC-F are closed |
+| DC-A to DC-F | `unknowns.md`, design decisions; DC-E is closed |
 | R-TRIM, R-SoC, R-PLANE, R-PCIe, R-DDR, R-RX | `unknowns.md`, test methods |
 | SR1-SR16 | `topics/plane-safety.md` |
 | f1, f3, f4, f5, a′, b, c | `sections/display-coupling.md`, mitigations (f2, f6 and f7 are not used) |

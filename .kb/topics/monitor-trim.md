@@ -10,7 +10,7 @@ The R-TRIM steps are in `sections/display-coupling.md`, "R-TRIM"; the shipping p
 - [R] CTA-861 and VESA DMT define fixed timings, not frame-to-frame changes of the vertical total; the two standards would verify it.
 - [R] The SiI9022A HDMI transmitter on the ZZ9000 and Replica sends no variable-refresh signalling, so a monitor gets no warning of a trimmed frame; the `sii9022a` datasheet would verify it.
 - [R] Public reports on frame-lock features of other video processors (GBS-Control's Frame Time Lock, RetroTINK frame lock) can narrow K49 at the desk but not close it: they cover other trims, sources and monitors.
-- [G] So K49 needs a physical test on real monitors: R-TRIM now, R-PLANE later (`unknowns.md`, "Test methods").
+- [G] So only hardware can settle K49; R-TRIM and R-PLANE are the methods that would show it (`unknowns.md`, "Test methods").
 
 ## Steady-state trim per source
 

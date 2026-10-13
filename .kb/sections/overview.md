@@ -7,7 +7,8 @@ Status: current
 
 - [F] The ZZ9000's Zynq-7020 has a dual Cortex-A9 at 666 MHz and 1 GB of DDR3 (`fw@8778ef3:sdk/README.md:L17-18`).
 - [G] No Amiga-side processor, the card's A9 included, runs a current browser engine at usable speed; a Pi 4 class SoC is about the floor for current Chromium.
-- Goal [D] DEC-008, DEC-010: modern web pages in a Workbench window or full screen, up to a full-screen 1080p60 browser, with text and UI pixel-exact (no compressed video stream).
+- Goal [D] DEC-020: "modern web" browsing, meaning that nearly any website works; how that is reached is open.
+- [G] The design under study aims at a browser in a Workbench window or full screen, up to full-screen 1080p60; that is this design's target, not a requirement (DEC-010).
 
 ## Status
 
@@ -18,16 +19,16 @@ Status: current
 ## The design under study
 
 [G] A Zynq-7000 does all a ZZ9000 does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
-[D] DEC-002: a separate browser chip runs Chromium.
-[D] DEC-010: RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
-[D] DEC-008: its rendered frames reach the Zynq uncompressed.
+[D] DEC-002: in this design a separate browser chip runs Chromium.
+[D] DEC-010: in this design RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
+[G] Its rendered frames reach the Zynq uncompressed; that is a property of this design, which no decision requires (DEC-008).
 [G] The Zynq composites them into the browser's Workbench window or across the full screen.
 
 | Element | Under study [G] | Detail |
 |---|---|---|
 | Coupling | V-tracked: the SoC's HDMI into a receiver chip; the Zynq trims its own frame length by ±1 line per frame to follow it | `sections/display-coupling.md` |
 | Zynq | Zynq-7000 family, so firmware, RTL and drivers carry over | `sections/zynq-and-board.md` |
-| Browser chip | RK3588, x86 or CM5, settled on integration and price [D] DEC-010; a full-screen 1080p60 pass bar is proposed (DC-B), and a lower tier below 1080p is acceptable [D] DEC-012 | `sections/browser-chip.md` |
+| Browser chip | RK3588, x86 or CM5, settled on integration and price [D] DEC-010; full-screen 1080p60 is the design's target, not a bar a chip must clear (DC-B), and a lower tier below 1080p is acceptable [D] DEC-012 | `sections/browser-chip.md` |
 | Packaging | Open: one card; a Zynq card plus an unmodified SBC or mini PC; or a redesigned Replica [D] DEC-003 | `sections/zynq-and-board.md` |
 | Safety | Nothing the SoC does can touch native capture, the doubler or scanout [D] DEC-005 | `topics/plane-safety.md` |
 
@@ -42,8 +43,6 @@ Status: current
 ## Non-goals
 
 - 3D acceleration and video decode as Amiga-side features [D] DEC-008.
-- Compatibility with stock MNT ZZ9000 or Replica boards as a requirement [D] DEC-005.
-- A compressed or remote-desktop video path [D] DEC-008.
 - Board spins as a way to learn [D] DEC-011.
 - Throwaway scaffolding: a test rig exists only where it settles a measurement (class d) unknown more cheaply than anything else, and is never a board designed here [G] (follows from DEC-011).
 
@@ -51,8 +50,8 @@ Status: current
 
 | Question | Where |
 |---|---|
-| Do monitors accept the frame-length trim? (the cheapest test of the design, runnable today) | K49; `sections/display-coupling.md`, "R-TRIM" |
-| Which browser chip passes full-screen 1080p60? | K15, DC-B |
+| Do monitors accept the frame-length trim? Only hardware can show it | K49; `sections/display-coupling.md`, "R-TRIM" |
+| Which browser chip, and how near each comes to the design's full-screen 1080p60 target | K15, DC-B |
 | Which Zynq part and package? | DC-C; `topics/zynq-pin-budget.md` |
 | One card or a split? | DC-D |
 | Does the DDR headroom allow the acquisition bridge (f1)? | K25 |
