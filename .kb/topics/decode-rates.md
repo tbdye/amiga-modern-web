@@ -99,7 +99,7 @@ Decode and display together:
 - [G] The study's command names neither option, so the firmware's transform may run faster than the table; its speed on this processor is unmeasured.
 - [G] Quality 95 is a heavy setting; no figure at a lower quality is given for this core.
 - [G] These rates are decodes to RGB; on a 16-bit screen the card adds a second pass ("What the card's ARM decodes today").
-- [F] One figure from the card itself, for another codec: MPEG-1 video measured 209 decode calls a second on a 318×240 clip and 93.113 on 640×480, in a test build on Zorro III with the Amiga not named (`fw@cfbb910:docs/native-p96-pip.md:L313-314, L329-337, L394`).
+- [F] One figure from the card itself, for another codec: MPEG-1 video measured 209 decode calls a second on a 318×240 clip and 93.113 on 640×480, in a test build on Zorro III with the Amiga not named (`fw@cfbb910:docs/native-p96-pip.md:L313-314, L329-337, L394`); the firmware replaced its MPEG-1 decoder after that commit, so the figure is not the later decoder's (`fw` commit `6317b57`, message).
 - [G] That is 16 to 29 Mpix/s (76,320 × 209; 307,200 × 93.113).
 
 ## Inflate, LZ4 and PNG on neighbouring ARM cores

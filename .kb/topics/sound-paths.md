@@ -116,7 +116,7 @@ The card decodes photograph-like frames as JPEG, at 15 frames a second: compress
 The card's own video session, with picture and sound decoded on the card and shown in the P96 overlay:
 
 - Of the 68k: a stream of 1 to 2 Mbit/s is 125,000 to 250,000 bytes a second, and ÷ 2.08 to ÷ 1.62 MB/s = 6.0 to 15.4%; the stream rate is an example and not a measured one, and the session's calls are not counted.
-- [F] Of the card: a 640×480 file of 4,405 frames, played with pacing off, ran at 69.095 frames a second in a test build, on a machine and at a bit rate that are not stated (`docs/native-p96-pip.md:L313-314, L336-337`; its decode calls a second: `topics/decode-rates.md`, "Cortex-A9 JPEG").
+- [F] Of the card: a 640×480 file of 4,405 frames, played with pacing off, ran at 69.095 frames a second in a test build, on a machine and at a bit rate that are not stated (`docs/native-p96-pip.md:L313-314, L336-337`; its decode calls a second, and the later replacement of the decoder: `topics/decode-rates.md`, "Cortex-A9 JPEG").
 - 30 frames a second is 43% of that rate (30 ÷ 69.095).
 - What release firmware plays in such a session: `sections/firmware-and-rtl.md`, "What the card offers today".
 
