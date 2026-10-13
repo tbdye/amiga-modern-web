@@ -58,7 +58,7 @@ Status: current
 | Browservice | A remote browser: CEF renders off-screen and sends the view as images to a legacy browser (`topics/prior-art.md`) |
 | Pixel rate | MB/s of pixels reaching the screen by receive then copy (`topics/target-config-rates.md`) |
 | Mpix | 10^6 pixels; 1 Mpix/s of 16-bit pixels is 2 MB/s |
-| MB, MiB | 10^6 bytes; 2^20 bytes |
+| MB/s, MiB/s | On the rate pages, 10^6 and 2^20 bytes a second (`topics/target-config-rates.md`) |
 
 ## Packaging and option codes
 
