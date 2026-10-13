@@ -1,12 +1,12 @@
 kb_version: 1
 updated: 2026-10-12
 pins:                       # newest pin each source was verified against
-  fw:      { commit: bdfd8b0, verified_on: 2026-10-10 }
-  drivers: { commit: ad9606b, verified_on: 2026-10-10 }
+  fw:      { commit: cfbb910, verified_on: 2026-10-12 }
+  drivers: { commit: cb6a1c4, verified_on: 2026-10-12 }
   replica: { commit: 96bdef0, verified_on: 2026-10-10 }   # not public
-  addon:   { commit: 40bca90, verified_on: 2026-10-10 }   # not public
+  addon:   { commit: faf99db, verified_on: 2026-10-12 }   # not public
   linux:   { commit: 6c377d19d4a5, verified_on: 2026-10-08 }
-  cef:     { commit: a875f407e36b, verified_on: 2026-10-10 }
+  cef:     { commit: a875f407e36b, verified_on: 2026-10-12 }
 files:
   _index.md:
     status: current
@@ -26,7 +26,7 @@ files:
     cites: []
   sources.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: []
   sections/overview.md:
     status: current
