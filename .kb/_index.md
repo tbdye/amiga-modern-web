@@ -19,7 +19,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
 | Pick or evaluate a Zynq part, package or module | `sections/zynq-and-board.md`, then `topics/zynq-pin-budget.md` |
 | Pin or bank arithmetic; module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
-| Replica board I/O: translators, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
+| Replica board I/O: translators, bus mastering, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
 | PCIe fetch or copy: link load, FIFO, pass thresholds | `topics/pcie-path.md` |
