@@ -193,6 +193,7 @@ Status: active.
 Decided: 2026-10-11.
 Rule: the target configuration is a 68060 at 50 MHz on Zorro III with a ZZ9000; other Amigas vary from it.
 Rule: it is the configuration the project is thought to target, not a requirement; no minimum is named.
+Consequences: the published rates for this configuration are in `topics/target-config-rates.md`, with bus ceilings in `topics/bus-and-card-rates.md` and decode rates in `topics/decode-rates.md`.
 
 ## DEC-036: Video with synchronised audio on the target configuration
 

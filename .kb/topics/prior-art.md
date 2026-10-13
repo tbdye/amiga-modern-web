@@ -114,4 +114,4 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 - IBrowse, AWeb, Voyager or NetSurf on a faster accelerator as the way to the current web: the limit of each is its features, which CPU speed does not add ("Native Amiga browsers").
 - Client models that need a modern DOM and CSS engine in IBrowse, AWeb, Voyager or NetSurf: the features of each stop short of one ("Native Amiga browsers").
-- Bulk drawing by the 68k over Zorro: every pixel crosses the bus, so Zorro II falls behind Zorro III.
+- Bulk drawing by the 68k over Zorro: every pixel crosses the bus, so Zorro II falls behind Zorro III (`topics/bus-and-card-rates.md`, "Bus ceilings").
