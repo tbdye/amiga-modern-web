@@ -25,7 +25,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 
 ## Why other approaches were pruned
 
-- **A browser engine on the 68k, a fast 68k, or the card's A9** [G]: none is fast enough for a current browser engine.
+- **A browser engine on the 68k, a fast 68k, or the card's A9** [G]: none is fast enough for current Chromium (`sections/overview.md`, "Problem and goal"), a limit of speed; IBrowse, AWeb, Voyager and NetSurf, which run on a 68k, are limited by their features, which a faster processor does not add (`topics/prior-art.md`, "Native Amiga browsers").
 - **Remote rendering with lossless tiles or display lists** [G]: every DOM change pays a network round trip, and the A9 has no GPU; part of the remote tier, not ruled out [D] DEC-003.
 - **Zorro III DMA as the main link** [G]: below a 720p60 surface, and it leaves Zorro II out.
   [F] As wired, neither the ZZ9000 nor the Replica can run a master's cycle by the specification (`topics/replica-interconnect.md`, "Zorro bus mastering").

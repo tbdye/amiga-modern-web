@@ -18,7 +18,7 @@ Decided: 2026-10-04; amended 2026-10-11.
 Rule: in the design under study, Chromium executes on its own application processor, and the Zynq is what shows its output to the Amiga user.
 Rule: that is the design's rule, not a settled choice of the project: no engine and no design is fixed (DEC-020).
 Rule: whether a ZZ9000 is still what shows the engine's output is not decided; DEC-028 gives the ZZ9000's standing.
-Why: the card's dual Cortex-A9 is far too slow for a current browser engine (`sections/firmware-and-rtl.md`, "Why the Zynq cannot host the browser").
+Why: the card's dual Cortex-A9 is far too slow for current Chromium, the engine this rule names (`sections/firmware-and-rtl.md`, "Why the Zynq cannot host the browser").
 Consequences: how the pixels get from that processor to the Zynq is the coupling question (`sections/display-coupling.md`).
 
 ## DEC-003: Browser chip placement, packaging and power

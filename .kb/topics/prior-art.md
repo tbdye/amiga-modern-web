@@ -17,7 +17,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 | Wayfarer (MorphOS) | MorphOS 3.16 (2022-03-15) ships it and retires the Odyssey browser; a WebKit-based engine | [F] `morphos-news` (release); [R] engine, which the Wayfarer project's own pages would verify |
 | OWB (AmigaOS 4) | A WebKit port with a native GUI | [R] os4depot listing |
 
-- [G] The 68k engines in the table (IBrowse, AWeb, Voyager) stop at roughly ES3-era JavaScript, and NetSurf, which also has a 68k target, pairs CSS 2.1 with primitive JavaScript; the ceiling is set by the engines' features, not by CPU speed.
+- [G] IBrowse, AWeb and Voyager, which run on the 68k, stop at roughly ES3-era JavaScript, and NetSurf, which also has a 68k target, pairs CSS 2.1 with primitive JavaScript (rows above); for each of these engines the limit is its features, which a faster CPU does not add.
 - [G] Wayfarer shows that native feel (fonts, windows, clipboard, menus) comes from the front end around a modern engine, but it needs a PowerPC host OS that a Zorro Amiga does not run.
 
 ## Fast-68k routes
@@ -26,7 +26,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 - [F] Emu68 runs bare metal on the Raspberry Pi (`emu68@0ba3a89:README.md:L56`), so that Pi cannot also host Linux and Chromium [G].
 - [F] Musashi PiStorm is instead a Linux program (`emulator`) on 32-bit Raspberry Pi OS, on a Pi 3A+, 3B+ or Zero 2 (a Pi 4 cannot be used), in a 68000 DIP socket, confirmed only on the A500, A500+, A1000 and A2000 (`pistorm@88937a6:README.md:L24, L26-27, L47, L86`).
 - [G] So one Pi could in principle host both the 68k and Chromium, but only at about 68030 class, in 68000-socket machines, and on a Pi 3-class board, below the Pi 4-class floor for current Chromium (`sections/overview.md`); it is not a route.
-- [G] Fast 68k CPUs do not change the engine verdict above; they make native chrome snappier and occupy the CPU slot or trapdoor, so they complement a Zorro card rather than compete with it.
+- [G] Fast 68k CPUs add no features to IBrowse, AWeb, Voyager or NetSurf ("Native Amiga browsers"); they make native chrome snappier and occupy the CPU slot or trapdoor, so they complement a Zorro card rather than compete with it.
 
 ## Remote and split-engine browsers
 
@@ -53,7 +53,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 - Production engines already split at the paint-op and glyph-cache level, and scroll on a compositor thread from cached tiles; that is the split a remote viewport would need.
 - SPICE's channel split (cursor, display, video regions, input, audio) is the cleanest template for keeping the pointer local and only video lossy.
 - Opera Mini shows server-side layout reaching weak clients, but paused scripts and hotspot round trips break modern web apps; it suits at most a reader mode.
-- Client models that need a modern DOM and CSS engine on the client (DOM-diff frameworks, Citrix's redirection) do not fit an Amiga, which has none.
+- Client models that need a modern DOM and CSS engine on the client (DOM-diff frameworks, Citrix's redirection) do not fit IBrowse, AWeb, Voyager or NetSurf, whose features stop short of one ("Native Amiga browsers").
 
 ## Display lists and small renderers
 
@@ -85,6 +85,6 @@ Why a particular approach is not under study here is in `sections/options-reject
 
 ## Dead ends [G]
 
-- A native modern engine on the 68k at any accelerator speed: the engines' features, not the CPU, set the ceiling.
-- Client models that need a modern DOM and CSS engine on the Amiga.
+- IBrowse, AWeb, Voyager or NetSurf on a faster accelerator as the way to the current web: the limit of each is its features, which CPU speed does not add ("Native Amiga browsers").
+- Client models that need a modern DOM and CSS engine in IBrowse, AWeb, Voyager or NetSurf: the features of each stop short of one ("Native Amiga browsers").
 - Bulk drawing by the 68k over Zorro: every pixel crosses the bus, so Zorro II falls behind Zorro III.
