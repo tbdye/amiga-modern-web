@@ -120,6 +120,18 @@ files:
     status: current
     reviewed_on: 2026-10-12
     cites: [amifox, amifox-server, amitube, twinvnc, amifleet68, wrp, twinvnc-site, twinvnc-aminet, rd-pages, rd68k]
+  topics/target-config-rates.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, anx, prism, amigaorg-66041, icomp-shop-xsurf100, roadshow, aminet, aminet-rview, zz9000-bench]
+  topics/bus-and-card-rates.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, zorro3, xacp, aminet, aminet-rview, zz9000-bench]
+  topics/decode-rates.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, aminet, aminet-rview, jpegbench, libjpeg-turbo-perf, squash-benchmark, toms-pi5, toms-pi4, toms-pizero2w, rpi5-launch]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10
