@@ -93,7 +93,7 @@ Whole windows at the ceilings, 16 bits a pixel (halve for 32-bit, double for 8-b
 - A bus test on a machine with an earlier bus-controller revision, on an A3000 or A4000 with its stock processor card, or on any Zorro II card: not found; the Zorro II copy figures are the only published rates found for that bus.
 - The rate of a card that drives the bus itself: not found; the cycles the 68k drives bound it and do not measure it.
 - A write cycle into a ZZ9000 on the firmware the read cycle was measured on: not given; the write figures are from a third-party firmware line and from firmware 2.8.
-- The ZZ9000's time for a window-sized move, and any scroll figure on the 2.8 firmware line: only whole-screen one-pixel scrolls on firmware 1.7 to 1.13 are published.
+- The ZZ9000's time for a window-sized move, and any whole-screen scroll figure on the 2.8 firmware line: only whole-screen one-pixel scrolls on firmware 1.7 to 1.13 are published.
 - Whether an 8-bit scroll's time scales by bytes to a 16-bit move on the Picasso IV, CyberVision 64/3D or Picasso II: untested.
 
 ## Sources
