@@ -59,7 +59,7 @@ A licence, language level, implementation language, line count, JIT back end or 
 | The card's core at 667 MHz, scaled from the three Cortex-A9 rows | 730-895 | 1.10-1.34 | 77-88 | [G] each row's figure per MHz × 666.67; 675 if the 1,317 build ran at 1,300 MHz |
 | The same, on the vendor figure | 1,667 | 2.5 | | [G] 2.5 × 666.67 |
 
-- [F] The legend of the Linpack chart prints MIPS for MFLOPS (`magpi-pi4-bench`).
+- [F] The legend of the Linpack chart prints MIPS (`magpi-pi4-bench`); [G] its values are MFLOPS, the unit in which the benchmark's own page reports that test (`bench-rpi`).
 - [F] The Cortex-A9 rows are Android builds and the Pi rows Raspbian gcc; their source notes that MIPS per MHz depends on compiler optimisation, and one tablet scores 1,610 or 1,317 by build alone (`bench-android`).
 - [G] The Pi rows sit at the vendor figures (ARM11 1.21-1.23 against 1.25; Cortex-A7 1.71-1.85 against 1.9) and the Cortex-A9 rows at about half of theirs (1.10-1.34 against 2.5), so the two anchors for the card differ by about 2.
 - [G] The one figure reported from the card falls between them, at 1.59 per MHz; it is a third party's approximate figure on another firmware line and compiler, and nothing measures the build of `fw`.
@@ -141,7 +141,7 @@ Each point names what would settle it; none is a condition of anything.
 - The speed of any script engine on the card's ARM, on a 68k, or the ratio between them: no published benchmark of a script engine on a real or emulated 68k was found, and none of a small interpreter on a Cortex-A9; only a measurement on both shows the ratio.
 - Whether an engine in the table other than Duktape has a 68k AmigaOS port: on 2026-10-11 searches of Aminet for `quickjs` and `duktape`, and of GitHub repositories for QuickJS on the Amiga, on m68k and on MorphOS and for a JavaScript engine on 68k AmigaOS, found none; the other engines were not searched for by name, and this shows absence in those searches only.
 - A result for a browser with a JIT on a Cortex-A9 under Speedometer, JetStream or Kraken, and any browser benchmark on a Zynq-7000 board: none was found in the review sites fetched on 2026-10-11.
-- A primary figure for any 68k CPU, and any benchmark figure for a 68k emulated on ARM by Emu68 or implemented as the Apollo 68080: none was retrieved; what the Emu68 project itself states of its speed is in `topics/audience-pistorm.md`, "The two software stacks".
+- A primary figure for any 68k CPU, and any benchmark figure for a 68k emulated on ARM by Emu68 or implemented as the Apollo 68080: none was retrieved; what the PiStorm project's site states of Emu68's speed is in `topics/audience-pistorm.md`, "The two software stacks".
 - The share of Speedometer's time that is script, and so where in 1.67 to 4.2 the third link lies.
 
 ## Sources
