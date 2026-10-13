@@ -28,6 +28,7 @@ Qualitative columns only [G]; firmware-rewrite cost per [D] DEC-012.
 - **A browser engine on the 68k, a fast 68k, or the card's A9** [G]: none is fast enough for a current browser engine.
 - **Remote rendering with lossless tiles or display lists** [G]: every DOM change pays a network round trip, and the A9 has no GPU; retired with the networked-box design, the browser chip sitting inside the Amiga or next to it [D] DEC-003.
 - **Zorro III DMA as the main link** [G]: below a 720p60 surface, and it leaves Zorro II out.
+  [F] As wired, neither the ZZ9000 nor the Replica can run a master's cycle by the specification (`topics/replica-interconnect.md`, "Zorro bus mastering").
 - **A SoC module beside an unchanged Z-7020 over Ethernet** [G]: the same round trip on one PCB, with no gain in feel.
 - **The SoC doing capture itself, with a CPLD for Zorro** [R]: no app SoC exposes a low-latency slave bus for Zorro RTG, so the CPLD grows into an FPGA and native video runs through SoC Linux.
 - **Jetson Orin** [R]: Chromium GPU acceleration on L4T is unproven and the stack is proprietary; revisit if that changes.
