@@ -75,7 +75,7 @@ Status: draft
 - [F] The RTG driver binds by manufacturer `0x6d6e` and the ZZ9000 Z3/Z2 products (`drivers@ad9606b:rtg/mntgfx-gcc.c:L143, L814-815`); likewise the network and AHI drivers (`net/device.c:L337`, `ahi/driver/zz9000ax-ahi.c:L235`).
 - [G] `0x6d6e` is MNT Research's manufacturer ID; the Replica runs this firmware, whose autoconfig ROM presents it (`fw@bdfd8b0:mntzorro.v:L2289-2292, L2460-2463`, inverted nibbles), so it already reuses the ID; whether a new board may is MNT's call (K41).
 - [F] Forking the ID also touches ZZTop (`drivers@ad9606b:ZZTop/Sources/ZZTop.c:L7043, L7047`), SD boot (`sd-boot/zzsd_device.c:L94, L96`), the Poseidon USB device (`usb-poseidon/zzusbhw_device.c:L3136, L3138`), `ZZNetReady/ZZNetReady.c:L48`, and `include/zz9000_hw.h:L19`, whose macro the AHI and MHI drivers use (`ahi/driver/zz9000ax-ahi.c:L235`, `mhi/mhizz9000.c:L239`).
-- [F] In the firmware it touches the autoconfig ROM (above), `sdk/include/zz9k/abi.h:L33` and `sdk/host/src/zz9k_host.c:L945, L952` (`fw@bdfd8b0`).
+- [F] In the firmware it touches the autoconfig ROM (above); the macro at `sdk/include/zz9k/abi.h:L33` with its uses at `sdk/host/src/zz9k_host.c:L945, L952`, `sdk/tools/zz9k-probe.c:L152, L155` and `sdk/tools/zz9k-step.c:L223, L226`; and the decimal ID 28014 in the MMU configuration line at `README.md:L544` (`fw@b470c23`).
 
 ## What a new card removes, and where reuse stops
 
