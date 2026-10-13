@@ -122,6 +122,9 @@ No security default is decided; every proposal behind these rows is in `topics/s
 
 ## Design decisions still open
 
+Choices that the decisions of 2026-10-11 leave open are recorded in `decisions.md`; they have no DC rows.
+What a topic leaves open is in its "Not established" list.
+
 | DC | Decision | Settled by | Status |
 |---|---|---|---|
 | DC-A | Coupling | K1-K5, K7, K46, K49 (R-TRIM; R-PLANE if R-TRIM fails or is unclear), K15; PCIe rows only if needed | V-tracked with the ±1 cap is under study [G]; open on the display path's latency, whose targets are not hard requirements, and on monitor acceptance of the trim (K49). If monitors reject the trim and no trim fix exists: frame-buffered V (needs a 7020). If the display path is too far from its latency targets: PCIe fetch |

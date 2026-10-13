@@ -1,6 +1,6 @@
 # Overview
 
-Scope: the problem, the goal, the project's status, the design under study, non-goals and what is open.
+Scope: the problem, the goal, the project's status, the brief, the design under study, non-goals and what is open.
 Status: current
 
 ## Problem and goal
@@ -16,8 +16,17 @@ Status: current
 - Decisions so far: `decisions.md`.
 - Every open question, with what settles it: `unknowns.md`.
 
+## The brief
+
+- [D] DEC-020: by "modern web" the project means that nearly any website works; no design and no engine is fixed.
+- [D] DEC-022: approaches are preferred in this order: an acceptable software solution, then a co-processor board if the software needs one, then a full card such as the design under study; none is chosen, and something that existing cards can use is preferred, not required.
+- [D] DEC-035: the target configuration is a 68060 at 50 MHz on Zorro III with a ZZ9000; other Amigas vary from it; no minimum is named.
+- [D] DEC-036: that configuration should support video with synchronised audio.
+- [D] DEC-037: needing a second computer is acceptable, and so is a co-processor board; the Amiga must keep a TCP/IP address of its own.
+
 ## The design under study
 
+One proposal, not the project's settled design [D] DEC-020; this section describes it.
 [G] A Zynq-7000 does all a ZZ9000 with its audio add-on does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
 [D] DEC-002: in this design a separate browser chip runs Chromium.
 [D] DEC-010: in this design RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
@@ -50,6 +59,7 @@ Status: current
 
 | Question | Where |
 |---|---|
+| Which approach is taken, whether any new hardware is built, and which computer runs the engine | `decisions.md` (DEC-020, DEC-022) |
 | Do monitors accept the frame-length trim? Only hardware can show it | K49; `sections/display-coupling.md`, "R-TRIM" |
 | Which browser chip, and how near each comes to the design's full-screen 1080p60 target | K15, DC-B |
 | Which Zynq part and package? | DC-C; `topics/zynq-pin-budget.md` |
@@ -77,4 +87,4 @@ Status: current
 
 - [F] The ZZ9000 firmware and drivers are GPL-3.0-or-later (`fw@bdfd8b0:README.md:L677-681`; `drivers@ad9606b:README.md:L580-584`); a few firmware files carry GPL-2.0+, GPL-2.0 or MIT notices instead (`fw@bdfd8b0`, `SPDX-License-Identifier` lines).
 - [F] CEF is under a BSD-style licence (`cef@a875f407e36b:LICENSE.txt:L1-29`); Chromium is too [R], which its `LICENSE` file would verify.
-- Open: this repository's licence (`CONTRIBUTING.md`, "Licence"); Amiga fonts in Chromium (K40); whether the ADV7611 hardware manual, which receiver set-up needs, is freely available [R].
+- Open: this repository's licence (`CONTRIBUTING.md`, "Licence"), with the project not planned as closed-source [D] DEC-019; Amiga fonts in Chromium (K40); whether the ADV7611 hardware manual, which receiver set-up needs, is freely available [R].

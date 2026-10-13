@@ -19,6 +19,10 @@ Status: current
 
 | Term | Meaning |
 |---|---|
+| Design under study | The Zorro-card proposal this KB describes; not fixed [D] DEC-020 |
+| Approach | One of DEC-022's three: software, a co-processor board, a full card |
+| Target configuration | 50 MHz 68060 with a ZZ9000 on Zorro III [D] DEC-035 |
+| Second computer | A computer, not the Amiga, that runs the engine [G] (DEC-037) |
 | ZZ9000 | The MNT ZZ9000 Zorro graphics and coprocessor card: a Zynq-7020 module on a carrier, with RTG, native video capture, scan doubler, HDMI out, audio (with the AX add-on) and Ethernet |
 | Replica | A recreation of the ZZ9000 carrier with added features; its repository is not public (`sources.md`) |
 | Zynq, PS, PL | AMD Zynq-7000 SoC; PS = the dual Cortex-A9 processing system ("A9"); PL = its FPGA fabric |
