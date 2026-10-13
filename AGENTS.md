@@ -36,13 +36,15 @@ The label opens the sentence and the citation closes it; a table cell carries on
 
 Each KB file opens with `Scope:` and `Status:` lines matching `.kb/_manifest.yaml`:
 
-- `current`: every input was reviewed, and so was the synthesis.
+- `current`: every statement rests on a primary source or an approved finding.
 - `draft`: every `[F]` was re-verified against its primary source at its pin, but the file's selection and synthesis have not had a separate design review.
   Treat its `[F]` as checked and its framing as provisional.
 - `stale`: a cited fact is known or suspected to differ at HEAD and has not been re-verified.
   A cited source moving is not by itself a reason to mark a file `stale`.
 
-Citation forms (IDs and link templates in `.kb/sources.md`):
+Citation forms.
+A source ID is defined once in the KB: in `.kb/sources.md`, or, for a source that one topic alone cites, in that topic's closing `## Sources` table.
+A source that a second file starts to cite moves to `.kb/sources.md` in the same pull request.
 
 | Kind | Form | Example |
 |---|---|---|
@@ -69,8 +71,10 @@ Re-pin a citation only when its fact changed at HEAD; a line shift alone is not 
 - Keep each file within its size budget ("Size budgets").
 - Don't paste datasheet or source-code text; cite the page or line range.
 - Don't characterise anyone's intent or plans; cite what they shipped.
-- No personal information about anyone: no names, handles or descriptions of individuals, except the maintainer's credit in `README.md` and owner segments of source URLs in `.kb/sources.md`.
+- No personal information about anyone: no names, handles or descriptions of individuals, except the maintainer's credit in `README.md`, the repository's own address, and owner segments of source URLs in `.kb/sources.md` or a topic's `## Sources` table.
 - Never publish who holds a tool licence or must be asked about something, to-dos, review rounds, draft revision numbers or approvals, project schedules or estimates of how long work will take, build budgets or per-card cost estimates, local filesystem paths, project-tracking IDs that resolve only outside this repository, or verbatim quotes from private sources.
+- One page owns each fact; other pages point to its heading.
+- A new topic or section closes with `## Not established`, above any `## Sources`; name an open point and what settles it, and never make a test a gate or condition.
 - Commits and pull requests follow `CONTRIBUTING.md`; a KB change goes on a `kb/<topic>` branch (or a fork) and opens a pull request against `main`; open it as a draft only while it is incomplete.
 
 ## Size budgets
@@ -80,14 +84,15 @@ Tokens are estimated as words × 1.35.
 | File | Maximum tokens |
 |---|---|
 | `AGENTS.md` | 1,500 |
-| `.kb/_index.md` | 1,200 |
+| `.kb/_index.md` | 1,500 |
 | Each `.kb/sections/*.md` | 3,000 |
-| Each `.kb/topics/*.md` | 5,000 |
+| Each `.kb/topics/*.md`, its `## Sources` table included | 5,000 |
 | `.kb/unknowns.md` | 8,000 |
-| Each other registry (`decisions.md`, `glossary.md`, `sources.md`) | 3,000 |
+| `.kb/decisions.md`, `.kb/sources.md` | 5,000 each |
+| `.kb/glossary.md` | 3,000 |
 
 There is no budget for `.kb/` as a whole.
-A typical answer loads `AGENTS.md`, `.kb/_index.md` and one section, under 6,000 tokens.
+A typical answer loads `AGENTS.md`, `.kb/_index.md` and one section, at most 6,000 tokens.
 
 ## Searching
 

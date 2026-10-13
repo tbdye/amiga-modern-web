@@ -95,7 +95,7 @@ TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and t
 
 ## Prior-art sources
 
-Cited by `topics/prior-art.md`. GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
+GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
