@@ -127,8 +127,4 @@ The lines are facts on either side of each property, and none is weighed against
 
 ## Sources
 
-`chromium` is defined in `sources.md`.
-
-| ID | Source | Where | Pin or accessed |
-|---|---|---|---|
-| `thinc` | "THINC: A Virtual Display Architecture for Thin-Client Computing", ACM Symposium on Operating Systems Principles, 2005 | `https://www.cs.columbia.edu/~nieh/pubs/sosp2005_fordist.pdf` | 2026-10-11; SHA-256 `07b8aa1699bcc75b5bba85b20be47d6a12d9d66905a0ddc5ee24c88c5bec54c6` |
+`chromium` and `thinc` are defined in `sources.md`.

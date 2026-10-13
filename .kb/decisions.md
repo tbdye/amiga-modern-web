@@ -204,6 +204,7 @@ Status: active.
 Decided: 2026-10-11.
 Rule: the target configuration of DEC-035 should support video with synchronised audio.
 Rule: no tolerance for the synchronisation is set, nor a picture size or frame rate; where the sound plays, and what other Amigas must support, are not decided.
+Consequences: how sound is kept in step with video, the published tolerances and which of the card's sound paths report a played position are in `topics/av-sync.md`; the sound paths, their buffers and their load are in `topics/sound-paths.md`.
 
 ## DEC-037: Needing a second computer is acceptable; the Amiga keeps a TCP/IP address of its own
 

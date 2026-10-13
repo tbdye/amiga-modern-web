@@ -81,6 +81,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `lutefuse-1206l` | Lutefuse 1206L series PPTC datasheet (1206L250/16AR), revision 2020 | Vendor PDF | `9b5eae932a00b0947da930f441730842a8b315f1e7d76675c3e9453d2bd4e1c3` | Copy read from `replica@96bdef0:Docs/datasheets/1206L250_16AR.pdf`; ratings table p4 |
 | `te-171826` | TE Connectivity 171826-4 product data | TE website, by part number | `01115b5280220528241758b932d5814e0ffd79e55df8e4c85f0684290f68edec` | Copy read from `replica@96bdef0:Docs/datasheets/171826-4_product-data.pdf`; contact rating p2 |
 | `ksz9031` | Microchip KSZ9031RNX gigabit Ethernet transceiver data sheet, DS00002117F | `https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/00002117F.pdf` | `f7c402264e7b9b65e09f88242a0e8269e4c01e051cd515dbdbabb66dfff4f408` | Preamble p14; auto MDI/MDI-X p16; auto-negotiation p17; fetched 2026-10-11 |
+| `zz9000ax-manual` | MNT ZZ9000AX R-1 Quickstart Manual; page 2 is the schematic, title block "MNT ZZ9000AX", Rev R-1, 2022-03-16 | `https://mntre.com/media/ZZ9000_info_md/zz9000ax-manual-r1.pdf` | `d211d492b5b11a522086ba63210bcac11dea03a3bdc65ea65aff4d614df566a2` | Text p1; schematic p2: a vector drawing with outlined lettering and no text layer, read from renders at 220 and 300 dpi; fetched 2026-10-12 |
 
 ## Web pages
 
@@ -149,6 +150,9 @@ Sources that a remote-display or RTG topic and at least one other file cite; a s
 | `prism` | PrismRTG | `github.com/lainejones/PrismRTG` | `d62ee32` |
 | `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
 | `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
+| `ms-rdpea` | Microsoft Open Specifications [MS-RDPEA] | `learn.microsoft.com`, Open Specifications | Revision 20.0 (2024-04-23); SHA-256 `429b6be8e60ef16976816da86f2eebbdf45c11c2b362453918f4c906ea334828`; read as PDF from `winprotocoldoc.z19.web.core.windows.net` |
+| `spice-server`, `spice-gtk` | SPICE release archives | `https://www.spice-space.org/download/releases/` | 0.15.2; 0.42 |
+| `thinc` | "THINC: A Virtual Display Architecture for Thin-Client Computing", ACM Symposium on Operating Systems Principles, 2005 | `https://www.cs.columbia.edu/~nieh/pubs/sosp2005_fordist.pdf` | 2026-10-11; SHA-256 `07b8aa1699bcc75b5bba85b20be47d6a12d9d66905a0ddc5ee24c88c5bec54c6` |
 
 ## Prior-art sources
 

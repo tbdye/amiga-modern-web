@@ -33,6 +33,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Remote display | `topics/remote-display-protocols.md` (client speaks); `topics/remote-display-servers.md` (servers send); `topics/remote-display-client.md` (68060 cost, delay, integration) |
 | RTG layer: P96, PrismRTG, window pixel calls, scroll-copy, overlays | `topics/rtg-layer.md` |
 | Connect a second computer | `topics/link-and-address.md` (ways, address); `topics/card-ethernet-sharing.md` (firmware service); `topics/other-attachments.md` (other links) |
+| Video with sound in step | `topics/av-sync.md` (keeping step, tolerances); `topics/sound-paths.md` (paths, buffers, load) |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
@@ -64,7 +65,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
 | Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
-| Audio: ADAU1701 clocks, the audio fabric, browser audio routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
+| Audio: outputs as built, ADAU1701 clocks, fabric, routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
