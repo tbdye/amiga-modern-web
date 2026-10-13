@@ -77,6 +77,6 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 - Video lateness Lv is the excess of the hand-off and latch over the presentation deadline Chromium already assumes; it is at most one frame.
 - [R] Chromium slaves video to the audio clock using the sink's reported delay, and prefers PulseAudio or PipeWire when present, so a custom sink must be the one actually used (`topics/cef-frame-path.md`, "Audio").
 - Primary mechanism: an ALSA ioplug plugin writes the ring and reports `snd_pcm_delay` = La − Lv, from the ring fill and a fixed pipeline delay the Zynq publishes, so Chromium renders each frame Lv early and it lands with its audio.
-- No-patch alternative: `CefAudioHandler` packets carry a presentation `pts`, so the embedder can measure the offset per packet; it works with Alloy-style browsers only and mutes normal output (`topics/cef-frame-path.md`, "Audio").
+- No-patch alternative: `CefAudioHandler` packets carry a `pts`, which the code takes from Chromium's monotonic clock, so the embedder can time each packet and, with its own record of when each frame arrived, measure the offset; it works with Alloy-style browsers only and mutes normal output (`topics/cef-frame-path.md`, "Audio").
 - Correcting that offset means holding video by about 2 frames, which delays all plane content during playback and misses the scroll latency target (`sections/architecture.md`, "Paths") while video plays.
 - Acceptance: |A/V offset| ≤ 40 ms on a flash-and-beep clip (K34); record scroll latency during playback if a video hold is in use.

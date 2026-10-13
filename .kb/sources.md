@@ -61,6 +61,10 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `lvc8t245` | TI SN74LVC8T245, SCES584D (revised May 2026) | `https://www.ti.com/lit/ds/symlink/sn74lvc8t245.pdf` | `c14e874982491aadeb329649325a038a3d1e8a759d2035b08ddb13acc372ad1d` | §5.3 p7, §5.6 p9, §5.7 p10, §5.9 p11, Table 7-1 p15; TI stamps each download, so a fresh copy of the same revision hashes differently |
 | `adv7611` | Analog Devices ADV7611 datasheet, Rev. D, ADI's Chinese-language edition | `https://datasheet.lcsc.com/datasheet/pdf/d944f827e87cafee093b0fb111927fee.pdf?productCode=C146553` (LCSC C146553, `ADV7611BSWZ`) | `3fad618d4110ee7f9eb89335155f8f4cc2794d4ed58ac773cfb4e09c27059f69` | Features p1; Table 2 and its note 1 p5 (text extraction garbles p5; read the rendered page); fetched 2026-10-10 |
 | `cm5-ds` | Raspberry Pi Compute Module 5 datasheet, Release 3 (build date printed 08/06/2026) | `https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf` | `80070fefd8db6e8abc6e146c8b7b5fb318ba129cc1e28826936d547fde79c863` | Features p6; PCIe p9; USB p10; GPIO functions p12-13; power consumption and regulator outputs p16 (§3.3, §3.4); carrier connectors p17 |
+| `rpi-zero2w` | Raspberry Pi Zero 2 W product brief | `https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf` | `503f348880c00c543e99383ca8759a0b60c1b511cc3c27f216720866159a2bff` | Read 2026-10-11 |
+| `rpi-3aplus` | Raspberry Pi 3 Model A+ product brief | `https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-a-plus-product-brief.pdf` | `d253dcedae53f055ac2f08240ee7d8240f6d9001fd391c6437eefe6c56c18904` | Read 2026-10-11 |
+| `rpi4-brief` | Raspberry Pi 4 Model B product brief | `https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-product-brief.pdf` | `7e18898418a47cdbab2f6184ae93fbe6e4943c45475cecbe1db8eb11d32f4328` | Read 2026-10-11 |
+| `rpi-cm4` | Raspberry Pi Compute Module 4 datasheet, Release 4 (build date printed 30/06/2026) | `https://datasheets.raspberrypi.com/cm4/cm4-datasheet.pdf` | `d6946f8bb3e0276defa95b99b9d402a01a4805d3de02d53f835e93044ea7af97` | Read 2026-10-11; pages are the PDF's |
 | `tfp401a` | TI TFP401/TFP401A PanelBus digital receiver, SLDS120H (revised March 2022) | `https://www.ti.com/lit/ds/symlink/tfp401a.pdf` | `b4e30688f4be01f01fdb1841944f9522724fb8ec8d63c780c72f94c2ab036d95` | Features p1; fetched 2026-10-10 |
 | `myir-7015-pinmap` | MYIR MYC-C7Z015 pin map V1.0 (2023-03-09) | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z015_PINMAP.pdf` | `1b6127569b0026f91b61d5fc0ed1e0f47435318ffbb25c962f554b3e869a31d4` | Matched live 2026-10-08 |
 | `myir-7020-pinout` | MYIR MYC-C7Z010/20 pin-out | `https://www.myirtech.com/download/Zynq7000/MYC-C7Z010_20_PinOuts.pdf` | `4f859609c63c341d09b974fc1d214123671a4fc5e79fa160aeb442e21565b74a` | Matched live 2026-10-08; identical to the copy in `replica` |
@@ -105,6 +109,29 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `zz9000-bench` | `http://www.gregdonner.org/zz9000/benchmarks.html` and the images `bench_gfx_<suffix>.png` beside it (P96Speed 1.2 screenshots on ZZ9000 firmware 1.4 to 1.13; the page gives 2026-05-17 as its last update) | 2026-10-11 |
 
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.
+
+## Engine and display-server sources
+
+Sources that two or more topics cite; a source that one topic alone cites is in that topic's `## Sources` table.
+Web pages and package indexes were read on 2026-10-11.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `chromium` | Chromium source | `github.com/chromium/chromium` (mirror of `chromium.googlesource.com/chromium/src`) | `ceb8f3a65507`; `media/gpu/args.gni` at `4afca57b57f5` |
+| `firefox` | Firefox source | `github.com/mozilla-firefox/firefox` | `8e9ac3e12bba` |
+| `webkit` | WebKit | `github.com/WebKit/WebKit` | `f0fdd66b6957` |
+| `electron` | Electron | `github.com/electron/electron` | `04449e9846ed` |
+| `xpra` | xpra | `github.com/Xpra-org/xpra` | `de195aac2dda` |
+| `portal` | Desktop portal, `data/org.freedesktop.portal.ScreenCast.xml` | `github.com/flatpak/xdg-desktop-portal` | `ee298d1817fe` |
+| `wl-proto` | Wayland protocols | `gitlab.freedesktop.org/wayland/wayland-protocols` | `682ae76bccd6` |
+| `wlroots` | wlroots | `gitlab.freedesktop.org/wlroots/wlroots` | `2f08303d3c09`; tags 0.18.2, 0.19.0, 0.20.0; `@0.18.2` and `@0.20.2` are the source packages 0.18.2-3 (Debian 13) and 0.20.2-1+rpt4 (Raspberry Pi archive) |
+| `xorgproto` | X.Org protocol documents: `damageproto.txt`, `fixesproto.txt`, `compositeproto.txt`, and `xtest.xml` in the `xextproto` folder of its `specs` directory | `gitlab.freedesktop.org/xorg/proto/xorgproto` | `6d3907b6d5dc` |
+| `pkg-index` | arm64 `Packages` and `Sources` indexes with their `Release` files: Debian 13 (main, contrib, non-free, updates, backports, security), Debian testing, and the Raspberry Pi archive's suite trixie | `deb.debian.org/debian/dists/`; `security.debian.org/debian-security/dists/trixie-security/`; `archive.raspberrypi.com/debian/dists/trixie/` | 2026-10-11 |
+| `qt` | Qt 6 documentation: Qt WebEngine features, overview and licensing; `QWebEnginePage` | `https://doc.qt.io/qt-6/` | 2026-10-11 |
+| `chrome-ext` | Chrome extensions documentation: `tabCapture`, `debugger`, `downloads`, native messaging, Manifest V2 timeline | `https://developer.chrome.com/docs/extensions/` | 2026-10-11 |
+| `wpe-site` | WPE WebKit site: about, FAQ, release schedule, security | `https://wpewebkit.org/` | 2026-10-11 |
+| `wpe-254` | WPE WebKit 2.54 release post (2026-09-16) | `https://wpewebkit.org/blog/2026-09-16-wpewebkit-2.54.html` | 2026-10-11 |
+| `rpi-bookworm` | Raspberry Pi news post of 2023-10-11, with its comments | `https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/` | 2026-10-11 |
 
 ## Prior-art sources
 

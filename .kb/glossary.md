@@ -105,6 +105,20 @@ Status: current
 | Fetch FIFO | The plane line FIFO under PCIe fetch (`topics/pcie-path.md`) |
 | Frame-length trim, monitor trim | The ±1-line change of the Zynq's frame length under V-tracked (`topics/monitor-trim.md`) |
 
+## Engine terms
+
+| Term | Meaning |
+|---|---|
+| Control program | Takes an engine's frames and events; talks to the Amiga (`topics/engine-control.md`) |
+| Remote-control protocol | Chrome DevTools Protocol (CDP): how another program drives Chrome or Chromium |
+| Stock browser | A browser as its maker or a distribution packages it, unmodified |
+| Hidden display | A Wayland compositor or virtual X display with no monitor (`topics/hidden-display.md`) |
+| Wayland compositor | A Wayland session's display server; clients hand it surfaces and damage |
+| Damage | Rectangles of a window or frame that changed since the last frame |
+| CEF | Chromium Embedded Framework, a library that embeds Chromium in another program |
+| Blink, Gecko, WebKit | The engine families of Chrome, Firefox and Safari (`topics/engine-options.md`) |
+| Widevine | Google's content-decryption module, required by some streaming services |
+
 ## Decision, unknown and rule IDs
 
 | Prefix | Where defined |

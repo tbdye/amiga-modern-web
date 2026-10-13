@@ -102,13 +102,14 @@ Why a particular approach is not under study here is in `sections/options-reject
 - [F] The 2.0 column is a chart in a 2019 article in Raspberry Pi's magazine, labelled runs per minute and read from the chart image; the article says the test measures the Chromium browser, names no Chromium version or operating system for it, and says that it "hinges not only on CPU performance but on memory speed and capacity" and "proved too much for Raspberry Pi A+" (`magpi-pi4-bench`).
 - [F] The 2.1 column is from a table of Core Electronics' results that a Raspberry Pi post of 2023-10-20 reproduces, which gives the increase as 3.05 times and names no browser, browser version or operating system for those two scores (`rpi5-bench`).
 - [G] The columns differ in benchmark version, year and source, so a 2.0 score is not comparable with a 2.1 score.
+- Speedometer 3 scores of three engines on Raspberry Pi 4 hosts, with the memory of the same runs: `topics/engine-options.md`, "Three engines on Raspberry Pi 4 test hosts".
 
 ## Carrying a Chromium port
 
 - [F] Carbonyl carries its Chromium changes as 14 patches (`carbonyl@ab80a27:chromium/patches/chromium/`); v0.0.3 was released 2023-02-18 (`carbonyl` releases).
 - [F] The Ozone overview lists easy out-of-tree platforms among its guiding principles, supported by patching one `ozone_extra.gni`, and warns that ports which are hard to keep current ship outdated and potentially insecure Chromium-derived code (`chromium-docs@3078967c68c4:docs/ozone_overview.md:L42-49`).
 - [G] Upkeep, tracking Chromium's security releases, is the recurring cost of a fork whatever its patch count (Ozone warning above); a CEF embedder carries the same need (`browservice@02601b0:README.md:L3-7`).
-- [G] A CEF embedder or an Ozone platform is the low-upkeep tier; a patch at the compositor or Skia level needs a standing rebase budget; on record against the first, the two notices of one CEF embedder, Browservice ("Remote and split-engine browsers").
+- [G] A CEF embedder or an Ozone platform is the low-upkeep tier; a patch at the compositor or Skia level needs a standing rebase budget; on record against the first, the two notices of one CEF embedder, Browservice ("Remote and split-engine browsers"); what a CEF embedder keeps up, and H.264 and AAC in a CEF built to its documented configuration for published builds: `topics/engine-control.md`, "Upkeep by arrangement" and "Codecs by build".
 
 ## Dead ends [G]
 

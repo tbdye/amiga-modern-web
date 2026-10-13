@@ -78,7 +78,7 @@ They differ in whether Linux runs.
 
 ## Sources
 
-`pistorm`, `emu68` and `a314` are defined in `sources.md`, and GitHub rows take the link template of its "Prior-art sources".
+`pistorm`, `emu68`, `a314`, `rpi-3aplus`, `rpi-zero2w`, `rpi4-brief` and `rpi-cm4` are defined in `sources.md`, and GitHub rows take the link template of its "Prior-art sources".
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
@@ -90,8 +90,4 @@ They differ in whether Linux runs.
 | `pistorm2k` | PiStorm2K | `github.com/Fastdruid/PiStorm2K` | `3bce983` |
 | `pistorm-zorro-list` | Zorro cards tried with a PiStorm | `github.com/Sgw32/PiStorm_Zorro_Comp` | `152a11f` |
 | `ps32-a4000-adapter` | A1200 to A3000/A4000 CPU adapter | `github.com/wiretap-retro/A1200-to-A3000-A4000-CPU-Adapter` | `ba1e140` |
-| `rpi-3aplus` | Raspberry Pi 3 Model A+ product brief | `https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-a-plus-product-brief.pdf` | Read 2026-10-11; SHA-256 `d253dcedae53f055ac2f08240ee7d8240f6d9001fd391c6437eefe6c56c18904` |
 | `rpi-3bplus` | Raspberry Pi 3 Model B+ product brief | `https://datasheets.raspberrypi.com/rpi3/raspberry-pi-3-b-plus-product-brief.pdf` | Read 2026-10-11; SHA-256 `345192be568ea8ab2f1f7bdb43ca5edf36e20bdd9b1bf96081299a91a2a88f3f` |
-| `rpi-zero2w` | Raspberry Pi Zero 2 W product brief | `https://datasheets.raspberrypi.com/rpizero2/raspberry-pi-zero-2-w-product-brief.pdf` | Read 2026-10-11; SHA-256 `503f348880c00c543e99383ca8759a0b60c1b511cc3c27f216720866159a2bff` |
-| `rpi4-brief` | Raspberry Pi 4 Model B product brief | `https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-product-brief.pdf` | Read 2026-10-11; SHA-256 `7e18898418a47cdbab2f6184ae93fbe6e4943c45475cecbe1db8eb11d32f4328` |
-| `rpi-cm4` | Raspberry Pi Compute Module 4 datasheet, Release 4 (build date printed 30/06/2026) | `https://datasheets.raspberrypi.com/cm4/cm4-datasheet.pdf` | Read 2026-10-11; SHA-256 `d6946f8bb3e0276defa95b99b9d402a01a4805d3de02d53f835e93044ea7af97`; pages are the PDF's |
