@@ -33,7 +33,7 @@ Status: current
 | Latency, p95, from input arriving at the Zynq to the vblank that latches the changed frame (`sections/architecture.md`, "Paths") | ≤ 2 frames + 1 ms (scroll), ≤ 3 frames + 1 ms (DOM change) |
 
 Tie-breakers, in order: integration, price, power.
-Under P1 the choice is the cheapest SoC that passes; under P2 the SoC is the user's choice.
+Under P1 the choice at that target is the cheapest SoC that passes; under P2 the SoC is the user's choice.
 [G] Under P1, a CM5 that passes only below full-screen 1080p would ship as a separate product, the middle tier for users below 1080p [D] DEC-012.
 [G] R-SoC measures latency with a Chromium trace from input to presentation on the SoC, a proxy that omits the control-link transport the +1 ms covers and the line-FIFO offset; the SoC-side trace must come in at ≤ 2 frames (scroll) and ≤ 3 frames (DOM).
 [G] This needs a measurement (R-SoC): published benchmarks report throughput, not p95 frame time [R], and GPU drivers change with each Mesa and Chromium release [R].

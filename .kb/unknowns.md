@@ -134,7 +134,7 @@ No security default is decided; every proposal behind these rows is in `topics/s
 ## Freeze criteria
 
 - Every a, b and c row is answered with a citation, or parked with a reason.
-- Every d row is settled, or recorded as a risk below; the freeze does not wait on any test.
+- Every d row is settled, or recorded as a risk below; the freeze does not wait on any test [G] (follows from DEC-011).
 - DC-A to DC-D are decided.
 - SR1-SR16 are mapped to the chosen coupling, each with its regression row (K42).
 - The pin plan and power tree close: static timing, SI and SPICE clean (K13 if PCIe; K29, K35, K51 if 16-pin HDMI).
