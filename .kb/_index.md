@@ -21,6 +21,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
 | Prior approaches: native Amiga browsers, remote and split engines, Chromium forks, browser speed by CPU class | `topics/prior-art.md` |
+| Existing Amiga remote-browser, VNC and RDP clients, part by part | `topics/prior-art-remote-clients.md` |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
 | Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
