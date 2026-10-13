@@ -11,7 +11,7 @@ Re-verify against HEAD before relying on a pinned line ("Pin checks").
 
 | ID | Source | Visibility | Link template | Pin (verification dates in `_manifest.yaml`) |
 |---|---|---|---|---|
-| `fw` | ZZ9000 firmware, FPGA RTL and SDK (`BlitterStudio/zz9000-firmware`) | Public | `https://github.com/BlitterStudio/zz9000-firmware/blob/<commit>/<path>#L<a>-L<b>` | `cfbb910` (`v2.8.1-172`), on `origin/master` |
+| `fw` | ZZ9000 firmware, FPGA RTL and SDK (`BlitterStudio/zz9000-firmware`) | Public | `https://github.com/BlitterStudio/zz9000-firmware/blob/<commit>/<path>#L<a>-L<b>` | `b470c23` (`v2.8.1-218`), on `origin/master` |
 | `drivers` | AmigaOS drivers and tools (`BlitterStudio/zz9000-drivers`) | Public | `https://github.com/BlitterStudio/zz9000-drivers/blob/<commit>/<path>#L<a>-L<b>` | `cb6a1c4` (`v2.8.1-32`), on `origin/master` |
 | `linux` | Linux kernel (`torvalds/linux`) | Public | `https://github.com/torvalds/linux/blob/<commit>/<path>#L<a>-L<b>` | `6c377d19d4a5` (master) |
 | `cef` | Chromium Embedded Framework (`chromiumembedded/cef`) | Public | `https://github.com/chromiumembedded/cef/blob/<commit>/<path>#L<a>-L<b>` | `a875f407e36b` (master) |

@@ -1,7 +1,7 @@
 kb_version: 1
 updated: 2026-10-13
 pins:                       # newest pin each source was verified against
-  fw:      { commit: cfbb910, verified_on: 2026-10-12 }
+  fw:      { commit: b470c23, verified_on: 2026-10-13 }
   drivers: { commit: cb6a1c4, verified_on: 2026-10-12 }
   replica: { commit: 96bdef0, verified_on: 2026-10-10 }   # not public
   addon:   { commit: faf99db, verified_on: 2026-10-12 }   # not public
@@ -50,7 +50,7 @@ files:
     cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:
     status: draft
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [fw, amd-vivado-editions]
   sections/options-rejected.md:
     status: draft
