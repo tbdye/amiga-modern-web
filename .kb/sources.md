@@ -109,11 +109,20 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
-| `browservice` | Browservice | `github.com/ttalvitie/browservice` | `02601b0` |
+| `browservice` | Browservice | `github.com/ttalvitie/browservice` | `02601b0`; tag v0.9.12.2 at `3824e81` |
 | `wrp` | Web Rendering Proxy | `github.com/tenox7/wrp` | `549d324` |
+| `vncfox` | VncFox | `github.com/tenox7/vncfox` | `d9c879e` |
+| `amifox` | AmiFox, the Amiga client | `github.com/alb42/AmiFox` | `c8b2d36` |
+| `amifox-server` | AmiFox's server, a fork of the Web Rendering Proxy | `github.com/alb42/wrp` | `07c7972` |
+| `amitube` | AmiTube | `github.com/alb42/AmiTube` | `ab6140f` |
+| `twinvnc` | TwinVNC | `github.com/JohnG4489/amiga-twinvnc` | `86a5721`; earlier commits `b478477`, `0190d43` |
+| `amifleet68` | amifleet68 | `github.com/thomas-luebker/amifleet68` | `e5abc10` |
 | `carbonyl` | Carbonyl | `github.com/fathyb/carbonyl` (releases at `/releases`) | `ab80a27`; releases read 2026-10-10 |
 | `a314` | A314 | `github.com/niklasekstrom/a314` | `7e19215` |
-| `pistorm` | PiStorm | `github.com/captain-amygdala/pistorm` | `88937a6` |
+| `a314-cp` | A314-cp, the clock-port interface | `github.com/niklasekstrom/clockport_pi_interface` | `a6711deacb55` |
+| `a314rtg` | A314RTG, an RTG driver over the A314 clock-port interface | `github.com/lainejones/a314RTG` | `da1b9fe59504` |
+| `pistorm` | PiStorm | `github.com/captain-amygdala/pistorm` | `88937a6` on `main`; `cc0244c`, dated 2023-12-12, on branch `pistorm32-lite` |
+| `pistorm32-hw` | PiStorm32-lite hardware | `github.com/PiStorm/pistorm32-lite-hardware` | `f6b69cd` |
 | `emu68` | Emu68 | `github.com/michalsc/Emu68` | `0ba3a89` |
 | `aweb3` | AWeb 3 | `github.com/amigazen/aweb3` | `116516f` |
 | `voyager` | Voyager | `github.com/amigazen/Voyager` | `dd15a86` |
@@ -132,3 +141,9 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 | `citrix-bcr` | Citrix browser content redirection | `https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/multimedia/browser-content-redirection.html` | 2026-10-10 |
 | `mnt-modularity` | MNT Reform modularity | `https://mntre.com/modularity.html` | 2026-10-10 |
 | `rpi5-launch` | Raspberry Pi 5 launch post | `https://www.raspberrypi.com/news/introducing-raspberry-pi-5/` | 2026-10-10 |
+| `rpi5-bench` | Raspberry Pi post "Benchmarking Raspberry Pi 5" (2023-10-20): the table of Core Electronics' results | `https://www.raspberrypi.com/news/benchmarking-raspberry-pi-5/` | 2026-10-11 |
+| `magpi-pi4-bench` | Raspberry Pi's magazine, "Raspberry Pi 4 specs and benchmarks" (2019-06-24) | `https://magpi.raspberrypi.com/articles/raspberry-pi-4-specs-benchmarks` | 2026-10-11; figures read from the chart images |
+| `twinvnc-site` | TwinVNC's site: news, future improvements and known bugs pages | `http://twinvnc.free.fr/` (no HTTPS) | 2026-10-11 |
+| `twinvnc-aminet` | Readme of TwinVNC 0.8 beta on Aminet | `https://aminet.net/comm/tcp/TwinVNC0.8beta.readme` | 2026-10-11 |
+| `rd-pages` | The 68k Remote Desktop port's site and change log, and rdesktop's ports list, as archived; Aminet and OS4Depot searches for "rdesktop" | Wayback Machine copies of `www.hd-zone.com/rdesktop/rdesktop.htm` (2007-02-10), `www.hd-zone.com/rdesktop/changelog.html` (2007-08-17) and `www.jacco2.dds.nl/rdesktop/index.html` (2005-12-14) | 2026-10-11 |
+| `rd68k` | `RDesktop-2005-02-05.src.tar.gz`, source of that port; cited as `rd68k:<path>` | `web.archive.org/web/20060715195151id_/http://www.hd-zone.com:80/rdesktop/dloads-aos/RDesktop-2005-02-05.src.tar.gz` | 2026-10-11; 331,305 bytes; SHA-256 `297f1c9b5d6a1f71b69592d5d29ed4c27159d47c894d0c4fcf2cd9eb39534d95` |
