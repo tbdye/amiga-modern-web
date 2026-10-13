@@ -132,6 +132,14 @@ files:
     status: current
     reviewed_on: 2026-10-12
     cites: [fw, aminet, aminet-rview, jpegbench, libjpeg-turbo-perf, squash-benchmark, toms-pi5, toms-pi4, toms-pizero2w, rpi5-launch]
+  topics/audience.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [drivers, mnt-zz9000, p96-wiki, p96-drv, z3660, winuae]
+  topics/audience-pistorm.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [pistorm, emu68, a314, pistorm-site, pistorm32-hw, emu68-tools, emu68-releases, framethrower, a2000-relocator, pistorm2k, pistorm-zorro-list, ps32-a4000-adapter, rpi-3aplus, rpi-3bplus, rpi-zero2w, rpi4-brief, rpi-cm4]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10
