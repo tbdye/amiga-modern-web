@@ -130,6 +130,7 @@ Identity and durable characteristics only; "—" means the page read does not st
 - [F] Recommended supply: Zero 2 W 2 A; Pi 4B 3 A; Pi 5 5 A, of which up to 1.6 A is for USB peripherals (`rpi-power` L30-112).
 - A Raspberry Pi that runs Emu68 as a PiStorm cannot also be this computer: `topics/prior-art.md`, "Fast-68k routes".
 - Other RK3588 and x86 modules, by identity: `sections/sourcing.md`.
+- Ways to connect one of these computers to the Amiga, and each link's rate: `topics/link-and-address.md`; links other than the card's Ethernet: `topics/other-attachments.md`.
 
 ## Mounting and power in a big-box case
 

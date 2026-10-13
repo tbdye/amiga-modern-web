@@ -110,7 +110,7 @@ files:
     cites: [fw, drivers, linux, anx, rfc, ksz9031, ug585, zephyr, ethtool]
   topics/other-attachments.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [drivers, a314, icomp-wiki-xsurf100, amiga-hrm, aros, plipbox, a314rtg, daynaport, piscsi]
   topics/audio-path.md:
     status: draft

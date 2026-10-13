@@ -80,7 +80,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 - [F] A314 joins a Raspberry Pi to an Amiga through shared memory on the board, with `a314.device` and `a314d` multiplexing logical channels to services (`a314@7e19215:README.md:L8-15`).
 - [F] Its services are Amiga-native: a filesystem volume (`PI0:`), a command runner, PiAudio (samples from the Pi into chip memory for Paula, integrated with ALSA), a SANA-II Ethernet driver, disk images, USB input forwarded to `input.device`, RemoteWB and a video player (`a314@7e19215:README.md:L42-66`).
 - [F] A314-cp, the variant for "Any Amiga with clockport", shares a 64 kB memory between the Amiga and the Pi through an interface 8 bits wide with four registers (`a314@7e19215:README.md:L30`; `a314-cp@a6711deacb55:README.md:L3-9, L22-38`).
-- [F] Its link rate is published only as a third party's statement: the README of A314RTG, a Picasso96 driver that sends changed pixels from the Amiga to the Pi over that link, calls it "a ~70–120 KB/s byte-at-a-time link" and gives no method (`a314rtg@da1b9fe59504:README.md:L10-13`).
+- [F] Its link rate is published only as a third party's statement, in the README of A314RTG, a Picasso96 driver that sends changed pixels from the Amiga to the Pi over that link (`a314rtg@da1b9fe59504:README.md:L10-13`); the figure: `topics/other-attachments.md`, "Links".
 - [G] A314 never shows the Pi's desktop; it exposes the Pi's capabilities as AmigaOS services, which is the model for a browser built as viewport, clipboard, download, file-requester and audio services.
 - [R] The A2088/A2286 Bridgeboard showed a PC in an Amiga window, a compatibility box rather than a native experience.
 

@@ -34,7 +34,7 @@ Status: current
 
 ## Sources
 
-`drivers` and `a314` are defined in `sources.md`.
+`drivers`, `a314` and `a314rtg` are defined in `sources.md`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
@@ -42,6 +42,5 @@ Status: current
 | `amiga-hrm` | Amiga Hardware Reference Manual, "Setting The Baud Rate" | `http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node01A1.html` | 2026-10-11 |
 | `aros` | AROS, directory `rom/usb/classes/` | `github.com/aros-development-team/AROS` | `949d6834f898` |
 | `plipbox` | plipbox | `github.com/cnvogelg/plipbox` | `a7995d7cc918` |
-| `a314rtg` | A314RTG, an RTG driver over the A314 clock-port interface | `github.com/lainejones/a314RTG` | `da1b9fe59504` |
 | `daynaport` | DaynaPORT SANA-II driver for SCSI emulators | `github.com/RobSmithDev/daynaport-amiga` | `3d728bac3b0d` |
 | `piscsi` | PiSCSI | `github.com/PiSCSI/piscsi` | `4f800bae944b` |
