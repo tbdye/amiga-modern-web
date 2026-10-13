@@ -30,7 +30,7 @@ Edit it here; there is no other copy to update first.
 | `[F]` | Fact | A citation |
 | `[G]` | Guess, estimate or inference | Its basis, where one exists |
 | `[R]` | Recalled or reported, not verified here | What would verify it |
-| `[D]` | Requirement from a decision | The DEC ID (`.kb/decisions.md`) |
+| `[D]` | A decision's rule, at its entry's strength | The DEC ID (`.kb/decisions.md`) |
 
 The label opens the sentence and the citation closes it; a table cell carries one label per claim.
 
