@@ -1,51 +1,76 @@
 # Knowledge base index
 
-Scope: what the KB covers, which files to load for a task, and how pins are kept current.
+Scope: what the KB covers and which files to load for a task.
 Status: current
 
-The KB holds the project's facts, decisions, open questions and rejected options for native modern web browsing on Zorro Amigas, each statement labelled and cited.
-It describes the design under study; it does not argue for it.
+The KB holds the project's facts, decisions, open questions and rejected options for modern web browsing on Zorro Amigas, each statement labelled and cited.
+It covers the design under study, a Zorro card whose Zynq shows the output of a separate browser chip (the design `README.md` describes), and facts that hold whichever approach is taken.
+That design is one proposal; no approach is chosen [D] DEC-020, DEC-022.
+The KB describes; it does not argue for any approach.
 Agent-tooling traps (PDF and KiCad parsing) are deferred to a later KB version.
 
 ## Load by task
 
 Load `AGENTS.md` and this file first, then only what the task needs.
 
+### The project, and facts for any approach
+
 | Task | Load |
 |---|---|
-| Understand the project | `sections/overview.md`, then `sections/architecture.md` |
+| Understand the project; the operating system on each side | `sections/overview.md`, then `sections/architecture.md` for the design under study |
+| Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
+| What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
+| Prior approaches | `topics/prior-art.md` (Amiga browsers, remote engines, Chromium forks, Speedometer); `topics/prior-art-remote-clients.md` (Amiga clients) |
+| Published rates | `topics/target-config-rates.md` (receive, copy, pixel); `topics/bus-and-card-rates.md` (Zorro ceilings, scrolls); `topics/decode-rates.md` (68k, ARM) |
+| Owner groups; what reaches each | `topics/audience.md` (stock ZZ9000, RTG cards, emulators); `topics/audience-pistorm.md` (PiStorm) |
+| Page-pixel compression: lossless, JPEG, soft text | `topics/page-pixels.md`, then `topics/page-pixels-lossless.md`, `topics/page-pixels-lossy.md` |
+| What sites resend when scrolled; updates a second at 50 MHz | `topics/scroll-redraw.md` |
+| Which engines run today's sites; engine speed and memory; candidate computers | `topics/engine-options.md` |
+| Control program on an unforked engine: arrangements, site markers, codecs, upkeep | `topics/engine-control.md` |
+| What an engine interface or hidden display hands a control program | `topics/engine-interfaces.md`, `topics/hidden-display.md` |
+| Card's ARM: call path, cores, per-call cost; hosting an engine there | `topics/arm-offload.md`; `topics/arm-hosted-engine.md` |
+| Script engine candidates and speed: interpreter, JIT, card ARM, 68k | `topics/native-engine-speed.md` |
+| Remote display | `topics/remote-display-protocols.md` (client speaks); `topics/remote-display-servers.md` (servers send); `topics/remote-display-client.md` (68060 cost, delay, integration) |
+| RTG layer: P96, PrismRTG, window pixel calls, scroll-copy, overlays | `topics/rtg-layer.md` |
+| Connect a second computer | `topics/link-and-address.md` (ways, address); `topics/card-ethernet-sharing.md` (firmware service); `topics/other-attachments.md` (other links) |
+| Video with sound in step | `topics/av-sync.md` (keeping step, tolerances); `topics/sound-paths.md` (paths, buffers, load) |
+| Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
+| What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
+| Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
+| Who decides; licences; fault policy | `sections/overview.md` |
+| A code or term | `glossary.md` |
+| Build a link from a citation | The file's own `## Sources` or `sources.md`, whichever defines the ID (search for it) |
+| Check a pinned citation against HEAD | `sources.md`, "Pin checks" |
+| Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
+| Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
+| Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
+
+### The design under study (the card)
+
+| Task | Load |
+|---|---|
 | Which events resync the monitor (DEC-013 exemptions); lock times; when the window is black | `sections/display-coupling.md` |
 | Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
 | Pick or evaluate a Zynq part, package or module | `sections/zynq-and-board.md`, then `topics/zynq-pin-budget.md` |
+| Swapping the Zynq module: BCLK, PUDC_B, module-supplied rails | `sections/gotchas.md` ("Modules and pins"), `topics/power-domains.md` |
 | Pin or bank arithmetic; module footprint | `topics/zynq-pin-budget.md`, `evidence/README.md` |
-| Replica board I/O: translators, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
+| Replica board I/O: translators, bus mastering, headers, PS MIO, video slot, the VGA-USB add-on | `topics/replica-interconnect.md` |
 | Pick or evaluate a browser chip; EDID and colour | `sections/browser-chip.md` |
 | Chromium/CEF frames, dialogs, audio tap | `topics/cef-frame-path.md` |
 | PCIe fetch or copy: link load, FIFO, pass thresholds | `topics/pcie-path.md` |
-| Workbench look and feel: window, dialogs, downloads, clipboard, input, printing | `topics/look-and-feel.md`, then `decisions.md` (DEC-014) |
 | Browsing on native (chipset) screens | `topics/native-screens.md` |
 | Network: the browser chip's connection, the card's Ethernet, keeping the control link off the network | `topics/network.md`, then `sections/architecture.md`, "Control link (K8)" |
+| TLS crypto offload; the Ethernet receive backlog | `sections/firmware-and-rtl.md`, "What the card offers today" |
 | Security of the browser chip: threat model, patching, browser-chip image builds and updates, clipboard and download defaults | `topics/security.md` |
 | Firmware or RTL changes; toolchain | `sections/firmware-and-rtl.md`, `sections/gotchas.md`, `sections/architecture.md` ("AXI ports in use today") |
 | Power: slot limits, the Replica power tree, PSU-lead inlets, per-chip budgets (K35-K38); thermals (K18) | `topics/power-domains.md` |
-| Audio: ADAU1701 clocks, the audio fabric, browser audio routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
+| Audio: outputs as built, ADAU1701 clocks, fabric, routes, A/V sync (K7, K32-K34) | `topics/audio-path.md` |
 | PS DDR map, card pool and memory budgets | `sections/firmware-and-rtl.md`, "PS DDR map and card pool" |
 | Safety of the browser plane | `topics/plane-safety.md` |
 | Why an alternative was rejected or is not under study | `sections/options-rejected.md` |
-| Prior approaches: native Amiga browsers, remote and split engines, Chromium forks, browser speed by CPU class | `topics/prior-art.md` |
-| What native feel means; where the gain in feel comes from | `topics/look-and-feel.md`, "What native feel means", then `sections/options-rejected.md` |
-| Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | Why the browser chip does not drive the monitor | `sections/options-rejected.md` (P8), then `decisions.md` (DEC-013) |
 | Sourcing channels and assembly | `sections/sourcing.md` |
-| What is open, and what settles it | `unknowns.md` |
-| Is something decided? Why a rule exists | `decisions.md`, then the DC table in `unknowns.md` |
-| Who decides; licences; fault policy | `sections/overview.md` |
-| A code or term | `glossary.md` |
-| Build a link from a citation | `sources.md` |
-| Change the KB: fixing errors, writing rules, size budgets, review and merge | `AGENTS.md` ("Precedence", "Rules for agents that write here", "Size budgets"), then `CONTRIBUTING.md` |
-| Review or audit the whole KB | Each file in "Files" in turn, not all in one load |
-| Not recorded here by policy: schedules, effort, spend and costs, prices and stock, to-dos, who to ask, review history, licence holders | `AGENTS.md`, "Rules for agents that write here" |
 
 ## Files
 
@@ -59,18 +84,3 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | `sections/` | Orientation; each read in one sitting |
 | `topics/` | Depth; load only when the task needs it |
 | `evidence/` | Pin-map data and the scripts that produced it |
-
-## Keeping pins current
-
-A citation is true at its pin forever; what can change is its truth at HEAD.
-Re-pin a citation only when its fact changed at HEAD; a line shift alone is no reason to edit it.
-To check a source that moved:
-
-1. List KB citations to it, e.g. `rg -n "fw@" .kb/` (pass `.kb/` explicitly; it is hidden).
-2. Run `git diff <pin>..<HEAD> --stat -- <cited paths>`; a claim whose cited paths did not change needs no further check.
-3. For each changed path, re-read each claim that cites it at HEAD.
-   Fact unchanged, even if its lines moved: leave the citation at its pin.
-   Fact changed: re-derive the claim and cite it at the new commit; until then, the file is `stale`.
-4. Record the commit checked and its `verified_on` date under `pins` in `_manifest.yaml`.
-
-When to check, and how to confirm a public pin exists: `sources.md`, "Pin checks".

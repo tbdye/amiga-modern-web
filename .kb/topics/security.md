@@ -66,15 +66,15 @@ Release policies [F]:
 | CEF extended branches | Every fourth Chromium milestone branch; broad security fixes for about eight weeks in total (`cef-branches`) |
 | CEF long-term (LTC) branches | Every 12th Chromium milestone branch; only platform-agnostic security fixes, for about nine months in total (`cef-branches`) |
 | CEF updates | Branch updates are manual, so CEF builds can lag Chromium releases (`cef-branches`) |
-| Prebuilt CEF | Spotify's automated builder publishes CEF builds for supported branches (`cef-branches`), Linux x64 and ARM64 among its platforms (`cef-builds`) |
-| Debian 13 | Recommends Chromium for general browsing and keeps it current by rebuilding upstream releases (`debian-13-relnotes`, §5.2.3.1); once Debian 13 is oldstable, Chromium gets six months of security support there rather than the usual twelve (`debian-13-relnotes`, §5.2.3.1); `chromium` is in its security suite for amd64 and arm64 (`debian-chromium`); it packages no CEF (`debian-contents`) |
+| Prebuilt CEF | Spotify's automated builder publishes CEF builds for supported branches (`cef-branches`), Linux x64 and ARM64 among its platforms (`cef-builds`); H.264 and AAC in such builds: `topics/engine-control.md`, "Codecs by build" |
+| Debian 13 | Recommends Chromium for general browsing and keeps it current by rebuilding upstream releases (`debian-13-relnotes`, §5.2.3.1); once Debian 13 is oldstable, Chromium gets six months of security support there rather than the usual twelve (`debian-13-relnotes`, §5.2.3.1); `chromium` is in its security suite for amd64 and arm64 (`debian-chromium`); it packages no CEF (`debian-contents`); what its `chromium` package is built with, codecs included: `topics/engine-control.md`, "What the packages are built with" |
 
 - [G] A fix that lands upstream is public before it ships, so an image that is not updated is exposed to published, exploitable bugs soon after each release.
 - [G] Pinning the measured browser versions (`unknowns.md`, "Risks") and patching at Chrome's cadence pull in opposite directions; automated re-measurement in CI reconciles them.
 
 | Update channel | Who patches | For [G] | Against [G] |
 |---|---|---|---|
-| A. Distribution Chromium with unattended upgrades | The distribution | Free and automatic | No CEF, so no Amiga-native dialogs and menus (`topics/look-and-feel.md`); versions not measured |
+| A. Distribution Chromium with unattended upgrades | The distribution | Free and automatic | No CEF: dialogs and file choosers arrive only as events of Chromium's remote-control protocol, which its owner does not support for third-party use, and menus are not events (`topics/engine-control.md`, "What a stock Chromium reports"); versions not measured |
 | B. A project image on a CEF long-term branch, with signed A/B updates from project CI | The project | Measured versions; in-branch updates can be automated | A rebase to each new long-term branch; platform-agnostic fixes only, so Linux-only bugs may stay open; builds lag Chrome; needs a maintainer and a signing key indefinitely; if the project stops, every chip stops receiving updates |
 | C. User build scripts | Each user | No infrastructure | Most users never rebuild |
 | B and C combined: published build scripts plus an optional prebuilt image | Users who build; the image's publisher for the rest | Anyone can rebuild, and the image spares most users the build | While the image is offered it carries B's costs; users who neither rebuild nor update stay exposed |
@@ -92,5 +92,6 @@ Release policies [F]:
 | Through an on-card switch on the card's Ethernet port, untagged | The Amiga's segment: the chip reaches the Amiga's TCP/IP stack unless filtered |
 | Through the Amiga's TCP/IP stack | The Amiga becomes the chip's gateway (not under study, `topics/network.md`) |
 
-- [G] Proposed: the chip's own internet path, a LAN block in its image, and a guest network or VLAN recommended.
-- [G] Proposed: the control link kept physically separate from the internet path; over the card's Ethernet port only with port isolation or VLANs (`topics/network.md`).
+- [G] Proposed, for a browser chip that reaches the Amiga by a control link and not across the home network: the chip's own internet path, a LAN block in its image, and a guest network or VLAN recommended.
+- [G] Proposed, for the card design: the control link kept physically separate from the internet path; over the card's Ethernet port only with port isolation or VLANs (`topics/network.md`).
+- [G] Neither line describes a second computer whose session with the Amiga crosses the home network: there the session is a network connection, and a guest network that keeps its clients off the home network cuts that computer off from the Amiga (`topics/link-and-address.md`, "Safety on the home network").

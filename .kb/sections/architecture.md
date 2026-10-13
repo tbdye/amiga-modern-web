@@ -28,6 +28,15 @@ flowchart LR
 - [F] A CM5's power input is rated to 5 A at 5 V (`cm5-ds` p6), and a Zorro III slot supplies 2.0 A at +5 V (`zorro3` §2.3.1 p24, §6.2 p63).
   [G] With the CM5's peak draw open (K16), the SoC cannot count on the slot, and its own feed must not back-feed the receiver or the Zynq side (K35).
 
+## What each side runs
+
+- [F] The ZZ9000 firmware today is bare-metal, and no Linux kernel is built or booted: its README calls it bare-metal, its one board support package is configured with the Xilinx `standalone` OS and one library, `xilffs`, and the boot image holds the first-stage loader, the bitstream and the firmware, to which the packaging script by default adds the card's 8 KB autoboot ROM as a data partition (`fw@bdfd8b0:README.md:L5, L642`; `ZZ9000_proto.sdk/zz9000_bsp_new/system.mss:L6-7, L269`; `bootimage_work/bootimage.bif:L3-8`; `build_bootimage.sh:L37-41, L48-56, L175-192`).
+- [F] Its two cores share work through the firmware's own task queue, and no path in the tree names FreeRTOS or lwIP (`fw@bdfd8b0:os/scheduler.h:L1-10, L110-122`; file listing), so it carries no third-party RTOS [G].
+- [F] Its `os/linux/` directory holds seven compatibility headers of 4 to 29 lines and one Linux USB header, `usb/ch9.h`; the USB code in `os/usb/` includes headers from it, `types.h` calls that code bare-metal, and `usb.c` states that most of its source was derived from the Linux USB project and adapted for U-Boot (`fw@bdfd8b0`, file listing; `os/linux/types.h:L1`; `os/linux/usb/ch9.h:L33`; `os/usb/usb.h:L25`; `os/usb/io.h:L24`; `os/usb/usb.c:L3-15`).
+- [G] The design under study carries this firmware over, as it stays on the Zynq-7000 family (`sections/overview.md`, "The design under study"); no decision fixes what the Zynq's A9 runs (`decisions.md`).
+- [G] Assumption: the browser chip runs Linux; no decision names its operating system or a distribution (`decisions.md`), and its image and update channel are open (K69).
+  The basis is that the display paths and the Chromium sandbox this KB cites for it are Linux ones, and the prebuilt CEF builds it cites include Linux x64 and ARM64 (`sections/browser-chip.md`, "Candidates"; `topics/security.md`, "Threat model", "Patching").
+
 ## Paths
 
 - **Pixels:** SoC compositor → HDMI → receiver → async line FIFO → plane in the formatter → HDMI out [G].
@@ -39,6 +48,8 @@ flowchart LR
 
 - [G] The browser is composited by the SoC at the Intuition window's screen position, in a mode equal to the RTG screen's; the FPGA keys it into the window rectangle through the line FIFO.
 - [G] Occlusion (Amiga windows, menus, Chromium popups over the plane) uses a rectangle list from Intuition ClipRects, a few registers per rectangle.
+- [G] One alternative to the list is a 1-bit-per-pixel mask in DDR, read at scanout: at 1080p60 it adds about 15.6 MB/s of DDR reads (1920 × 1080 bits × 60 frames ÷ 8) against the DDR headroom of K25; held in block RAM the mask is a dead end (`sections/options-rejected.md`, "Dead ends").
+- [G] Another is a colour key, which the PIP below composes with: it needs neither list nor mask, but it misfires, showing browser pixels wherever Amiga content over the plane has the key colour.
 - [F] The precedent is the firmware's native P96 PIP: a second MM2S VDMA shares HP0 and feeds ping-pong line buffers in `video_formatter`, with colour-key composition (`fw@8778ef3:docs/native-p96-pip.md:L39-51`).
 - [F] That plane is packed YUV422 by design (`fw@8778ef3:docs/native-p96-pip.md:L55-57`).
 - [G] YUV422 halves horizontal chroma resolution, so it is not lossless for text; the browser plane needs an RGB mode.

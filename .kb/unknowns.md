@@ -6,7 +6,7 @@ Status: draft
 **Classes:** **a** desk (datasheets, manuals, source, published data); **b** tool, no hardware (Vivado, SI/SPICE, SigmaStudio, emulation); **c** vendor or third-party inquiry; **d** needs a physical measurement; **v** acceptance of the built board, not a design input.
 "Gates" names the decision the item feeds (DC-A to DC-D below), or "design" or "freeze".
 IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC-015.
-[D] DEC-011: only the d rows need hardware before the design freezes.
+[G] Only the d rows are ones that hardware alone can settle (follows from DEC-011).
 
 ## Coupling and display
 
@@ -25,7 +25,7 @@ IDs are stable; K6, K43 and K44 were retired as moot or answered, and K24 by DEC
 | K48 | Tracker constants for every RTG mode (delay, nominal, maximum, engagement floor, lock window); Vtotal above 1152 needs a new ceiling | a | `video_source_sync.v:L122-128` against `os/zz_video_modes.c`; proposed lock window ±2 lines and shorter-direction acquisition [G] | design |
 | K49 | Monitors accept the trim without resync, in steady state and through repeated acquisitions | a, then **d** | No reports found in the firmware repo or its issues (searched 2026-10-05); standards define fixed timings only [R]; then **R-TRIM** (`topics/monitor-trim.md`), then R-PLANE | DC-A |
 | K55 | Recovering a hung SoC | a | Open, timeout included: after the heartbeat watchdog (SR9) turns the plane off, the Zynq or a supervisor chip resets the SoC [G]; an unmodified SBC (P2) needs a wired reset [G] | design |
-| K57 | Raster alignment on entering RTG from native | a | Open: aligning the RTG raster to the receiver at that switch would cut the E2, E3 and E6 waits to about a frame, but needs an SR15 rewrite (`sections/display-coupling.md`) [G] | design |
+| K57 | Raster alignment on entering RTG from native | a | Open: aligning the RTG raster to the receiver at that switch would cut the E2, E3 and E6 waits (`sections/display-coupling.md`, "When the window is not live"), but needs a rewrite of SR15, a [G] rule and not a decision, which, read with its regression row, bars SoC-derived timing during native↔RTG switches (`topics/plane-safety.md`); the rewrite would let the RTG raster's start wait for the receiver after a native→RTG switch, for no longer than a timeout, so that a SoC that sends nothing cannot hold the raster, and would leave native timing never SoC-derived [G] | design |
 | K67 | Browsing on native screens from the acquisition buffer (proposed, after RTG works): DDR headroom with the permanent plane, native capture, audio and Ethernet; a plane present path while capture owns the scanout; screen-to-output calibration (ViewPort maths or corner markers) | a, then **d** | `topics/native-screens.md`; the native DDR test there, on an existing ZZ9000 | design |
 
 ## PCIe path (live only while DC-A keeps PCIe)
@@ -45,12 +45,12 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 
 | # | Unknown | Class | Settles it | Gates |
 |---|---|---|---|---|
-| K15 | Full-screen 1080p60 frame time and input-to-presentation latency per SoC | **d** | Irreducible: benchmarks report throughput, not p95 frame time [R]; **R-SoC** against the pass bar in `sections/browser-chip.md` | DC-A, DC-B |
+| K15 | Full-screen 1080p60 frame time and input-to-presentation latency per SoC | **d** | Irreducible: benchmarks report throughput, not p95 frame time [R]; **R-SoC** against the criteria in `sections/browser-chip.md`, "Pass criteria (DC-B)"; full-screen 1080p60 is the design's target, and a miss does not alone rule a chip out [G] | DC-A, DC-B |
 | K16 | SoC power | a | [F] Vendor maximum input, CM5: 5 V, 5 A (`cm5-ds` p6); peak logged on R-SoC | DC-B |
 | K17 | Module or SBC form, HDMI exposure, lifecycle | a + c | Datasheets and vendors | DC-B, DC-D |
 | K18 | Thermals inside an Amiga case | a | Heatsink sized for no airflow at a stated ambient; moot for an external box | freeze |
 | K19 | Other SoCs (Jetson, i.MX95, Genio) | a | Desk, if DC-B widens | DC-B |
-| K50 | Mechanism for DEC-014: whether CEF windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest would use | a | `cefclient` beside stock Chromium on R-SoC | design |
+| K50 | Mechanism for DEC-014: which arrangement puts the control program on the engine (`topics/engine-control.md`, "Arrangements"), and, for a CEF host, whether windowed mode keeps the dialog, file, JS-dialog and context-menu handlers that ASL and EasyRequest would use | a | `cefclient` beside stock Chromium on R-SoC; what each arrangement reports as events, and what is not established: `topics/engine-control.md` | design |
 
 ## Look and feel
 
@@ -76,7 +76,7 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 | K21 | Pin plan: PUDC_B strap, BCLK on a clock-capable pin (a Replica with a 7015 module instead needs `CLOCK_DEDICATED_ROUTE FALSE` on `I2SO_BCLK` and a BCLK timing re-check, `sections/gotchas.md`), J1.133 reset polarity; optional `ZORRO_ADDRDIR2` strap | a + b | UG470; static timing | DC-C |
 | K22 | PS port, PHY ID, DDR3 at 1066 | a + c | A chip-down board picks its PHY; [F] DDR3 1066 is legal at every grade (`ds187` Table 18); MYIR only on the module path (7015 PHY, DDR3 rate, PUDC_B tie) | DC-C |
 | K23 | Module lanes (lifecycle answered: `sections/sourcing.md`, "Lifecycle") | c | ×2/×4 lane validation via MYIR | DC-C |
-| K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **Gate for f1:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. If it fails, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
+| K25 | Zynq DDR headroom | a, else d | V-tracked adds no plane traffic: parity with the shipping 7020 [G], UG585 arithmetic. **f1 depends on this headroom:** at 1080p60 on an existing ZZ9000, RTG scanout (≈ 0.5 GB/s) plus bridge write and read (0.37-0.50 GB/s each) against the 4.26 GB/s peak of 32-bit DDR3-1066, with audio playing and recording; effective load could approach half of peak [G]. Without that headroom, the wait stays ≤ 9.4 s at 1080p60 (R-DDR) | DC-A |
 | K26 | S_AXI_GP width and speed; no bus timeout | a | UG585 | design |
 | K27 | 7030 memory controller rate on HP banks | a | DS191 | DC-C |
 | K28 | UltraScale+ HD pins and IOB input registers; Versal Gen 2 availability | a + c | DS925/UG571; AMD | remedy |
@@ -102,7 +102,7 @@ Link load, copy time, the fetch FIFO and pass thresholds: `topics/pcie-path.md`.
 | K40 | Amiga font licensing for Chromium | a | Desk | design |
 | K41 | Reusing MNT's `0x6d6e` Zorro ID | c | Ask MNT; fallback is a new ID in every driver | fw freeze |
 | K42 | SR table edits for V (`topics/plane-safety.md`) | a | Desk edit | design |
-| K54 | A path for owners of stock ZZ9000 boards | a + c | Open: no decision records one, and stock compatibility is a bonus, not a requirement [D] DEC-005; one candidate is point-to-point Ethernet on the card's RJ45, which the firmware bridges to the Amiga as raw frames with no TCP/IP stack (`sections/architecture.md`, "Control link (K8)"), so it would need a receive classifier, by EtherType or UDP port [G]; [G] the routes open to a stock board without new hardware are remote browsers shown in an Amiga browser, such as WRP, or Browservice where an Amiga browser can run its JavaScript client, which as pixel streaming fail native feel by construction (`topics/prior-art.md`, "Remote and split-engine browsers"); [F] WRP needs only HTML forms and ISMAP, so Mosaic 2.0 suffices (`wrp@549d324:README.md:L169`), while Browservice's client is a JavaScript application (`browservice@02601b0:README.md:L21, L65`); [F] Browservice lists no Amiga client in its README and is unmaintained at `02601b0` (`browservice@02601b0:README.md:L3-7, L105-136`) | design |
+| K54 | A path for owners of stock ZZ9000 boards | a + c | Open: no decision records one; something that existing cards can use is preferred, not required [D] DEC-022; one candidate is point-to-point Ethernet on the card's RJ45, which the firmware bridges to the Amiga as raw frames with no TCP/IP stack (`sections/architecture.md`, "Control link (K8)"), so it would need a receive classifier, by EtherType or UDP port [G]; [F] two kinds of shipped project reach a stock board with no change to the Amiga's hardware, each with the engine on a second computer: remote browsers shown in an Amiga browser, such as WRP, or Browservice where an Amiga browser can run its JavaScript client; and native Amiga programs fed over the network, such as AmiFox, or a VNC client with a browser behind a VNC server (`topics/prior-art.md`, "Remote and split-engine browsers"); [F] an Amiga program can also hand the card JPEG or PNG and have its ARM decode them into the program's window, one clipped job per visible rectangle, with no change to hardware, or to firmware at the commit that page cites (`topics/decode-rates.md`, "What the card's ARM decodes today"); what each gives on such a board is not judged here; what a stock ZZ9000 has, and the mechanisms by which pixels and input could reach its Workbench, are in `topics/audience.md`, "Stock ZZ9000"; [F] features needed in the client browser: by WRP, HTML forms and ISMAP only, so Mosaic 2.0 suffices (`wrp@549d324:README.md:L169`); by Browservice, JavaScript, since what it runs in the client browser is a JavaScript application (`browservice@02601b0:README.md:L21, L65`); [F] the client browsers that the Browservice README lists as confirmed to work include none on an Amiga, and the README declares the project unmaintained (`browservice@02601b0:README.md:L3-7, L105-136`) | design |
 | K56 | How the feature ships in the ZZ9000 firmware | c | Open: a bitstream variant for cards with the hardware, a firmware SDK service, or mainline firmware enabled on that hardware [G]; the firmware maintainers' review decides what lands upstream | fw freeze |
 
 ## Network and security
@@ -122,19 +122,22 @@ No security default is decided; every proposal behind these rows is in `topics/s
 
 ## Design decisions still open
 
+Choices that the decisions of 2026-10-11 leave open are recorded in `decisions.md`; they have no DC rows.
+What a topic leaves open is in its "Not established" list.
+
 | DC | Decision | Settled by | Status |
 |---|---|---|---|
-| DC-A | Coupling | K1-K5, K7, K46, K49 (R-TRIM; R-PLANE if R-TRIM fails or is unclear), K15; PCIe rows only if needed | V-tracked with the ±1 cap is under study [G]; accepted if R-SoC's display path meets the latency targets and K49 passes. If K49 fails with no trim fix: frame-buffered V (needs a 7020). If the display path misses its targets: PCIe fetch |
-| DC-B | Browser chip | K15 pass bar, then integration, price, power | Open (`sections/browser-chip.md`) |
+| DC-A | Coupling | K1-K5, K7, K46, K49 (R-TRIM; R-PLANE if R-TRIM fails or is unclear), K15; PCIe rows only if needed | V-tracked with the ±1 cap is under study [G]; open on the display path's latency, whose targets are not hard requirements, and on monitor acceptance of the trim (K49). If monitors reject the trim and no trim fix exists: frame-buffered V (needs a 7020). If the display path is too far from its latency targets: PCIe fetch |
+| DC-B | Browser chip | K15 against the design's full-screen 1080p60 target, where a miss does not alone rule a chip out; then integration, price, power | Open (`sections/browser-chip.md`) |
 | DC-C | Zynq part and form | K20-K23, K51, pin plan | Open; budgets in `topics/zynq-pin-budget.md` |
 | DC-D | Packaging | DC-A; K17, K18, K35; for P4, a Replica PCB revision outside this project | Open [D] DEC-003 |
 | DC-E | May native video pass through the SoC? | DEC-013 | Ruled out by DEC-013's rule [D] DEC-013: a SoC reboot or hang would blank the monitor |
-| DC-F | Remote tier | — | Closed: the LAN box is retired [D] DEC-003 |
+| DC-F | Remote tier | — | Open: a networked browser computer is not ruled out, nor is any role chosen for it [D] DEC-003 |
 
 ## Freeze criteria
 
 - Every a, b and c row is answered with a citation, or parked with a reason.
-- Every d row is settled by its test method, or recorded as a risk below.
+- Every d row is settled, or recorded as a risk below; the freeze does not wait on any test [G] (follows from DEC-011).
 - DC-A to DC-D are decided.
 - SR1-SR16 are mapped to the chosen coupling, each with its regression row (K42).
 - The pin plan and power tree close: static timing, SI and SPICE clean (K13 if PCIe; K29, K35, K51 if 16-pin HDMI).

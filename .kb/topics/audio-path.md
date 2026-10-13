@@ -1,6 +1,6 @@
 # Audio path
 
-Scope: how browser audio would reach the card's audio output: the ADAU1701 and its clocks, the A9 audio fabric, the candidate routes from the browser chip under each coupling, latency and A/V sync.
+Scope: the card's sound outputs as built, and how browser audio would reach the card's audio output: the ADAU1701 and its clocks, the A9 audio fabric, the candidate routes from the browser chip under each coupling, latency and A/V sync.
 Status: draft
 
 Replica facts come from its netlist at `replica@96bdef0` (not public).
@@ -8,6 +8,19 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 
 ## The card's audio path today
 
+- [G] A ZZ9000 has no sound output of its own without its audio add-on, the ZZ9000AX: the lines below are the basis, and for the HDMI output it holds only on the premise of the `[G]` on HDMI below.
+- [F] The card's manual describes header J6 as breaking out the raw and filtered audio signals of the video slot "for use in future sound expansions", and from revision R-2 a header J7 as a digital audio input for the video encoder chip, "Reserved for later use" (`zz9000-manual-r1` p1; `zz9000-manual-r3` p1).
+- [F] The FPGA's pin constraints carry sound pins for the add-on's audio chip only: the six `I2SO_` and `I2SI_` ports of "Replica wiring" (`fw@cfbb910:xdc/zz9000.xdc:L262-290`).
+- [F] At boot the firmware probes that chip over I2C and reports when it is not detected; without it the video service does not offer audio binding and a bind request returns "unsupported" (`fw@cfbb910:os/ax.c:L787-795`; `os/main.c:L545-546`; `os/sdk_mailbox.c:L1467-1469, L5893-5894`).
+- [F] The add-on carries the ADAU1701 with a 12.288 MHz crystal, a line output, two auxiliary jacks that jumpers set to input or output, and an input from the Amiga's Paula; its default DSP program mixes AHI and Paula sound and is included in the firmware (`zz9000ax-manual` p1, p2).
+- [F] On the R-1 add-on the auxiliary input and the Paula input of each channel meet at the input of one buffer stage, U4, drawn as "Analog Input Mixer", whose outputs feed the ADAU1701's two ADC inputs through 18 kΩ (`zz9000ax-manual` p2).
+- [F] The drivers' README says that early Revision 1 add-on boards carry an op-amp at U4 on the Paula path and that later revisions omit it (`drivers@cb6a1c4:ahi/README.md:L119-127`).
+- Where the auxiliary input goes on add-on boards after R-1 is not established: a schematic of a later revision would settle it.
+- [F] The release firmware writes the HDMI transmitter from one file, and only its registers `0xC7`, `0x1E`, `0x09`, `0x0A`, `0x60`, `0x3C`, `0x00` to `0x08` and `0x1A`; no line of that file matches "audio" or "i2s", and its only other I2C writes go to the add-on's audio chip on the second controller (`fw@6aa71d1:os/hdmi.c:L53-55, L66-72, L87-97, L160, L182, L194`; callers `os/video.c:L963, L1005, L1007, L1043`; `os/ax.c:L31`).
+- [F] The Linux driver for this chip defines the transmitter's sound registers as `0x1F` to `0x28`, and its sound set-up also writes `0xBC` to `0xBE` and from `0xBF` on: the firmware writes none of them, and both programs use the register set that a write of 0 to `0xC7` selects (`linux@6c377d19d4a5:drivers/gpu/drm/bridge/sii902x.c:L74-143, L150-158, L699-756, L1081`; `sii9022a` p39).
+- [F] In every mode the value it writes to register `0x1A` when it turns the output on is the mode's `hdmi` field, which is 0 in each of the 22 rows of the mode table and is set to 0 when a custom mode is committed (`fw@6aa71d1:os/zz_video_modes.c:L11-36`; `os/video.c:L900, L963, L1045, L1199`; `os/hdmi.c:L138, L183-184, L194`).
+- [F] That value is DVI by three sources: the firmware's comment gives the register's 0 as DVI and 1 as HDMI, the Linux driver gives bit 0 of the same register as the output mode with those two values, and the firmware's README lists the board's video output as DVI (`fw@6aa71d1:os/hdmi.c:L126, L192-193`; `README.md:L621`; `linux@6c377d19d4a5:drivers/gpu/drm/bridge/sii902x.c:L59-66, L342-351`).
+- [G] So no sound leaves on HDMI with this firmware: it rests on the premise, not verified here, that a transmitter in DVI mode with its sound registers unwritten sends none; the maker's register reference, which its data sheet says needs a non-disclosure agreement, would settle it (`sii9022a` p36, p37, p78).
 - [F] The ADAU1701 is the clock master: its 12.288 MHz (256·Fs) output BCLK is the audio formatter's master clock (`fw@bdfd8b0:rtl/audio_clock.v:L22-30`).
 - [F] Firmware sets the ADAU1701's serial output to 48 kHz, 16-bit TDM8 master mode with a 256·Fs BCLK; the two ADC capture channels ride in slots 0 and 1 of `SDATA_OUT0` (`fw@bdfd8b0:zz9000ax/README.md:L30-34`).
 - [F] The FPGA divides that BCLK by 8 and drives the result, 1.536 MHz (32·Fs), out on port `I2SO_MCLK` as the clock for the ADAU1701's serial input (`fw@bdfd8b0:rtl/audio_clock.v:L46-47, L154, L172`; `zz9000_project.tcl:L1394`).
@@ -43,7 +56,7 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 - [F] The SDK plan gives the reason for the Zorro II single slot: its 64 KiB host-visible window cannot hold a safe two-slot reserve (`fw@bdfd8b0:sdk/docs/plans/2026-08-27-1453-feat-direct-audio-rings-plan.md:L38`).
 - [F] 48 kHz bypass producers are always admissible; any other rate needs one of the two qualified converter slots (`fw@bdfd8b0:os/audio_fabric.h:L229-234`).
 - [F] A lease ring holds whole periods of 3840 bytes (`fw@bdfd8b0:os/audio_fabric.h:L221`), which is 20 ms of 48 kHz 16-bit stereo [G: arithmetic].
-- [F] Hardware row B4 of `fw` `docs/audio-fabric.md`, a converting 44.1 kHz pump plus two 48 kHz direct-ring producers, passed with no underruns (`fw@bdfd8b0:docs/audio-fabric.md:L138, L167`).
+- [F] Hardware row B4 of `fw` `docs/audio-fabric.md`, a converting 44.1 kHz pump plus two 48 kHz direct-ring producers, passed with no underruns (`fw@bdfd8b0:docs/audio-fabric.md:L138, L167`); the conditions of that record, and its other rows: `topics/sound-paths.md`, "When a producer is late".
 - [G] The Zorro II limit is an aperture limit on 68k-side producers; a producer inside the A9, fed from the browser chip rather than the 68k, needs no Zorro aperture.
 
 ## Where browser audio enters [G]
@@ -75,8 +88,10 @@ The routes and the A/V sync mechanism are proposals under study, not decisions.
 
 - Audio latency La is the SoC sink buffer (about 20 ms) plus the ring fill, one fabric period (20 ms [F `fw@bdfd8b0:docs/audio-fabric.md:L40`]) and the formatter and ADAU1701 pipeline.
 - Video lateness Lv is the excess of the hand-off and latch over the presentation deadline Chromium already assumes; it is at most one frame.
-- [R] Chromium slaves video to the audio clock using the sink's reported delay, and prefers PulseAudio or PipeWire when present, so a custom sink must be the one actually used (`topics/cef-frame-path.md`, "Audio").
+- [F] Chromium takes its media clock from its audio renderer when there is one, that renderer is told the output device's latency on every render call, and its video follows that clock (`topics/av-sync.md`, "Times the engine gives").
+- A custom sink works only if it is the one Chromium actually uses; which sink it prefers on Linux: `topics/cef-frame-path.md`, "Audio".
 - Primary mechanism: an ALSA ioplug plugin writes the ring and reports `snd_pcm_delay` = La − Lv, from the ring fill and a fixed pipeline delay the Zynq publishes, so Chromium renders each frame Lv early and it lands with its audio.
-- No-patch alternative: `CefAudioHandler` packets carry a presentation `pts`, so the embedder can measure the offset per packet; it works with Alloy-style browsers only and mutes normal output (`topics/cef-frame-path.md`, "Audio").
+- No-patch alternative: `CefAudioHandler` packets carry a `pts`, which the code takes from Chromium's monotonic clock, so the embedder can time each packet and, with its own record of when each frame arrived, measure the offset; it works with Alloy-style browsers only and mutes normal output (`topics/cef-frame-path.md`, "Audio").
 - Correcting that offset means holding video by about 2 frames, which delays all plane content during playback and misses the scroll latency target (`sections/architecture.md`, "Paths") while video plays.
-- Acceptance: |A/V offset| ≤ 40 ms on a flash-and-beep clip (K34); record scroll latency during playback if a video hold is in use.
+- [G] Proposed: |A/V offset| ≤ 40 ms on a flash-and-beep clip (K34).
+- [D] DEC-036: no tolerance for the synchronisation is set; the published tolerances: `topics/av-sync.md`, "Published tolerances".

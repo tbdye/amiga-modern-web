@@ -1,0 +1,136 @@
+# A stock browser on a hidden display
+
+Scope: what a control program gets when an unmodified browser runs on a display with no monitor (a packaged Wayland compositor, a compositor of the project's own, a virtual X display, Weston's remote back-ends or an existing remote-display server): changed areas, video, sound, input and what stays pixels, and which packaged compositor, X server or remote-display server offers what.
+Status: current
+
+The five arrangements are named in `topics/engine-control.md`, "Arrangements", which also holds what a site sees and the upkeep of each.
+"The protocol" is Chrome's remote-control protocol (`topics/engine-control.md`, "What a stock Chromium reports"); "pixels" means the browser draws the item itself.
+Nothing here was run or built; sources, package indexes and source packages were read on 2026-10-11.
+A version after `@` names the source package as its distribution builds it ("Sources"); `chromium` citations are at `ceb8f3a65507`.
+
+## Frames, video and sound
+
+| Arrangement | Frames and changed areas | Finding the video | Sound |
+|---|---|---|---|
+| Hidden compositor | [F] `ext-image-copy-capture-v1`: the compositor copies into the client's buffer (shared memory or dmabuf) and sends, per frame, damage rectangles for what changed since the last ready event and a presentation time on the system monotonic clock; the source is an output or one window (`wl-proto@682ae76bccd6:staging/ext-image-copy-capture/ext-image-copy-capture-v1.xml:L273-316`; `staging/ext-image-capture-source/ext-image-capture-source-v1.xml:L92-96`); [F] the protocol lets the compositor wait indefinitely for the source to change, and wlroots does wait, one frame per request; its shared-memory path copies the whole frame whatever the damage, and only its dmabuf path clips (`wlroots@0.20.2:types/wlr_ext_image_copy_capture_v1.c:L89-96, L135-148, L172-186, L281-284, L421-435`); which rectangle the browser supplies: `topics/engine-interfaces.md`, "Which rectangle a stock browser reports"; scroll moves: none from the compositor | Place: the protocol's means (`topics/engine-interfaces.md`, "Frames, video and sound"); [F] a window capture shows the same content as the window (`wl-proto@682ae76bccd6:staging/ext-image-capture-source/ext-image-capture-source-v1.xml:L92-96`); [G] so a video the browser put on a surface of its own is not separable in a capture | [F] PipeWire: a capture stream can take a sink's output instead of a source's; buffers carry a `pts` in nanoseconds; `pw_time` gives clock, rate and delay (`pipewire@77b148060acb:src/pipewire/keys.h:L346`; `spa/include/spa/buffer/meta.h:L86`; `src/pipewire/stream.h:L377-411`); [G] a monitor tap leaves normal output alone |
+| Own compositor | [F] The browser's buffers and damage reach the compositor per surface, with no capture step: wlroots keeps `surface_damage` and `buffer_damage` in each surface state, signals each `commit` and returns the effective damage (`wlroots@2f08303d3c09:include/wlr/types/wlr_compositor.h:L43, L210, L439`); [F] wlroots has a headless backend (`docs/env_vars.md:L5-6`) | "Video on its own surface", below | As the row above |
+| Remote-display server | [F] xpra sends draw packets per window, each with position and size (`xpra@de195aac2dda:docs/Network/Protocol.md:L438`); their encodings, raw `rgb` and `scroll` copy vectors among them: `topics/remote-display-protocols.md`, "xpra" | [F] xpra detects by itself when switching to a video codec makes sense (`docs/Usage/Encodings.md:L72`) | [F] xpra forwards sound (`xpra@de195aac2dda:README.md:L22`); its sound packets, codec names and `sync` control: `topics/remote-display-protocols.md`, "xpra" |
+| Virtual X display | [F] X Damage reports changed rectangles per window or pixmap at a chosen level (raw rectangles, delta rectangles, bounding box, non-empty); the rectangles are guaranteed to include every modified pixel and may include significantly more (`xorgproto@6d3907b6d5dc:damageproto.txt:L46-49, L102-148, L177-183`); [F] Composite redirects a window to off-screen storage and names its pixmap (`compositeproto.txt:L185-192, L258-265`); reading the pixels is the control program's step, outside Damage; [F] `DamageNotify` carries an X timestamp and no presentation time; scroll moves: none | Place: the protocol's means; a separate video surface on X11: not examined | As the first row; [G] the sound server does not depend on the display server |
+| Weston back-end | [F] Weston 14.0.2 gives a local client no capture with changed areas: its own capture protocol is for single shots and privileged (`weston@14.0.2:protocol/weston-output-capture.xml:L28-33`); [F] changed areas leave through its remote back-ends, per output (`libweston/backend-rdp/rdp.c:L196-268, L289-312, L1091-1107`; `libweston/backend-vnc/vnc.c:L676-742`); what each back-end sends, as read upstream at `a440a7bed4d5`: `topics/remote-display-servers.md`, "RDP servers" and "VNC servers"; [F] the PipeWire back-end emits a video stream whose only buffer metadata is a header, so no changed areas (`libweston/backend-pipewire/pipewire.c:L590-591`); [F] the kiosk shell makes every top-level application window fullscreen, so the output is the browser window (`doc/sphinx/toc/kiosk-shell.rst:L4-5`); no per-window mode upstream | Place: the protocol's means; nothing in the back-ends read separates video | [F] Stock Weston has none: the RDP back-end has set-up hooks for sound that nothing in the tree supplies, and a search for "audio" finds none in the VNC or PipeWire back-end (`weston@14.0.2`); so the PipeWire tap of the first row |
+
+## Input, and events against pixels
+
+| Arrangement | Input | Events, and what stays pixels |
+|---|---|---|
+| Hidden compositor | [F] Virtual-keyboard, virtual-pointer and input-method protocols ship with wlroots (`wlroots@2f08303d3c09:protocol/`); labwc, sway and Cage create the keyboard and pointer ones in every packaged version read ("Which packaged compositor offers what"); [F] cursor: a capture session gives its image, position and hot spot (`wl-proto@682ae76bccd6:staging/ext-image-copy-capture/ext-image-copy-capture-v1.xml`) | [G] Pixels for everything the browser draws: its window frame, menus, drop-down lists, permission prompts; [F] labwc 0.20.2 composites a window's pop-ups and subsurfaces into that window's capture (`labwc@0.20.2:src/xdg.c:L1087`, `src/xdg-popup.c:L173`; `wlroots@0.20.2:types/scene/xdg_shell.c:L56-72`); events only where the protocol has them; [F] clipboard both ways: `ext-data-control-v1` lets a client act as a clipboard manager, and needs wlroots 0.19 or later (`wl-proto@682ae76bccd6:staging/ext-data-control/ext-data-control-v1.xml`); [G] downloads land on the Linux disk |
+| Own compositor | The compositor is the keyboard and pointer; [F] Chromium implements text-input-v3 and names its cursor through `wp_cursor_shape`, which wlroots hands over as a `request_set_shape` event (`chromium:ui/ozone/platform/wayland/host/zwp_text_input_v3.h`, `ui/ozone/platform/wayland/host/wayland_cursor_shape.h`; `wlroots@2f08303d3c09:include/wlr/types/wlr_cursor_shape_v1.h:L25, L41-47`) | [F] Chromium makes menus and tooltips `xdg_popup` windows, and bubbles and pop-up widgets `wl_subsurface`s of their parent, so each arrives as a separate surface with a position; wlroots signals `new_popup` and `new_subsurface` (`chromium:ui/ozone/platform/wayland/host/wayland_window_factory.cc:L24-48`, `ui/ozone/platform/wayland/host/wayland_popup.h:L16-27`, `ui/ozone/platform/wayland/host/wayland_bubble.h:L14-15`; `wlroots@2f08303d3c09:include/wlr/types/wlr_xdg_shell.h:L28`, `wlr_compositor.h:L232`); [F] the Chromium feature named for giving bubbles platform widgets is on by default, and where it is used was not traced (`chromium:ui/base/ui_base_features.cc:L137`); [G] context menus, drop-down lists and permission prompts are among those surfaces; their content is still pixels; the compositor owns the clipboard |
+| Remote-display server | [F] xpra: keyboard and pointer, and a cursor subsystem that synchronises the pointer cursor (`xpra@de195aac2dda:docs/Subsystems/Cursor.md:L4`) | [F] xpra gives each remote application's window a window of its own on the client, whose content stays pixels; clipboard both ways, printing as a forwarded file, file transfer and notifications (`xpra@de195aac2dda:docs/Usage/Seamless.md:L4`; `README.md:L22-23`; `docs/Features/`) |
+| Virtual X display | [F] XTEST's fake-input request simulates the core protocol's key press and release, button press and release, and pointer motion; composed text is not in XTEST (`xorgproto@6d3907b6d5dc`, XTEST specification, `xtest.xml:L187-192, L440-468`); [F] cursor: XFixes returns the cursor image with size and hot spot and an event when it changes, and from version 2 a cursor name (`fixesproto.txt:L124-139, L167-206`) | [F] Chromium creates menus, tooltips, bubbles and pop-up widgets as override-redirect X windows, so each is a separate window with a position (`chromium:ui/ozone/platform/x11/x11_window.cc:L1876-1881`); [G] context menus, drop-down lists and permission prompts are among them; content is pixels; events only where the protocol has them; [F] clipboard: XFixes reports selection-owner changes (`fixesproto.txt`); [R] reading and setting a selection is core X, which the X protocol specification would verify; [G] downloads land on the Linux disk |
+| Weston back-end | [F] Only through a back-end: RDP takes scancode and Unicode key events, mouse buttons, motion and wheel; VNC takes key and pointer events (`weston@14.0.2:libweston/backend-rdp/rdp.c:L1381-1613, L1810-1813`; `libweston/backend-vnc/vnc.c:L1222-1223`); [F] no virtual-keyboard, virtual-pointer or clipboard-manager protocol for a local client is in the 14.0.2 tree, and Debian's package lists carry no test plug-in (`weston@14.0.2:debian/*.install`); [F] cursor: the VNC back-end sends its image (`libweston/backend-vnc/vnc.c:L571`); RDP: not read | Pixels for everything the browser draws, in one full-screen output; events only where the protocol has them; [F] clipboard: the RDP back-end carries text, bitmap, rich text and HTML (`libweston/backend-rdp/rdpclip.c:L92-96`); the VNC back-end has no clipboard code (search for "cut_text" and "clipboard"); [G] downloads land on the Linux disk |
+
+- [G] A capture alone gives dialogs in the pixels and no sound; with the protocol and a PipeWire tap added, the dialogs the protocol reports are events and sound carries times.
+- [G] Captured sound buffers carry times and, in the first two rows, captured frames carry a presentation time on the monotonic clock; that the two line up with the browser's own audio-video schedule is not established.
+- How sound is kept in step with video, and the published tolerances: `topics/av-sync.md`.
+
+## Which packaged compositor offers what
+
+[F] Versions are those of the arm64 package indexes read on 2026-10-11 (`pkg-index`); capture and clipboard cells are from each source package.
+
+| System and index | wlroots | labwc | sway | Cage | `ext-image-copy-capture-v1` | Per window | Clipboard-manager protocol | Weston | Xvfb |
+|---|---|---|---|---|---|---|---|---|---|
+| Debian 13: main (13.7, Release 2026-09-12) and security (Release 2026-10-11) | 0.18.2-3 | 0.8.3-1 | 1.10.1-2 | 0.2.0-2 | None | None | labwc, sway: the older `wlr-data-control` only; Cage: none | 14.0.2-1 | 21.1.16 |
+| Raspberry Pi archive, suite trixie (Release 2026-10-09) | 0.20.2-1+rpt4; 0.18.2 and 0.19.1 builds also present | 0.20.2-1~bpo13+1 | 1.10.1-2+rpt1, on wlroots 0.18 | 0.3.1-1~bpo13+1+rpt2 | labwc only | labwc | labwc: both; sway: the older only; Cage: none | None of its own | 21.1.16, rebuilt |
+| Debian testing (Release 2026-10-12 UTC) | 0.20.2-1 | 0.20.2-1 | 1.12-1 | 0.3.1-1 | labwc, sway | labwc, sway | labwc, sway: both; Cage: none | 16.0.0-1, not read | 21.1.24 |
+
+- [R] Raspberry Pi OS uses the Raspberry Pi archive on top of Debian 13's; its installation documentation would verify it.
+- [F] wlroots 0.18.2 (2024-12-11) has no implementation of the capture protocol; 0.19.0 (2025-05-15) adds the capture manager with output sources, and `ext-data-control`; 0.20.0 (2026-03-26) adds window sources (`wlroots`, tree listings at tags 0.18.2, 0.19.0 and 0.20.0).
+- [F] A compositor must also opt in to window capture: it creates the window-source manager and answers each `new_request` with a source built from a scene node (`wlroots@0.20.2:include/wlr/types/wlr_ext_image_capture_source_v1.h:L86-132`); labwc 0.20.2 and sway 1.12 do, and Cage 0.3.1 does not, creating only the two older capture globals (`labwc@0.20.2:src/server.c:L457-476, L754-779`; `sway@1.12:sway/server.c:L231-242, L512-563`; `cage@0.3.1:cage.c:L480-492`).
+- [F] Where the new protocol is absent, capture is `wlr-screencopy-unstable-v1`: outputs or regions of outputs, never a window, and wlroots sends one box, the extents of the accumulated damage (`wlroots@0.18.2:types/wlr_screencopy_v1.c:L157-178`; `protocol/wlr-screencopy-unstable-v1.xml:L47-60, L185-204`; `labwc@0.8.3:src/server.c:L642-649`; `sway@1.10.1:sway/server.c:L364-372`; `cage@0.2.0:cage.c:L465-477`).
+- [F] labwc, sway and Cage create the virtual keyboard and pointer in every version above, and all run with no display through `WLR_BACKENDS=headless` (`labwc@0.20.2:src/seat.c:L665-671`; `labwc@0.8.3:src/seat.c:L555-561`; `sway@1.12:sway/input/input-manager.c:L462-468`; `sway@1.10.1:sway/input/input-manager.c:L462-468`; `cage@0.3.1:cage.c:L531-541`; `cage@0.2.0:cage.c:L506-516`; `wlroots@0.20.2:docs/env_vars.md:L5-6`).
+- [F] Raspberry Pi's labwc is a backport of Debian testing's with no patches; its wlroots carries 26 patches of Raspberry Pi's, none touching a capture file by their headers; three (0009, 0010, 0014) touch `types/scene/wlr_scene.c`, through which a window capture is drawn, and others the GLES2 renderer (`labwc@0.20.2:debian/changelog`; `wlroots@0.20.2:debian/patches`).
+- [F] Raspberry Pi's desktop meta-package, `rpd-wayland-core`, depends on labwc (`pkg-index`); labwc enables its privileged interfaces, capture among them, by default for applications outside a sandbox (`labwc@0.20.2:docs/labwc-config.5.scd:L1505-1507`).
+- [G] So on Debian 13 as packaged at the index read, no compositor read gives changed areas per window: not labwc, sway or Cage, nor any other compositor on wlroots 0.18.2, nor Weston.
+- [G] There a control program gets them per window by being the compositor (against `libwlroots-0.18-dev`) or from a virtual X display (`xvfb`, Damage per window); and per output only, from screencopy's one box or from Weston 14.0.2's RDP or VNC back-end.
+- [G] On Raspberry Pi OS as packaged at the index read, the hidden-compositor arrangement has changed areas per window for a stock browser on labwc 0.20.2 and wlroots 0.20.2, both from the Raspberry Pi archive; the other arrangements are available as on Debian 13; none was run.
+- [F] xpra is in none of the three indexes; xpra.org's own Debian 13 repository (Release 2026-09-29) offered 6.5.4, with `xpra-server-wayland` from 6.5.2 (`pkg-index`; `xpra-repo`).
+
+## Video on its own surface
+
+- [F] A Chromium feature, off by default, allows the use of subsurfaces; a comment where the feature is tested says only video overlays can be supported on Linux (`chromium:ui/ozone/common/features.cc:L9-11`; `ui/ozone/platform/wayland/host/wayland_connection.cc:L566-568`).
+- [F] Chromium uses it only when overlay delegation is enabled, the compositor offers single-pixel buffers, and either the compositor offers no fractional scaling or Chromium's own fractional-scale feature, on by default, is off (`ui/ozone/platform/wayland/host/wayland_connection.cc:L558-575`; `ui/ozone/platform/wayland/host/fractional_scale_manager.cc:L29-31`; `ui/ozone/common/features.cc:L15`).
+- [F] labwc and sway offer fractional scale in every version read, so the feature is inert there by default; Cage offers single-pixel buffers and not fractional scale (`labwc@0.20.2:src/server.c:L777-779`; `sway@1.12:sway/server.c:L540-550`; `cage@0.3.1:cage.c:L492`).
+- [G] A compositor of the project's own can meet those conditions, and with the feature on video would arrive as a surface of its own; not verified running.
+
+## Window mode and ways to be the hidden display
+
+- [F] Chromium's switch list has `--kiosk`, `--app`, `--window-size`, `--window-position`, `--no-first-run`, `--user-data-dir` and `--start-fullscreen` (`chromium:chrome/common/chrome_switches.h:L87-89, L478-479, L528, L776, L825-829`; `content/public/common/content_switches.cc:L699-701`); whether any of them marks the browser as automated: `topics/engine-control.md`, "What a site sees".
+- [F] Chromium picks Wayland or X11 from what is reachable unless `--ozone-platform` is given, and picks X11 by itself when only an X display is reachable (`chromium:ui/linux/display_server_utils.cc:L61-90`).
+- [F] From a package, the hidden display can be a wlroots compositor with `WLR_BACKENDS=headless`, Weston with its headless, RDP, VNC or PipeWire back-end, or Xvfb ("Which packaged compositor offers what"; "Weston" and "Virtual X display", below).
+- [F] Mutter exposes remote-desktop and screen-cast interfaces with key, pointer and clipboard calls and the recording of a monitor, a window or a virtual monitor into PipeWire with a cursor mode (`mutter@d82671c3035b:data/dbus-interfaces/`); how Mutter runs with no display is not in the files read.
+- [F] The desktop portal's screen-cast interface is not a compositor; the wlroots portal back-end implements that interface and the screenshot one, and no other (`portal`; `xdpw`).
+- [F] PipeWire video buffers have metadata types for damage regions and for the cursor (`pipewire@77b148060acb:spa/include/spa/buffer/meta.h:L32-34`).
+
+### Virtual X display
+
+- [F] Debian 13 has `xvfb`, `xserver-xorg-video-dummy`, `libxdamage1`, `libxfixes3`, `libxtst6` and `x11vnc`; the Raspberry Pi archive rebuilds `xvfb` (`pkg-index`).
+- [F] The X server's built-in extension table at Debian 13's version lists MIT-SHM, XTEST, XFIXES, RENDER, RANDR, COMPOSITE, DAMAGE and GLX, some under compile-time conditions (`xorg-server@21.1.16:mi/miinitext.c:L111-174, L193-215`).
+- [F] Debian's build meets the conditions for the ones this arrangement uses: its packaging enables MIT-SHM, Composite, GLX and Xvfb, upstream's configure script defines Damage and XTEST unconditionally, and XFIXES has no condition in the table (`xorg-server@21.1.16:debian/rules.flags:L27, L43, L51, L58`; `configure.ac:L540-541, L1023, L1034, L1326, L1465`).
+- [F] Xvfb switches Composite off only when started with `-render`, and the X server's `-extension` option can switch off any of the eight (`hw/vfb/InitOutput.c:L336-339`; `os/utils.c:L593, L1052-1058`).
+- [F] Damage is at protocol version 1.1 (document dated 2007-01-08) and XFixes at 6.1 (2010-11-15) (`xorgproto@6d3907b6d5dc:damageproto.txt:L1-4`; `fixesproto.txt:L1-4`).
+- The packaging of Debian's security update of the X server was not read.
+
+### Weston
+
+- [F] Debian 13's `weston` 14.0.2-1 is built with the RDP and VNC back-ends and screen sharing enabled, and ships the headless, RDP, VNC and PipeWire back-ends and the kiosk shell; several back-ends load together (`weston@14.0.2:debian/rules`, `debian/*.install`; `frontend/main.c:L708-716`).
+- [F] Its capture protocol is allowed with `--debug` or to its screenshot helper, and has no damage in it; the headless back-end repaints into memory and offers nothing else to a local client (`frontend/main.c:L4626-4628`; `frontend/weston-screenshooter.c:L151`; `libweston/backend-headless/headless.c:L159-179`).
+- [G] So a control program reaches upstream Weston's changed areas only as a network client of its RDP or VNC back-end.
+- [F] The Raspberry Pi archive has no Weston of its own (`pkg-index`).
+
+## Existing remote-display servers
+
+| Server | What it does on the Linux side | Client it expects | Source |
+|---|---|---|---|
+| xpra | What it forwards: the "Remote-display server" rows of the two tables above; [F] its protocol is written up as a normative specification; it runs applications on a virtual X display, and its Wayland back-end is experimental | Any implementation of that protocol; its documentation lists five, none for an Amiga | `xpra@de195aac2dda:README.md:L8, L22-23`; `docs/Network/Protocol.md:L5-11`; `docs/Usage/Seamless.md:L120`; `docs/Usage/Clients.md:L16-29` |
+| Weston's RDP back-end | [F] Upstream 14.0.2: one desktop per output, with clipboard, keyboard and mouse; [F] Microsoft's WSLg fork remotes applications rather than a desktop, with cut and paste and sound through a PulseAudio plug-in; its README says those changes are not upstream and that WSLg effectively uses only the shared-memory mode | An RDP client | `weston@14.0.2` (above); `wslg@6942bb534b53:README.md:L149-151, L176, L193` |
+| xrdp | What it sends a client, and its clipboard, sound and drives: `topics/remote-display-servers.md`, "RDP servers" | An RDP client | That page |
+| wayvnc | Its encoders, and that it sends no copy rectangle at any of the three packaged versions of its library: `topics/remote-display-servers.md`, "VNC servers" and "Packages" | A VNC client | That page |
+| Neko, Selkies, KasmVNC | [F] A stock browser or desktop in a container, streamed: Neko uses WebRTC, Selkies' client runs on Chromium, Firefox and Safari, and KasmVNC has broken from the RFB specification | A modern browser | `neko@c75a2f60b57e:README.md`; `selkies@a33e8dfcfffe:README.md`; `kasmvnc@916e728080d0:README.md` |
+
+- What each server sends a client that offers no codec: `topics/remote-display-servers.md`; what a client must speak: `topics/remote-display-protocols.md`.
+
+## Licences and other users
+
+| Arrangement | Licence | Other users of the arrangement |
+|---|---|---|
+| Hidden compositor | Nothing is linked from the engine; [F] PipeWire is mostly under the MIT licence, with exceptions its `LICENSE` file lists (`pipewire@77b148060acb:README.md:L200-202`) | [F] wayvnc on wlroots compositors, the VNC server Raspberry Pi OS took up with its 2023 release (`wayvnc@b286ab91d0f4:README.md`; `rpi-bookworm`); [F] Cage, a Wayland kiosk that runs a single maximised application, which creates only the older screen-copy and dmabuf-export capture and no clipboard-manager protocol (`cage@ef6ef6a54b64:README.md`; `cage@0.3.1:cage.c:L480-492`) |
+| Own compositor | [F] wlroots is MIT (`wlroots@2f08303d3c09:meson.build`) | [F] Cage is based on wlroots' 0.20 branch (`cage@ef6ef6a54b64:README.md`); [F] WSLg remotes individual windows through a shell in its own Weston fork (`wslg@6942bb534b53:README.md:L154`); [F] xpra's experimental Wayland back-end is a wlroots compositor on the headless backend (`xpra@de195aac2dda:xpra/wayland/server/compositor.pyx:L43-57`); [F] wprs: its server implements a Wayland compositor that serialises the session's state to a client, which is itself a Wayland client (`wprs@12b864dc5b30:README.md:L3-7, L128-155`) |
+| Remote-display server | [F] xpra is GPLv2+ and xrdp Apache-2.0 (`xpra@de195aac2dda:README.md:L16`; `xrdp@9cd64936f53e:README.md:L3`); [G] an Amiga client of either protocol is a separate work | The servers above |
+| Virtual X display | Nothing is linked from the engine; [F] the X protocol headers carry an MIT-style notice (`xorgproto@6d3907b6d5dc:COPYING-damageproto`); client libraries not read | [F] xpra's default back-end: Damage with delta rectangles, Composite, XFixes and XTEST, on Xvfb or the dummy driver (`xpra@de195aac2dda:xpra/x11/bindings/damage.pyx:L26-37`, `composite.pyx:L23-29`, `fixes.pyx:L39-86`, `test.pyx:L21-26`; `docs/Usage/Xdummy.md`); [F] the Damage specification names VNC-like systems that scrape the screen as a use (`damageproto.txt:L15-17`); [F] Neko connects to an X server (`neko@c75a2f60b57e:README.md:L53`) |
+| Weston back-end | Nothing is linked; [F] Weston is MIT/Expat (`weston@14.0.2:meson.build:L10`) | WSLg, on Microsoft's fork and not on upstream; others not searched |
+
+## Not established
+
+Further reading of sources could settle the first group; only running software shows the second.
+
+- How Chromium forms its root damage rectangle, and what an EGL driver tells a compositor or an X server on a partial swap: Chromium's surface aggregator, Mesa and the X server's Present code.
+- Whether a system software GL driver, such as Mesa's llvmpipe, counts as hardware GL to Chromium, which selects its drawing path; how the ANGLE switch reaches the GPU process.
+- Whether Mutter's or KWin's PipeWire recording of one window carries damage-region metadata, and Mir: their sources.
+- Weston 16.0.0; the cursor over Weston's RDP back-end; whether a VNC server other than the two read at source level sends sound (`topics/remote-display-servers.md`, "VNC servers"); whether Chromium keeps its X11 path.
+- Run-time: whether hardware GL comes up for a stock browser on a hidden compositor or virtual X display on a Pi-class board; how large the changed box is while typing, scrolling and playing video.
+- Run-time: whether Chromium's off-by-default overlay feature puts a site's video on its own surface under a compositor that meets its conditions, and in what pixel format.
+- Run-time: whether PipeWire capture times and frame presentation times agree with the browser's own audio-video schedule closely enough for sound in step with video.
+- Run-time: the cost in processor time and frame rate of capture and readback on a Pi-class board, given that wlroots' shared-memory path copies whole frames; xpra's load on such a board.
+
+## Sources
+
+Read on 2026-10-11; a repository is cited at the commit given, a source package at the version given.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `labwc`, `sway`, `cage`, `weston`, `xorg-server` | Source packages as the distributions build them, and Cage's README | Debian 13, `deb.debian.org/debian/pool/main/`: labwc 0.8.3-1, sway 1.10.1-2, cage 0.2.0-2, weston 14.0.2-1, xorg-server 21.1.16 with packaging diff 21.1.16-1.3+deb13u3; Raspberry Pi, `archive.raspberrypi.com/debian/pool/main/`: labwc 0.20.2-1~bpo13+1, cage 0.3.1-1~bpo13+1+rpt2; Debian testing: sway 1.12-1; `github.com/cage-kiosk/cage` | The versions named, checksums matched to the `Sources` indexes of `pkg-index`; Cage's README at `ef6ef6a54b64` |
+| `xpra-repo` | xpra.org's Debian 13 repository: `Release` and arm64 `Packages` | `https://xpra.org/dists/trixie/` | 2026-10-11 |
+| `pipewire` | PipeWire (mirror) | `github.com/PipeWire/pipewire` | `77b148060acb` |
+| `mutter` | Mutter, `data/dbus-interfaces/org.gnome.Mutter.RemoteDesktop.xml`, `org.gnome.Mutter.ScreenCast.xml` | `github.com/GNOME/mutter` | `d82671c3035b` |
+| `xdpw` | wlroots portal back-end, `README.md` | `github.com/emersion/xdg-desktop-portal-wlr` | `c0255d7b047b` |
+| `wslg` | WSLg | `github.com/microsoft/wslg` | `6942bb534b53` |
+| `neko`, `selkies`, `kasmvnc`, `wprs` | Neko; Selkies; KasmVNC; wprs | `github.com/m1k1o/neko`; `github.com/selkies-project/selkies`; `github.com/kasmtech/KasmVNC`; `github.com/wayland-transpositor/wprs` | `c75a2f60b57e`; `a33e8dfcfffe`; `916e728080d0`; `12b864dc5b30` |

@@ -1,44 +1,44 @@
 kb_version: 1
-updated: 2026-10-10
+updated: 2026-10-13
 pins:                       # newest pin each source was verified against
-  fw:      { commit: bdfd8b0, verified_on: 2026-10-10 }
-  drivers: { commit: ad9606b, verified_on: 2026-10-10 }
+  fw:      { commit: cfbb910, verified_on: 2026-10-12 }
+  drivers: { commit: cb6a1c4, verified_on: 2026-10-12 }
   replica: { commit: 96bdef0, verified_on: 2026-10-10 }   # not public
-  addon:   { commit: 40bca90, verified_on: 2026-10-10 }   # not public
+  addon:   { commit: faf99db, verified_on: 2026-10-12 }   # not public
   linux:   { commit: 6c377d19d4a5, verified_on: 2026-10-08 }
-  cef:     { commit: a875f407e36b, verified_on: 2026-10-10 }
+  cef:     { commit: a875f407e36b, verified_on: 2026-10-12 }
 files:
   _index.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-13
     cites: []
   decisions.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-13
     cites: []
   unknowns.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-13
     cites: [fw, cm5-ds, ds187, browservice, wrp]
   glossary.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-13
     cites: []
   sources.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-13
     cites: []
   sections/overview.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers, linux, cef, adv7611]
   sections/architecture.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, linux, ug585, cm5-ds, zorro3]
   sections/display-coupling.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers]
   sections/zynq-and-board.md:
     status: draft
@@ -46,15 +46,15 @@ files:
     cites: [fw, drivers, linux, replica, ds187, ds190, myir-7015, myir-7020v1, myir-7020v2]
   sections/browser-chip.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, amd-vivado-editions]
   sections/options-rejected.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, replica, ds187, cef, cm5-ds, lvc8t245]
   sections/sourcing.md:
     status: draft
@@ -74,7 +74,7 @@ files:
     cites: [fw, replica, ug585]
   topics/monitor-trim.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, sii9022a]
   topics/pcie-path.md:
     status: draft
@@ -82,40 +82,144 @@ files:
     cites: [fw, ds187, ds190, myir-7015-pinmap]
   topics/cef-frame-path.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [cef]
+    reviewed_on: 2026-10-12
+    cites: [cef, chromium]
   topics/look-and-feel.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [cef]
   topics/native-screens.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw]
   topics/network.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [fw, replica]
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, replica, ksz9031]
   topics/security.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [chromium-release-cycle, chromium-linux-sandbox, cef-branches, cef-builds, debian-13-relnotes, debian-chromium, debian-contents]
+  topics/link-and-address.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, linux, aminet, anx, roadshow, rfc, linux-wireless-iw, radxa-docs, nanopi-r6s, amigaos-wiki-exec-tasks]
+  topics/card-ethernet-sharing.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, linux, anx, rfc, ksz9031, ug585, zephyr, ethtool]
+  topics/other-attachments.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [drivers, a314, icomp-wiki-xsurf100, amiga-hrm, aros, plipbox, a314rtg, daynaport, piscsi]
   topics/audio-path.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [fw, replica, adau1701, myir-7020-pinout]
+    reviewed_on: 2026-10-13
+    cites: [fw, drivers, linux, replica, adau1701, sii9022a, myir-7020-pinout, zz9000-manual-r1, zz9000-manual-r3, zz9000ax-manual]
+  topics/av-sync.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, chromium, rfc, ms-rdpea, ms-rdpev, ms-rdpevor, spice-server, spice-gtk, thinc, ffmpeg, mpv, gstreamer, bt1359, ebu-r37, itu-j100, html-media, video-rvfc, media-playback-quality]
+  topics/sound-paths.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, aminet, zz9000ax-manual]
   topics/power-domains.md:
     status: draft
     reviewed_on: 2026-10-10
     cites: [replica, addon, zorro3, jk-nsmd350l, lutefuse-1206l, te-171826, atx12v, a4000-sm, cm5-ds, myir-7015, myir-7020-pinout]
   topics/replica-interconnect.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [fw, replica, addon, sii9022a, lvc06a, lvc8t245, myir-7020-pinout, ug470, ug585]
+    reviewed_on: 2026-10-12
+    cites: [fw, replica, addon, sii9022a, lvc06a, lvc8t245, myir-7020-pinout, ug470, ug585, zorro3, zz9000-manual-r1, zz9000-manual-r3]
   topics/prior-art.md:
     status: draft
-    reviewed_on: 2026-10-10
-    cites: [browservice, wrp, carbonyl, a314, pistorm, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
+    reviewed_on: 2026-10-13
+    cites: [browservice, wrp, vncfox, amifox, amifox-server, amitube, twinvnc, amifleet68, rd68k, rd-pages, carbonyl, a314, a314-cp, a314rtg, pistorm, pistorm32-hw, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, magpi-pi4-bench, rpi5-bench, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
+  topics/prior-art-remote-clients.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [amifox, amifox-server, amitube, twinvnc, amifleet68, wrp, twinvnc-site, twinvnc-aminet, rd-pages, rd68k]
+  topics/target-config-rates.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, drivers, anx, prism, amigaorg-66041, icomp-shop-xsurf100, roadshow, aminet, aminet-rview, zz9000-bench]
+  topics/bus-and-card-rates.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, zorro3, xacp, aminet, aminet-rview, zz9000-bench]
+  topics/decode-rates.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, aminet, aminet-rview, jpegbench, libjpeg-turbo-perf, squash-benchmark, toms-pi5, toms-pi4, toms-pizero2w, rpi5-launch]
+  topics/audience.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [drivers, mnt-zz9000, p96-wiki, p96-drv, z3660, winuae]
+  topics/audience-pistorm.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [pistorm, emu68, a314, pistorm-site, emu68-tools, emu68-releases, framethrower, a2000-relocator, pistorm2k, pistorm-zorro-list, ps32-a4000-adapter, rpi-3aplus, rpi-3bplus, rpi-zero2w, rpi4-brief, rpi-cm4]
+  topics/page-pixels.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [rfc6143]
+  topics/page-pixels-lossless.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: []
+  topics/page-pixels-lossy.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: []
+  topics/scroll-redraw.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: []
+  topics/engine-options.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [yt-78358, yt-175292, discord-req, chrome-arm64, chrome-req, ff-136, ff-calendar, wpe-site, wpe-254, wpe-dash, webkit, servo, servo-site, servo-lts, servo-issues, ladybird, lb-news, lb-issues, cobalt, rpi-bookworm, rpi-64bit, rpi-power, rpi-zero2w, rpi-3aplus, rpi4-brief, rpi5-brief, rpi-cm4, cm5-ds, radxa-5bp, radxa-x4, debian-13-relnotes]
+  topics/engine-control.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [cef, cdp, cdp-site, chromium, firefox, webkit, electron, qt, browservice, chrome-rdp, chrome-headless-old, chrome-ext, chromium-av, google-repo, google-signin, google-2019, cf-browsers, deb-chromium, pkg-index, waypipe, ff-remote, ff-cdp, bmo-1612995, rpi-bookworm, wpe-site, wl-proto, wlroots, xpra, xorgproto, portal]
+  topics/engine-interfaces.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [cef, cdp, chromium, firefox, electron, qt, chrome-ext, chrome-ext-install, chrome-headless, chrome-headless-shell, pkg-index, wpe-api, wpe-platform-post, wpe-site, wpe-254, bidi, ff-geckoview, rwv, puppeteer-stream]
+  topics/hidden-display.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [chromium, wl-proto, wlroots, xorgproto, xpra, xpra-repo, pkg-index, portal, rpi-bookworm, pipewire, labwc, sway, cage, weston, xorg-server, mutter, xdpw, wayvnc, xrdp, wslg, neko, selkies, kasmvnc, wprs]
+  topics/arm-offload.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, ds190]
+  topics/arm-hosted-engine.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [fw, xacp, almanac-2025, litehtml, libcss, libdom, libhubbub]
+  topics/native-engine-speed.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [js-zoo, quickjs, quickjs-web, mquickjs, duktape, duktape-web, jerryscript, mujs-web, moddable, v8-jitless, bench-android, bench-rpi, magpi-pi4-bench, wiki-ips, wiki-68060, gsmarena, anandtech-nexus7, rpi-pi2-bench, ds190]
+  topics/remote-display-protocols.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [ms-rdpbcgr, ms-rdpegfx, ms-rdprfx, ms-rdpea, ms-rdpeclip, ms-rdpefs, ms-rdpedisp, ms-rdpepc, ms-rdpegdi, ms-rdperp, rdesktop, freerdp, xpra, go-xpra, rfbproto, guac-man, guacd, spice-server, spice-protocol, spice-gtk, nx-libs, aminet, aminet-search]
+  topics/remote-display-servers.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [xrdp, xorgxrdp, xrdp-wiki, weston-git, grd, freerdp, neatvnc, wayvnc, tigervnc, x11vnc, xpra, guacd, guac-man, chromium, pkg-index]
+  topics/remote-display-client.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [chromium, thinc]
+  topics/rtg-layer.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [prism, fw, drivers, twinvnc, p96-wiki, p96-drv, p96-develop, cgx-devkit, gfx-autodocs]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10

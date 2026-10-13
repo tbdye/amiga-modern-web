@@ -9,7 +9,7 @@ Status: draft
 |---|---|
 | Frame tracking (the ±1-line tracker) runs only on RTG screens | [G] Follows from [D] DEC-005: tracking in a native mode would make native output take its timing from the browser chip; SR15 encodes it (`topics/plane-safety.md`) |
 | The browser shows only on RTG screens at first | [G] A proposed design choice, deferred until RTG works; no decision records it |
-| Browsing on native screens from the acquisition buffer | [G] Proposed extension, built only after RTG browsing works and only if a DDR test passes with native capture, audio and Ethernet running (K67) |
+| Browsing on native screens from the acquisition buffer | [G] Proposed extension, built only after RTG browsing works and only if DDR headroom allows with native capture, audio and Ethernet running (K67) |
 
 [G] So on an NTSC high-res interlaced Workbench the browser does not show at first, but no decision rules it out.
 

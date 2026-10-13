@@ -24,7 +24,7 @@ Status: current
 
 ## Pass criteria (DC-B)
 
-[G] Per SoC, at full-screen 1080p60 [D] DEC-010:
+[G] Per SoC, at full-screen 1080p60, which is the design's target and not a requirement (DEC-010); missing a criterion does not alone rule a chip out:
 
 | Criterion | Pass |
 |---|---|
@@ -33,7 +33,7 @@ Status: current
 | Latency, p95, from input arriving at the Zynq to the vblank that latches the changed frame (`sections/architecture.md`, "Paths") | ≤ 2 frames + 1 ms (scroll), ≤ 3 frames + 1 ms (DOM change) |
 
 Tie-breakers, in order: integration, price, power.
-Under P1 the choice is the cheapest SoC that passes; under P2 the SoC is the user's choice.
+Under P1 the choice at that target is the cheapest SoC that passes; under P2 the SoC is the user's choice.
 [G] Under P1, a CM5 that passes only below full-screen 1080p would ship as a separate product, the middle tier for users below 1080p [D] DEC-012.
 [G] R-SoC measures latency with a Chromium trace from input to presentation on the SoC, a proxy that omits the control-link transport the +1 ms covers and the line-FIFO offset; the SoC-side trace must come in at ≤ 2 frames (scroll) and ≤ 3 frames (DOM).
 [G] This needs a measurement (R-SoC): published benchmarks report throughput, not p95 frame time [R], and GPU drivers change with each Mesa and Chromium release [R].
@@ -63,7 +63,8 @@ The receiver must see bit-exact RGB 4:4:4, 8 bpc, full range, at the Zynq's exac
 
 ## The Chromium host
 
+- [G] The chip's operating system is assumed to be Linux, with no decision behind it: `sections/architecture.md`, "What each side runs".
 - [G] Under V-tracked the SoC uses its own display path, so no off-screen rendering (OSR) copy path is needed.
-- [G] Proposed (DEC-014 mechanism, open in K50): the host runs CEF in windowed mode, because CEF's dialog, file, JS-dialog and context-menu handlers map to Amiga ASL, EasyRequest and Intuition popups; stock Chromium does not expose them.
+- [G] Proposed (DEC-014 mechanism, open in K50): the host runs CEF in windowed mode, because CEF's dialog, file, JS-dialog and context-menu handlers map to Amiga ASL, EasyRequest and Intuition popups; [F] a stock Chromium reports JavaScript dialogs and the file chooser, and no context menu, as events of its remote-control protocol, which its owner does not support for third-party use (`topics/engine-control.md`, "What a stock Chromium reports").
 - [F] CEF exposes those handlers in `include/cef_dialog_handler.h`, `cef_jsdialog_handler.h`, `cef_context_menu_handler.h` and `cef_download_handler.h` (`cef@2d4a38cec5a6`).
 - Under PCIe the frame path is CEF OSR: `topics/cef-frame-path.md`.
