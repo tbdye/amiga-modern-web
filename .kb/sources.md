@@ -11,12 +11,12 @@ Re-verify against HEAD before relying on a pinned line (procedure in `_index.md`
 
 | ID | Source | Visibility | Link template | Pin (verification dates in `_manifest.yaml`) |
 |---|---|---|---|---|
-| `fw` | ZZ9000 firmware, FPGA RTL and SDK (`BlitterStudio/zz9000-firmware`) | Public | `https://github.com/BlitterStudio/zz9000-firmware/blob/<commit>/<path>#L<a>-L<b>` | `bdfd8b0` (`v2.8.1-146`), on `origin/master` |
-| `drivers` | AmigaOS drivers and tools (`BlitterStudio/zz9000-drivers`) | Public | `https://github.com/BlitterStudio/zz9000-drivers/blob/<commit>/<path>#L<a>-L<b>` | `ad9606b` (`v2.8.1-22`), on `origin/master` |
+| `fw` | ZZ9000 firmware, FPGA RTL and SDK (`BlitterStudio/zz9000-firmware`) | Public | `https://github.com/BlitterStudio/zz9000-firmware/blob/<commit>/<path>#L<a>-L<b>` | `cfbb910` (`v2.8.1-172`), on `origin/master` |
+| `drivers` | AmigaOS drivers and tools (`BlitterStudio/zz9000-drivers`) | Public | `https://github.com/BlitterStudio/zz9000-drivers/blob/<commit>/<path>#L<a>-L<b>` | `cb6a1c4` (`v2.8.1-32`), on `origin/master` |
 | `linux` | Linux kernel (`torvalds/linux`) | Public | `https://github.com/torvalds/linux/blob/<commit>/<path>#L<a>-L<b>` | `6c377d19d4a5` (master) |
 | `cef` | Chromium Embedded Framework (`chromiumembedded/cef`) | Public | `https://github.com/chromiumembedded/cef/blob/<commit>/<path>#L<a>-L<b>` | `a875f407e36b` (master) |
 | `replica` | ZZ9000 Replica board (KiCad schematic, netlist, datasheets) | **Not public** | None | `96bdef0` |
-| `addon` | ZZ9000 VGA-USB add-on (KiCad schematic, netlist) | **Not public** | None | `40bca90` |
+| `addon` | ZZ9000 VGA-USB add-on (KiCad schematic, netlist) | **Not public** | None | `faf99db` |
 
 **`fw` path abbreviations** (expand before building a link):
 
@@ -36,7 +36,7 @@ The procedure is in `_index.md`, "Keeping pins current".
 A public-repo pin must exist on the public remote.
 For fw and drivers, run `git fetch` in a clone, then `git branch -r --contains <commit>`; no branch listed fails the pin.
 For Linux and CEF, which have no local checkout here, confirm the commit exists at `https://github.com/<owner>/<repo>/commit/<sha>`; a 404 fails the pin.
-Triggers: a firmware or driver release tag; a Replica revision the project relies on; any KB change that cites a source whose manifest pin is older than its HEAD.
+Triggers: a firmware or driver release tag; a Linux mainline release tag (Linux only); a Replica revision the project relies on; any KB change that cites a source whose manifest pin is older than its HEAD.
 
 ## Documents
 
