@@ -19,8 +19,8 @@ Each cell is `[G]`, a summary of the heading named in its row, where the labels,
 | Group, and where it is described | Between the 68k and the monitor | Where browser pixels could come from | Input, clipboard, files | The design under study |
 |---|---|---|---|---|
 | Stock ZZ9000 ("Stock ZZ9000") | A Zorro card with RTG, two ARM cores and Ethernet | The 68k, across the bus; the card's ARM, in card memory; a second computer, through the card's Ethernet and the 68k | AmigaOS's own | Nothing on the stock card |
-| PiStorm with the Linux emulator (`topics/audience-pistorm.md`, "An engine on the same Pi (Linux emulator)") | A Raspberry Pi as the 68k, under Linux; RTG on its HDMI | The same Pi: the RTG framebuffer is the emulator's memory | A314 services to Linux; none for input or the clipboard | Only in a machine with Zorro slots |
-| PiStorm with Emu68 (`topics/audience-pistorm.md`, "Emu68: no Linux on the Pi") | A Raspberry Pi as the 68k, with no Linux; RTG on its HDMI | A 68k program on the JIT; a second computer into the Pi's camera port, as a whole screen | No channel to a second computer | Only in a machine with Zorro slots |
+| PiStorm with the Linux emulator (`topics/audience-pistorm.md`, "An engine on the same Pi (Linux emulator)") | A Raspberry Pi as the 68k, under Linux; RTG on its HDMI | The same Pi: the RTG framebuffer is the emulator's memory | A314 services to Linux; none carries the clipboard, or input from the Amiga | Only in a machine with Zorro slots |
+| PiStorm with Emu68 (`topics/audience-pistorm.md`, "Emu68: no Linux on the Pi") | A Raspberry Pi as the 68k, with no Linux; RTG on its HDMI | A 68k program on the JIT; a second computer into the Pi's camera port, as a whole screen | AmigaOS's own; none through the camera port | Only in a machine with Zorro slots |
 | Another RTG card ("Other RTG cards") | A Zorro card with a display chip and no processor | The 68k, across the bus; a second computer only through the Amiga's network card and the 68k | AmigaOS's own | Only beside the card already fitted |
 | Emulator; WinUAE read ("Emulators") | The host runs the 68k and the RTG board | The host: an overlay composed from emulated card memory; host libraries that 68k code can call | Calls into a host library | Nothing: no slot |
 
@@ -65,7 +65,7 @@ Where an engine's pixels could come from:
 
 - [F] P96's release notes name drivers for the Cirrus GD542x of the GVP Spectrum and Picasso II, the GD5434 of the Piccolo SD64 and the GD5446 of the Picasso IV, the CyberVision's Trio64 and the CyberVision 3D's ViRGE, the Tseng ET4000W32 of the Merlin and oMniBus, the Retina in its Zorro II version and the Retina BLT Z3, the Altais, Visiona, GVP EGS 110, Rainbow II and A2410, and Voodoo cards behind a PCI bridge board; they also record fixes to Radeon, Rage XL and Matrox drivers (`p96-wiki`, the updates from V2.3 to V3.6.3).
 - [F] P96's `emulation.library` is "responsible for emulation of the villageTronic API and the cybergraphics API" (`p96-wiki`, "Update September 2021 (V3.1.2)"); [G] so a program written to the cybergraphics API can run on P96.
-- [G] None of the Zorro cards named carries a processor that a program can be loaded onto: each is a display chip with, at most, a blitter.
+- [G] As `p96-wiki` describes them, none of the Zorro cards named carries a processor that a program can be loaded onto: each is a display chip with, at most, a blitter; the A2410 is the open case ("Not established").
 - [F] Adjacent: Z3660 is an Amiga 4000 CPU accelerator board that, with a Z-turn FPGA board (MYS-7Z020-V2) fitted, adds 16-bit RTG, Ethernet, AHI and MHI, the RTG, AHI and MHI being based on the ZZ9000's, and can run a 68040 emulation with a JIT on one of that board's ARM cores (`z3660@7385d31:README.md:L3, L11, L20, L28-30, L38`).
 
 A cell with no label describes the mechanism; its facts are where the row points.
@@ -75,7 +75,7 @@ A cell with no label describes the mechanism; its facts are where the row points
 | The 68k writes the window | An ordinary P96 or graphics call copies pixels into card memory | [G] Every pixel crosses the bus: `topics/bus-and-card-rates.md`, "Bus ceilings"; copies by card in `topics/target-config-rates.md`, "Copies into the card" |
 | The card's blitter moves it | [F] P96 leaves some graphics operations to an on-board blitter, and then also keeps off-screen bitmaps in card memory (`p96-wiki`, "Update V3.6.0"; `p96-drv`, `BIB_BLITTER`) | [G] A scroll done that way needs only the newly exposed strip to cross the bus; times by card in `topics/bus-and-card-rates.md`, "Scrolls on the card" |
 | P96 overlay window (PIP) | [F] A "special feature" of a card: an overlay that shows a fixed region of card memory, in which the chip may offer YUV colour spaces (`p96-drv`, `BIB_VIDEOWINDOW`, `SFT_MEMORYWINDOW`) | [G] Its pixels still cross the bus to get into card memory; support by card below |
-| A processor on the card draws | The card fills its own framebuffer | [G] Only a card that has one: the ZZ9000 ("Stock ZZ9000") and the Z3660 |
+| A processor on the card draws | The card fills its own framebuffer | [G] Only a card that has one: the ZZ9000 ("Stock ZZ9000") and the Z3660, with the A2410 open ("Not established") |
 | A second video source mixed in after the card | A browser computer's own video output | [G] What is mixed in is not drawn by Workbench; not researched here, and a card that does it is among the pruned approaches (`sections/options-rejected.md`, "Why each pruned approach lost", the downstream HDMI compositor card) |
 
 - [G] With no processor and no input but the bus, such a card shows pixels that come from the 68k itself, as a native Amiga browser's do, or from another computer through the Amiga's network card, its TCP/IP stack and the 68k (`topics/target-config-rates.md`, "Network receive").
@@ -104,7 +104,7 @@ Only WinUAE was read.
 
 ## What differs by group
 
-- [G] No source, untested: the part of a 68k program that owns the Workbench window and its requesters through Intuition and P96 need not differ by group.
+- [G] Every group on these two pages has a P96 driver for its RTG, so the part of a 68k program that owns the Workbench window and its requesters through Intuition and P96 need not differ by group; no source states this, and it is untested.
 - [G] Three parts do differ: the pixel path, the computer the engine runs on, and the transport for input, clipboard and files between the program and the engine, which would be a firmware service or the network on a ZZ9000, an A314 service on a Linux PiStorm, and a host library under an emulator.
 - [D] DEC-028: that P96 is what RTG cards have in common is raised, not adopted.
 
@@ -118,8 +118,9 @@ What is open for the PiStorm group is in `topics/audience-pistorm.md`, "Not esta
 - Whether one machine can hold a stock ZZ9000 and a card of the design under study together, and what the stock card would then do: not examined.
 - Whether programs written to P96's own API run under CyberGraphX, the RTG system whose API P96 emulates: not checked; CyberGraphX's documentation would settle it.
 - Overlay support on the Picasso II and the CyberVision's Trio64: an absence in two pages, not a statement by the drivers' authors.
+- Whether a program can be loaded onto the A2410's TMS34010: [R] the chip is a programmable graphics processor, which `p96-wiki` describes as a chip with blitter functions ("Update V3.4.0"); the chip's data sheet and the card's documentation would settle it.
 - How an emulator's RTG modes and its host's display bound size and rate, and any path from host memory into the overlay: not read in WinUAE's source.
-- The statement under "What differs by group" rests on no source and no trial.
+- The first statement under "What differs by group" is an inference from the P96 drivers alone: no source states it, and no trial stands behind it.
 
 ## Sources
 
@@ -129,6 +130,6 @@ What is open for the PiStorm group is in `topics/audience-pistorm.md`, "Not esta
 |---|---|---|---|
 | `mnt-zz9000` | The maker's ZZ9000 resources page | `https://mntre.com/media/ZZ9000_info_md/2019-08-09-ZZ9000-resources.html` | 2026-10-11; dated 2024-03-25 by the page |
 | `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
-| `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11 |
+| `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
 | `z3660` | Z3660 | `github.com/shanshe/Z3660` | `7385d31` |
 | `winuae` | WinUAE | `github.com/tonioni/WinUAE` | `016a9d1` |
