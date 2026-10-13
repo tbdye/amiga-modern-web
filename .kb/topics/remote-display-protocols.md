@@ -153,15 +153,15 @@ A path with no ID is `rfbproto@152107d:rfbproto.rst`, the community's specificat
 
 ## Sources
 
-`xpra`, `aminet`, `freerdp`, `guacd` and `guac-man` are defined in `sources.md`, with `ms-rdpegdi` and `ms-rdperp`, which were read as revision 34.0 of 2024-04-23 and revision 34.0 of 2026-07-14.
+`xpra`, `aminet`, `freerdp`, `guacd`, `guac-man`, `ms-rdpea`, `spice-server` and `spice-gtk` are defined in `sources.md`, with `ms-rdpegdi` and `ms-rdperp`, which were read as revision 34.0 of 2024-04-23 and revision 34.0 of 2026-07-14.
 The Microsoft documents were read as PDF from `winprotocoldoc.z19.web.core.windows.net`; `spice-server`, `spice-protocol` and `spice-gtk` are release archives, cited at their version.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
-| `ms-rdpbcgr`, `ms-rdpegfx`, `ms-rdprfx`, `ms-rdpea` | Microsoft Open Specifications [MS-RDPBCGR], [MS-RDPEGFX], [MS-RDPRFX], [MS-RDPEA] | `learn.microsoft.com`, Open Specifications | Revisions 62.0 (2026-03-09), 19.0 (2026-05-11), 23.0 (2024-04-23) and 20.0 (2024-04-23); SHA-256 `77fae7d35a5cc4f3d0f4ab86ed752182ec675369655259cb999b7c41290d2d7d`, `ac6d4de488fcf92eacb8730cc6a76f3e5b1d2b95cb86f156f24c99bc8fef9077`, `84e9a1c07eb755b4224d486d6d25a356975173ce779c3a455f85d294a02b99db`, `429b6be8e60ef16976816da86f2eebbdf45c11c2b362453918f4c906ea334828` |
+| `ms-rdpbcgr`, `ms-rdpegfx`, `ms-rdprfx` | Microsoft Open Specifications [MS-RDPBCGR], [MS-RDPEGFX], [MS-RDPRFX] | `learn.microsoft.com`, Open Specifications | Revisions 62.0 (2026-03-09), 19.0 (2026-05-11) and 23.0 (2024-04-23); SHA-256 `77fae7d35a5cc4f3d0f4ab86ed752182ec675369655259cb999b7c41290d2d7d`, `ac6d4de488fcf92eacb8730cc6a76f3e5b1d2b95cb86f156f24c99bc8fef9077`, `84e9a1c07eb755b4224d486d6d25a356975173ce779c3a455f85d294a02b99db` |
 | `ms-rdpeclip`, `ms-rdpefs`, `ms-rdpedisp`, `ms-rdpepc` | [MS-RDPECLIP], [MS-RDPEFS], [MS-RDPEDISP], [MS-RDPEPC] | `learn.microsoft.com`, Open Specifications | Revisions 16.0, 29.0, 10.0 and 13.0, each of 2024-04-23; SHA-256 `9863ff69319af5ff82f24f08a6ec3f67a309e46380a67665e9a2e842b0dcbf8e`, `d193f891d7a917797aed035d29aab6ca481519fc0a076ecbeff517660e2e199f`, `13763151c7fa57273e97ebda0dd244936bb2aba55ea08356017b081ccaac0079`, `ba863ecd4f3e71c25dab5a6fffd40334bb1006648c90c7de763f6106c43935e6` |
 | `rdesktop`, `go-xpra` | rdesktop; the Go client of xpra | `github.com/rdesktop/rdesktop`; `github.com/Xpra-org/go-xpra` | `f8a478568bc6`; `eedcb81275a3` |
 | `rfbproto` | The RFB protocol, community specification, `rfbproto.rst` | `github.com/rfbproto/rfbproto` | `152107d` |
-| `spice-server`, `spice-protocol`, `spice-gtk` | SPICE release archives | `https://www.spice-space.org/download/releases/` | 0.15.2; 0.14.4; 0.42 |
+| `spice-protocol` | SPICE release archives | `https://www.spice-space.org/download/releases/` | 0.14.4 |
 | `nx-libs` | nx-libs, branch 3.6.x, `README.md` | `github.com/ArcticaProject/nx-libs` | `58d42b6edf3b` |
 | `aminet-search` | Aminet's package search | `https://aminet.net/search?query=<term>` | 2026-10-11 |

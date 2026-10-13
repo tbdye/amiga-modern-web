@@ -150,6 +150,9 @@ Sources that a remote-display or RTG topic and at least one other file cite; a s
 | `prism` | PrismRTG | `github.com/lainejones/PrismRTG` | `d62ee32` |
 | `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
 | `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
+| `ms-rdpea` | Microsoft Open Specifications [MS-RDPEA] | `learn.microsoft.com`, Open Specifications | Revision 20.0 (2024-04-23); SHA-256 `429b6be8e60ef16976816da86f2eebbdf45c11c2b362453918f4c906ea334828`; read as PDF from `winprotocoldoc.z19.web.core.windows.net` |
+| `spice-server`, `spice-gtk` | SPICE release archives | `https://www.spice-space.org/download/releases/` | 0.15.2; 0.42 |
+| `thinc` | "THINC: A Virtual Display Architecture for Thin-Client Computing", ACM Symposium on Operating Systems Principles, 2005 | `https://www.cs.columbia.edu/~nieh/pubs/sosp2005_fordist.pdf` | 2026-10-11; SHA-256 `07b8aa1699bcc75b5bba85b20be47d6a12d9d66905a0ddc5ee24c88c5bec54c6` |
 
 ## Prior-art sources
 

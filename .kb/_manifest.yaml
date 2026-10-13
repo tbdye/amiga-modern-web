@@ -206,7 +206,7 @@ files:
     cites: [js-zoo, quickjs, quickjs-web, mquickjs, duktape, duktape-web, jerryscript, mujs-web, moddable, v8-jitless, bench-android, bench-rpi, magpi-pi4-bench, wiki-ips, wiki-68060, gsmarena, anandtech-nexus7, rpi-pi2-bench, ds190]
   topics/remote-display-protocols.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [ms-rdpbcgr, ms-rdpegfx, ms-rdprfx, ms-rdpea, ms-rdpeclip, ms-rdpefs, ms-rdpedisp, ms-rdpepc, ms-rdpegdi, ms-rdperp, rdesktop, freerdp, xpra, go-xpra, rfbproto, guac-man, guacd, spice-server, spice-protocol, spice-gtk, nx-libs, aminet, aminet-search]
   topics/remote-display-servers.md:
     status: current
@@ -214,7 +214,7 @@ files:
     cites: [xrdp, xorgxrdp, xrdp-wiki, weston-git, grd, freerdp, neatvnc, wayvnc, tigervnc, x11vnc, xpra, guacd, guac-man, chromium, pkg-index]
   topics/remote-display-client.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [chromium, thinc]
   topics/rtg-layer.md:
     status: current
