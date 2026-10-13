@@ -131,11 +131,10 @@ Under this heading a path with no ID is `prism@d62ee32`.
 
 ## Sources
 
-`prism` is defined in `topics/target-config-rates.md`, "Sources"; `fw`, `drivers` and `twinvnc` in `sources.md`.
+`prism`, `fw`, `drivers`, `twinvnc`, `p96-wiki` and `p96-drv` are defined in `sources.md`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
-| `p96-wiki`, `p96-drv` | The publisher's wiki pages "P96" and "P96 Driver Development" | `https://wiki.icomp.de/wiki/P96`; `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; the pages give 2026-06-20 and 2026-10-11 as last modified |
 | `p96-develop` | `P96Develop.lha`: `Include/autodocs/Picasso96API.doc`, `Include/libraries/Picasso96.h`, `P96Develop.readme` | `https://wiki.icomp.de/w/images/6/62/P96Develop.lha` | 2026-10-11; readme "Version: 3.6.0"; SHA-256 `983d2d9d3354913d19701cd90ed39ca69a6dd6991b248b243b80bc230de0130c` |
 | `cgx-devkit` | CyberGraphX Developer Kit, Release VI: `Autodocs/cybergraphics.doc` | `https://aminet.net/package/dev/misc/CGraphX-DevKit` | 2026-10-11; SHA-256 `dd2610649a692863dc27bbce595520b0ee269a03e03f73a8858396127df0fb0c` |
 | `gfx-autodocs` | `graphics.library` autodocs, a third-party mirror and not the NDK itself | `https://d0.se/autodocs/graphics.library/` | 2026-10-11 |

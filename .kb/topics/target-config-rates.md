@@ -132,7 +132,7 @@ What the table shows:
 
 ## Sources
 
-`aminet`, `aminet-rview`, `zz9000-bench`, `fw` and `drivers` are defined in `sources.md`.
+`aminet`, `aminet-rview`, `zz9000-bench`, `fw`, `drivers` and `prism` are defined in `sources.md`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
@@ -140,4 +140,3 @@ What the table shows:
 | `icomp-shop-xsurf100` | The maker's product page for the X-Surf 100 | `https://shop.icomp.de/index.php/en/shop/product/x-surf-100.html` | 2026-10-11 |
 | `roadshow` | Roadshow's home page | `http://roadshow.apc-tcp.de/index-en.php` | 2026-10-11 |
 | `anx` | AmiNetXDuo | `github.com/tinic/AmiNetXDuo` | `9a6f6fc` |
-| `prism` | PrismRTG | `github.com/lainejones/PrismRTG` | `d62ee32` |

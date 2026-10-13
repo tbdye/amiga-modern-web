@@ -166,6 +166,7 @@ Status: active.
 Decided: 2026-10-11.
 Rule: the ZZ9000 is likely the benchmark, and for performance only; DEC-035 names a whole configuration.
 Rule: two things are raised, not adopted: P96 as what RTG cards have in common, and PrismRTG, an open-source alternative to P96.
+Consequences: what P96 and PrismRTG give a program that draws received pixels into its own window is in `topics/rtg-layer.md`.
 
 ## DEC-031: No single machine is named; the meaning of "supported" is open
 

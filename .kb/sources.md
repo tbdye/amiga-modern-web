@@ -135,12 +135,17 @@ Web pages and package indexes were read on 2026-10-11.
 
 ## Remote-display and RTG sources
 
-Sources that two or more of the remote-display and RTG topics cite; a source that one topic alone cites is in that topic's `## Sources` table.
+Sources that a remote-display or RTG topic and at least one other file cite; a source that one topic alone cites is in that topic's `## Sources` table.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
 | `freerdp` | FreeRDP | `github.com/FreeRDP/FreeRDP` | `87baff6c80e1` |
 | `guacd`, `guac-man` | Apache Guacamole's server; its manual | `github.com/apache/guacamole-server`; `github.com/apache/guacamole-manual` | `ae12b8e51aa6`; `482ac54f15ae` |
+| `xrdp` | xrdp | `github.com/neutrinolabs/xrdp` | `9cd64936f53e` |
+| `wayvnc` | wayvnc | `github.com/any1/wayvnc` | `b286ab91d0f4` |
+| `prism` | PrismRTG | `github.com/lainejones/PrismRTG` | `d62ee32` |
+| `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
+| `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
 
 ## Prior-art sources
 

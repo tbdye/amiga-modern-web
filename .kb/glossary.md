@@ -132,8 +132,6 @@ Status: current
 | RDP | Remote Desktop Protocol, Microsoft's published remote-display protocol (`topics/remote-display-protocols.md`) |
 | RFB | The protocol VNC speaks: rectangles in a pixel format the client sets |
 | xpra | A remote-display server and protocol that forwards each window separately |
-| Guacamole, guacd | A text remote-display protocol; guacd translates RDP or VNC into it |
-| PrismRTG | An open-source RTG layer that takes the place of P96 (`topics/rtg-layer.md`) |
 | CyberGraphX | An RTG system whose programming interface P96 and PrismRTG also provide |
 
 ## Decision, unknown and rule IDs

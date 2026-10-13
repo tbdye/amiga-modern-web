@@ -123,10 +123,11 @@ What classic RDP security asks of a client: `topics/remote-display-protocols.md`
 
 ## Sources
 
-`xpra`, `chromium`, `pkg-index`, `freerdp`, `guacd` and `guac-man` are defined in `sources.md`; `xrdp`, `wayvnc` and `neatvnc` in `topics/hidden-display.md`, "Sources".
+`xpra`, `chromium`, `pkg-index`, `freerdp`, `guacd`, `guac-man`, `xrdp` and `wayvnc` are defined in `sources.md`.
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
 | `xorgxrdp`, `xrdp-wiki` | xrdp's X module; xrdp's wiki | `github.com/neutrinolabs/xorgxrdp`; `github.com/neutrinolabs/xrdp.wiki.git` | `59d0735c4321`; `cde66a77c465` |
 | `weston-git`, `grd` | Weston, upstream; GNOME Remote Desktop | `gitlab.freedesktop.org/wayland/weston`; `gitlab.gnome.org/GNOME/gnome-remote-desktop` | `a440a7bed4d5`; `bb44752f785d` |
+| `neatvnc` | neatvnc, the library wayvnc uses | `github.com/any1/neatvnc` | `a4c67ec07a34`; tags v0.9.1 (`cc19604c144b`), v0.9.5 (`36ef59a83291`), v1.0.3 (`783437adc56c`) |
 | `tigervnc`, `x11vnc` | TigerVNC; x11vnc's manual, `x11vnc.1` | `github.com/TigerVNC/tigervnc`; `github.com/LibVNC/x11vnc` | `8c5eb64cc522`; `e2b726a8c046` |
