@@ -17,7 +17,7 @@ Status: active.
 Decided: 2026-10-04; amended 2026-10-11.
 Rule: in the design under study, Chromium executes on its own application processor, and the Zynq is what shows its output to the Amiga user.
 Rule: that is the design's rule, not a settled choice of the project: no engine and no design is fixed (DEC-020).
-Rule: DEC-028 owns the ZZ9000's standing; whether a ZZ9000 is still what shows the engine's output is not decided.
+Rule: whether a ZZ9000 is still what shows the engine's output is not decided; DEC-028 gives the ZZ9000's standing.
 Why: the card's dual Cortex-A9 is far too slow for a current browser engine (`sections/firmware-and-rtl.md`, "Why the Zynq cannot host the browser").
 Consequences: how the pixels get from that processor to the Zynq is the coupling question (`sections/display-coupling.md`).
 
@@ -69,7 +69,7 @@ Status: active.
 Decided: 2026-10-05; amended 2026-10-11.
 Rule: neither 60 frames per second (DEC-021) nor a browser filling a 1080p screen is required; no other rate or size replaces them.
 Rule: in the design under study, RK3588, x86 and Raspberry Pi CM5 class chips remain in the running, to be settled on integration and price.
-Consequences: a per-chip pass bar at full-screen 1080p60, with power as a further tie-breaker, is proposed, not decided [G] (DC-B; `sections/browser-chip.md`, "Pass criteria (DC-B)"); a chip below that bar may still serve users below 1080p [D] DEC-012.
+Consequences: in the design under study, per-chip criteria at full-screen 1080p60, with power as a further tie-breaker, are proposed, not decided [G] (DC-B; `sections/browser-chip.md`, "Pass criteria (DC-B)"); a chip that misses them may still serve users below 1080p [D] DEC-012.
 Consequences: under PCIe the CM5's single Gen2 lane is too narrow for 1080p60 frames [G]; under V-tracked its limit is GPU headroom (K15).
 
 ## DEC-011: Design first
@@ -139,9 +139,9 @@ Rule: no rate is set in its place.
 
 Status: active.
 Decided: 2026-10-11.
-Rule: approaches are preferred in this order: a software solution; then a co-processor board, if the software needs one; then a full card responsible for every part of the browser (the design under study is of this kind).
+Rule: approaches are preferred in this order: an acceptable software solution; then a co-processor board, if the software needs one; then a full card responsible for every part of the browser (the design under study is of this kind).
 Rule: no approach is chosen.
-Rule: something that existing ZZ9000 and other RTG cards can use is preferred to a wholly bespoke solution; it is not required.
+Rule: something that existing cards can use, ZZ9000 and other RTG cards alike, is preferred; it is not required.
 Consequences: [G] so whether any new hardware is built, and which computer runs the engine, are open (DEC-037).
 
 ## DEC-024: A PiStorm alone is not seen as a solution
@@ -165,7 +165,7 @@ Decided: 2026-10-11.
 Rule: the ZZ9000 is likely the benchmark, and for performance only; DEC-035 names a whole configuration.
 Rule: two things are raised, not adopted: P96 as what RTG cards have in common, and PrismRTG, an open-source alternative to P96.
 
-## DEC-031: No one target machine; the meaning of "supported" is open
+## DEC-031: No single machine is named; the meaning of "supported" is open
 
 Status: active.
 Decided: 2026-10-11.
@@ -192,7 +192,7 @@ Rule: it is not decided whether video below that figure rules an approach out or
 Status: active.
 Decided: 2026-10-11.
 Rule: the target configuration is a 68060 at 50 MHz on Zorro III with a ZZ9000; other Amigas vary from it.
-Rule: it is stated as what the project is thought to target and not as a requirement; no minimum is named.
+Rule: it is the configuration the project is thought to target, not a requirement; no minimum is named.
 
 ## DEC-036: Video with synchronised audio on the target configuration
 
@@ -205,7 +205,7 @@ Rule: no tolerance for the synchronisation is set, nor a picture size or frame r
 
 Status: active.
 Decided: 2026-10-11.
-Rule: needing a second computer is acceptable, and so is a co-processor board; DEC-022 owns that no approach is chosen.
+Rule: needing a second computer is acceptable, and so is a co-processor board; no approach is chosen (DEC-022).
 Rule: the Amiga keeps a TCP/IP address of its own; this is a requirement.
 
 ## DEC-042: New or existing Amiga program: an engineering choice
