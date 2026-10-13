@@ -50,7 +50,7 @@ files:
     cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, amd-vivado-editions]
   sections/options-rejected.md:
     status: draft
