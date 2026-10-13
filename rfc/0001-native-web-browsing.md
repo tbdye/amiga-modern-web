@@ -49,7 +49,7 @@ Where things stand:
 
 Amiga users can't use the modern web from Workbench.
 Native browsers such as NetSurf can't keep up with current sites, and proxies such as Browservice put a network round trip in every interaction.
-None of the 68k, a 68k accelerator or the ZZ9000's own ARM cores is fast enough for a current browser engine, and those ARM cores run bare-metal firmware with no operating system to host one.
+None of the 68k, a 68k accelerator or the ZZ9000's own ARM cores is fast enough for a current browser engine (estimate), and those ARM cores run bare-metal firmware with no operating system to host one.
 So a current engine needs a second, Linux-class computer; designs differ in how its picture reaches the Amiga's screen.
 
 The [MNT ZZ9000](https://mntre.com/zz9000/) is a Zorro graphics and coprocessor card built on a Zynq-7020 module; BlitterStudio maintains its [bare-metal firmware and FPGA logic](https://github.com/BlitterStudio/zz9000-firmware) and [AmigaOS drivers](https://github.com/BlitterStudio/zz9000-drivers).
@@ -65,7 +65,7 @@ The closest prior art is the firmware's experimental `centered_1080p_match` prof
 | Modern web | Nearly any website works; YouTube and Discord's website are the examples. |
 | 1080p output | Native pass-through and RTG both reach 1920×1080 on 16:9 monitors. |
 | Full-screen browser (a target, Q12) | A browser filling a 1080p60 Workbench screen meets the §7 target; neither that size nor 60 fps is required. |
-| Video with sound in step | Web video plays with its sound synchronized; no tolerance is set, and 40 ms is proposed ([`.kb/topics/audio-path.md`](../.kb/topics/audio-path.md)). |
+| Video with sound in step | Web video should play with its sound synchronized; no tolerance is set, and 40 ms is proposed ([`.kb/topics/audio-path.md`](../.kb/topics/audio-path.md)). |
 | Workbench look and feel | The window, gadgets and dialogs are the Amiga's; files go to and from Amiga volumes. |
 | The Amiga keeps its own TCP/IP address | The browser doesn't take over the Amiga's network stack or address (§4). |
 | Input latency (Proposed, Q12) | At the 95th percentile, from input reaching the Zynq to the vertical blank that shows it: 2 frames + 1 ms (scroll), 3 frames + 1 ms (DOM update); the 1 ms is the control link and line FIFO. |
@@ -139,7 +139,7 @@ I'd put the browser on a guest network, which with a shared socket needs a VLAN-
 The control link never carries the browser's network traffic, and isn't reachable from the network; over the card's Ethernet port that needs a VLAN or a second MAC (Q9).
 
 **Sound.** I propose that browser sound joins the Amiga's on the card (Q8) and plays from its line output.
-Today's firmware sets up no sound on the HDMI output, so none reaches the monitor.
+Today's firmware sets up no sound on the HDMI output, so I expect none to reach the monitor (not verified).
 
 ## 5. Lock time and when the browser window waits
 
