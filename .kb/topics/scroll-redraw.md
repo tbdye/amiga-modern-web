@@ -107,8 +107,8 @@ Read from the frames and from maps of the pixel classes.
 
 - Bars and columns fixed to the window cost under the whole-window slide only.
 - Under both models: something see-through over moving content, at every step (YouTube search's top bar, the search page's follow-up box); video or animation in the window, redrawn whether or not the user scrolls (the watch page's player, Discord's clips); a one-off re-layout, for one step.
-- The encyclopedia article's 70% is mostly the models' fixed 48-row slide and not a redraw: slid by the 53 rows the text moved, that step costs 19% of the window under both models.
-- [G] 19% of 960,000 bytes is 182,400, which gives about 8.7 to 11 a second; the share is known here only to the whole per cent.
+- The encyclopedia article's 70% is mostly the models' fixed 48-row slide and not a redraw: slid by the 53 rows the text moved, that step costs 186,112 bytes under the whole-window slide and 185,344 under the region-aware slide, 19% of the window under both.
+- [G] That is 8.6 to 11 a second under either model (116.8 and 90.9 ms, and 116.3 and 90.5 ms).
 - Not seen: a background fixed behind moving content; a late picture costing a partial step; a bar fixed to the window bottom; a cookie or sign-in wall.
 - Discord's decorations were not told apart from parallax.
 
@@ -132,7 +132,7 @@ Read from the frames and from maps of the pixel classes.
 - A self-animating area is in a step once and is sent at every frame.
 - Pixels are compared as 16-bit values, exactly: any difference counts as changed, however faint, and one that vanishes in 16 bits does not count.
 - Compared as 24-bit, the search page's median step is 38% whole-window and 19% region-aware (23 and 16% here), YouTube search's 20 and 15% (19 and 12%), the other 14 sites' within one point, and 740 region-aware steps are clean, not 787.
-- Text is this PC's Windows fonts with subpixel antialiasing, as desktop Edge draws it.
+- Text is drawn with the capturing PC's Windows fonts and subpixel antialiasing, as desktop Edge draws it.
 - [G] A Linux computer would draw other glyphs.
 
 ## Not established

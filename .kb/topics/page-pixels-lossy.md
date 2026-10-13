@@ -6,7 +6,7 @@ Status: current
 - [R] Every figure here is this project's own measurement, made on 2026-10-11 on a Windows 10 PC with Microsoft Edge 154.0.4258.37, headless, from the eleven pages of `topics/page-pixels.md`; the same method on fresh captures would verify any of them.
 - Every statement below is `[R]` on those terms unless it opens with another label.
 - Captures, pixel formats, units and the conditions of each page are in `topics/page-pixels.md`, "Method" and "Pages measured"; lossless ratios are there by page and in `topics/page-pixels-lossless.md` by class.
-- It is a desk measurement of sizes and of error: no Amiga, card or link was involved, no decoder was timed, and no coding is recommended.
+- It is a desk measurement of sizes and of error: no Amiga, card or link was involved, no decoder was timed on a 68k or on the card's ARM, and no coding is recommended.
 - The decision on compression is DEC-008 (`decisions.md`); published decode rates are in `topics/decode-rates.md`.
 - "Exact" is the page's pixels in the screen's 16-bit format; "soft" is the same pixels after JPEG.
 

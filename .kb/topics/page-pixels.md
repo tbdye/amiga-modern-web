@@ -5,14 +5,14 @@ Status: current
 
 - [R] Every figure here is this project's own measurement, made on 2026-10-11 on a Windows 10 PC with Microsoft Edge 154.0.4258.37, headless and with its user agent unchanged, from eleven pages as served that day; the same method on fresh captures would verify any of them.
 - Every statement below is `[R]` on those terms unless it opens with another label.
-- It is a desk measurement of sizes: no Amiga, card or link was involved, no decoder was timed, and no coding is recommended.
+- It is a desk measurement of sizes: no Amiga, card or link was involved, no decoder was timed on a 68k or on the card's ARM, and no coding is recommended.
 - The decision on compression is DEC-008 (`decisions.md`); published decode rates are in `topics/decode-rates.md`.
 - Lossless ratios by class of content, for every coding and pixel format, are in `topics/page-pixels-lossless.md`; JPEG, PSNR and soft text are in `topics/page-pixels-lossy.md`; what sites resend when scrolled is in `topics/scroll-redraw.md`.
 - A ratio is raw bytes ÷ coded bytes: higher is smaller, and under 1 the coded unit is larger than raw.
 - Two figures describe every set of screens or strips, and they differ.
 - The byte-weighted ratio is the raw bytes of all the units ÷ their coded bytes; the bytes on a link follow it, and with them the time to repaint or scroll through a page.
 - The median ratio is the middle of the per-unit ratios; it describes a typical single screen or strip and nothing more.
-- Most strips of a web page are nearly blank and a few are costly, so the median sits above the byte-weighted figure: on the text pages' scroll strips at 16-bit under zlib 6 they are 22.4 and 14.7, and the least compressible 305 of the 1,973 strips (15%) carry half of all the coded bytes.
+- On the text pages most scroll strips are largely blank and a few are costly, so the median sits above the byte-weighted figure: at 16-bit under zlib 6 they are 22.4 and 14.7, and the least compressible 305 of the 1,973 strips (15%) carry half of all the coded bytes; on the photo gallery's scroll strips the median is the lower of the two, 2.30 against 2.47.
 
 ## At a glance
 
@@ -22,7 +22,7 @@ All against 16-bit pixels and byte-weighted; lossless figures are under zlib 6 u
 - The same under LZ4: 11.7 and 9.9; Hextile: 7.5 and 6.0; run-length: 6.0 and 4.6.
 - Photographs, as the scroll strips of a wall of photographs without its mostly blank strips: 2.28, with the 10th-percentile strip at 1.53 and the worst at 1.22; LZ4 1.64; run-length 1.14.
 - Strips across video thumbnails: 1.99.
-- JPEG at quality 75: text pages 15.1 whole screen and 11.0 scroll strip, with the text smeared (29.3 and 26.7 dB); the photo wall's scroll strips 11.1; strips across thumbnails 9.3 (`topics/page-pixels-lossy.md`).
+- JPEG at quality 75: text pages 15.1 whole screen and 11.0 scroll strip, with the text smeared (median PSNR 29.3 dB over whole screens and 26.7 dB over scroll strips, margins and headings included, against 22.6 dB on a piece of dense text with coloured letter edges and 36.3 dB on one with grey edges); the photo wall's scroll strips 11.1, without its mostly blank strips; strips across thumbnails 9.3 (`topics/page-pixels-lossy.md`).
 - Three application-style pages, all signed out: 6.7 to 13.9 whole screen; the two of them that scroll are 9.0 (the YouTube watch page at 640 and 800 wide) and 12.5 (Discord's landing page) by scroll strip.
 - Scroll-strip figures assume scroll-copy ("Method"); without it the whole-screen figures apply to every scroll.
 
