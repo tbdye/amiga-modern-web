@@ -133,6 +133,20 @@ Web pages and package indexes were read on 2026-10-11.
 | `wpe-254` | WPE WebKit 2.54 release post (2026-09-16) | `https://wpewebkit.org/blog/2026-09-16-wpewebkit-2.54.html` | 2026-10-11 |
 | `rpi-bookworm` | Raspberry Pi news post of 2023-10-11, with its comments | `https://www.raspberrypi.com/news/bookworm-the-new-version-of-raspberry-pi-os/` | 2026-10-11 |
 
+## Remote-display and RTG sources
+
+Sources that a remote-display or RTG topic and at least one other file cite; a source that one topic alone cites is in that topic's `## Sources` table.
+
+| ID | Source | Where | Pin or accessed |
+|---|---|---|---|
+| `freerdp` | FreeRDP | `github.com/FreeRDP/FreeRDP` | `87baff6c80e1` |
+| `guacd`, `guac-man` | Apache Guacamole's server; its manual | `github.com/apache/guacamole-server`; `github.com/apache/guacamole-manual` | `ae12b8e51aa6`; `482ac54f15ae` |
+| `xrdp` | xrdp | `github.com/neutrinolabs/xrdp` | `9cd64936f53e` |
+| `wayvnc` | wayvnc | `github.com/any1/wayvnc` | `b286ab91d0f4` |
+| `prism` | PrismRTG | `github.com/lainejones/PrismRTG` | `d62ee32` |
+| `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
+| `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
+
 ## Prior-art sources
 
 GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#L<a>-L<b>`.
@@ -167,7 +181,7 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 | `opera-mini-js` | Opera Mini and JavaScript | `https://dev.opera.com/articles/opera-mini-and-javascript/` | 2026-10-10 |
 | `spice` | SPICE for newbies | `https://www.spice-space.org/spice-for-newbies.html` | 2026-10-10 |
 | `ms-rdpegdi` | [MS-RDPEGDI] RDP GDI Acceleration Extensions, revision 34.0 | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
-| `ms-rdperp` | [MS-RDPERP] RDP Remote Programs Virtual Channel Extension | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
+| `ms-rdperp` | [MS-RDPERP] RDP Remote Programs Virtual Channel Extension, revision 34.0 | `learn.microsoft.com`, Open Specifications | 2026-10-10 |
 | `citrix-bcr` | Citrix browser content redirection | `https://docs.citrix.com/en-us/citrix-virtual-apps-desktops/multimedia/browser-content-redirection.html` | 2026-10-10 |
 | `mnt-modularity` | MNT Reform modularity | `https://mntre.com/modularity.html` | 2026-10-10 |
 | `rpi5-launch` | Raspberry Pi 5 launch post | `https://www.raspberrypi.com/news/introducing-raspberry-pi-5/` | 2026-10-10 |

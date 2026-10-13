@@ -58,6 +58,7 @@ Why a particular approach is not under study here is in `sections/options-reject
 - [F] That notice records a gap of several months in the project's builds and gives no reason for stopping; the README at release v0.9.12.2 carries an earlier notice, dated 2024-06-27, that development time is very limited and that the main focus will be builds with the latest Chromium, as critical for security (`browservice@02601b0:README.md:L3-9`; `browservice@3824e81:README.md:L5-7`).
 - [F] AmiFox's guide, whose header reads version 0.3 (2023-03-21), gives "4 to 8 seconds loading time" on an Amiga 1200 with a 68060 at 100 MHz (RTG) and "9 to 29 seconds" on an Amiga 4000 with a 68040 at 25 MHz (AGA), naming no page, image format, size or network (`amifox@c8b2d36:AmiFox.guide:L4, L69-73`).
 - The Amiga programs among these rows part by part, TwinVNC's licence notices and the Remote Desktop client's source: `topics/prior-art-remote-clients.md`.
+- What RDP asks of a client, and what four Linux servers send one that offers no codec: `topics/remote-display-protocols.md`, "RDP"; `topics/remote-display-servers.md`, "RDP servers".
 
 **Lessons [G]:**
 

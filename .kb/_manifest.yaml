@@ -122,7 +122,7 @@ files:
     cites: [amifox, amifox-server, amitube, twinvnc, amifleet68, wrp, twinvnc-site, twinvnc-aminet, rd-pages, rd68k]
   topics/target-config-rates.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: [fw, drivers, anx, prism, amigaorg-66041, icomp-shop-xsurf100, roadshow, aminet, aminet-rview, zz9000-bench]
   topics/bus-and-card-rates.md:
     status: current
@@ -154,7 +154,7 @@ files:
     cites: []
   topics/scroll-redraw.md:
     status: current
-    reviewed_on: 2026-10-12
+    reviewed_on: 2026-10-13
     cites: []
   topics/engine-options.md:
     status: current
@@ -170,8 +170,8 @@ files:
     cites: [cef, cdp, chromium, firefox, electron, qt, chrome-ext, chrome-ext-install, chrome-headless, chrome-headless-shell, pkg-index, wpe-api, wpe-platform-post, wpe-site, wpe-254, bidi, ff-geckoview, rwv, puppeteer-stream]
   topics/hidden-display.md:
     status: current
-    reviewed_on: 2026-10-12
-    cites: [chromium, wl-proto, wlroots, xorgproto, xpra, xpra-repo, pkg-index, portal, rpi-bookworm, pipewire, labwc, sway, cage, weston, xorg-server, mutter, xdpw, wayvnc, neatvnc, xrdp, wslg, neko, selkies, kasmvnc, wprs]
+    reviewed_on: 2026-10-13
+    cites: [chromium, wl-proto, wlroots, xorgproto, xpra, xpra-repo, pkg-index, portal, rpi-bookworm, pipewire, labwc, sway, cage, weston, xorg-server, mutter, xdpw, wayvnc, xrdp, wslg, neko, selkies, kasmvnc, wprs]
   topics/arm-offload.md:
     status: current
     reviewed_on: 2026-10-12
@@ -184,6 +184,22 @@ files:
     status: current
     reviewed_on: 2026-10-13
     cites: [js-zoo, quickjs, quickjs-web, mquickjs, duktape, duktape-web, jerryscript, mujs-web, moddable, v8-jitless, bench-android, bench-rpi, magpi-pi4-bench, wiki-ips, wiki-68060, gsmarena, anandtech-nexus7, rpi-pi2-bench, ds190]
+  topics/remote-display-protocols.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [ms-rdpbcgr, ms-rdpegfx, ms-rdprfx, ms-rdpea, ms-rdpeclip, ms-rdpefs, ms-rdpedisp, ms-rdpepc, ms-rdpegdi, ms-rdperp, rdesktop, freerdp, xpra, go-xpra, rfbproto, guac-man, guacd, spice-server, spice-protocol, spice-gtk, nx-libs, aminet, aminet-search]
+  topics/remote-display-servers.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [xrdp, xorgxrdp, xrdp-wiki, weston-git, grd, freerdp, neatvnc, wayvnc, tigervnc, x11vnc, xpra, guacd, guac-man, chromium, pkg-index]
+  topics/remote-display-client.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [chromium, thinc]
+  topics/rtg-layer.md:
+    status: current
+    reviewed_on: 2026-10-13
+    cites: [prism, fw, drivers, twinvnc, p96-wiki, p96-drv, p96-develop, cgx-devkit, gfx-autodocs]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10

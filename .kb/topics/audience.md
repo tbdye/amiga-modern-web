@@ -64,7 +64,7 @@ Where an engine's pixels could come from:
 ## Other RTG cards
 
 - [F] P96's release notes name drivers for the Cirrus GD542x of the GVP Spectrum and Picasso II, the GD5434 of the Piccolo SD64 and the GD5446 of the Picasso IV, the CyberVision's Trio64 and the CyberVision 3D's ViRGE, the Tseng ET4000W32 of the Merlin and oMniBus, the Retina in its Zorro II version and the Retina BLT Z3, the Altais, Visiona, GVP EGS 110, Rainbow II and A2410, and Voodoo cards behind a PCI bridge board; they also record fixes to Radeon, Rage XL and Matrox drivers (`p96-wiki`, the updates from V2.3 to V3.6.3).
-- [F] P96's `emulation.library` is "responsible for emulation of the villageTronic API and the cybergraphics API" (`p96-wiki`, "Update September 2021 (V3.1.2)"); [G] so a program written to the cybergraphics API can run on P96.
+- A program written to the cybergraphics API can run on P96, whose `emulation.library` emulates that API: `topics/rtg-layer.md`, "P96".
 - [G] As `p96-wiki` describes them, none of the Zorro cards named carries a processor that a program can be loaded onto: each is a display chip with, at most, a blitter; the A2410 is the open case ("Not established").
 - [F] Adjacent: Z3660 is an Amiga 4000 CPU accelerator board that, with a Z-turn FPGA board (MYS-7Z020-V2) fitted, adds 16-bit RTG, Ethernet, AHI and MHI, the RTG, AHI and MHI being based on the ZZ9000's, and can run a 68040 emulation with a JIT on one of that board's ARM cores (`z3660@7385d31:README.md:L3, L11, L20, L28-30, L38`).
 
@@ -73,12 +73,13 @@ A cell with no label describes the mechanism; its facts are where the row points
 | Mechanism | How | Limits |
 |---|---|---|
 | The 68k writes the window | An ordinary P96 or graphics call copies pixels into card memory | [G] Every pixel crosses the bus: `topics/bus-and-card-rates.md`, "Bus ceilings"; copies by card in `topics/target-config-rates.md`, "Copies into the card" |
-| The card's blitter moves it | [F] P96 leaves some graphics operations to an on-board blitter, and then also keeps off-screen bitmaps in card memory (`p96-wiki`, "Update V3.6.0"; `p96-drv`, `BIB_BLITTER`) | [G] A scroll done that way needs only the newly exposed strip to cross the bus; times by card in `topics/bus-and-card-rates.md`, "Scrolls on the card" |
-| P96 overlay window (PIP) | [F] A "special feature" of a card: an overlay that shows a fixed region of card memory, in which the chip may offer YUV colour spaces (`p96-drv`, `BIB_VIDEOWINDOW`, `SFT_MEMORYWINDOW`) | [G] Its pixels still cross the bus to get into card memory; support by card below |
+| The card's blitter moves it | P96 leaves some graphics operations to an on-board blitter, and then also keeps off-screen bitmaps in card memory (`topics/rtg-layer.md`, "Scroll-copy", "Putting pixels into a window") | [G] A scroll done that way needs only the newly exposed strip to cross the bus; times by card in `topics/bus-and-card-rates.md`, "Scrolls on the card" |
+| P96 overlay window (PIP) | An overlay window that a card's driver supplies as a "special feature", in which the chip may offer YUV colour spaces (`topics/rtg-layer.md`, "Overlay windows") | [G] Its pixels still cross the bus to get into card memory; support by card below |
 | A processor on the card draws | The card fills its own framebuffer | [G] Only a card that has one: the ZZ9000 ("Stock ZZ9000") and the Z3660, with the A2410 open ("Not established") |
 | A second video source mixed in after the card | A browser computer's own video output | [G] What is mixed in is not drawn by Workbench; not researched here, and a card that does it is among the pruned approaches (`sections/options-rejected.md`, "Why other approaches were pruned", the downstream HDMI compositor card) |
 
 - [G] With no processor and no input but the bus, such a card shows pixels that come from the 68k itself, as a native Amiga browser's do, or from another computer through the Amiga's network card, its TCP/IP stack and the 68k (`topics/target-config-rates.md`, "Network receive").
+- The calls that put pixels in a window, scroll-copy and overlay windows under P96 and PrismRTG: `topics/rtg-layer.md`.
 
 ### P96 overlay windows by card
 
@@ -124,12 +125,10 @@ What is open for the PiStorm group is in `topics/audience-pistorm.md`, "Not esta
 
 ## Sources
 
-`drivers` is defined in `sources.md`; GitHub rows take the link template of its "Prior-art sources".
+`drivers`, `p96-wiki` and `p96-drv` are defined in `sources.md`; GitHub rows take the link template of its "Prior-art sources".
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
 | `mnt-zz9000` | The maker's ZZ9000 resources page | `https://mntre.com/media/ZZ9000_info_md/2019-08-09-ZZ9000-resources.html` | 2026-10-11; dated 2024-03-25 by the page |
-| `p96-wiki` | P96 on its publisher's wiki, one page with the release notes | `https://wiki.icomp.de/wiki/P96` | 2026-10-11; last modified 2026-06-20 by the page |
-| `p96-drv` | P96 driver development, same wiki | `https://wiki.icomp.de/wiki/P96_Driver_Development` | 2026-10-11; last modified 2026-10-11 by the page |
 | `z3660` | Z3660 | `github.com/shanshe/Z3660` | `7385d31` |
 | `winuae` | WinUAE | `github.com/tonioni/WinUAE` | `016a9d1` |

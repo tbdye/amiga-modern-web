@@ -23,7 +23,7 @@ Status: current
 - Whole-window slide: the whole window is moved up, and what is sent is strip + fixed + changed.
 - Region-aware slide: only what moved is moved, and what is sent is strip + changed.
 - [G] Above the strip the region-aware figure is a floor for a real sender, each pixel being taken as free to move or to stay; in the strip it is not, since both models send the strip whole ("Conditions").
-- [G] Both models take the sender to know what moved; how a sender learns it is outside this measurement.
+- [G] Both models take the sender to know what moved; servers that find a scroll from the frames themselves are in `topics/remote-display-servers.md`, "How a scroll becomes a copy".
 
 ## Updates a second at 50 MHz
 
