@@ -27,7 +27,7 @@ Status: current
 
 ## How the card's own player keeps step
 
-Every line is `[F]` at `fw@cfbb910` unless it opens with another label; the files are under GPL-3.0-or-later (`zzplay/zzplay-sync.c:L1`).
+Every line is `[F]` at `fw@cfbb910` unless it opens with another label or names another commit; the files are under GPL-3.0-or-later (`zzplay/zzplay-sync.c:L1`).
 
 - The player keeps one timeline in units of 1/90,000 s, and sound is the master (`zzplay/zzplay-sync.c:L7`; `zzplay/zzplay.c:L1519-1529`).
 - With the add-on, the master is the session's count of sound frames the DMA has retired, which the 68k polls and uses as last polled, with no interpolation (`abi.h:L2882-2883`; `zzplay/zzplay-ax.c:L116-162, L254-268`; `zzplay/zzplay.c:L1844-1850`).
@@ -39,7 +39,7 @@ Every line is `[F]` at `fw@cfbb910` unless it opens with another label; the file
 - The 68k decides for each decoded frame, as "the present clock": hold it if it is more than half a frame period early, and discard it if it is late by more than one frame period or 40 ms, whichever is larger (`zzplay/zzplay.c:L63-67`; `zzplay/zzplay-sync.c:L38-53, L72-97`).
 - [G] At 30 frames a second a frame is shown from 16.7 ms early to 40 ms late; at 15, from 33.3 ms early to 66.7 ms late.
 - After two discards in a row the next late frame is shown, unless the stream can skip to a keyframe, which only WebM can, and video is more than 500 ms behind: then discards continue and the card drops compressed video up to the next keyframe (`zzplay/zzplay-sync.h:L42-54`; `zzplay/zzplay-sync.c:L123-151`; `zzplay/zzplay.c:L2048-2052, L2768`).
-- Sound starts only once some is queued (through AHI, a full prebuffer) and the frame in hand is no earlier than the sound's first time stamp by more than the discard threshold (`zzplay/zzplay-audio.c:L130-142`; `zzplay/zzplay-sync.c:L111-121`; `zzplay/zzplay.c:L1985-1991`).
+- At `fw@b470c23` sound starts once the sound queued reaches a target of at most 200 ms, on either output, or sooner when the decoder reports back-pressure, the input has ended or one second has passed; and, while more pictures can come, only if the frame in hand is no earlier than the sound's first time stamp by more than the discard threshold (`fw@b470c23:sdk/docs/zzplay.md:L63-65`; `fw@b470c23:zzplay/zzplay-audio.c:L132-148`; `fw@b470c23:zzplay/zzplay.c:L74, L1605-1662, L2216-2281`; `fw@b470c23:zzplay/zzplay-sync.c:L111-121`).
 - A hold becomes a show when the queued sound is at or under a low-water mark: one 20 ms period on the add-on's output, zero through AHI (`zzplay/zzplay-sync.c:L99-109`; `zzplay/zzplay.c:L1509-1516, L2016-2018`).
 - Of a stream the card cannot decode in time, the player's document says that sound keeps playing and a frame decoded too late is dropped, never more than two in a row (`sdk/docs/zzplay.md:L37-43`).
 - At release v2.8.1 the hold, discard, start and low-water rules are in `sdk/tools/zzplay-sync.c`; the cap of two discards and the keyframe skip are not (`fw@6aa71d1:sdk/tools/zzplay-sync.c:L8, L47-51, L98-120`, a file of 120 lines).
@@ -51,7 +51,7 @@ One run with sound and picture is published (`docs/native-p96-pip.md:L394-410`, 
 | [F] Exact size | 4,405 | 4,379 | 26 | 29.916 | 6,476,544 | 13 |
 | [F] Window enlarged | 4,405 | 4,374 | 31 | 29.925 | 6,476,544 | 10 |
 
-- [F] It is a 640×480 MPEG-1 program stream at 30 frames a second on Zorro III, on a build of a development branch, with sound decoded on the card and played on the add-on's own output; the document names neither the Amiga nor its processor (`docs/native-p96-pip.md:L381-395`).
+- [F] It is a 640×480 MPEG-1 program stream at 30 frames a second on Zorro III, on a build of a development branch, with sound decoded on the card and played on the add-on's own output; the passage names neither the Amiga nor its processor (`docs/native-p96-pip.md:L381-395`).
 - [G] 6,476,544 ÷ 44,100 = 146.86 s, against 4,405 ÷ 30 = 146.83 s for the picture, so the track was 44.1 kHz and the card was converting it to 48 kHz.
 - [F] The underrun counter is the card's, one for each 20 ms period that nothing filled (`zzplay/zzplay.c:L2081-2088, L3514-3525`; `os/audio_fabric.c:L1082-1110`).
 - [G] 13 × 20 ms = 0.26 s of silence in 146.86 s, 0.18%; both runs played the same number of sound frames, so no sound was lost.
