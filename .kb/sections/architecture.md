@@ -48,6 +48,8 @@ flowchart LR
 
 - [G] The browser is composited by the SoC at the Intuition window's screen position, in a mode equal to the RTG screen's; the FPGA keys it into the window rectangle through the line FIFO.
 - [G] Occlusion (Amiga windows, menus, Chromium popups over the plane) uses a rectangle list from Intuition ClipRects, a few registers per rectangle.
+- [G] One alternative to the list is a 1-bit-per-pixel mask in DDR, read at scanout: at 1080p60 it adds about 15.6 MB/s of DDR reads (1920 × 1080 bits × 60 frames ÷ 8) against the DDR headroom of K25; held in block RAM the mask is a dead end (`sections/options-rejected.md`, "Dead ends").
+- [G] Another is a colour key, which the PIP below composes with: it needs neither list nor mask, but it misfires, showing browser pixels wherever Amiga content over the plane has the key colour.
 - [F] The precedent is the firmware's native P96 PIP: a second MM2S VDMA shares HP0 and feeds ping-pong line buffers in `video_formatter`, with colour-key composition (`fw@8778ef3:docs/native-p96-pip.md:L39-51`).
 - [F] That plane is packed YUV422 by design (`fw@8778ef3:docs/native-p96-pip.md:L55-57`).
 - [G] YUV422 halves horizontal chroma resolution, so it is not lossless for text; the browser plane needs an RGB mode.
