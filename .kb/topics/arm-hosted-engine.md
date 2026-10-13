@@ -52,7 +52,7 @@ Unmeasured inputs: the 68k's write rate into a shared buffer on `fw`, and `k`, t
 
 ### Script engine and document model on the ARM, layout and paint on the 68k
 
-- [G] Each script turn costs one call plus the bytes the 68k must read, at least 0.28 ms + B ÷ 7.0 MB/s: 14 ms for 100 KB of changed tree and 143 ms for 1 MB (the read ceiling: `topics/bus-and-card-rates.md`, "Bus ceilings").
+- [G] Each script turn costs one call plus the bytes the 68k must read, at least 0.28 ms + B ÷ 7.0 MB/s: 14.6 ms for 100 KB of changed tree and 143 ms for 1 MB (the read ceiling: `topics/bus-and-card-rates.md`, "Bus ceilings").
 - [G] The shared heap is 3.94 MiB in at most 32 buffers (`topics/decode-rates.md`, "What the card's ARM decodes today"), so the model would live in ARM-only memory and the 68k would get serialised snapshots or deltas, unless the shared region is enlarged.
 - [G] A script read that depends on layout (`offsetWidth`, `getComputedStyle`, `getBoundingClientRect`) forces an ARM-to-68k round trip and a 68k layout pass: the missing call of the first split, less often.
 - [G] Layout, style and paint stay at 68k speed, so the gain is capped at 1 ÷ (1 − f), f being the share of page time spent in script and DOM.
@@ -64,7 +64,7 @@ Unmeasured inputs: the 68k's write rate into a shared buffer on `fw`, and `k`, t
 - [G] Page bytes arrive through the Amiga's TCP/IP stack and its TLS library, then cross once more into a shared buffer; the receive rate that caps them, measured without TLS: `topics/target-config-rates.md`, "Network receive".
 - [G] A card-side network path would avoid that crossing, but needs a TCP/IP and TLS stack on the ARM and a receive classifier on the port the Amiga already owns (`topics/network.md`, "The control link and the network").
 - [G] No measured bus figure rules this split out on Zorro III, and none shows that the bus leaves it unbounded; the needs listed at the head of this page apply whatever the bus allows.
-- [F] On Zorro II the host heap is 16 KiB, the rings hold 22 entries and the aperture is 2 or 4 MiB (`sdk/docs/zz9k-zorro2-services.md:L25-28`; `os/memorymap.h:L289`); offscreen bitmaps are disabled there (`sections/firmware-and-rtl.md`, "What the card offers today").
+- [F] On Zorro II the aperture is 2 or 4 MiB (`sdk/docs/zz9k-zorro2-services.md:L25-28`), the host heap is 16 KiB and the rings hold 22 entries (`topics/arm-offload.md`, "How data moves", "Call path"), and offscreen bitmaps are disabled (`sections/firmware-and-rtl.md`, "What the card offers today").
 - [G] Page bytes would stage through chunks of 8 KiB or less, as the archive tool's do (`sdk/docs/zz9k-zorro2-services.md:L51`); the rates are unmeasured.
 
 ## What the TLS offload's shape would ask of an engine
@@ -124,7 +124,7 @@ What it does not show:
 - [F] No recovery beyond resetting core 1: the abort handlers loop forever, and its documentation says each combination of services and core-1 programs must be validated explicitly (`xos/core2.c:L233-256`; `xos/main.c:L971-979`; `docs/XACP_V1_6_DEVELOPER_DOCUMENTATION.md:L529-551`).
 - [G] One program at a time on core 1, with no scheduler (one entry address and one run flag, `xos/core2.c:L78-79`); the core-1 services of `fw` do not exist on that line, so nothing is learned about an engine sharing core 1 with TLS, decode and audio.
 - [F] No windowed or clipped drawing in the sources read: the Doom port owns a whole screen and flips pages.
-- [F] No network use and no script engine: inputs are local files staged before launch, its own documents list networking as not yet released, and the Dark Forces port excludes its engine's scripting units (`docs/WHY_XACP.md:L307-314`; `applications/games/ZZDarkForcesNEXT/build_next.py:L62-67`).
+- [F] No network use and no script engine: inputs are local files staged before launch, the software its own overview lists holds no network program, and the Dark Forces port excludes its engine's scripting units (`docs/WHY_XACP.md:L278-305`; `applications/games/ZZDarkForcesNEXT/build_next.py:L62-67`).
 - [F] No 68030 or 68040 figure.
 - [G] The programs are frame loops over preloaded data; a browser's page bytes, DOM and event traffic have no counterpart there, so the split costs above are not measured by it.
 
@@ -144,12 +144,12 @@ The speed figures are from `topics/native-engine-speed.md`.
 
 | Class of site | Verdict | Basis |
 |---|---|---|
-| Documents, forums, wikis, shops, light script | Plausibly usable, on speed | [G] Compiled code runs about 20 times faster on the card's core than on a 68060 (`topics/native-engine-speed.md`, "68k CPUs"), and the ratio for an interpreter is unmeasured; how much page time that removes depends on the script share and on a document model that moves with the engine ("Splitting an engine across the bus") |
+| Documents, forums, wikis, shops, light script | Not ruled out on speed; unmeasured | [G] Compiled code runs about 20 times faster on the card's core than on a 68060 (`topics/native-engine-speed.md`, "68k CPUs"), and the ratio for an interpreter is unmeasured; how much page time that removes depends on the script share and on a document model that moves with the engine ("Splitting an engine across the bus") |
 | Script-heavy pages near the median | Slow; reach unmeasured | [F] The median desktop home page of 2025 ships 697 KB of JavaScript in 2.86 MB (`almanac-2025`, page weight); [G] speed between a quarter of a first-generation Pi running Chromium and two-thirds of a Pi 2 (0.14 to 2.7 against 0.60 and 4.14: `topics/native-engine-speed.md`, "Estimate for one card core running an interpreter") |
 | Heavy single-page applications: mail, maps, office suites, a video site's own player | Out of reach | Features first: what the native browsers' engines support is in `topics/prior-art.md`, "Native Amiga browsers"; memory second: one heap for both cores (`sections/firmware-and-rtl.md`, "PS DDR map and card pool"); speed third: [G] one to two orders of magnitude below the Pi 4 figures (same estimate) |
 | Challenge and fingerprint gates | Uncertain to out of reach | [F] Cloudflare's challenges give "limited support" to "custom or heavily modified browser engines and embedded browsers" (`cf-challenges`); [G] compute-bound script is where an interpreter loses most (`topics/native-engine-speed.md`, "Interpreter against JIT") |
 | WebAssembly | Out of reach without an added interpreter | Neither V8 with its JIT off, as first published, nor QuickJS runs it (`topics/native-engine-speed.md`, "Script engines one could build on", "Interpreter against JIT"); [F] modules were found on 0.35% of desktop sites and 2% of the top 1,000 (`almanac-2025`, WebAssembly) |
-| Video | Low resolution at most | [F] The firmware's decoders are those in `sections/firmware-and-rtl.md`, "What the card offers today", and a search of `os/` and `sdk/docs` for an H.264 decoder finds none (`fw@cfbb910`, `git grep -i h264`); [G] software H.264 on this core is unmeasured |
+| Video | Within the envelope of the firmware's decoders; no H.264 decoder | [F] The firmware's decoders are those in `sections/firmware-and-rtl.md`, "What the card offers today", their real-time envelope on this processor is in `topics/decode-rates.md`, "What the card's ARM decodes today", and a search of `os/` and `sdk/docs` for an H.264 decoder finds none (`fw@cfbb910`, `git grep -i h264`); [G] software H.264 on this core is unmeasured |
 | Video under DRM | Out of reach | [R] It needs a vendor's decryption module, which exists only for mainstream platforms; the module vendors' platform lists would verify |
 | WebGL, WebGPU | Out of reach | [D] DEC-008: Amiga-side 3D is not a goal; [G] the Zynq has no GPU (`sections/firmware-and-rtl.md`, "Why the Zynq cannot host the browser") |
 

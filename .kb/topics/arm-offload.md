@@ -14,7 +14,7 @@ Nothing was built or run for this page; a measured figure is its source's own.
 | Mechanism | State | Citation |
 |---|---|---|
 | SDK v2 mailbox, reached through `zz9k.library` | The call path for SDK services: one versioned, asynchronous interface | [F] `sdk/README.md:L20-24, L40` |
-| Firmware-built services (core, memory, surface, image, codec, audio, crypto, diag, video) | Compiled into the firmware and dispatched by a fixed opcode switch; an unknown opcode returns `UNSUPPORTED` | [F] `os/sdk_service_catalog.h:L57-179`; `os/sdk_mailbox.c:L8317-8485` |
+| Firmware-built services (core, memory, surface, image, codec, audio, crypto, diag, video) | Compiled into the firmware and dispatched by a fixed opcode switch; an unknown opcode returns `UNSUPPORTED` | [F] `os/sdk_service_catalog.h:L57-199`; `os/sdk_mailbox.c:L8317-8485` |
 | Vendor and loadable services (`0x8000` and above) | An ID space and conventions only: no loader, no dynamic relocation, no plug-in ABI; no vendor opcode has a handler, and `0x8100` (JEDI) has no code under `os/` | [F] `sdk/docs/zz9k-modules.md:L7-9, L56-61`; `sdk/docs/zz9k-vendor-services.md:L3-8, L36-38`; `git grep` for `zz9k_service_registry`, `SERVICE_VENDOR` and `JEDI` over `os/` finds only `os/memorymap.h:L392-394` |
 | Launcher that ran a raw ARM program on core 1 (`REG_ZZ_ARM_RUN`) | Removed by commit `350afc2`; the XACP line keeps it (`topics/arm-hosted-engine.md`) | [F] `os/core2.c:L412-418`; `os/main.c:L1704-1707`; `sdk/README.md:L22-24` |
 | Hosted ARM applications | Named in a code comment; no code | [F] `os/core2.c:L412-418` |
@@ -39,7 +39,7 @@ Nothing was built or run for this page; a measured figure is its source's own.
 9. [F] A completion is an entry in the completion ring, plus an Amiga interrupt (INT6 by default, INT2 optional) when the client enabled it (`os/sdk_mailbox.c:L8822-8823`; `sdk/docs/zz9k-library.md:L1640-1649`).
 10. [F] The 68k waits by spin-polling the ring, 500 spins between polls for the first 16 polls and then doubling to 50,000, or sleeps on the interrupt when a task that owns the context armed it; a shared-library or provider context must not arm it (`sdk/host/src/zz9k_host.c:L434-449, L644-724`; `sdk/docs/zz9k-library.md:L1651-1658`).
 
-- [F] The only ARM-to-68k signals are completion entries and that interrupt: the core-1 worker touches only the task queue and a task's buffers, never Zorro, the mailbox, the doorbell or the display (`os/scheduler_arm.c:L237-238`).
+- [F] On this path the only ARM-to-68k signals are completion entries and that interrupt: the core-1 worker touches only the task queue and a task's buffers, never Zorro, the mailbox, the doorbell or the display (`os/scheduler_arm.c:L237-238`).
 - [G] So no path lets ARM code call 68k code.
 
 ## How data moves
@@ -59,7 +59,7 @@ Nothing was built or run for this page; a measured figure is its source's own.
 ## Which core runs what
 
 - [F] Core 0 is one polled loop: it answers every Zorro register cycle that the ARM serves (the FPGA withholds DTACK until it does, with no timeout), kicks a watchdog that resets the whole PS after about 12.9 s, and services the mailbox, the Ethernet state machine (every 10 ms) and the audio pump only on passes with no register request pending (`os/main.c:L818-819, L887-906, L2076-2077, L2191-2204`; `os/scheduler_arm.c:L464-467`; `os/watchdog.c:L8-10`).
-- [F] So core 0 never runs long work: with core 1 down, a long task is failed, not run inline (`os/scheduler_arm.c:L456-485`).
+- [F] Core 0 does not take over the worker's long tasks: with core 1 down, a long task is failed, not run inline (`os/scheduler_arm.c:L456-485`).
 - [F] Core 1 is one run-to-completion worker over a 16-slot queue that only core 0 fills; it sleeps on WFE when idle, and its loop has no preemption, time slice or priority (`os/scheduler.h:L16`; `os/scheduler_arm.c:L240-264`).
 - [F] That one worker serves TLS crypto, decompression, image scaling and decode, MP3, FLAC and Vorbis, video and WebM decode, overlay compose and the AX audio refill (`os/scheduler.h:L21-79`; `os/sdk_mailbox.c:L8244-8248`).
 - [F] A scale job whose source or destination is the live framebuffer or an ARM-local surface is computed inline on core 0, not handed to the worker (`os/sdk_mailbox.c:L2824-2848`).
@@ -84,12 +84,13 @@ Nothing was built or run for this page; a measured figure is its source's own.
 | `SDK ping pipe`, 16 in flight, taken before the wait-loop fix | 11,193 calls a second; 1 ÷ 11,193 = 89 µs a call [G] | [F] same file, `L101-103`; `sdk/tools/zz9k-bench.c:L48` |
 | Synchronous call with unarmed polling, which a shared-library context uses | Not reported; the polling is written to find a fast reply "within ~1 ms" | [F] same file, `L122-126`; `sdk/host/src/zz9k_host.c:L434-439` |
 | Smallest-payload synchronous call that core 1 serves: 64 B of ChaCha20-Poly1305 | 64 B ÷ 162 KiB/s = 0.39 ms a call | [G] from [F] same file, `L144-145` |
-| Bus cycles in one round trip with a 48-byte payload | 80 byte reads and 12-36 word writes, 92-116 cycles, plus 8 reads for each empty poll | [G] counted from `sdk/host/src/zz9k_host.c:L735-794, L3400-3421, L3501-3516`; `sdk/include/zz9k/abi.h:L1907-1912` |
+| Bus cycles in one round trip, request payload 0 to 48 bytes | 80 byte reads and 12-36 word writes, 92-116 cycles, plus 8 reads for each empty poll | [G] counted from `sdk/host/src/zz9k_host.c:L735-794, L3400-3421, L3501-3516`; `sdk/include/zz9k/abi.h:L1907-1912` |
 | Bus time of one round trip | 92-116 × 0.569 µs = 52-66 µs, taking a byte read and a word write each to cost one longword read of card DDR | [G]; the 569 ns read: `topics/bus-and-card-rates.md`, "Bus ceilings" |
-| 68k write rate into a shared buffer | Not recorded in `fw` or `drivers`; `zz9k-bench` has the probe ("CPU shared write", 16 KB and 256 KB) | [F] `sdk/tools/zz9k-bench.c:L43-47, L1028-1037`; a third-party figure on another firmware line: `topics/bus-and-card-rates.md`, "Bus ceilings" |
+| 68k write rate into a shared buffer | Not recorded in `fw` or `drivers`; `zz9k-bench` has the probe ("CPU shared write", 16 KB and 256 KB) | [F] `sdk/tools/zz9k-bench.c:L43-47, L1023-1060`; a third-party figure on another firmware line: `topics/bus-and-card-rates.md`, "Bus ceilings" |
 | USB mass storage, end to end, on "a Zorro III-capable Amiga", no CPU named | About 4 MB/s write and 3 MB/s read, given as a "historical baseline" | [F] `drivers@cb6a1c4:usb-poseidon/README.md:L25-27` |
 | SD block I/O, polling, no machine named | A plateau around 1-2 MB/s: "most of the wall-clock time is polling" | [F] `drivers@cb6a1c4:sd-boot/README.md:L83-89` |
 
+- [F] The same document's earlier synchronous figures, 6.1 ms a ping and about 6.3 ms a record, were the 68k's wait loop and not the transport, and its addendum supersedes them; the pipelined row predates that fix (`sdk/docs/zz9k-crypto-acceleration.md:L98-101, L115-117, L142-144`).
 - The bus's read ceiling: `topics/bus-and-card-rates.md`, "Bus ceilings"; the TCP receive rates through the card: `topics/target-config-rates.md`, "Network receive".
 - [G] The 279 µs floor is not bus time: the bus accounts for 52-66 µs of it, and the pipelined 89 µs a call is close to that.
 - [G] The other 210-230 µs is unsplit; its contributors, none measured, are the firmware's discovery poll (every 256th idle pass), ARM handler and cache-maintenance time, the 68k's marshalling instructions and its own poll gap, and the armed 0.28 ms figure adds the interrupt wake.
@@ -139,6 +140,8 @@ Not established: neither repository holds a round-trip, read or write timing for
 - [F] Their large working memory comes from pool arenas tracked by owner, which the firmware reclaims on a fault or an Amiga reset (`docs/memory-map.md:L22-24`).
 
 ## How the TLS offload is built
+
+What the offload covers, and its speed against the SDK's portable 68k code: `sections/firmware-and-rtl.md`, "What the card offers today".
 
 | Property | Citation |
 |---|---|
