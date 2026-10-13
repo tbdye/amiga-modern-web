@@ -28,7 +28,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 | Which engines run today's sites; engine speed and memory; candidate computers | `topics/engine-options.md` |
 | Control program on an unforked engine: arrangements, site markers, codecs, upkeep | `topics/engine-control.md` |
 | What an engine interface or hidden display hands a control program | `topics/engine-interfaces.md`, `topics/hidden-display.md` |
-| Card's ARM services, call path, per-call cost; hosting an engine there | `topics/arm-offload.md`; `topics/arm-hosted-engine.md` |
+| Card's ARM: call path, cores, per-call cost; hosting an engine there | `topics/arm-offload.md`; `topics/arm-hosted-engine.md` |
 | Script engine candidates and speed: interpreter, JIT, card ARM, 68k | `topics/native-engine-speed.md` |
 | Option families A-D, the quality ceiling, other names (genlocked or line-locked V) | `glossary.md`, "Option families and the quality ceiling", "Other names for the same thing" |
 | What is open, and what settles it | `unknowns.md`; for a page under the first heading, its "Not established" list |
