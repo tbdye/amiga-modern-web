@@ -36,7 +36,7 @@ The procedure is in `_index.md`, "Keeping pins current".
 A public-repo pin must exist on the public remote.
 For fw and drivers, run `git fetch` in a clone, then `git branch -r --contains <commit>`; no branch listed fails the pin.
 For Linux and CEF, which have no local checkout here, confirm the commit exists at `https://github.com/<owner>/<repo>/commit/<sha>`; a 404 fails the pin.
-Triggers: a firmware or driver release tag; a Linux mainline release tag (Linux only); a Replica revision the project relies on; any KB change that cites a source whose manifest pin is older than its HEAD.
+Triggers: a firmware or driver release tag; a Linux mainline release tag (Linux only); a Replica revision the project relies on; any KB change that cites a source other than Linux whose manifest pin is older than its HEAD.
 
 ## Documents
 
