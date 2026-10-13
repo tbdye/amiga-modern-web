@@ -172,6 +172,18 @@ files:
     status: current
     reviewed_on: 2026-10-12
     cites: [chromium, wl-proto, wlroots, xorgproto, xpra, xpra-repo, pkg-index, portal, rpi-bookworm, pipewire, labwc, sway, cage, weston, xorg-server, mutter, xdpw, wayvnc, neatvnc, xrdp, wslg, neko, selkies, kasmvnc, wprs]
+  topics/arm-offload.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, drivers, ds190]
+  topics/arm-hosted-engine.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [fw, xacp, almanac-2025, cf-challenges, litehtml, libcss, libdom, libhubbub]
+  topics/native-engine-speed.md:
+    status: current
+    reviewed_on: 2026-10-12
+    cites: [js-zoo, quickjs, quickjs-web, mquickjs, duktape, duktape-web, jerryscript, mujs-web, moddable, v8-jitless, bench-android, bench-rpi, magpi-pi4-bench, wiki-ips, wiki-68060, gsmarena, anandtech-nexus7, rpi-pi2-bench, ds190]
   evidence/README.md:
     status: draft
     reviewed_on: 2026-10-10

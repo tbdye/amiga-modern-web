@@ -67,6 +67,12 @@ Status: current
 | MB/s, MiB/s | On the rate pages, 10^6 and 2^20 bytes a second (`topics/target-config-rates.md`) |
 | Owner group | Amiga owners who have the same kind of hardware (`topics/audience.md`) |
 | PiStorm | An adapter with a Raspberry Pi in place of the 68k (`topics/audience-pistorm.md`) |
+| SDK mailbox | Request and completion rings in card DDR, called through `zz9k.library` (`topics/arm-offload.md`) |
+| AmiSSL | The Amiga's shared TLS library, `amissl.library` |
+| XACP | A third-party ZZ9000 firmware line that loads ARM programs (`topics/arm-hosted-engine.md`) |
+| JIT | Just-in-time compiler in a script engine; an interpreter has none |
+| DOM | Document Object Model: the page's tree, which script reads and changes |
+| Dhrystone, VAX MIPS | An integer benchmark; its score divided by a VAX-11/780's |
 
 ## Packaging and option codes
 
