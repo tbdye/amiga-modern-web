@@ -37,6 +37,7 @@ Ways to put a control program on an engine: `topics/engine-control.md`.
 - [F] Servo provides a WebView API for embedding (`servo-site`, home); its frame hand-off was not examined, since it does not pass.
 - What WebKit's Linux ports send sites as their identity: `topics/engine-control.md`, "How WebKit's Linux ports identify themselves".
 - [R] The commercial Flow engine was not examined; its maker's site would verify what it is.
+- Engines small enough to build for the Amiga or the card's ARM: `topics/native-engine-speed.md`.
 
 ## Release policy by engine
 

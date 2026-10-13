@@ -129,7 +129,7 @@ The video service, its codecs and its Zorro II limit are in `sections/firmware-a
 - Output is 32-bit, or 24-bit RGB, and must match the format of the surface it lands in (`os/sdk_image_stream.c:L292-298`; `os/sdk_mailbox.c:L3133-3140, L5289-5294`).
 - [G] So a decode straight into a 16-bit framebuffer is refused.
 - On a 16-bit screen the route is two passes: a decode into a 32-bit surface, then the scaler's conversion from 32-bit to 16-bit into the framebuffer (`lib.md:L399-404, L541-543, L663-665`).
-- A scale or conversion that touches the live framebuffer is computed inline on the first core and is not handed to the second core's worker (`os/sdk_mailbox.c:L2824-2848`).
+- A scale or conversion that touches the live framebuffer is computed inline on the first core and is not handed to the second core's worker (`topics/arm-offload.md`, "Which core runs what").
 - The SDK splits such draws into bands of 96 rows, "so large bilinear draws do not monopolize a single mailbox call" (`lib.md:L432, L633-635`).
 - Limits: 4 image sessions, 16 surfaces and 32 shared buffers (`os/sdk_mailbox.h:L984-985, L1013`); a shared heap of 4,128,768 bytes (`os/memorymap.h:L114-115`).
 - [G] A 1280×720, 32-bit surface is 3,686,400 bytes, which leaves 442,368 bytes of that heap for the compressed input and every other client: a full-window decode at that size needs tiles or a surface in the card's own memory.
