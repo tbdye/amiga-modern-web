@@ -79,7 +79,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | E8 Chromium restart, no modeset | No | 1-3 s restart [G]; lock held | The plane shows whatever the SoC scans out: its desktop, or black [G] |
 | E9 Chromium modeset, E11 SoC mode/EDID, E12 cable replug, E13 SoC DPMS, E14 tracker watchdog | No | ≤ 9.4 s, not exempt | f4 removes E9, E11, E13 |
 | E10 SoC hang | No | Frozen until the heartbeat watchdog (SR9) turns the plane off | Then the placeholder shows and the SoC is reset [G]; the timeout is open (K55) |
-| E18 unsupported mode, E19 off-EDID timing | — | Never live | Placeholder shown |
+| E18 native screen, 2560×1440 or custom RTG mode; E19 off-EDID timing | — | Never live | Placeholder shown |
 
 - [D] E20 and E21 are neither ordinary browser actions nor exemptions named in DEC-013.
 - [F] A timing change powers TMDS down, so the monitor retrains (`fw@8778ef3:os/hdmi.c:L179-182`).
@@ -91,7 +91,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 - [G] So the exception avoids the monitor retrain but not the relock: the SoC lock is lost while the reset holds native capture mode (SR15) and is reacquired after RTG returns, up to 9.4 s at 1080p60.
 - [F] The PS watchdog resets the whole PS after about 12.9 s of firmware wedge and the card reboots (`fw@8778ef3:os/watchdog.c:L8-10`).
 - [G] The window shows its own RTG pixels while the plane is off; a placeholder ("Starting browser…", "Connecting…", "Not available in this mode") is better than black.
-- [G] Raster alignment on entering RTG from native is open: it would cut the E2, E3, E6 waits to about a frame but needs an SR15 rewrite (SR15, a [G] rule, not a decision, bars SoC-derived timing during native↔RTG switches; `topics/plane-safety.md`).
+- [G] Open (K57): raster alignment on entering RTG from native, bounded by a timeout, would cut the E2, E3, E6 waits to about a frame but needs an SR15 rewrite.
 
 ## Mitigations
 
@@ -103,7 +103,7 @@ Waits are for RTG at 1080p60; other modes take their lock-table figure.
 | f4 | SoC hygiene: a compositor holds the mode across Chromium restarts; no DPMS; fixed EDID; modesets only on command; never toggle HPD | Removes E9, E11, E13 | SoC image configuration |
 | f5 | Keep the tracker engaged when the output timing is unchanged | Removes E5 | Do not drop source sync when `output_unchanged` |
 | c | Use today's +27/−34 ramp | ≤ 0.3 s at 1080p | Depends on monitor acceptance (K49) |
-| b | Frame-buffered V in its own PL DDR3 | ≈ 1 frame after lock, always +≤1 frame | ×16 DDR3 bank; 7020 only (`topics/zynq-pin-budget.md`) |
+| b | Frame-buffered V in its own PL DDR3 | ≈ 1 frame after lock, always +≤1 frame; trim off: a frame dropped or repeated every ≈ 150 s, assuming SoC and Zynq frame rates 110 ppm apart (1 ÷ 0.00011 = 9,091 frames at 60 Hz) | ×16 DDR3 bank; 7020 only (`topics/zynq-pin-budget.md`) |
 
 Dead ends [G]: MMCM phase-shift trim for acquisition (kept as a steady-state remedy for K49); a partial BRAM buffer; showing the plane unlocked; SoC-side phase placement; a timed SoC modeset (`sections/options-rejected.md`).
 
