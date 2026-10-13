@@ -63,6 +63,7 @@ The receiver must see bit-exact RGB 4:4:4, 8 bpc, full range, at the Zynq's exac
 
 ## The Chromium host
 
+- [G] The chip's operating system is assumed to be Linux, with no decision behind it: `sections/architecture.md`, "What each side runs".
 - [G] Under V-tracked the SoC uses its own display path, so no off-screen rendering (OSR) copy path is needed.
 - [G] Proposed (DEC-014 mechanism, open in K50): the host runs CEF in windowed mode, because CEF's dialog, file, JS-dialog and context-menu handlers map to Amiga ASL, EasyRequest and Intuition popups; stock Chromium does not expose them.
 - [F] CEF exposes those handlers in `include/cef_dialog_handler.h`, `cef_jsdialog_handler.h`, `cef_context_menu_handler.h` and `cef_download_handler.h` (`cef@2d4a38cec5a6`).

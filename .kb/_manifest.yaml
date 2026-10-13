@@ -1,5 +1,5 @@
 kb_version: 1
-updated: 2026-10-10
+updated: 2026-10-12
 pins:                       # newest pin each source was verified against
   fw:      { commit: bdfd8b0, verified_on: 2026-10-10 }
   drivers: { commit: ad9606b, verified_on: 2026-10-10 }
@@ -10,7 +10,7 @@ pins:                       # newest pin each source was verified against
 files:
   _index.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: []
   decisions.md:
     status: current
@@ -34,7 +34,7 @@ files:
     cites: [fw, drivers, linux, cef, adv7611]
   sections/architecture.md:
     status: draft
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, linux, ug585, cm5-ds, zorro3]
   sections/display-coupling.md:
     status: current
@@ -46,7 +46,7 @@ files:
     cites: [fw, drivers, linux, replica, ds187, ds190, myir-7015, myir-7020v1, myir-7020v2]
   sections/browser-chip.md:
     status: current
-    reviewed_on: 2026-10-10
+    reviewed_on: 2026-10-12
     cites: [fw, drivers, linux, cef, cm5-ds, adv7611, tfp401a, radxa-cm5]
   sections/firmware-and-rtl.md:
     status: draft

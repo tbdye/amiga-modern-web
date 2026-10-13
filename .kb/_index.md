@@ -13,7 +13,7 @@ Load `AGENTS.md` and this file first, then only what the task needs.
 
 | Task | Load |
 |---|---|
-| Understand the project | `sections/overview.md`, then `sections/architecture.md` |
+| Understand the project; the operating system on each side | `sections/overview.md`, then `sections/architecture.md` |
 | Which events resync the monitor (DEC-013 exemptions); lock times; when the window is black | `sections/display-coupling.md` |
 | Run or report the monitor test (R-TRIM) | `sections/display-coupling.md`, "R-TRIM", then `topics/monitor-trim.md` |
 | Latency definition and targets | `sections/architecture.md`, "Paths" |
