@@ -16,7 +16,7 @@ They differ in whether Linux runs.
 | | Linux emulator (Musashi) | Emu68 |
 |---|---|---|
 | Operating system on the Pi | [F] Linux: 32-bit Raspberry Pi OS (`topics/prior-art.md`, "Fast-68k routes") | [F] None: bare metal (same heading) |
-| Amigas and boards beyond that heading | [F] The `pistorm32-lite` branch is for the PiStorm32-lite board alone, lists "Pi4,CM4,Pi3,PiZero2" and needs 32-bit Raspberry Pi OS (`pistorm@cc0244c:README.md:L14-16, L30`); the board is for the A1200 (`pistorm32-hw@f6b69cd:README.md:L1-2`) | [F] PiStorm for the A500, A1000 and A2000 and PiStorm600 for the A600, each with a Pi Zero 2, 3A+, 3B or 3B+; PiStorm16 for the A600 with a CM4; PiStorm32-lite for the A1200 with those four boards or "Pi4B+", or with a CM4 through an adapter (`pistorm-site@fca047c:_pages/hardware.md:L9-19`); [F] no Pi 5 or CM5 is listed, and the site gives the Pi 5's GPIO, behind a bridge on PCIe, as too slow for a PiStorm (`_pages/faq-hardware.md:L37-45`) |
+| Amigas and boards beyond that heading | The `pistorm32-lite` branch, with its board, Pi boards, operating system and Amiga: `topics/prior-art.md`, "Fast-68k routes" | [F] PiStorm for the A500, A1000 and A2000 and PiStorm600 for the A600, each with a Pi Zero 2, 3A+, 3B or 3B+; PiStorm16 for the A600 with a CM4; PiStorm32-lite for the A1200 with those four boards or "Pi4B+", or with a CM4 through an adapter (`pistorm-site@fca047c:_pages/hardware.md:L9-19`); [F] no Pi 5 or CM5 is listed, and the site gives the Pi 5's GPIO, behind a bridge on PCIe, as too slow for a PiStorm (`_pages/faq-hardware.md:L37-45`) |
 | 68k speed, as the project states it | `topics/prior-art.md`, "Fast-68k routes", for the `main` branch; [F] the `pistorm32-lite` branch's readme states none (`pistorm@cc0244c:README.md`) | [F] A JIT "reaching up to 1 MIPS per MHz" (`pistorm-site@fca047c:_pages/home.md:L23`); the site's benchmark page shows charts, with no result figures in its text (`_pages/benchmarks.md`) |
 | RTG | [F] PiGFX, a virtual RTG board for P96, with output on the Pi's HDMI (`pistorm@88937a6:README.md:L42`; `platforms/amiga/rtg/readme.md:L1-7`) | [F] `VideoCore.card`, a P96 driver for the Pi's HDMI port (`pistorm-site@fca047c:_pages/p96setup.md:L7-16`) |
 | How RTG pixels reach HDMI | [F] A thread of the emulator opens a raylib window, uploads the RTG framebuffer, which is the emulator's own memory, as a texture and draws it; the pointer is a second textured rectangle (`pistorm@88937a6:platforms/amiga/rtg/rtg-output-raylib.c:L230, L343, L357, L384, L464`) | [F] The driver writes the VideoCore scaler's display list itself, the pointer being a further plane in that list (`emu68-tools@0f86e19:VideoCore.card/src/vc4.c:L547-563, L721`) |
@@ -78,12 +78,11 @@ They differ in whether Linux runs.
 
 ## Sources
 
-`pistorm`, `emu68` and `a314` are defined in `sources.md`, and GitHub rows take the link template of its "Prior-art sources"; `pistorm@cc0244c` is the head of the `pistorm` repository's `pistorm32-lite` branch.
+`pistorm`, `emu68` and `a314` are defined in `sources.md`, and GitHub rows take the link template of its "Prior-art sources".
 
 | ID | Source | Where | Pin or accessed |
 |---|---|---|---|
 | `pistorm-site` | The PiStorm project's site, as its source pages | `github.com/PiStorm/pistorm.github.io` | `fca047c` |
-| `pistorm32-hw` | PiStorm32-lite hardware | `github.com/PiStorm/pistorm32-lite-hardware` | `f6b69cd` |
 | `emu68-tools` | Emu68 tools, with `VideoCore.card` | `github.com/michalsc/Emu68-tools-old` | `0f86e19` |
 | `emu68-releases` | Emu68 release notes, by tag | `https://github.com/michalsc/Emu68/releases` | 2026-10-11 |
 | `framethrower` | Framethrower | `github.com/PiStorm/Framethrower_Denise` | `d24348b` |
