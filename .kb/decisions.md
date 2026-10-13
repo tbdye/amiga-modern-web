@@ -102,7 +102,7 @@ Consequences: under V-tracked the open items are the tracker variant (K2) and wh
 
 Status: active.
 Decided: 2026-10-10.
-Rule: browsing has a native look and feel on Workbench: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
+Rule: browsing looks and feels native on Workbench: the window chrome is Workbench's, dialogs are Workbench dialogs, and downloads go natively to the Amiga's file system.
 Rule: the mechanisms that deliver it are not decided; any mechanism this KB describes is a proposal.
 Consequences: CEF's dialog, file, JS-dialog, context-menu and download handlers are candidate hooks (K50; `sections/browser-chip.md`, "The Chromium host").
 Consequences: the proposed mechanisms and the open items are listed in `topics/look-and-feel.md`.
@@ -111,7 +111,7 @@ Consequences: the proposed mechanisms and the open items are listed in `topics/l
 
 Status: active.
 Decided: 2026-10-10.
-Rule: Zynq-7000 chips bought through LCSC, which is not an AMD-authorized channel [R], are acceptable for production.
+Rule: production may use Zynq-7000 chips sourced from LCSC, a channel that AMD has not authorized [R].
 Consequences: chip supply no longer waits on an authorized-channel quote, so K24 is retired; part numbers and LCSC C-numbers are in `sections/sourcing.md`.
 
 ## DEC-019: Not planned as closed-source; no licence is chosen

@@ -2,8 +2,8 @@
 
 Modern web browsing on big-box Zorro Amigas, in a Workbench window or full screen.
 
-A separate SoC runs Chromium and sends its finished frames, uncompressed, to a Zynq-7000.
-The Zynq overlays them on the Amiga's RTG display and keeps every role a ZZ9000 has today: RTG, native video capture and scan doubling, audio and Ethernet.
+In the design under study, a separate SoC runs Chromium and sends its finished frames, uncompressed, to a Zynq-7000.
+The Zynq overlays them on the Amiga's RTG display and keeps every role a ZZ9000 with its audio add-on has today: RTG, native video capture and scan doubling, audio and Ethernet.
 
 The design under study stays on the Zynq-7000 family used by the MNT ZZ9000, so the existing [firmware](https://github.com/BlitterStudio/zz9000-firmware), FPGA logic and AmigaOS drivers carry over with additions rather than a rewrite.
 The ZZ9000 Replica (not yet public), the proposed feature-enhanced ZZ9000, is the starting point for the circuit blocks.

@@ -120,7 +120,7 @@ Results are welcome as a GitHub issue on this repository: monitor make and model
 2. Set `videocap_profile = centered_1080p_match` in `ZZ9000.CFG` beside `BOOT.bin` (`fw@8778ef3:README.md:L129`; sample `ZZ9000.CFG:L15-16`), or choose it in ZZTop under Scandoubler > Output and Save; then power-cycle, because the file is read at power-on (`fw@8778ef3:README.md:L118-122, L409-410, L420-422`).
 3. On each monitor, run a PAL and an NTSC source, each in a non-interlaced and an interlaced mode, 10 minutes each.
 4. Toggle interlace about 10 times per run; each toggle restarts the tracking (`fw@8778ef3:video_source_sync.v:L439-444`).
-5. Record any "no signal" message, mode banner, HDMI audio drop, or blank longer than about half a second; a short hidden picture after a toggle is expected.
+5. Record any "no signal" message, mode banner, or blank longer than about half a second; a short hidden picture after a toggle is expected.
 6. Record the live capture line count ZZTop shows (`drivers@ad9606b:ZZTop/Sources/ZZTop.c:L870-871`).
 
 What the trim per source is, why R-TRIM is harsher than V-tracked, and what counts as a resync: `topics/monitor-trim.md`.

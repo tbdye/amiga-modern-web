@@ -24,8 +24,14 @@ Status: current
 | Zynq, PS, PL | AMD Zynq-7000 SoC; PS = the dual Cortex-A9 processing system ("A9"); PL = its FPGA fabric |
 | RTG | Retargetable graphics: the card's own framebuffer modes, driven through Picasso96 (P96) |
 | Native video | The Amiga chipset's own video, captured and scan-doubled by the card |
+| Scan doubler | The card's output of captured native video at HDMI-monitor timings |
+| Zorro | The big-box Amiga expansion bus: Zorro II (16-bit) or Zorro III (32-bit) |
+| Workbench | The AmigaOS desktop and its screen, where application windows open |
+| Requester | The AmigaOS term for a dialog box |
+| ASL requester | A standard AmigaOS file, font or screen-mode requester, from `asl.library` |
 | Browser chip, SoC | The separate application processor that runs Chromium (RK3588, x86 or Raspberry Pi CM5 class) |
 | Plane | A scanout layer in the Zynq that shows browser pixels inside the browser's Workbench window |
+| PIP overlay | The firmware's P96 picture-in-picture plane over RTG scanout (`sections/architecture.md`, "The plane") |
 | Receiver | An HDMI/DVI receiver chip (ADV7611 class) that turns the SoC's HDMI into parallel RGB for the Zynq |
 | V-tracked | The coupling under study: SoC HDMI into the receiver; the Zynq never adopts the SoC's clock, and it follows the SoC by lengthening or shortening each output frame by up to one line (`sections/display-coupling.md`) |
 | V-locked | The Zynq's output running from the SoC's pixel clock; ruled out by DEC-013 |
@@ -35,10 +41,12 @@ Status: current
 | Lock, acquisition | Lock: tracker phase inside its window. Acquisition: the time from an event that loses lock until lock |
 | δ | SoC frame period minus Zynq frame period, in lines per frame |
 | Φ | Phase between the SoC and Zynq frame starts, in lines |
+| EDID | Extended Display Identification Data: a display's list of accepted timings |
 | DTD | EDID detailed timing descriptor |
 | HR, HP, MIO | 7-series high-range banks (1.2-3.3 V), high-performance banks (1.2-1.8 V), and Zynq PS multiplexed I/O |
 | MYIR module | MYC-C7Z010/20 (V1, the ZZ9000's), MYC-C7Z020-V2, or MYC-C7Z015: Zynq modules on two 140-pin board-to-board connectors |
 | J1/J2 | The 7020 module's connector numbering, used for every module in this KB (the 7015 map calls them J2/J3) |
+| Chip-down | A chip soldered onto the board itself, not carried on a module |
 | Bus master | A card that takes the bus and runs its own cycles |
 | VGA-USB add-on | An interposer card for a stock ZZ9000 that adds VGA output and a USB hub between the module and the carrier; the Replica has both on board (`topics/replica-interconnect.md`) |
 | Audio fabric; pump, lease | The A9 firmware's audio mixer; slot 0, the pump, carries MHI and ZZPlay, and slots 1-2 are leases taken by AHI and other producers (`topics/audio-path.md`) |

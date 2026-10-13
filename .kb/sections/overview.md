@@ -18,7 +18,7 @@ Status: current
 
 ## The design under study
 
-[G] A Zynq-7000 does all a ZZ9000 does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
+[G] A Zynq-7000 does all a ZZ9000 with its audio add-on does today (RTG, native capture, scan doubler, audio, Ethernet) and drives the monitor's HDMI.
 [D] DEC-002: in this design a separate browser chip runs Chromium.
 [D] DEC-010: in this design RK3588, x86 and Raspberry Pi CM5 class chips remain candidates.
 [G] Its rendered frames reach the Zynq uncompressed; that is a property of this design, which no decision requires (DEC-008).
@@ -71,7 +71,7 @@ Status: current
 |---|---|
 | This project's design (`decisions.md`) | The project maintainer, through issues and pull requests here (`CONTRIBUTING.md`) |
 | ZZ9000 firmware or drivers | Their upstream maintainers, through those repositories' reviews |
-| The Replica board | The Replica's maintainer |
+| The Replica board | The Replica project, outside this repository |
 
 ## Licences
 
