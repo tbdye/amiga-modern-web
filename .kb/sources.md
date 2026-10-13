@@ -25,6 +25,7 @@ Re-verify against HEAD before relying on a pinned line ("Pin checks").
 | `os/` | `ZZ9000_proto.sdk/ZZ9000OS/src/` |
 | `xdc/` | `ZZ9000_proto.srcs/constrs_1/new/` |
 | `rtl/` | `ZZ9000_proto.srcs/sources_1/new/` |
+| `bsp/` | `ZZ9000_proto.sdk/zz9000_bsp_new/ps7_cortexa9_0/libsrc/emacps_v3_8/src/` (the vendored Ethernet controller driver) |
 
 Files at the `fw` root (`video_source_sync.v`, `video_formatter.v`, `mntzorro.v`, `videocap_sampler.v`, `zz9000_project.tcl`, `README.md`) carry no prefix.
 
@@ -79,6 +80,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `jk-nsmd350l` | JK-SMD1206 (L) series PPTC datasheet (JK-nSMD350L-12) | Vendor PDF | `4cb4a96dd0832e6c2cdcfd9dc67f6a72061c92e72f9ac4f44404f12b6e805292` | Copy read from `replica@96bdef0:Docs/datasheets/JK-nSMD350L-12.pdf`; thermal derating chart pp3-4 |
 | `lutefuse-1206l` | Lutefuse 1206L series PPTC datasheet (1206L250/16AR), revision 2020 | Vendor PDF | `9b5eae932a00b0947da930f441730842a8b315f1e7d76675c3e9453d2bd4e1c3` | Copy read from `replica@96bdef0:Docs/datasheets/1206L250_16AR.pdf`; ratings table p4 |
 | `te-171826` | TE Connectivity 171826-4 product data | TE website, by part number | `01115b5280220528241758b932d5814e0ffd79e55df8e4c85f0684290f68edec` | Copy read from `replica@96bdef0:Docs/datasheets/171826-4_product-data.pdf`; contact rating p2 |
+| `ksz9031` | Microchip KSZ9031RNX gigabit Ethernet transceiver data sheet, DS00002117F | `https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/00002117F.pdf` | `f7c402264e7b9b65e09f88242a0e8269e4c01e051cd515dbdbabb66dfff4f408` | Preamble p14; auto MDI/MDI-X p16; auto-negotiation p17; fetched 2026-10-11 |
 
 ## Web pages
 
@@ -107,6 +109,7 @@ SHA-256 is of the copy that was read; a vendor may replace a file under the same
 | `aminet` | `https://aminet.net/package/<path>` (an Aminet package; cited as `aminet:<path>`, with the file inside its archive; the readme alone is at `https://aminet.net/<path>.readme`) | 2026-10-11 |
 | `aminet-rview` | `https://aminet.net/docs/rview/<name>.txt` (archived Usenet reviews; cited as `aminet-rview:<name>`) | 2026-10-11 |
 | `zz9000-bench` | `http://www.gregdonner.org/zz9000/benchmarks.html` and the images `bench_gfx_<suffix>.png` beside it (P96Speed 1.2 screenshots on ZZ9000 firmware 1.4 to 1.13; the page gives 2026-05-17 as its last update) | 2026-10-11 |
+| `rfc` | `https://www.rfc-editor.org/rfc/rfc<n>.txt` (an RFC as plain text; cited as `rfc:<n>:L<a>-<b>`, by the lines of that file) | 2026-10-11 |
 
 TI and Lattice PDFs fetch directly; some vendors block scripted downloads, and the LCSC JSON endpoint above returns the datasheet link for a C-number.
 
@@ -192,3 +195,5 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 | `rd-pages` | The 68k Remote Desktop port's site and change log, and rdesktop's ports list, as archived; Aminet and OS4Depot searches for "rdesktop" | Wayback Machine copies of `www.hd-zone.com/rdesktop/rdesktop.htm` (2007-02-10), `www.hd-zone.com/rdesktop/changelog.html` (2007-08-17) and `www.jacco2.dds.nl/rdesktop/index.html` (2005-12-14) | 2026-10-11 |
 | `rd68k` | `RDesktop-2005-02-05.src.tar.gz`, source of that port; cited as `rd68k:<path>` | `web.archive.org/web/20060715195151id_/http://www.hd-zone.com:80/rdesktop/dloads-aos/RDesktop-2005-02-05.src.tar.gz` | 2026-10-11; 331,305 bytes; SHA-256 `297f1c9b5d6a1f71b69592d5d29ed4c27159d47c894d0c4fcf2cd9eb39534d95` |
 | `xacp` | XACP-ZZ9000, a third-party ZZ9000 firmware line with its Amiga programs and documents | `github.com/Xanxi-Amiga/XACP-ZZ9000` | `cca1f3c`; read as data, nothing built or run |
+| `anx` | AmiNetXDuo | `github.com/tinic/AmiNetXDuo` | `9a6f6fc` |
+| `roadshow` | Roadshow's home page | `http://roadshow.apc-tcp.de/index-en.php` | 2026-10-11 |
