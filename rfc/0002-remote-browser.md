@@ -43,7 +43,7 @@ Every speed here is by calculation, or marked as an estimate, from other people'
 What I'm asking:
 
 - Everyone: is the split in §3.4 between Amiga-drawn and browser-drawn integrated enough (Q1), and are the speeds in §4 worth having (Q2, Q3)?
-- ZZ9000 firmware maintainers: I'd like your support for a firmware function that receives page pixels at the card's network port, on a stream of their own addressed to the card, and draws them there. It lifts the pixel ceiling from about 2 to about 12 MB/s, by calculation, and takes the 68k out of the pixel path. The project would write it and offer it upstream, and an emulation of it to Amiberry; whether and how it is accepted is yours to say (§5, Q7).
+- ZZ9000 firmware maintainers: I'd like your support for a firmware function that takes page pixels off the card's existing network port, the one cable the Amiga already uses, and draws them on the card; the Amiga's own traffic is unaffected, and no hardware changes. It lifts the pixel ceiling from about 2 to about 12 MB/s, by calculation, and takes the 68k out of the pixel path. The project would write it and offer it upstream; whether and how it is accepted is yours to say (§5, Q7).
 - Anyone with experience of Chromium on a hidden X display, WPE WebKit or fast 68k pixel paths: please comment.
 
 ## 2. Requirements and non-goals
@@ -148,7 +148,8 @@ The base works without firmware changes; this function is what lifts it past the
 The project would write it and offer it upstream; the firmware's maintainers have the biggest say on whether and how it is accepted.
 
 In the base, every page pixel crosses the card's network port, the Zorro bus and the 68k, then the bus again into the screen.
-The function would receive page pixels on a stream of their own, addressed to the card (the firmware has no TCP/IP code), and draw them there, so they never cross Zorro or the 68k ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart").
+The function would receive page pixels on the card's existing network port, the one the Amiga already uses, and draw them on the card, so they never cross Zorro or the 68k; the Amiga's own traffic, such as file shares, still reaches the Amiga unchanged ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart").
+It needs no second port and no hardware change, only firmware.
 The card and the Linux computer both stay on the home switch, so the Amiga keeps its address and its own traffic ([`.kb/topics/link-and-address.md`](../.kb/topics/link-and-address.md), "The ways", row 2a).
 
 | | Today's path | With the function |
@@ -159,7 +160,7 @@ The card and the Linux computer both stay on the home switch, so the Amiga keeps
 
 What it would meet in the firmware as built ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md)):
 
-- A way to tell the session's frames from the Amiga's. One option is a second hardware address on an unused address filter; how frames are told apart is the maintainers' call (Q7).
+- A way to tell the session's frames from the Amiga's on the one port. One option is a second hardware address of the card's own, on one of the address filters the firmware leaves unused; another is a UDP port on the Amiga's own address. The choice is the maintainers' (Q7).
 - Its frames need receive buffers apart from the Amiga's receive backlog, which stops being refilled when 96 frames are waiting.
 - Its parser faces the Linux computer directly, so the rules of §6 apply to it.
 
@@ -188,11 +189,9 @@ No speed in §4 includes encryption.
 3. The ZZ9000's help: sliding scrolls from the start, then decoding video frames, then the card's video service; that a program can feed it a stream is an inference.
 4. The firmware function; asking the firmware maintainers runs alongside step 1.
 
-Each step is tested in a closed loop that needs nobody at the machine:
-
-- The Linux side and the Amiga program run against Amiberry: generic RTG first, then, for the card's help, its ZZ9000 Zorro III emulation, which runs the stock drivers with accelerated blits, the video window, image and video decoding, and Ethernet ([#2188](https://github.com/BlitterStudio/amiberry/pull/2188) onward; [v8.5.0](https://github.com/BlitterStudio/amiberry/blob/v8.5.0/docs/zz9000.md)); its control socket drives each run ([v8.5.0](https://github.com/BlitterStudio/amiberry/blob/v8.5.0/docs/ipc.md)).
-- The firmware function is written free of hardware dependencies, so the firmware's host tests can run it, as its CI already runs the Ethernet receive code on a PC ([`run_rx_bd.py`](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/test/ethernet/run_rx_bd.py)); once it is in the firmware, the project offers Amiberry an emulation of it.
-- Rates and acceptance come from a real card, driven remotely with amigactl, which uploads, runs, collects and reboots ([v0.8.2](https://github.com/tbdye/amigactl/tree/v0.8.2)); Amiberry reproduces the card's register interface, not its firmware.
+Every step can be built and tested without a real Amiga: in the Amiberry emulator, which emulates the ZZ9000 from release 8.3.0 ([its ZZ9000 notes](https://github.com/BlitterStudio/amiberry/blob/v8.5.0/docs/zz9000.md)), and, for the firmware function, in the firmware's own tests, which already run its Ethernet receive code on a PC.
+Once the function is in the firmware, the project offers Amiberry an emulation of it.
+Rates and acceptance come from a real card.
 
 ## 8. Open questions
 
