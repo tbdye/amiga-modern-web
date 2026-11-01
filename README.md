@@ -20,7 +20,7 @@ The project is design only, and nothing has been built.
 | Agent instructions; `CLAUDE.md` imports them | `AGENTS.md` | Current |
 | Agent knowledge base: facts, decisions, unknowns and options, each labelled and cited | `.kb/` | v1; some files are `Status: draft` |
 | RFC 0001: Native modern web browsing on Zorro Amigas | [#8](https://github.com/tbdye/amiga-modern-web/pull/8) | Open for comment |
-| RFC 0002: A remote browser in a native Amiga window | `rfc/0002-remote-browser.md` | Draft |
+| RFC 0002: A remote browser in a native Amiga window | [#28](https://github.com/tbdye/amiga-modern-web/pull/28) | Open for comment |
 
 ## Taking part
 
