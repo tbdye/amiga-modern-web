@@ -4,8 +4,8 @@
 |---|---|
 | Author | Thomas Dye |
 | Status | Draft, in review; nothing is built yet. |
-| Last updated | 2026-10-13 |
-| Decision owner | Thomas Dye. Firmware changes also need the BlitterStudio maintainers' agreement, and Replica changes its maintainer's. |
+| Last updated | 2026-11-01 |
+| Decision owner | Thomas Dye. Firmware changes also need the BlitterStudio maintainers' agreement, and Replica changes the Replica project's. |
 | Feedback | First, whether a new card is the right route (Q15); then packaging (Q1–Q3 in §11). The review stays open until they're settled. Comment on this file's pull request. |
 | Sources | This repository's `.kb/`; estimates are marked. Amiga terms: Appendix A. |
 | Licence | Not chosen yet (§9); the project is not planned as closed-source. |
@@ -224,7 +224,7 @@ Most have my current proposal; if you can't live with one, say so.
 | # | Decision | Options | Proposed | What it changes |
 |---|---|---|---|---|
 | Q15 | Whether to build new hardware at all | This card; a route that an existing ZZ9000 or other RTG card can use (§6) | The cheapest route that reaches the goal (§1); not settled | Whether this card is built. |
-| Q1 | Packaging | One card with a browser-chip module; a Zynq card plus an SBC; a redesigned Replica | No lean; slot-fit and SoC-on-Zorro experience welcome. | Who carries the chip's power, heat and layout, and whether users pick the chip; the Replica is someone else's design. |
+| Q1 | Packaging | One card with a browser-chip module; a Zynq card plus an SBC; a redesigned Replica | No lean; slot-fit and SoC-on-Zorro experience welcome. | Who carries the chip's power, heat and layout, and whether users pick the chip; the Replica's design rests with the Replica project, outside this repository. |
 | Q2 | What JLCPCB can't source or place | Per part | Standard assembly for all but plug-in modules | Such a part is consigned, swapped or moved to a module. |
 | Q3 | Zynq part and form | Chip-down 7020 (CLG484) or 7015 (CLG485); MYIR 7015 module | Chip-down 7020: pin margin and the fallback's DDR3, no PCIe. LCSC chips are fine for production (Appendix B). | A module removes Zynq layout and sourcing but leaves no pins to spare. |
 | Q4 | Monitors tolerate ±1-line changes? | Yes; no | Yes; only hardware can show it (§10) | No means the frame-buffered fallback. |
