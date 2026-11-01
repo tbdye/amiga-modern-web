@@ -15,10 +15,12 @@ Why a particular approach is not under study here is in `sections/options-reject
 | AWeb 3.6 | JavaScript 1.5 (ECMA-262 3rd edition); an experimental CSS1/CSS2 subset | [F] `aweb3@116516f:README.md:L44, L115, L127-129` |
 | Voyager 3.5 | An HTML 3.2 layout engine; JavaScript 1.3, compiled to bytecode and interpreted | [F] `voyager@dd15a86:README.md:L27, L179` |
 | NetSurf | HTML 4.01 and CSS 2.1; JavaScript support it calls "primitive and incomplete", disabled by default; release 3.11 for AmigaOS 4 is dated 2023-12-28; the source tree also has an AmigaOS 3 build target (m68k, 68020-60) and a readme for a 3.11 beta package of it | [F] `netsurf-web` (home; documentation/info; downloads/amiga); [F] `netsurf@39da3c3:frontends/amiga/pkg/netsurf_os3.readme:L5-12`, `netsurf@39da3c3:frontends/amiga/Makefile:L7-10` |
+| Amelinium 1.3.0 | By its readme, a browser for the 68k with JavaScript in separate builds for the 68020 and up; the readme names JavaScript and CSS features of current browsers as supported | [F] `amelinium`, header L1, L5-6; "Builds", L67-76; "Known issues", L115; "History", L300-305 |
 | Wayfarer (MorphOS) | MorphOS 3.16 (2022-03-15) ships it and retires the Odyssey browser; a WebKit-based engine | [F] `morphos-news` (release); [R] engine, which the Wayfarer project's own pages would verify |
 | OWB (AmigaOS 4) | A WebKit port with a native GUI | [R] os4depot listing |
 
 - [G] IBrowse, AWeb and Voyager, which run on the 68k, stop at roughly ES3-era JavaScript, and NetSurf, which also has a 68k target, pairs CSS 2.1 with primitive JavaScript (rows above); for each of these engines the limit is its features, which a faster CPU does not add.
+- [F] Amelinium's readme states that a page whose scripts do much work is slow in it, because "the interpreter is not fast, and that is the honest limit" (`amelinium`, "Known issues", L119-121); [F] the same list of known issues also names things that do not work (`amelinium`, "Known issues", L117-119, L122-126); [R] that the browser does what its readme states, here and in its row, which running it would verify.
 - [G] Wayfarer shows that native feel (fonts, windows, clipboard, menus) comes from the front end around a modern engine, but it needs a PowerPC host OS that a Zorro Amiga does not run.
 
 ## Fast-68k routes

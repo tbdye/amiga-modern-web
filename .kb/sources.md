@@ -184,6 +184,7 @@ GitHub repositories use `https://github.com/<owner>/<repo>/blob/<commit>/<path>#
 | `chromium-docs` | Chromium design docs `docs/how_cc_works.md`, `docs/ozone_overview.md` | `github.com/chromium/chromium` (mirror of `chromium.googlesource.com/chromium/src`) | `3078967c68c4` |
 | `netsurf-web` | NetSurf home, about, documentation/info and downloads/amiga pages | `https://www.netsurf-browser.org/<page>/` | 2026-10-10 |
 | `ibrowse` | IBrowse home page | `https://www.ibrowse-dev.net/` | 2026-10-10 |
+| `amelinium` | Readme of Amelinium 1.3.0 on Aminet | `https://aminet.net/comm/www/Amelinium.readme` | 2026-10-11; SHA-256 `c9b0aa8a1ad54242732ad74e037f10dfb05296cfa4e2e6d6471ad6e9fa9134b4` of the copy read; line numbers are that copy's, and each citation also names the readme's section |
 | `morphos-news` | MorphOS team news | `https://www.morphos-team.net/news` | 2026-10-10 |
 | `opera-mini-js` | Opera Mini and JavaScript | `https://dev.opera.com/articles/opera-mini-and-javascript/` | 2026-10-10 |
 | `spice` | SPICE for newbies | `https://www.spice-space.org/spice-for-newbies.html` | 2026-10-10 |

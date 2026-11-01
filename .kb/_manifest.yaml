@@ -135,7 +135,7 @@ files:
   topics/prior-art.md:
     status: draft
     reviewed_on: 2026-10-13
-    cites: [browservice, wrp, vncfox, amifox, amifox-server, amitube, twinvnc, amifleet68, rd68k, rd-pages, carbonyl, a314, a314-cp, a314rtg, pistorm, pistorm32-hw, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, morphos-news, mistex, mnt-modularity, rpi5-launch, magpi-pi4-bench, rpi5-bench, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
+    cites: [browservice, wrp, vncfox, amifox, amifox-server, amitube, twinvnc, amifleet68, rd68k, rd-pages, carbonyl, a314, a314-cp, a314rtg, pistorm, pistorm32-hw, emu68, aweb3, voyager, netsurf, netsurf-web, ibrowse, amelinium, morphos-news, mistex, mnt-modularity, rpi5-launch, magpi-pi4-bench, rpi5-bench, skia, cdp, chromium-docs, opera-mini-js, spice, ms-rdpegdi, ms-rdperp, citrix-bcr]
   topics/prior-art-remote-clients.md:
     status: current
     reviewed_on: 2026-10-12
