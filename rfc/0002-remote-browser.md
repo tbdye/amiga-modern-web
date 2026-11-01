@@ -126,7 +126,7 @@ On a 32-bit screen every uncompressed rate halves ([`.kb/topics/sound-paths.md`]
 | Painting a whole 800×600 window (1024×768) | 0.46 to 0.59 s (0.76 to 0.97 s) | 42 to 54 ms, plus the call and copy to screen | The pixel rate above |
 | Scrolling 800×600 by 48 rows, little or nothing fixed | 15 to 25 a second | 160 to 207 a second, the median step of all 883 | [`.kb/topics/scroll-redraw.md`](../.kb/topics/scroll-redraw.md), "Results" |
 | The same, a bar or column fixed | 4.1 to 12; up to 19 to 26 if the sender slides only the part that moved, which nobody has built | In the median above | Same |
-| Self-playing pages: Discord's landing page; a YouTube watch page, video in view | At most 6.1 to 7.9 if the sender slides only the part that moved; at most 2.1 to 6.7 | 24 to 35, about 4 times as many; 7 to 10, though video should not take this path | Same |
+| Self-playing pages: Discord's landing page; a YouTube watch page, video in view | If the sender slides only the part that moved, at most 6.1 to 7.9; at most 2.4 to 9.0 | 24 to 35, about 4 times as many; 7 to 10, though video should not take this path | Same |
 | Video at 320×180 with 48 kHz stereo through AHI, the 68k drawing | 12.4 to 16.4 frames a second; 5.5 to 7.3 at 480×270 | Unchanged | [`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes" |
 | Typing, key to character | 26 to 105 ms, an estimate | Unchanged | Key noticed, 0 to 20 ms; sent, 2 to 10; one or two Linux frames, 17 to 66; return, 7 to 9 |
 
