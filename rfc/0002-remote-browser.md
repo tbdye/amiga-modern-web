@@ -43,7 +43,7 @@ Every speed here is by calculation, or marked as an estimate, from other people'
 What I'm asking:
 
 - Everyone: is the split in §3.4 between Amiga-drawn and browser-drawn integrated enough (Q1), and are the speeds in §4 worth having (Q2, Q3)?
-- ZZ9000 firmware maintainers: I'd like your support for a firmware function that takes page pixels off the card's existing network port, the one cable the Amiga already uses, and draws them on the card; the Amiga's own traffic is unaffected, and no hardware changes. It lifts the pixel ceiling from about 2 to about 12 MB/s, by calculation, and takes the 68k out of the pixel path. The project would write it and offer it upstream; whether and how it is accepted is yours to say (§5, Q7).
+- ZZ9000 firmware maintainers: I'd like your support for a firmware function that takes page pixels off the card's existing network port, the one cable the Amiga already uses, outside the Amiga's TCP/IP stack, and draws them on the card; the Amiga's own traffic is unaffected, and no hardware changes. It lifts the pixel ceiling from about 2 to about 12 MB/s, by calculation, and takes the 68k out of the pixel path. The project would write it and offer it upstream; whether and how it is accepted is yours to say (§5, Q7).
 - Anyone with experience of Chromium on a hidden X display, WPE WebKit or fast 68k pixel paths: please comment.
 
 ## 2. Requirements and non-goals
@@ -148,9 +148,15 @@ The base works without firmware changes; this function is what lifts it past the
 The project would write it and offer it upstream; the firmware's maintainers have the biggest say on whether and how it is accepted.
 
 In the base, every page pixel crosses the card's network port, the Zorro bus and the 68k, then the bus again into the screen.
-The function would receive page pixels on the card's existing network port, the one the Amiga already uses, and draw them on the card, so they never cross Zorro or the 68k; the Amiga's own traffic, such as file shares, still reaches the Amiga unchanged ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart").
-It needs no second port and no hardware change, only firmware.
-The card and the Linux computer both stay on the home switch, so the Amiga keeps its address and its own traffic ([`.kb/topics/link-and-address.md`](../.kb/topics/link-and-address.md), "The ways", row 2a).
+With the function, page pixels never reach the Amiga's TCP/IP stack.
+The Linux computer sends them in Ethernet frames to a second hardware address of the card's own, in one of the address filters the firmware leaves unused (it uses one of four).
+The card's receive handler keeps those frames in buffers of their own, apart from the Amiga's receive backlog (which stops being refilled at 96 waiting frames), and draws them into the screen, so they never cross Zorro or the 68k.
+Every other frame reaches the Amiga as today, so its own traffic and address are unchanged ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart"; [`.kb/topics/link-and-address.md`](../.kb/topics/link-and-address.md), "The ways", row 2a).
+It is one cable on the card's existing port, with no hardware change.
+Keys, mouse, toolbar, requesters, downloads and clipboard stay on the session's ordinary TCP connection through the Amiga's stack.
+
+A UDP port on the Amiga's own address would also work, at the cost of parsing Ethernet, IPv4 and UDP headers on the card's ARM, since the firmware has no TCP/IP code; which way is the maintainers' call (Q7).
+Either way, its parser faces the Linux computer directly, so §6 applies to it.
 
 | | Today's path | With the function |
 |---|---|---|
@@ -158,13 +164,10 @@ The card and the Linux computer both stay on the home switch, so the Amiga keeps
 | The 68k | Busy with every pixel | Out of the pixel path |
 | Unknown | — | How fast the card's ARM receives and draws; only hardware shows |
 
-What it would meet in the firmware as built ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md)):
+The firmware already has a vendor service in the other direction: the AmiNetXDuo console encoder turns the displayed framebuffer into an RFB (VNC) tile stream in a shared buffer, the Amiga's screen going out ([its service](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L153-L155) and [encode call](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L658-L663)).
+This function brings page pixels in, in the RFB forms of §3.2, so its decoder could mirror that encoder (a guess); whether any of it can be reused is open.
 
-- A way to tell the session's frames from the Amiga's on the one port. One option is a second hardware address of the card's own, on one of the address filters the firmware leaves unused; another is a UDP port on the Amiga's own address. The choice is the maintainers' (Q7).
-- Its frames need receive buffers apart from the Amiga's receive backlog, which stops being refilled when 96 frames are waiting.
-- Its parser faces the Linux computer directly, so the rules of §6 apply to it.
-
-In this arrangement the card's ARM would slide scrolled pixels and decode JPEG and PNG, both of which it does today; play video in step on its video service, with or without the audio add-on; and, with this function, receive and draw page pixels.
+In this arrangement the card's ARM would slide scrolled pixels and decode JPEG and PNG, both of which it does today, and play video in step on its video service, with or without the audio add-on.
 
 ## 6. Security on a home network
 
