@@ -12,6 +12,7 @@ Whether this ends up as one card, a Zynq card plus an off-the-shelf SBC, or a re
 ## Status
 
 RFC 0001 is open for comment in [#8](https://github.com/tbdye/amiga-modern-web/pull/8).
+RFC 0002 takes another point of view: software first, on hardware people already have, with an unmodified browser on a Linux computer and its page shown in a native Amiga window.
 The project is design only, and nothing has been built.
 
 | Document | Path | State |
@@ -19,10 +20,11 @@ The project is design only, and nothing has been built.
 | Agent instructions; `CLAUDE.md` imports them | `AGENTS.md` | Current |
 | Agent knowledge base: facts, decisions, unknowns and options, each labelled and cited | `.kb/` | v1; some files are `Status: draft` |
 | RFC 0001: Native modern web browsing on Zorro Amigas | [#8](https://github.com/tbdye/amiga-modern-web/pull/8) | Open for comment |
+| RFC 0002: A remote browser in a native Amiga window | `rfc/0002-remote-browser.md` | Draft |
 
 ## Taking part
 
-Comments on the RFC go in its pull request, [#8](https://github.com/tbdye/amiga-modern-web/pull/8).
+Comments on an RFC go in its pull request; for RFC 0001, [#8](https://github.com/tbdye/amiga-modern-web/pull/8).
 For a specific point, comment on that line in the **Files changed** tab; for something broader, comment on the conversation.
 Changes come as pull requests too.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how review and merging work here.
