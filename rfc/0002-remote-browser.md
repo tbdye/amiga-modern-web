@@ -5,8 +5,8 @@
 | Author | Thomas Dye |
 | Status | Draft, in review; nothing is built or run yet. |
 | Last updated | 2026-11-01 |
-| Decision owner | Thomas Dye; for the firmware function, the firmware's maintainers have the biggest say (§5). |
-| Feedback | First, whether this can feel integrated rather than like a remote desktop (Q1); then the firmware function (§5, Q7). Comment on this file's pull request. |
+| Decision owner | Thomas Dye; for the firmware's decode service, the firmware's maintainers have the biggest say (§5). |
+| Feedback | First, whether this can feel integrated rather than like a remote desktop (Q1); then the decode service (§5, Q7). Comment on this file's pull request. |
 | Related | RFC 0001 ([#8](https://github.com/tbdye/amiga-modern-web/pull/8)) explores a native route, a new Zorro card that takes a browser computer's picture over HDMI. This RFC starts from the Amiga and graphics card people have, plus a Linux computer; both stay open. |
 | Sources | This repository's `.kb/`; figures worked out here say "by calculation", and estimates are marked. Terms: Appendix A. |
 | Licence | Not chosen yet; the project is not planned as closed-source. |
@@ -31,19 +31,20 @@ The Amiga keeps its own network address and its other network use.
 |   changed areas, scrolls, sound,    |   network     |   sound through AHI                  |
 |   input, address bar, dialogs,      | <-----------> | The Amiga's own TCP/IP stack and     |
 |   downloads, clipboard              |  page area +  |   address                            |
-| Its own connection to the web       |  everything   | ZZ9000, where fitted: slides scrolls,|
-+-------------------------------------+  else         |   decodes pictures and video         |
+| Its own connection to the web       |  everything   | ZZ9000, where fitted: decodes the    |
++-------------------------------------+  else         |   page stream, slides scrolls,       |
+                                                      |   decodes pictures and video         |
                                                       +--------------------------------------+
 ```
 
 The bar is a good integrated feel: it should not look like the Amiga is showing someone else's desktop.
 
-Every speed here is by calculation, or marked as an estimate, from other people's published Amiga figures and from this project's measurements, on a PC, of what real sites change when scrolled.
+Every speed here is by calculation, or marked as an estimate, from other people's published Amiga figures and from this project's measurements, on a PC, of what real sites change when scrolled and how far the firmware's own encoder compresses it.
 
 What I'm asking:
 
 - Everyone: is the split in §3.4 between Amiga-drawn and browser-drawn integrated enough (Q1), and are the speeds in §4 worth having (Q2, Q3)?
-- ZZ9000 firmware maintainers: I'd like your support for a firmware function that takes page pixels off the card's existing network port, the one cable the Amiga already uses, outside the Amiga's TCP/IP stack, and draws them on the card; the Amiga's own traffic is unaffected, and no hardware changes. It lifts the pixel ceiling from about 2 to about 12 MB/s, by calculation, and takes the 68k out of the pixel path. The project would write it and offer it upstream; whether and how it is accepted is yours to say (§5, Q7).
+- ZZ9000 firmware maintainers: I'd like your support for a decode service, the inbound counterpart of the firmware's console encoder. The Amiga program receives the page as that encoder's own lossless tile stream on the session's TCP connection and copies it into a card shared buffer, and one new mailbox operation decodes it on the card. No Ethernet or hardware change; by calculation, a whole window paints in about 50 ms instead of about half a second, before the card's decode time, which only hardware shows. The project would write it and offer it upstream; whether and how it is accepted is yours to say (§5, Q7).
 - Anyone with experience of Chromium on a hidden X display, WPE WebKit or fast 68k pixel paths: please comment.
 
 ## 2. Requirements and non-goals
@@ -91,9 +92,10 @@ It shares the 68k with the Amiga's other network use: by calculation, each 1 MB/
 
 Proposed:
 
-- The page area travels in VNC's published message forms (RFB), with its continuous-updates extension so the Linux side pushes unasked; any VNC viewer then serves as a test client on a PC.
+- The base, on any RTG card: the page area travels as exact pixels, uncompressed to start, in VNC's published message forms (RFB), with its continuous-updates extension so the Linux side pushes unasked; any VNC viewer then serves as a test client on a PC.
+- On a ZZ9000 with the decode service (§5), the page area travels instead as the firmware's own tile stream, which is not VNC's, so a VNC viewer cannot test it.
 - The project's own messages carry the rest on the same connection: toolbar state, requesters, files, clipboard and sound.
-- Pixels are exact, uncompressed to start, and already in the screen's format (on a ZZ9000 16-bit screen, 5-6-5, high byte first), so the 68k converts nothing.
+- Pixels are exact either way; in the base they are already in the screen's format (on a ZZ9000 16-bit screen, 5-6-5, high byte first), so the 68k converts nothing.
 - A scroll travels as "slide this region, then draw this strip", so the graphics card moves what it already holds; the control program finds it by comparing frames, as existing servers do ([`.kb/topics/remote-display-servers.md`](../.kb/topics/remote-display-servers.md), "How a scroll becomes a copy").
 
 ### 3.3 The Amiga program
@@ -126,48 +128,48 @@ Which other surfaces Chromium draws in a window without its own bars has not bee
 The target is a 68060 at 50 MHz on Zorro III with a ZZ9000, on a 16-bit screen ([`.kb/topics/target-config-rates.md`](../.kb/topics/target-config-rates.md)).
 Uncompressed pixels reach its screen from the network at 1.62 to 2.08 MB/s, by calculation from a receive benchmark on firmware later than release v2.8.1 and from copy figures taken on an 8-bit screen standing in for a 16-bit one ([`.kb/topics/target-config-rates.md`](../.kb/topics/target-config-rates.md), "Pixel rate").
 No source measures one program doing both, and a real program may fall well short.
-On a 32-bit screen, every uncompressed rate halves ([`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes").
+The decode-service column applies the same rate to compressed bytes, plus a 0.28 ms mailbox call per update ([`.kb/topics/arm-offload.md`](../.kb/topics/arm-offload.md), "Per-call cost"), without the card's decode time, which nothing has measured.
+On a 32-bit screen, every uncompressed rate halves ([`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes"), and the tile stream has forms for 8- and 16-bit screens only ([its formats](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/ZZ9000_proto.sdk/ZZ9000OS/src/rfb/rfb_encode.h#L31-L45)).
 
-| What | By calculation | Source |
-|---|---|---|
-| Painting a whole 800×600 window; 1024×768 | 0.46 to 0.59 s; 0.76 to 0.97 s | The pixel rate above |
-| Scrolling an 800×600 window by 48 rows, a page with little or nothing fixed | 15 to 25 a second | [`.kb/topics/scroll-redraw.md`](../.kb/topics/scroll-redraw.md), "Results" |
-| The same, with a bar or column fixed to the window | 4.1 to 12; up to 19 to 26 if the sender slides only the part that moved, which nobody has built | Same |
-| Pages that play by themselves: Discord's landing page; a YouTube watch page with its video in view | At most 4.3 to 5.5; at most 2.1 to 6.7 | Same |
-| Video at 320×180 with 48 kHz stereo through AHI, the 68k drawing | 12.4 to 16.4 frames a second; 5.5 to 7.3 at 480×270 | [`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes" |
-| Typing, key to character | 26 to 105 ms, an estimate | The sum of the Amiga noticing the key, 0 to 20 ms; sending it, 2 to 10; one or two of the Linux computer's frames, 17 to 66; the return, 7 to 9 |
+| What | Today, by calculation | With the decode service, by calculation | Source |
+|---|---|---|---|
+| Painting a whole 800×600 window; 1024×768 | 0.46 to 0.59 s; 0.76 to 0.97 s | 42 to 54 ms; 67 to 86 ms | The pixel rate above |
+| Scrolling an 800×600 window by 48 rows, a page with little or nothing fixed | 15 to 25 a second | 160 to 207 a second, the median step of all 883 | [`.kb/topics/scroll-redraw.md`](../.kb/topics/scroll-redraw.md), "Results" |
+| The same, with a bar or column fixed to the window | 4.1 to 12; up to 19 to 26 if the sender slides only the part that moved, which nobody has built | Included in the median above | Same |
+| Pages that play by themselves: Discord's landing page; a YouTube watch page with its video in view | At most 4.3 to 5.5; at most 2.1 to 6.7 | 24 to 35; 7 to 10, though video should not take this path | Same |
+| Video at 320×180 with 48 kHz stereo through AHI, the 68k drawing | 12.4 to 16.4 frames a second; 5.5 to 7.3 at 480×270 | Unchanged | [`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes" |
+| Typing, key to character | 26 to 105 ms, an estimate | Unchanged | The sum of the Amiga noticing the key, 0 to 20 ms; sending it, 2 to 10; one or two of the Linux computer's frames, 17 to 66; the return, 7 to 9 |
 
+The compressed bytes were measured on a PC, the firmware's encoder run unmodified on this project's captures: still 800×600 pages shrink about 11 to 12 times (4.7 for a photo wall, 50 for YouTube's home page), and scroll steps, sent as slides, carry 6.4 to 6.7 times fewer bytes than the uncompressed base.
+A playing video's tiles shrink only about 3 times, so video keeps the card's video paths.
 None of 883 measured scroll steps on 16 sites needed the whole window resent.
 Video clears about 15 frames a second at 480×270, by calculation, only where the ZZ9000 decodes each frame, which rests on a conversion pass on the card that nobody has timed; 640×360 is open ([`.kb/topics/decode-rates.md`](../.kb/topics/decode-rates.md), "What the card's ARM decodes today"; [`.kb/topics/sound-paths.md`](../.kb/topics/sound-paths.md), "What each second takes").
 The Linux computer's own time to load a site comes first in every case.
 Other Amigas get the same program through any RTG card, at rates no source gives; only a ZZ9000 adds decoding ([`.kb/topics/audience.md`](../.kb/topics/audience.md)).
 
-## 5. The ZZ9000 firmware function
+## 5. The ZZ9000 decode service
 
-The base works without firmware changes; this function is what lifts it past the 68k's limit.
+The base works without firmware changes; the decode service is what takes page pixels off the 68k.
 The project would write it and offer it upstream; the firmware's maintainers have the biggest say on whether and how it is accepted.
 
 In the base, every page pixel crosses the card's network port, the Zorro bus and the 68k, then the bus again into the screen.
-With the function, page pixels never reach the Amiga's TCP/IP stack.
-The Linux computer sends them in Ethernet frames to a second hardware address of the card's own, in one of the address filters the firmware leaves unused (it uses one of four).
-The card's receive handler keeps those frames in buffers of their own, apart from the Amiga's receive backlog (which stops being refilled at 96 waiting frames), and draws them into the screen, so they never cross Zorro or the 68k.
-Every other frame reaches the Amiga as today, so its own traffic and address are unchanged ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart"; [`.kb/topics/link-and-address.md`](../.kb/topics/link-and-address.md), "The ways", row 2a).
-It is one cable on the card's existing port, with no hardware change.
-Keys, mouse, toolbar, requesters, downloads and clipboard stay on the session's ordinary TCP connection through the Amiga's stack.
+With the decode service, the Linux side sends the page as the firmware's own tile stream: lossless tiles and slides of what the card already holds, with zlib over the lot, as the console encoder emits it ([its wire format](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/ZZ9000_proto.sdk/ZZ9000OS/src/rfb/rfb_encode.h); [its deflate step](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/ZZ9000_proto.sdk/ZZ9000OS/src/sdk_mailbox.c#L8618-L8644)).
+The Amiga program receives it on its ordinary TCP connection, copies it into a card shared buffer and makes one new mailbox call, which decodes it into a page surface of the service's own; the program puts the visible part on screen with the existing surface copy.
+The surface is needed because tiles and slides build on the previous picture, which the screen loses when the window is covered.
+Compressed bytes still cross the 68k; pixels do not, and no Ethernet code or address changes.
+The card's decode rate is unknown until hardware shows it.
 
-A UDP port on the Amiga's own address would also work, at the cost of parsing Ethernet, IPv4 and UDP headers on the card's ARM, since the firmware has no TCP/IP code; which way is the maintainers' call (Q7).
-Either way, its parser faces the Linux computer directly, so §6 applies to it.
+The firmware already has the outbound counterpart, the AmiNetXDuo console encoder, which turns the displayed framebuffer into this stream ([its service](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L153-L155) and [encode call](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L658-L663)) and came in the shape the decode service would take ([PR #152](https://github.com/BlitterStudio/zz9000-firmware/pull/152)).
+The new operation can sit beside the encoder's, since a vendor service may add one at the end of its range ([vendor services](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/docs/zz9k-vendor-services.md#L17-L24)), or under a new vendor ID; that is the maintainers' call.
+It runs only when called; without it, the program falls back to RTG writes.
+The encoder's source is MIT-licensed ([its licence line](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/ZZ9000_proto.sdk/ZZ9000OS/src/rfb/rfb_encode.c#L7)), so it can serve as the Linux-side sender, at a cost on a Pi-class computer not yet measured; the Linux side sends scroll moves as slides itself, since the encoder's scroll detection does not try a 48-row move ([its candidates](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/ZZ9000_proto.sdk/ZZ9000OS/src/rfb/rfb_encode.c#L424-L441)).
+Nothing uses the encoder yet, so its integration is untested in use; the decode service would be its first partner, tested with it.
 
-| | Today's path | With the function |
-|---|---|---|
-| Pixel ceiling | 1.62 to 2.08 MB/s | About 12 MB/s by calculation, the 100 Mb/s link's payload, shared with the Amiga's own traffic, and a ceiling, not a floor ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Sharing the link") |
-| The 68k | Busy with every pixel | Out of the pixel path |
-| Unknown | — | How fast the card's ARM receives and draws; only hardware shows |
+A later step, proposed only if a card shows the 68k's byte path is still the limit, delivers the same stream to the same decoder from the card's network port: in Ethernet frames to a second hardware address of the card's own, in an address filter the firmware leaves unused, kept in buffers apart from the Amiga's receive backlog, so the Amiga's own traffic and address are unchanged ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Telling the two kinds of frame apart"; [`.kb/topics/link-and-address.md`](../.kb/topics/link-and-address.md), "The ways", row 2a).
+A UDP port on the Amiga's own address would also work, at the cost of parsing Ethernet, IPv4 and UDP headers on the card's ARM.
+Either way it is one cable on the card's existing port, with a ceiling of about 12 MB/s by calculation, shared with the Amiga's own traffic ([`.kb/topics/card-ethernet-sharing.md`](../.kb/topics/card-ethernet-sharing.md), "Sharing the link"); it comes second because it changes the receive path every Amiga network user depends on.
 
-The firmware already has a vendor service in the other direction: the AmiNetXDuo console encoder turns the displayed framebuffer into an RFB (VNC) tile stream in a shared buffer, the Amiga's screen going out ([its service](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L153-L155) and [encode call](https://github.com/BlitterStudio/zz9000-firmware/blob/a71459f9/sdk/include/zz9k/abi.h#L658-L663)).
-This function brings page pixels in, in the RFB forms of §3.2, so its decoder could mirror that encoder (a guess); whether any of it can be reused is open.
-
-In this arrangement the card's ARM would slide scrolled pixels and decode JPEG and PNG, both of which it does today, and play video in step on its video service, with or without the audio add-on.
+In this arrangement the card's ARM would also slide scrolled pixels and decode JPEG and PNG, both of which it does today, and play video in step on its video service, with or without the audio add-on.
 
 ## 6. Security on a home network
 
@@ -177,6 +179,7 @@ AmigaOS has no memory protection (general knowledge, not verified here), so the 
 | Concern | Proposed |
 |---|---|
 | Messages from the Linux side | Fixed header and length; over-length and unknown messages dropped; no paths, pointers or Amiga names from the Linux side; rectangles clamped to the window ([`.kb/topics/security.md`](../.kb/topics/security.md), "Proposed parser rules") |
+| The card's decoder (§5) | The 68k forwards the stream unchecked and the ARM has no memory protection ([`.kb/topics/arm-offload.md`](../.kb/topics/arm-offload.md), "ARM-side capacity"), so the decoder checks every length against the message and the page surface; the later Ethernet step would face any host on the network |
 | Downloads | Each confirmed in an ASL requester; a sanitised name (no `:`, `/` or `.info`); never run or unpacked; whether to confine them to one drawer is open |
 | Clipboard | Text only, size-capped; Amiga to Linux only when the user pastes |
 | The remote-control interface | Listens on the Linux computer's loopback only, since it gives full control of the browser (general knowledge, not verified here) |
@@ -190,10 +193,10 @@ No speed in §4 includes encryption.
 1. The Linux side on a PC, with a VNC viewer as its client: stock Chromium's changed rectangles and capture cost on a hidden display, finding which part of a window moved, and YouTube and Discord in WPE WebKit.
 2. The Amiga program: exact uncompressed pixels and PCM sound through AHI.
 3. The ZZ9000's help: sliding scrolls from the start, then decoding video frames, then the card's video service; that a program can feed it a stream is an inference.
-4. The firmware function; asking the firmware maintainers runs alongside step 1.
+4. The decode service; asking the firmware maintainers runs alongside step 1.
 
-Every step can be built and tested without a real Amiga: in the Amiberry emulator, which emulates the ZZ9000 from release 8.3.0 ([its ZZ9000 notes](https://github.com/BlitterStudio/amiberry/blob/v8.5.0/docs/zz9000.md)), and, for the firmware function, in the firmware's own tests, which already run its Ethernet receive code on a PC.
-Once the function is in the firmware, the project offers Amiberry an emulation of it.
+Every step can be built and tested without a real Amiga: in the Amiberry emulator, which emulates the ZZ9000 from release 8.3.0 ([its ZZ9000 notes](https://github.com/BlitterStudio/amiberry/blob/v8.5.0/docs/zz9000.md)), and, for the decode service, in the firmware's own host tests, which already build the console encoder on a PC ([its test](https://github.com/BlitterStudio/zz9000-firmware/tree/a71459f9/test/console)).
+Once the decode service is in the firmware, the project offers Amiberry an emulation of it.
 Rates and acceptance come from a real card.
 
 ## 8. Open questions
@@ -201,14 +204,14 @@ Rates and acceptance come from a real card.
 | # | Question | Options | Proposed | What it changes |
 |---|---|---|---|---|
 | Q1 | Is the split of §3.4 a good integrated feel? | Yes with either engine; only with WPE WebKit's | Open | Whether WPE WebKit must work |
-| Q2 | Floors for scrolling and for painting a window | A rate; none | None set; one to two a second is too slow | Whether a smarter sender or the firmware function is required |
+| Q2 | Floors for scrolling and for painting a window | A rate; none | None set; one to two a second is too slow | Whether a smarter sender or the decode service is required |
 | Q3 | Which Amigas count as supported, at whatever speed they get? | Any with an RTG card, below the target too; only above a floor; chipset (non-RTG) screens as well | Open | Who the program is for |
 | Q4 | Where the Linux computer lives | On the network; an off-the-shelf board in the case; a co-processor board designed for it | Open; the software is the same either way | Whether any hardware is designed |
 | Q5 | Do sites treat Chromium with its remote-control port open as automated? Google's sign-in help names browsers "controlled through software automation" among those it may refuse ([`.kb/topics/engine-control.md`](../.kb/topics/engine-control.md), "What a site sees"). | — | Only use shows | If yes, stock Chromium loses the toolbar's navigation and the requesters, and the engine question reopens, WPE WebKit first |
 | Q6 | Does a Pi-class computer report small changed areas cheaply on a hidden display? | — | Desk work on one shows | If not: a Wayland compositor's capture, or WPE WebKit's own reports |
-| Q7 | The firmware function (§5) | Support it; not | Support it; the base ships first | The pixel ceiling, and the 68k's load |
+| Q7 | The firmware's help (§5) | Decode service; decode service, then the Ethernet step; neither | Decode service first; the base ships without it | What the 68k carries, and its load |
 | Q8 | How the two ends know each other; encryption | A paired key; TLS; neither on a home network | Open | Speed on the 68k, and set-up |
-| Q9 | Soft text: may page text be sent lossy where the ZZ9000 decodes? | Exact always; soft on the card's path | A first version sends exact pixels; beyond that, open | Whether the card decodes page areas as well as video |
+| Q9 | Soft text: may page text ever be sent lossy? | Exact always; lossy where it saves more | Exact: the base and the decode service are both lossless, so text stays exact on the card's path too; beyond that, open | Whether a lossy page form is ever added |
 | Q10 | Video larger than 320×180 | The card decodes each frame; the card's video service, fed by a real-time re-encode nobody has designed (that a program can feed it a stream is an inference) | Both, chosen at run time; a proposal, not settled | Video size on a ZZ9000 |
 
 ## Appendix A. Glossary
@@ -220,3 +223,4 @@ Rates and acceptance come from a real card.
 | Hidden display | A display that exists only in memory, such as a virtual X display |
 | Remote-control interface | Chromium's DevTools protocol, made for developer tools and automated testing |
 | RTG | Retargetable graphics: Amiga screens drawn by a graphics card, not the chipset |
+| Tile stream | The ZZ9000 firmware's own lossless picture format, from its console encoder; not VNC's |
